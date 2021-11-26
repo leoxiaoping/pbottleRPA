@@ -9,7 +9,7 @@
 
 #### 安装教程
 
-1.  下载基座  [基座exe程序绿色版](https://gitee.com/pbottle/pbottle-rpa/releases)
+1.  下载exe运行基座  pbottleRPA.zip  [基座exe程序绿色版](https://gitee.com/pbottle/pbottle-rpa/releases)
 2.  电脑管家 软件中心安装 nodejs
 3.  运行基座选择脚本即可开始运行
 

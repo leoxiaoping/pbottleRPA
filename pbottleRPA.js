@@ -5,6 +5,8 @@ const keycode = require('keycode');
 const path = require("path");
 
 
+
+
 const jsPath = path.resolve('./')+'/';
 const CppUrl = `http://127.0.0.1:49888/`
 
@@ -38,8 +40,8 @@ exports.sleep = sleep
 
 /**
  * 移动鼠标
- * @param {*} x 
- * @param {*} y 
+ * @param {*} x   横坐标
+ * @param {*} y   纵坐标
  * @returns 
  */
 let moveMouseSmooth = (x,y)=>{
@@ -53,7 +55,7 @@ let moveMouseSmooth = (x,y)=>{
 exports.moveMouseSmooth = moveMouseSmooth
 
 /**
- * 点击鼠标
+ * 点击鼠标  默认左键
  * @returns 
  */
 let mouseClick = (leftRight = 'left')=>{
@@ -121,7 +123,8 @@ let getScreenColor = (x,y)=>{
 exports.getScreenColor = getScreenColor
 
 /**
- * @param {}  key 为按键名字
+ * 键盘事件
+ * @param {}  key 为按键名字  
  * @returns 
  */
 let keyToggle = (key,upDown)=>{
@@ -157,11 +160,12 @@ exports.keyTap = keyTap
 
 
 /**
- * 
- * @param {*} tpPath 
+ * 屏幕查找定位
+ * @param {*} tpPath 要选择对象的图片
+ * @param {*} miniSimilarity 可选，指定最低相似度，默认0.9。取值0-1，1为找到完全相同的。
  * @returns 
  */
-var findScreen = (tpPath) =>{
+var findScreen = (tpPath,miniSimilarity=0.9) =>{
 
     tpPath = jsPath+tpPath;
     let url = `${CppUrl}?action=findScreen&imgPath=${tpPath}`
@@ -174,7 +178,7 @@ var findScreen = (tpPath) =>{
     if (jsonRes.error) {
         return false;
     }
-    if (jsonRes.value<0.9) {
+    if (jsonRes.value<miniSimilarity) {
         return false;
     }
 
@@ -188,17 +192,20 @@ exports.findScreen = findScreen
  * @param {*} text 
  */
 // var paste = (txt)=>{
-
 //     txt =  encodeURIComponent(txt)
-    
 //     url = `${CppUrl}?action=paste&txt=${txt}}`
 //     console.log(url)
 //     request('GET', url);
-
 //     // keyToggle('control',"down")
 //     // keyTap('v')
 //     // keyToggle('control',"up")
 // }
+
+
+/**
+ * 当前位置 粘贴（输入）文字
+ * @param {*} text 
+ */
 var paste = (text)=>{
     
     exec('echo off | clip')
@@ -218,6 +225,7 @@ var paste = (text)=>{
 }
 exports.paste = paste
 
+
 /**
  *  百度验证码破解
  */
@@ -235,22 +243,20 @@ exports.baiduSafeCheck = baiduSafeCheck
 
 
 /**
- * 通过小瓶云发送微信通知   详情：http://yun.pbottle.com/
- * @param {*} name 
- * @param {*} content 
- */
-var wxMessage= (name,content)=>{
-    http.get(`http://yun.pbottle.com/manage/yun/?msg=${decodeURIComponent(content)}&name=${decodeURIComponent(name)}&key=key599a9e4136010`,(res)=>{
-        let html = '';
-        // 绑定data事件 回调函数 累加html片段
-        res.on('data', function (data) {
-            html += data;
-        });
+ * 通知到手机
+ * 通过小瓶云发送微信通知 (微信到达率高，并且免费)
+ * @param {*} name 消息标题
+ * @param {*} content  消息详细内容
+ * @param {*} key  获取key详情方法：https://www.pbottle.com/a-12586.html
 
-        res.on('end', function () {
-            console.log(html);
-        });
-    })
+ */
+var wxMessage= (title,content,key)=>{
+    
+    let url =  `http://yun.pbottle.com/manage/yun/?msg=${encodeURIComponent(content)}&name=${encodeURIComponent(title)}&key=${key}`;
+
+    let res = request('GET', url);
+    console.log('发送微信消息：',res.getBody('utf8') );
+
 }
 exports.wxMessage = wxMessage
 
@@ -258,7 +264,8 @@ exports.wxMessage = wxMessage
 
 
 /**
- * 从文本到语音(TextToSpeech)
+ * 从文本到语音(TextToSpeech)  语音播报
+ * 非阻塞
  * @param {*} text 
  */
 var tts= (text)=>{
@@ -271,21 +278,5 @@ exports.tts = tts
 
 
 
-
-
-
-/**
- * 
- */
-var checkBrowserReady = ()=>{
-    let rs =  pbottleRPA.findScreen('./input/1.png')
-}
-
-
-// baiduSafeCheck()
-
-// wxMessage('小瓶RPA机器人',`你好，主人，我的任务已经完成了！~`)
-
-// cv.waitKey();
 
 
