@@ -1,7 +1,7 @@
 #  小瓶RPA
 
 #### 介绍
-像挂QQ一样使用简单的RPA软件，免费机器人流程自动化软件。本软件将长期更新请放心使用。
+像挂QQ一样使用简单的RPA软件，免费机器人流程自动化软件。 **本软件将长期更新请放心使用。** 
 
 #### 软件架构
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/1126/130823_ef4a3e3b_799608.png "2111021453106180e0566ebe4.png")
@@ -20,15 +20,9 @@
 2.  微信朋友圈自动点赞.js
 
 
-#### 参与贡献
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+#### 自己开发脚本文档
 
-
-#### 特技
-
-nodejs脚本编辑文档文档
+nodejs脚本编辑文档
+[文档](https://gitee.com/pbottle/pbottle-rpa/blob/master/pbottleRPA.js)
 
