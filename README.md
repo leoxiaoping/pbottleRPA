@@ -21,7 +21,7 @@
 
 
 
-#### 自己开发脚本文档
+#### 脚本开发文档
 
 nodejs脚本编辑文档
 [文档](https://gitee.com/pbottle/pbottle-rpa/blob/master/pbottleRPA.js)
