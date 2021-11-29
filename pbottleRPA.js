@@ -5,14 +5,10 @@ const keycode = require('keycode');
 const path = require("path");
 
 
-
-
 const jsPath = path.resolve('./')+'/';
 const CppUrl = `http://127.0.0.1:49888/`
 
-
 console.log("基座服务地址：",CppUrl);
-
 
 /**
  * "系统警告声音"
@@ -25,6 +21,7 @@ console.log("基座服务地址：",CppUrl);
     return res;
 }
 exports.beep = beep
+
 
 /**
  * 暂停一会
@@ -73,6 +70,19 @@ let mouseClick = (leftRight = 'left')=>{
 exports.mouseClick = mouseClick
 
 
+/**
+ * 鼠标滚轮
+ * @param {*} data 滚动的量  默认为-720   向下滚动720度
+ * @returns 
+ */
+let mouseWheel = (data = -720)=>{
+    let url = `${CppUrl}?action=mouseWheel&data=${data}`
+    // console.log(url)
+    let res = request('GET', url);
+    sleep(500);
+    return res;
+}
+exports.mouseWheel = mouseWheel
 
 
 /**
@@ -261,8 +271,6 @@ var wxMessage= (title,content,key)=>{
 exports.wxMessage = wxMessage
 
 
-
-
 /**
  * 从文本到语音(TextToSpeech)  语音播报
  * 非阻塞
@@ -275,6 +283,34 @@ var tts= (text)=>{
     let res = request('GET', url);
 }
 exports.tts = tts
+
+
+/**
+ * 用电脑默认浏览器打开网址
+ * @param {*} myurl 网址
+ */
+var openURL= (myurl)=>{
+    myurl = encodeURIComponent(myurl)
+    let url = `${CppUrl}?action=openURL&url=${myurl}`
+    // console.log(url)
+    let res = request('GET', url);
+}
+exports.openURL = openURL
+
+
+
+/**
+ * 获取当前屏幕分辨率
+ * @returns JSON
+ */
+var getResolution= ()=>{
+    
+    let url = `${CppUrl}?action=getResolution`
+    // console.log(url)
+    let res = request('GET', url);
+    return JSON.parse(res.getBody('utf8'));
+}
+exports.getResolution = getResolution
 
 
 
