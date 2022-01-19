@@ -32,9 +32,10 @@
 
 
 
-#### 脚本开发文档
+#### 自动流程脚本开发文档
 
 nodejs脚本编辑文档
 [文档](https://gitee.com/pbottle/pbottle-rpa/blob/master/pbottleRPA.js)
+参考技术测试脚本
 
 联系我们定制化开发更多脚本和基座程序（付费）
