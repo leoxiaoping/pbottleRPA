@@ -1,10 +1,21 @@
 #  小瓶RPA
 
 #### 介绍
-像挂QQ一样使用简单的RPA软件，免费机器人流程自动化软件。 **本软件将长期更新请放心使用。** 
+针对中小企业、职场达人的RPA自动化流程软件。
+像挂QQ一样使用简单的RPA软件。 **本软件将长期更新请放心使用。** 
+
+ 产品官网：[http://rpa.pbottle.cn/](http://rpa.pbottle.cn/)
 
 #### 软件架构
+
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/1126/130823_ef4a3e3b_799608.png "2111021453106180e0566ebe4.png")
+
+
+#### 公司支持
+
+北京小瓶科技有限公司
+
+ 官网：[https://www.pbottle.com/](https://www.pbottle.com/)
 
 
 #### 安装教程
@@ -21,9 +32,10 @@
 
 
 
-#### 脚本开发文档
+#### 自动流程脚本开发文档
 
 nodejs脚本编辑文档
 [文档](https://gitee.com/pbottle/pbottle-rpa/blob/master/pbottleRPA.js)
+参考技术测试脚本
 
 联系我们定制化开发更多脚本和基座程序（付费）
