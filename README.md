@@ -4,6 +4,8 @@
 针对中小企业、职场达人的RPA自动化流程软件。
 像挂QQ一样使用简单的RPA软件。 **本软件将长期更新请放心使用。** 
 
+ **产品官网：[http://rpa.pbottle.cn/](http://rpa.pbottle.cn/)** 
+
 #### 软件架构
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/1126/130823_ef4a3e3b_799608.png "2111021453106180e0566ebe4.png")
