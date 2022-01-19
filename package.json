@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "run": "node index"
+    "run": "node 基础测试脚本"
   },
   "author": "",
   "license": "ISC",

@@ -262,13 +262,30 @@ exports.baiduSafeCheck = baiduSafeCheck
  */
 var wxMessage= (title,content,key)=>{
     
-    let url =  `http://yun.pbottle.com/manage/yun/?msg=${encodeURIComponent(content)}&name=${encodeURIComponent(title)}&key=${key}`;
+    let url =  `https://yun.pbottle.com/manage/yun/?msg=${encodeURIComponent(content)}&name=${encodeURIComponent(title)}&key=${key}`;
 
     let res = request('GET', url);
     console.log('发送微信消息：',res.getBody('utf8') );
 
 }
 exports.wxMessage = wxMessage
+
+
+
+
+/**
+ * webhook 企业微信群机器人通知
+ * @param {*} url 
+ * @param {*} msgJson 
+ */
+var postJson= (url,msgJson)=>{
+    
+    let res = request('POST',url,{json:msgJson});
+    console.log('发送webhook消息：',res.getBody('utf8') );
+
+}
+exports.postJson = postJson
+
 
 
 /**
@@ -311,6 +328,26 @@ var getResolution= ()=>{
     return JSON.parse(res.getBody('utf8'));
 }
 exports.getResolution = getResolution
+
+
+
+/**
+ * 
+ * @param {*} imagePath 空或者screen 为电脑屏幕
+ * @param {*} x 剪裁起始点
+ * @param {*} y 剪裁起始点
+ * @param {*} width  剪裁 宽度
+ * @param {*} height 剪裁 高度
+ * @returns   ai 识别的json结果
+ */
+var aiOcr= (imagePath="screen", x=0, y=0, width=0, height=0)=>{
+    
+    let url = `${CppUrl}?action=aiOcr&path=${imagePath}&x=${x}&y=${y}&width=${width}&height=${height}`
+    // console.log(url)
+    let res = request('GET', url);
+    return JSON.parse(res.getBody('utf8'));
+}
+exports.aiOcr = aiOcr
 
 
 
