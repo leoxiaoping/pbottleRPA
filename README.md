@@ -11,6 +11,13 @@
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/1126/130823_ef4a3e3b_799608.png "2111021453106180e0566ebe4.png")
 
 
+#### 公司支持
+
+北京小瓶科技有限公司
+
+ **官网：[https://www.pbottle.com/](https://www.pbottle.com/)** 
+
+
 #### 安装教程
 
 1.  下载exe运行基座  pbottleRPA.zip  [基座exe程序绿色版](https://gitee.com/pbottle/pbottle-rpa/releases)
