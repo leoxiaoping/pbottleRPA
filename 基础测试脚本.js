@@ -8,8 +8,8 @@ console.log('屏幕分辨率：',pbottleRPA.getResolution())
 
 
 let imagePath = encodeURIComponent("d:/nodeAPP/QtAPP/pbottleRPA/build-pbottleRPA-Replacement_for_Replacement_for_qt5_15_vs2019-Release/input/000.png")
-console.log('屏幕orc：',pbottleRPA.aiOcr('screen',10,10,800,800))
-
+// console.log('屏幕orc：',pbottleRPA.aiOcr('screen',10,10,800,800))
+console.log('屏幕orc：',pbottleRPA.aiOcr(imagePath));
 
 // process.exit(1)
 

@@ -24,7 +24,7 @@ exports.beep = beep
 
 
 /**
- * 暂停一会
+ * 暂停一会 全局暂停 异步回调也会停止（比如网络）
  * @returns 
  */
  let sleep = (milliseconds)=>{
