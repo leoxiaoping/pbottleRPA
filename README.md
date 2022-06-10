@@ -17,7 +17,7 @@
  官网：[https://www.pbottle.com/](https://www.pbottle.com/)
 
 
-#### 安装教程
+# 安装教程
 
 1.  下载exe运行基座  pbottleRPA.zip  [基座exe程序绿色版](https://gitee.com/pbottle/pbottle-rpa/releases)
 2.  电脑管家 软件中心安装 nodejs
