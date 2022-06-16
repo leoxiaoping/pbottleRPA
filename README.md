@@ -1,7 +1,7 @@
 #  小瓶RPA
 
 #### 介绍
- 永久免费RPA软件系统。 像挂QQ一样使用简单的RPA软件。 显著降本增效 & 工作100%准确 & 非侵入式集成。
+永久免费（含商用）RPA软件系统。 像挂QQ一样使用简单的RPA软件。 显著降本增效 & 工作100%准确 & 非侵入式集成。
 
  产品官网：[http://rpa.pbottle.cn/](http://rpa.pbottle.cn/)
 
@@ -17,11 +17,14 @@
  官网：[https://www.pbottle.com/](https://www.pbottle.com/)
 
 
-#### 安装教程
+
+# 安装教程
 
 1.  下载exe运行基座  pbottleRPA.zip  [基座exe程序绿色版](https://gitee.com/pbottle/pbottle-rpa/releases)
-2.  电脑管家 软件中心安装 nodejs
+2.  安装 nodejs 脚本引擎 .msi,并安装 [下载网站](http://nodejs.cn/download/) 
 3.  运行基座选择脚本即可开始运行
+
+
 
 #### 使用说明
 
