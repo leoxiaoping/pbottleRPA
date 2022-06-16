@@ -5,6 +5,18 @@
 
  产品官网：[http://rpa.pbottle.cn/](http://rpa.pbottle.cn/)
 
+#### 小瓶RPA独家优势
+
+①自主底层研发、可深度行业定制
+
+②基于AI图像识别技术（本地集成，无需联网，无api费用）
+
+③整合 node，python等 数以万计第三方包，最大化生态
+
+④绿色轻巧，需要硬件配置低，安装包 ~60M大小
+
+⑤软件License免费（永久免费）
+
 #### 软件架构
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/1126/130823_ef4a3e3b_799608.png "2111021453106180e0566ebe4.png")
