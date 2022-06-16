@@ -21,7 +21,7 @@
 # 安装教程
 
 1.  下载exe运行基座  pbottleRPA.zip  [基座exe程序绿色版](https://gitee.com/pbottle/pbottle-rpa/releases)
-2.  安装 nodejs 脚本引擎  [下载网站](http://nodejs.cn/)
+2.  安装 nodejs 脚本引擎 .msi,并安装 [下载网站](http://nodejs.cn/download/) 
 3.  运行基座选择脚本即可开始运行
 
 
