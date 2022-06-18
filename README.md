@@ -37,6 +37,10 @@
 3.  运行基座选择脚本即可开始运行
 
 
+#### 电脑要求
+
+由于新版本集成ai模块需要依赖cpu、显卡的支持的硬件级算法。默认集成openblas算法，最大兼容性，但仍不保证任何电脑运行基座exe成功。
+如果exe启动不成功请下载非ai版本：[https://gitee.com/pbottle/pbottle-rpa/releases/v202112](https://gitee.com/pbottle/pbottle-rpa/releases/v202112)
 
 #### 使用说明
 
