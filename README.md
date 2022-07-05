@@ -42,11 +42,19 @@
 由于新版本集成ai模块需要依赖cpu、显卡的支持的硬件级算法。默认集成openblas算法，最大兼容性，但仍不保证任何电脑运行基座exe成功。
 如果exe启动不成功请下载非ai版本：[https://gitee.com/pbottle/pbottle-rpa/releases/v202112](https://gitee.com/pbottle/pbottle-rpa/releases/v202112)
 
+
 #### 使用说明
 
 自带demo：（中文标题demo文件 后续会添加更多）
-1.  基础测试脚本.js
-2.  微信朋友圈自动点赞.js
+
+- 键鼠操作基础测试脚本.js
+- 运维消息手机通知.js
+- 微信朋友圈自动点赞.js
+- Excel读写测试脚本.js
+- 屏幕文字提取OCR测试脚本.js
+
+
+
 
 
 
