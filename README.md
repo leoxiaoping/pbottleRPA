@@ -34,8 +34,10 @@
 # 安装教程
 
 1.  下载exe运行基座  pbottleRPA.zip  [基座exe程序绿色版](https://gitee.com/pbottle/pbottle-rpa/releases)
-2.  安装 nodejs 脚本引擎 .msi,并安装 [下载网站](http://nodejs.cn/download/) 
+2.  安装 nodejs 脚本引擎 .msi,并安装 [下载网站](http://nodejs.cn/download/)   安装后请重启
 3.  运行基座选择脚本即可开始运行
+
+注：如果系统提示 **缺少vcruntime140XX.dll**   微软官网下载安装即可：[https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140)
 
 
 #### 电脑要求
@@ -53,8 +55,6 @@
 - 微信朋友圈自动点赞.js
 - Excel读写测试脚本.js
 - 屏幕文字提取OCR测试脚本.js
-
-
 
 
 
