@@ -42,6 +42,7 @@
 
 #### 电脑要求
 
+99%普通电脑都能正常运行，只有1%例外，例外原因：
 由于新版本集成ai模块需要依赖cpu、显卡的支持的硬件级算法。默认集成openblas算法，最大兼容性，但仍不保证任何电脑运行基座exe成功。
 如果exe启动不成功请下载非ai版本：[https://gitee.com/pbottle/pbottle-rpa/releases/v202112](https://gitee.com/pbottle/pbottle-rpa/releases/v202112)
 
@@ -59,7 +60,7 @@
 
 
 
-#### 自动流程脚本开发文档
+#### 开发文档 （流程脚本）
 
 nodejs脚本编辑文档
 [文档](https://gitee.com/pbottle/pbottle-rpa/blob/master/pbottleRPA.js)
@@ -69,4 +70,5 @@ nodejs脚本编辑文档
 1. 键盘表  [https://www.pbottle.com/a-13862.html](https://www.pbottle.com/a-13862.html)
 2. 挂机定时任务  [https://www.pbottle.com/a-13868.html](https://www.pbottle.com/a-13868.html)
 
-联系我们定制化开发更多脚本和基座程序（付费） [联系我们](https://www.pbottle.com/page-contact.html)
+联系我们定制化开发更多更复杂的RPA流程脚本（付费） [联系我们](https://www.pbottle.com/page-contact.html)
+大客户亦可提供RPA基座的底层定制 [联系我们](https://www.pbottle.com/page-contact.html)
