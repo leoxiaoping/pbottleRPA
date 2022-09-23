@@ -4,7 +4,7 @@
 永久免费（含商用）RPA软件系统。 像挂QQ一样使用简单的RPA软件。 显著降本增效 & 工作100%准确 & 非侵入式集成。
  **如果好用或者帮到您，烦劳star一下。** 
 
- 产品官网：[http://rpa.pbottle.cn/](http://rpa.pbottle.cn/)
+产品新官网：[https://rpa.pbottle.com/](https://rpa.pbottle.com/)
 
 #### 小瓶RPA独家优势
 
