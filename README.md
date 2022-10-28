@@ -2,8 +2,9 @@
 
 #### 介绍
 永久免费（含商用）RPA软件系统。 像挂QQ一样使用简单的RPA软件。 显著降本增效 & 工作100%准确 & 非侵入式集成。
+ **如果好用或者帮到您，烦劳star一下。** 
 
- 产品官网：[http://rpa.pbottle.cn/](http://rpa.pbottle.cn/)
+产品新官网：[https://rpa.pbottle.com/](https://rpa.pbottle.com/)
 
 #### 小瓶RPA独家优势
 
@@ -33,27 +34,42 @@
 # 安装教程
 
 1.  下载exe运行基座  pbottleRPA.zip  [基座exe程序绿色版](https://gitee.com/pbottle/pbottle-rpa/releases)
-2.  安装 nodejs 脚本引擎 .msi,并安装 [下载网站](http://nodejs.cn/download/) 
-3.  运行基座选择脚本即可开始运行
+2.  安装 nodejs 脚本引擎 .msi,并安装 [下载网站](http://nodejs.cn/download/)   安装后请重启基座
+3.  下载[测试脚本](https://gitee.com/pbottle/pbottle-rpa/repository/archive/master.zip)，运行基座选择demo脚本即可开始运行
+
+ _注：如果系统提示 缺少vcruntime140XX.dll   微软官网下载安装即可：[https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140)_ 
 
 
 #### 电脑要求
 
+99%普通电脑都能正常运行，只有1%例外，例外原因：
 由于新版本集成ai模块需要依赖cpu、显卡的支持的硬件级算法。默认集成openblas算法，最大兼容性，但仍不保证任何电脑运行基座exe成功。
 如果exe启动不成功请下载非ai版本：[https://gitee.com/pbottle/pbottle-rpa/releases/v202112](https://gitee.com/pbottle/pbottle-rpa/releases/v202112)
 
+
 #### 使用说明
 
-自带demo：（中文标题）（后续会添加更多）
-1.  基础测试脚本.js
-2.  微信朋友圈自动点赞.js
+自带demo：（中文标题demo文件 后续会添加更多）
+
+- 键鼠操作基础测试脚本.js
+- 运维消息手机通知.js
+- 微信朋友圈自动点赞.js
+- Excel读写测试脚本.js
+- 屏幕文字提取OCR测试脚本.js
 
 
 
-#### 自动流程脚本开发文档
+
+#### 开发文档 （流程脚本）
 
 nodejs脚本编辑文档
 [文档](https://gitee.com/pbottle/pbottle-rpa/blob/master/pbottleRPA.js)
-参考技术测试脚本
+同时参考测试demo脚本
 
-联系我们定制化开发更多脚本和基座程序（付费） [联系我们](https://www.pbottle.com/page-contact.html)
+其它参考：
+1. 键盘表  [https://www.pbottle.com/a-13862.html](https://www.pbottle.com/a-13862.html)
+2. 挂机定时任务  [https://www.pbottle.com/a-13868.html](https://www.pbottle.com/a-13868.html)
+
+联系我们定制化开发更多更复杂的RPA流程脚本（付费） [联系我们](https://www.pbottle.com/page-contact.html) 
+
+大客户亦可提供RPA基座的底层定制 [联系我们](https://www.pbottle.com/page-contact.html)
