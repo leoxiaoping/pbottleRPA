@@ -1,3 +1,8 @@
+/**
+ *  小瓶RPA
+ *  官网：https://rpa.pbottle.com/
+ */
+
 
 const { exec } = require('child_process');
 const request = require('sync-request');  //默认同步请求
@@ -133,8 +138,8 @@ let getScreenColor = (x,y)=>{
 exports.getScreenColor = getScreenColor
 
 /**
- * 键盘事件
- * @param {}  key 为按键名字  
+ * 模拟按键事件  
+ * @param {}  key 为按键名字   按键名称参考：https://www.pbottle.com/a-13862.html
  * @returns 
  */
 let keyToggle = (key,upDown)=>{
@@ -157,7 +162,7 @@ exports.keyToggle = keyToggle
 
 /**
  * 按一下键盘
- * @param {*} key 
+ * @param {*} key  按键名称参考：https://www.pbottle.com/a-13862.html
  */
 let keyTap = (key)=>{
 
