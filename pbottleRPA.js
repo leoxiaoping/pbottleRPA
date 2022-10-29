@@ -1,5 +1,5 @@
 /**
- *  小瓶RPA
+ *  小瓶RPA 脚本API  Node版本
  *  官网：https://rpa.pbottle.com/
  */
 
@@ -337,24 +337,22 @@ exports.getResolution = getResolution
 
 
 /**
+ *  AI模型预测 文字识别
  * 
  * @param {*} imagePath 空或者screen 为电脑屏幕
- * @param {*} x 剪裁起始点
+ * 
+ * @param {*} x 剪裁起始点  左上角开始
  * @param {*} y 剪裁起始点
  * @param {*} width  剪裁 宽度
  * @param {*} height 剪裁 高度
- * @returns   ai 识别的json结果
+ * 
+ * @returns   ai OCR识别的json结果 包含准确率的评分
  */
-var aiOcr= (imagePath="screen", x=0, y=0, width=0, height=0)=>{
+var aiOcr= (imagePath="screen",  x=0, y=0, width=0, height=0)=>{
     
-    let url = `${CppUrl}?action=aiOcr&path=${imagePath}&x=${x}&y=${y}&width=${width}&height=${height}`
+    let url = `${CppUrl}?action=aiOcr&path=${imagePath}&x=${x}&y=${y}&width=${width}&height=${height}&onlyEn=0`
     // console.log(url)
     let res = request('GET', url);
     return JSON.parse(res.getBody('utf8'));
 }
 exports.aiOcr = aiOcr
-
-
-
-
-
