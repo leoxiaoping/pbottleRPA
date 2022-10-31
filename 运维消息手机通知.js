@@ -20,7 +20,7 @@ pbottleRPA.postJson('https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=67bc3b
 
 
 
-pbottleRPA.tts('普通微信通知，需要关注小瓶科技公众号')
+pbottleRPA.tts('微信通知，需要关注小瓶科技公众号')
 //延迟5秒
 pbottleRPA.sleep(1000*5)
 
