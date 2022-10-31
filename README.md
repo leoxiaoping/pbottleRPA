@@ -4,9 +4,9 @@
 永久免费（含商用）RPA软件系统。 像挂QQ一样使用简单的RPA软件。 显著降本增效 & 工作100%准确 & 非侵入式集成。
  **如果好用或者帮到您，烦劳star一下。** 
 
-产品新官网：[https://rpa.pbottle.com/](https://rpa.pbottle.com/)
+产品官网：[https://rpa.pbottle.com/](https://rpa.pbottle.com/)
 
-![小瓶RPA logo](input/RPAlogo512.png)
+![小瓶RPA logo](input/RPAlogo128.png)
 
 #### 小瓶RPA优势
 
@@ -36,13 +36,15 @@
 # 安装教程
 
 1.  下载exe运行基座  pbottleRPA.zip  [基座exe程序绿色版](https://gitee.com/pbottle/pbottle-rpa/releases)
-2.  安装 nodejs 脚本引擎 .msi,并安装 [下载网站](http://nodejs.cn/download/)   安装后请重启基座
+2.  安装 NodeJS 脚本引擎 .msi,并安装 [下载网站](http://nodejs.cn/download/)   安装后请重启基座
 3.  下载[测试脚本](https://gitee.com/pbottle/pbottle-rpa/repository/archive/master.zip)，运行基座选择demo脚本即可开始运行
 
  _注：如果系统提示 缺少vcruntime140XX.dll   微软官网下载安装即可：[https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140)_ 
 
 
 #### 电脑要求
+
+新！V2023版本进一步提高了AI算法对电脑的兼容性，请下载最新版本。
 
 99%普通电脑都能正常运行，只有1%例外，例外原因：
 由于新版本集成ai模块需要依赖cpu、显卡的支持的硬件级算法。默认集成openblas算法，最大兼容性，但仍不保证任何电脑运行基座exe成功。
@@ -53,12 +55,12 @@
 
 自带demo：（中文标题demo文件 后续会添加更多）
 
-- 键鼠操作基础测试脚本.js
+- 键盘基础操作演示脚本.js
+- 鼠标基础操作演示脚本.js
 - 运维消息手机通知.js
 - 微信朋友圈自动点赞.js
-- Excel读写测试脚本.js
+- 读写Excel演示脚本.js
 - 屏幕文字提取OCR测试脚本.js
-
 
 
 
