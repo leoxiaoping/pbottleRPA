@@ -3,7 +3,6 @@
  *  官网：https://rpa.pbottle.com/
  */
 
-
 const { exec } = require('child_process');
 const request = require('sync-request');  //默认同步请求
 const keycode = require('keycode');
@@ -41,7 +40,7 @@ exports.beep = beep
 exports.sleep = sleep
 
 /**
- * 移动鼠标
+ * 移动鼠标到
  * @param {*} x   横坐标
  * @param {*} y   纵坐标
  * @returns 
@@ -57,10 +56,11 @@ let moveMouseSmooth = (x,y)=>{
 exports.moveMouseSmooth = moveMouseSmooth
 
 /**
- * 点击鼠标  默认左键
+ * 单击鼠标  默认左键  可选 'right'
  * @returns 
  */
 let mouseClick = (leftRight = 'left')=>{
+
     let url = `${CppUrl}?action=mouseLeftClick`
     if (leftRight == 'right') {
         url = `${CppUrl}?action=mouseRightClick`
@@ -81,7 +81,7 @@ exports.mouseClick = mouseClick
  */
  let mouseDoubleClick = ()=>{
 
-    let url = `${CppUrl}?action=mouseLeftClick&doubleClick=1`
+    let url = `${CppUrl}?action=mouseDoubleClick`
 
     // console.log(url)
     let res = request('GET', url);
@@ -258,20 +258,6 @@ var paste = (text)=>{
 exports.paste = paste
 
 
-/**
- *  百度验证码破解
- */
-var baiduSafeCheck = ()=>{
-    let rs =  findScreen('./input/baidusafe.png')
-    if (rs !== false) {
-
-        moveMouseSmooth(rs.x,rs.y,0);
-        mouseLeftDragTo(rs.x + 250,rs.y);
-        console.log('※※※ 破解百度安全验证 ※※※');
-    }
-}
-exports.baiduSafeCheck = baiduSafeCheck
-
 
 
 /**
@@ -339,8 +325,8 @@ exports.openURL = openURL
 
 
 /**
- * 获取当前屏幕分辨率
- * @returns JSON
+ * 获取当前屏幕分辨率  
+ * @returns JSON  内容格式 {w:1920,h:1080}
  */
 var getResolution= ()=>{
     
@@ -354,7 +340,7 @@ exports.getResolution = getResolution
 
 
 /**
- *  AI模型预测 文字识别
+ * 文字识别 AI模型预测
  * 
  * @param {*} imagePath 空或者screen 为电脑屏幕
  * 
@@ -363,7 +349,8 @@ exports.getResolution = getResolution
  * @param {*} width  剪裁 宽度
  * @param {*} height 剪裁 高度
  * 
- * @returns   ai OCR识别的json结果 包含准确率的评分
+ * @returns   ai OCR识别的json结果 包含准确率的评分    格式： [{text:'A',score:'0.319415'},...]
+
  */
 var aiOcr= (imagePath="screen",  x=0, y=0, width=0, height=0)=>{
     
