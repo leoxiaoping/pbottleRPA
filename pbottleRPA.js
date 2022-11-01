@@ -76,6 +76,23 @@ exports.mouseClick = mouseClick
 
 
 /**
+ * 双击鼠标  默认左键
+ * @returns 
+ */
+ let mouseDoubleClick = ()=>{
+
+    let url = `${CppUrl}?action=mouseLeftClick&doubleClick=1`
+
+    // console.log(url)
+    let res = request('GET', url);
+
+    sleep(1500);
+    return res;
+}
+exports.mouseDoubleClick = mouseDoubleClick
+
+
+/**
  * 鼠标滚轮
  * @param {*} data 滚动的量  默认为-720   向下滚动720度
  * @returns 

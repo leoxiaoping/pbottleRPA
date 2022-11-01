@@ -26,6 +26,13 @@ pbottleRPA.sleep(1000*5)
 
 
 
+pbottleRPA.tts(`鼠标双击`)
+pbottleRPA.moveMouseSmooth(38,38)
+pbottleRPA.mouseDoubleClick()
+pbottleRPA.sleep(1000*5)
+
+
+
 pbottleRPA.tts('准备打开网页并滚动鼠标，10秒后开始')
 pbottleRPA.sleep(1000*10)
 
@@ -45,8 +52,11 @@ pbottleRPA.sleep(1000*4)
 
 
 
-pbottleRPA.tts('点击页面左上角')
-pbottleRPA.moveMouseSmooth(100,100)
+pbottleRPA.tts('单击页面左上角')
+pbottleRPA.moveMouseSmooth(38,38)
+pbottleRPA.mouseClick('right')
+pbottleRPA.moveMouseSmooth(35,35)
+pbottleRPA.mouseClick()
 pbottleRPA.sleep(1000*4)
 
 
@@ -61,8 +71,6 @@ pbottleRPA.mouseLeftDragTo(500,500)
 
 
 pbottleRPA.sleep(1000*10)
-
-
 
 
 
