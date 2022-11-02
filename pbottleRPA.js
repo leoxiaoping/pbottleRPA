@@ -154,6 +154,25 @@ let getScreenColor = (x,y)=>{
 }
 exports.getScreenColor = getScreenColor
 
+
+/**
+ * 屏幕截图
+ * @param {*} savePath  保存路径默认 我的图片，图片格式为PNG；如果使用自定义路径请以 '.png' 结尾; 
+ * @param {*} x  截图开始位置
+ * @param {*} y 
+ * @param {*} w  截图宽度
+ * @param {*} h  截图长度
+ * @returns 
+ */
+let screenShot = (savePath='',x=0,y=0,w=0,h=0)=>{
+    savePath = encodeURIComponent(savePath)
+    let url = `${CppUrl}?action=screenShot&savePath=${savePath}&x=${x}&y=${y}&w=${w}&h=${h}`
+    // console.log(url)
+    let res = request('GET', url);
+    return res;
+}
+exports.screenShot = screenShot
+
 /**
  * 模拟按键事件  
  * @param {}  key 为按键名字   按键名称参考：https://www.pbottle.com/a-13862.html
