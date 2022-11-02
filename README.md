@@ -40,7 +40,9 @@
 3.  下载[测试脚本](https://gitee.com/pbottle/pbottle-rpa/repository/archive/master.zip)，运行基座选择demo脚本即可开始运行
 
 安装常见问题：
+
  ①：如果系统提示 缺少vcruntime140XX.dll   微软官网下载安装即可：[https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140)_ 
+
  ②： **exe启动目录的路径不能含中文** ，直接复制到其他目录，或者文件夹copy到磁盘根目录即可
 
 
