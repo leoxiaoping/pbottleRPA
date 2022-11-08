@@ -212,19 +212,22 @@ exports.keyTap = keyTap
 
 /**
  * 屏幕查找定位
- * @param {*} tpPath 要选择对象的图片
+ * @param {*} tpPath 要选择对象的图片  相对路径
  * @param {*} miniSimilarity 可选，指定最低相似度，默认0.9。取值0-1，1为找到完全相同的。
  * @returns 
  */
 var findScreen = (tpPath,miniSimilarity=0.9) =>{
 
     tpPath = jsPath+tpPath;
+    tpPath = encodeURIComponent(tpPath)
     let url = `${CppUrl}?action=findScreen&imgPath=${tpPath}`
     // console.log(url)
     let res = request('GET', url);
 
     // console.log(res.getBody('utf8'));
     jsonRes = JSON.parse(res.getBody('utf8'));
+
+    console.log(jsonRes);
 
     if (jsonRes.error) {
         return false;
@@ -233,7 +236,7 @@ var findScreen = (tpPath,miniSimilarity=0.9) =>{
         return false;
     }
 
-    console.log(jsonRes);
+    
     return jsonRes;
 }
 exports.findScreen = findScreen
@@ -361,7 +364,7 @@ exports.getResolution = getResolution
 /**
  * 文字识别 AI模型预测
  * 
- * @param {*} imagePath 空或者screen 为电脑屏幕
+ * @param {*} imagePath 空或者screen 为电脑屏幕     ;  路径位绝对路径
  * 
  * @param {*} x 剪裁起始点  左上角开始
  * @param {*} y 剪裁起始点
@@ -373,6 +376,9 @@ exports.getResolution = getResolution
  */
 var aiOcr= (imagePath="screen",  x=0, y=0, width=0, height=0)=>{
     
+
+    imagePath = encodeURIComponent(imagePath);
+
     let url = `${CppUrl}?action=aiOcr&path=${imagePath}&x=${x}&y=${y}&width=${width}&height=${height}&onlyEn=0`
     // console.log(url)
     let res = request('GET', url);
