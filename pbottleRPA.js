@@ -3,7 +3,6 @@
  *  官网：https://rpa.pbottle.com/
  */
 
-const { exec } = require('child_process');
 const request = require('sync-request');  //默认同步请求
 const keycode = require('keycode');
 const path = require("path");
@@ -242,41 +241,35 @@ var findScreen = (tpPath,miniSimilarity=0.9) =>{
 exports.findScreen = findScreen
 
 /**
- * 
- * @param {*} text 
- */
-// var paste = (txt)=>{
-//     txt =  encodeURIComponent(txt)
-//     url = `${CppUrl}?action=paste&txt=${txt}}`
-//     console.log(url)
-//     request('GET', url);
-//     // keyToggle('control',"down")
-//     // keyTap('v')
-//     // keyToggle('control',"up")
-// }
-
-
-/**
  * 当前位置 粘贴（输入）文字
  * @param {*} text 
  */
-var paste = (text)=>{
-    
-    exec('echo off | clip')
-    let cmd = `echo ${text}| clip`
-    exec(cmd,{encoding:'utf8'}, (err, stdout, stderr) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        console.log(stdout);
-    });
-
-    keyToggle('control',"down")
-    keyToggle('v',"down")
-    keyToggle('v',"up")
-    keyToggle('control',"up")
+var paste = (txt)=>{
+    txt =  encodeURIComponent(txt)
+    url = `${CppUrl}?action=paste&txt=${txt}`
+    // console.log(url)
+    request('GET', url);
+    sleep(200)
+    // keyToggle('control',"down")
+    // keyTap('v')
+    // keyToggle('control',"up")
 }
+// var paste = (text)=>{
+//     exec('echo off | clip')
+//     let cmd = `echo ${text}| clip`
+//     exec(cmd,{encoding:'utf8'}, (err, stdout, stderr) => {
+//         if (err) {
+//           console.error(err);
+//           return;
+//         }
+//         console.log(stdout);
+//     });
+
+//     keyToggle('control',"down")
+//     keyToggle('v',"down")
+//     keyToggle('v',"up")
+//     keyToggle('control',"up")
+// }
 exports.paste = paste
 
 
