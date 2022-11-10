@@ -16,9 +16,9 @@
 
 ③ 整合 NodeJS，Python等 数以万计第三方包，最大化生态
 
-④ 绿色轻巧，需要硬件配置低，安装包 ~50M大小
+④ 绿色、轻巧、便捷，真正的降本增效，安装包大小 约50M
 
-⑤ 免费软件商业License（永久免费）
+⑤ 永久免费软件，无商业License授权费用
 
 #### 软件架构
 
@@ -69,7 +69,7 @@
 
 
 
-#### 开发文档 （流程脚本）
+# 开发流程脚本
 
 nodejs脚本编辑文档
 [文档](https://gitee.com/pbottle/pbottle-rpa/blob/master/pbottleRPA.js)
