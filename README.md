@@ -76,8 +76,12 @@ nodejs脚本编辑文档
 同时参考测试demo脚本
 
 其它参考：
-1. 键盘表  [https://www.pbottle.com/a-13862.html](https://www.pbottle.com/a-13862.html)
-2. 挂机定时任务  [https://www.pbottle.com/a-13868.html](https://www.pbottle.com/a-13868.html)
+
+1. 键盘表  [https://rpa.pbottle.com/a-13862.html](https://rpa.pbottle.com/a-13862.html)
+2. 挂机定时任务  [https://rpa.pbottle.com/a-13868.html](https://rpa.pbottle.com/a-13868.html)
+3. 免费手机通知 [https://rpa.pbottle.com/a-12586.html](https://rpa.pbottle.com/a-12586.html)
+
+官方定制服务：
 
 联系我们定制化开发更多更复杂的RPA流程脚本（付费） [联系我们](https://www.pbottle.com/page-contact.html) 
 
