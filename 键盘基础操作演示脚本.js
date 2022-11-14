@@ -22,14 +22,14 @@ pbottleRPA.sleep(1000*6)
 
 
 
-pbottleRPA.tts('准备打开网页浏览并用快捷键进入全屏，10秒后开始')
+pbottleRPA.tts('准备打开网页浏览并用快捷键进入全屏，5秒后开始')
 pbottleRPA.sleep(1000*10)
 
 //用浏览器打开网址
 pbottleRPA.openURL('https://rpa.pbottle.com')
 pbottleRPA.sleep(1000*1)
 pbottleRPA.keyTap('f11')
-pbottleRPA.sleep(1000*1)
+pbottleRPA.sleep(1000*2)
 
 
 pbottleRPA.tts('翻页查看')

@@ -49,7 +49,7 @@ let moveMouseSmooth = (x,y)=>{
     // console.log(url)
     let res = request('GET', url);
 
-    sleep(500);
+    sleep(100);
     return res;
 }
 exports.moveMouseSmooth = moveMouseSmooth
@@ -68,7 +68,7 @@ let mouseClick = (leftRight = 'left')=>{
     // console.log(url)
     let res = request('GET', url);
 
-    sleep(1500);
+    sleep(200);
     return res;
 }
 exports.mouseClick = mouseClick
@@ -85,7 +85,7 @@ exports.mouseClick = mouseClick
     // console.log(url)
     let res = request('GET', url);
 
-    sleep(1500);
+    sleep(200);
     return res;
 }
 exports.mouseDoubleClick = mouseDoubleClick
@@ -100,7 +100,7 @@ let mouseWheel = (data = -720)=>{
     let url = `${CppUrl}?action=mouseWheel&data=${data}`
     // console.log(url)
     let res = request('GET', url);
-    sleep(500);
+    sleep(200);
     return res;
 }
 exports.mouseWheel = mouseWheel
@@ -204,7 +204,7 @@ let keyTap = (key)=>{
     keyToggle(key,"down")
     keyToggle(key,"up")
 
-    sleep(1500);
+    sleep(100);
 }
 exports.keyTap = keyTap
 
@@ -249,7 +249,7 @@ var paste = (txt)=>{
     url = `${CppUrl}?action=paste&txt=${txt}`
     // console.log(url)
     request('GET', url);
-    sleep(200)
+    sleep(100)
     // keyToggle('control',"down")
     // keyTap('v')
     // keyToggle('control',"up")

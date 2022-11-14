@@ -2,8 +2,9 @@ const pbottleRPA = require('./pbottleRPA')
 
 
 
-pbottleRPA.tts('准备开始运行 朋友圈批量点赞脚本')
-pbottleRPA.sleep(1000*6)
+pbottleRPA.tts('准备开始运行朋友圈批量点赞脚本，适配1920分辨率屏幕')
+pbottleRPA.sleep(1000*7)
+
 
 
 //输入路径中不要有自定义中文  

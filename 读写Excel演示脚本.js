@@ -56,7 +56,7 @@ const workSheetsFromFile = xlsx.parse(`${__dirname}\\Excel测试表格.xlsx`);
 const sheet = workSheetsFromFile[0].data;
 console.log(sheet);
 
-pbottleRPA.tts(`读取生成EXCEL文件内容... `)
+pbottleRPA.tts(`读取生成EXCEL文件内容，并写入运行日志... `)
 pbottleRPA.sleep(1000*5)
 
 

@@ -33,12 +33,12 @@ pbottleRPA.sleep(1000*5)
 
 
 
-pbottleRPA.tts('准备打开网页并滚动鼠标，10秒后开始')
+pbottleRPA.tts('准备打开网页并滚动鼠标，5秒后开始')
 pbottleRPA.sleep(1000*10)
 
 //用浏览器打开网址
 pbottleRPA.openURL('https://rpa.pbottle.com')
-pbottleRPA.sleep(1000*1)
+pbottleRPA.sleep(1000*2)
 pbottleRPA.keyTap('f11')
 pbottleRPA.sleep(1000*1)
 
@@ -52,7 +52,7 @@ pbottleRPA.sleep(1000*4)
 
 
 
-pbottleRPA.tts('单击页面左上角')
+pbottleRPA.tts('右键页面左上角')
 pbottleRPA.moveMouseSmooth(38,38)
 pbottleRPA.mouseClick('right')
 pbottleRPA.moveMouseSmooth(35,35)
@@ -70,13 +70,13 @@ pbottleRPA.mouseLeftDragTo(500,500)
 
 
 
-pbottleRPA.sleep(1000*10)
-
+pbottleRPA.sleep(1000*5)
 
 
 pbottleRPA.keyTap('f11')
 pbottleRPA.tts('演示结束')
 console.log("准备结束脚本");
+pbottleRPA.sleep(1000*3)
 //脚本强制退出
 process.exit(1)
 console.log("已经退出了，无效");
