@@ -59,11 +59,13 @@
 如果exe启动不成功请下载非ai版本：[https://gitee.com/pbottle/pbottle-rpa/releases/v202112](https://gitee.com/pbottle/pbottle-rpa/releases/v202112)
 
 
-#### 手机模拟器
+#### 手机应用RPA
 
-经过我们测试的推荐 蓝叠模拟器
-已经有问题的：
-雷电模拟器，剪切板同步延迟，输入有问题
+手机应用采用模拟器方案
+
+经过我们测试的推荐： 蓝叠模拟器
+
+已经有问题的：雷电模拟器，剪切板同步延迟，输入有问题
 
 
 #### 使用说明
