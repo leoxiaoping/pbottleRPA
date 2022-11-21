@@ -12,6 +12,8 @@ const jsPath = path.resolve('./')+'/';
 const CppUrl = `http://127.0.0.1:49888/`
 
 console.log("基座服务地址：",CppUrl);
+exports.jsPath = jsPath;
+
 
 /**
  * "系统警告声音"
@@ -336,6 +338,20 @@ var openURL= (myurl)=>{
     let res = request('GET', url);
 }
 exports.openURL = openURL
+
+
+
+/**
+ * 用资源管理器打开展示文件夹
+ * @param {*} path 
+ */
+var openDir= (path)=>{
+    path = encodeURIComponent(path)
+    let url = `${CppUrl}?action=openDir&path=${path}`
+    // console.log(url)
+    let res = request('GET', url);
+}
+exports.openDir = openDir
 
 
 

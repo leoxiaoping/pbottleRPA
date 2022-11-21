@@ -47,7 +47,8 @@ let buffer = xlsx.build([{name: '系统信息表', data: data}],{sheetOptions});
 fs.writeFileSync(`${__dirname}\\Excel测试表格.xlsx`,buffer);
 
 
-pbottleRPA.tts(`已经生成EXCEL文件... `)
+pbottleRPA.tts(`已经生成EXCEL测试表格...请查看 `)
+pbottleRPA.openDir(__dirname)
 pbottleRPA.sleep(1000*5)
 
 
