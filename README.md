@@ -51,11 +51,13 @@
 
 #### 常见问题：
 
- ①：如果系统提示 缺少vcruntime140XX.dll   微软官网下载安装即可：[https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140)_ 
+ ①：如果系统提示 缺少vcruntime140XX.dll   微软官网下载安装即可：[https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140)_  （新版本已兼容）
 
  ②： **exe启动目录的路径不能含中文** ，直接复制到其他目录，或者文件夹copy到磁盘根目录即可  （新版本已兼容）
 
  ③： 服务端口（49888）监听不成功问题  排查请看：[https://rpa.pbottle.com/a-13924.html](https://rpa.pbottle.com/a-13924.html)
+
+ ④： 软件不在支持32位旧版操作系统
 
 
 #### 电脑要求
@@ -76,9 +78,9 @@
 已经有问题的：雷电模拟器，剪切板同步延迟，输入有问题
 
 
-#### 使用说明
+#### Demo示例
 
-自带demo：（中文标题demo文件 后续会添加更多）
+自带Demo示例：（中文标题为demo示例脚本 后续会添加更多）
 
 - 键盘基础操作演示脚本.js
 - 鼠标基础操作演示脚本.js
