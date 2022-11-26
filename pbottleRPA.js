@@ -185,10 +185,7 @@ let keyToggle = (key,upDown)=>{
     if (upDown == 'up') {
         upDown_n = 2;
     }
-
     let key_n = keycode(key)
-
-
     let url = `${CppUrl}?action=keyToggle&key_n=${key_n}&upDown_n=${upDown_n}`
     // console.log(url)
     let res = request('GET', url);
@@ -199,12 +196,32 @@ exports.keyToggle = keyToggle
 
 /**
  * 按一下键盘
+ * 支持组合按键 加号连接 如：  keyTap('ctrl + a')
  * @param {*} key  按键名称参考：https://www.pbottle.com/a-13862.html
  */
 let keyTap = (key)=>{
 
-    keyToggle(key,"down")
-    keyToggle(key,"up")
+    if (key.includes('+')) {
+        let subkeys = new Array();
+        subkeys = key.split('+')
+        subkeys = subkeys.map((value)=>{
+            return value.trim()
+        })
+        for (let index = 0; index < subkeys.length; index++) {
+            const element = subkeys[index];
+            keyToggle(element,"down")
+        }
+        
+        subkeys = subkeys.reverse()
+        for (let index = 0; index < subkeys.length; index++) {
+            const element = subkeys[index];
+            keyToggle(element,"up")
+        }
+        
+    }else{
+        keyToggle(key,"down")
+        keyToggle(key,"up")
+    }
 
     sleep(100);
 }

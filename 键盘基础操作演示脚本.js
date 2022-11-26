@@ -51,10 +51,8 @@ pbottleRPA.sleep(1000*2)
 
 
 pbottleRPA.tts('收藏我们吧，十分感谢')
-pbottleRPA.keyToggle('control',"down")
-pbottleRPA.keyToggle('d',"down")
-pbottleRPA.keyToggle('d',"up")
-pbottleRPA.keyToggle('control',"up")
+pbottleRPA.keyTap('ctrl + d')
+
 pbottleRPA.sleep(1000*1)
 pbottleRPA.keyTap('enter')
 pbottleRPA.sleep(1000*2)
