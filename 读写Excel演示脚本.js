@@ -62,4 +62,5 @@ pbottleRPA.sleep(1000*5)
 
 
 pbottleRPA.tts('演示结束')
+console.log('演示结束');
 
