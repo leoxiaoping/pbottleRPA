@@ -195,8 +195,7 @@ exports.keyToggle = keyToggle
 
 
 /**
- * 按一下键盘
- * 支持组合按键 加号连接 如：  keyTap('ctrl + a')
+ * 按一下键盘   支持组合按键 加号连接 如：  keyTap('ctrl + a')
  * @param {*} key  按键名称参考：https://www.pbottle.com/a-13862.html
  */
 let keyTap = (key)=>{
