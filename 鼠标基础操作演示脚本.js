@@ -37,7 +37,7 @@ pbottleRPA.tts('准备打开网页并滚动鼠标，5秒后开始')
 pbottleRPA.sleep(1000*10)
 
 //用浏览器打开网址
-pbottleRPA.openURL('https://rpa.pbottle.com')
+pbottleRPA.openURL('https://rpa.pbottle.com?from=demo')
 pbottleRPA.sleep(1000*2)
 pbottleRPA.keyTap('f11')
 pbottleRPA.sleep(1000*1)
