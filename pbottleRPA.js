@@ -55,6 +55,7 @@ let moveMouseSmooth = (x,y)=>{
     return res;
 }
 exports.moveMouseSmooth = moveMouseSmooth
+exports.moveMouse = moveMouseSmooth  //增加别名
 
 /**
  * 单击鼠标  默认左键  可选 'right'
