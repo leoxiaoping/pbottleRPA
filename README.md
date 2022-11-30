@@ -43,13 +43,13 @@
 
 # 安装教程
 
-#### 步骤：
+#### 步骤
 
 1.  下载exe运行基座  pbottleRPA.zip  [基座exe程序绿色版](https://gitee.com/pbottle/pbottle-rpa/releases)
 2.  安装 NodeJS 脚本引擎 .msi,并安装 [下载网站](http://nodejs.cn/download/)   安装后请重启基座
 3.  下载[测试脚本](https://gitee.com/pbottle/pbottle-rpa/repository/archive/master.zip)，运行基座选择demo脚本即可开始运行
 
-#### 常见问题：
+#### 常见问题
 
  ①：如果系统提示 缺少vcruntime140XX.dll   微软官网下载安装即可：[https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140)  （新版本已兼容）
 
@@ -57,7 +57,7 @@
 
  ③： 服务端口（49888）监听不成功问题  排查请看：[https://rpa.pbottle.com/a-13924.html](https://rpa.pbottle.com/a-13924.html)
 
- ④： 软件不在支持32位旧版操作系统
+ ④： 软件不再支持32位老旧版操作系统
 
 
 #### 电脑要求
