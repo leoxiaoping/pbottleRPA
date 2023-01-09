@@ -107,9 +107,9 @@
 
 # 开发流程脚本
 
-#### RPA脚本编辑文档
+#### RPA脚本开发文档
 [文档入口](https://gitee.com/pbottle/pbottle-rpa/wikis/pages)
-同时参考测试demo脚本
+
 
 #### 其它参考
 
