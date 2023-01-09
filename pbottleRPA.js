@@ -8,15 +8,20 @@ const keycode = require('keycode');
 const path = require("path");
 
 
+/**
+ * 当前脚本的路径
+ */
 const jsPath = path.resolve('./')+'/';
 const CppUrl = `http://127.0.0.1:49888/`
 
 console.log("基座服务地址：",CppUrl);
+
+
 exports.jsPath = jsPath;
 
 
 /**
- * "系统警告声音"
+ * 发出系统警告声音
  * @returns 
  */
  let beep = ()=>{
@@ -29,7 +34,8 @@ exports.beep = beep
 
 
 /**
- * 暂停一会 全局暂停 异步回调也会停止（比如网络）
+ * 脚本暂停等待
+ * @param {*} milliseconds  毫秒
  * @returns 
  */
  let sleep = (milliseconds)=>{
@@ -41,7 +47,7 @@ exports.beep = beep
 exports.sleep = sleep
 
 /**
- * 移动鼠标到
+ * 移动鼠标到指定位置  起点为屏幕左上角
  * @param {*} x   横坐标
  * @param {*} y   纵坐标
  * @returns 
@@ -58,7 +64,8 @@ exports.moveMouseSmooth = moveMouseSmooth
 exports.moveMouse = moveMouseSmooth  //增加别名
 
 /**
- * 单击鼠标  默认左键  可选 'right'
+ * 当前位置点击鼠标 默认左键  可选 'right'
+ * @param {*} leftRight 
  * @returns 
  */
 let mouseClick = (leftRight = 'left')=>{
@@ -124,7 +131,6 @@ let mouseLeftDragTo = (x,y)=>{
 exports.mouseLeftDragTo = mouseLeftDragTo
 
 
-
 /**
  * 鼠标右键拖到指定位置
  * @param {*} x 
@@ -145,7 +151,7 @@ exports.mouseRightDragTo = mouseRightDragTo
  * 屏幕一个点取色
  * @param {*} x 
  * @param {*} y 
- * @returns 
+ * @returns 返回颜色值 
  */
 let getScreenColor = (x,y)=>{
     let url = `${CppUrl}?action=getScreenColor&x=${x}&y=${y}`
@@ -175,9 +181,11 @@ let screenShot = (savePath='',x=0,y=0,w=0,h=0)=>{
 }
 exports.screenShot = screenShot
 
+
 /**
- * 模拟按键事件  
- * @param {}  key 为按键名字   按键名称参考：https://www.pbottle.com/a-13862.html
+ * 模拟按键触发事件
+ * @param {*} key  按键名称参考：https://www.pbottle.com/a-13862.html
+ * @param {*} upDown  默认按下down，up松开按键
  * @returns 
  */
 let keyToggle = (key,upDown)=>{
@@ -229,10 +237,10 @@ exports.keyTap = keyTap
 
 
 /**
- * 屏幕查找定位
+ * 屏幕查找图象定位
  * @param {*} tpPath 要选择对象的图片  相对路径
  * @param {*} miniSimilarity 可选，指定最低相似度，默认0.9。取值0-1，1为找到完全相同的。
- * @returns 
+ * @returns 返回找到的结果
  */
 var findScreen = (tpPath,miniSimilarity=0.9) =>{
 
@@ -316,9 +324,9 @@ exports.wxMessage = wxMessage
 
 
 /**
- * webhook 企业微信群机器人通知
- * @param {*} url 
- * @param {*} msgJson 
+ * 向指定网址post一个json，常用网络接口方式， 如 webhook 企业微信群机器人通知
+ * @param {*} url 目标网址
+ * @param {*} msgJson  jsson内容字符串
  */
 var postJson= (url,msgJson)=>{
     
@@ -333,7 +341,7 @@ exports.postJson = postJson
 /**
  * 从文本到语音(TextToSpeech)  语音播报
  * 非阻塞
- * @param {*} text 
+ * @param {*} text 朗读内容
  */
 var tts= (text)=>{
     text = encodeURIComponent(text)
@@ -360,7 +368,7 @@ exports.openURL = openURL
 
 /**
  * 用资源管理器打开展示文件夹
- * @param {*} path 
+ * @param {*} path 文件夹路径
  */
 var openDir= (path)=>{
     path = encodeURIComponent(path)
@@ -388,9 +396,9 @@ exports.getResolution = getResolution
 
 
 /**
- * 文字识别 AI模型预测
+ * 文字识别 OCR已经从经典算法升级为AI模型预测
  * 
- * @param {*} imagePath 空或者screen 为电脑屏幕     ;  路径位绝对路径
+ * @param {*} imagePath 空或者screen 为电脑屏幕;  路径位绝对路径
  * 
  * @param {*} x 剪裁起始点  左上角开始
  * @param {*} y 剪裁起始点
