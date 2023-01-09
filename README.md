@@ -12,20 +12,20 @@
 
 ① 基于AI图像识别技术，纯图像驱动，真正安全无侵入。
 
-② 自主底层研发、可深度行业底层卡定制，可解决深入难度的自动化问题。
+② 自主底层研发、可深度行业底层定制，可解决有难度的自动化问题。
 
-③ 支持 NodeJS，Python等社区资源， 数以万计第三方功能包，最大化生态
+③ 支持 NodeJS，Python等社区资源， 数以万计第三方功能包，最大化生态。
 
-④ 绿色、轻巧、便捷，免安装，可脱网运行，软件包大小约50M
+④ 绿色、轻巧、便捷，免安装，可脱网运行，软件包大小约50M。
 
-⑤ 无登录和注册，永久免费软件，商业License授权零费用，真正的降本增效
+⑤ 无登录和注册，永久免费软件，商业License授权零费用，真正的降本增效。
 
 #### 拖拽组件  vs  脚本代码
 
 大多数的RPA采用可拖拽图形组件来描述流程，小瓶RPA目前只采用编程脚本描述流程。
 原因是：在复杂一点的场景下进行流程描述，脚本编程比可视化编程在这种情况下有更高综合效率。
 
- _2023v3版本 增加鼠标操作录制自动生成脚本功能_ 
+ V2023.3版本 新增加鼠标操作录制自动生成脚本功能_ 
 
 
 #### 软件架构
@@ -107,22 +107,24 @@
 
 # 开发流程脚本
 
-nodejs脚本编辑文档
-[文档](https://gitee.com/pbottle/pbottle-rpa/blob/master/pbottleRPA.js)
-同时参考测试demo脚本
+#### RPA脚本开发文档
+[文档入口](https://gitee.com/pbottle/pbottle-rpa/wikis/pages)
 
-其它参考：
+
+#### 其它参考
 
 1. 键盘表  [https://rpa.pbottle.com/a-13862.html](https://rpa.pbottle.com/a-13862.html)
 2. 挂机定时任务  [https://rpa.pbottle.com/a-13868.html](https://rpa.pbottle.com/a-13868.html)
 3. 免费手机通知 [https://rpa.pbottle.com/a-12586.html](https://rpa.pbottle.com/a-12586.html)
 
-技术交流微信群，喜欢群聊的可以微信扫码加入（永不过期）：
+#### 技术交流微信群
+
+喜欢群聊的可以微信扫码加入（永不过期）：
 
 ![输入图片说明](https://www.pbottle.com/static/upload/20221213/16709408628938.jpg)
 
 
- **官方定制开发服务：** 
+#### 官方定制开发服务
 
 联系我们定制化开发更多更复杂的RPA流程脚本（付费） [联系我们](https://www.pbottle.com/page-contact.html) 
 
