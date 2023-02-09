@@ -111,6 +111,14 @@
 [文档入口](https://gitee.com/pbottle/pbottle-rpa/wikis/pages)
 
 
+#### Web应用浏览器增强
+
+web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快捷
+支持使用Dom选择器选择元素并返回结果
+ _注意：此功能需要安装小瓶RPA浏览器插件，版本需求：V2023.5以后支持_ 
+
+
+
 #### 其它参考
 
 1. 键盘表  [https://rpa.pbottle.com/a-13862.html](https://rpa.pbottle.com/a-13862.html)
