@@ -268,8 +268,8 @@ var findScreen = (tpPath,miniSimilarity=0.9) =>{
 exports.findScreen = findScreen
 
 /**
- * 当前位置 粘贴（输入）文字
- * @param {*} text 
+ * 当前位置 粘贴（输入）文字  
+ * @param {*} text  复制到电脑剪切板的文本
  */
 var paste = (txt)=>{
     txt =  encodeURIComponent(txt)
@@ -298,6 +298,19 @@ var paste = (txt)=>{
 //     keyToggle('control',"up")
 // }
 exports.paste = paste
+
+/**
+ * 获取当前电脑的剪切板内容   版本 V2023.5 开始生效
+ * @returns 文本
+ */
+var getClipboard= ()=>{
+    
+    let url = `${CppUrl}?action=getClipboard`
+    // console.log(url)
+    let res = request('GET', url);
+    return res.getBody('utf8');
+}
+exports.getClipboard = getClipboard
 
 
 
@@ -419,3 +432,187 @@ var aiOcr= (imagePath="screen",  x=0, y=0, width=0, height=0)=>{
     return JSON.parse(res.getBody('utf8'));
 }
 exports.aiOcr = aiOcr
+
+
+
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 警告框
+ * @param {*} msg 显示文本内容
+ * @returns 
+ */
+var browserbrowserCMD_alert = function(msg){
+
+    let action = 'alert';
+
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    return res.getBody('utf8');
+
+}
+exports.browserbrowserCMD_alert = browserbrowserCMD_alert;
+
+
+
+
+
+
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 模拟点击   参考 jQuery click() 方法 注意要点击A标签内的元素而不是A标签本身
+ * @param {*} selector   元素选择器
+ * @returns 
+ */
+ var browserbrowserCMD_click = function(selector){
+
+    let action = 'click';
+
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    return res.getBody('utf8');
+}
+exports.browserbrowserCMD_click = browserbrowserCMD_click;
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 显示   参考 jQuery show() 方法 
+ * @param {*} selector   元素选择器
+ * @returns 
+ */
+var browserbrowserCMD_show = function(selector){
+
+    let action = 'show';
+
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    return res.getBody('utf8');
+}
+exports.browserbrowserCMD_show = browserbrowserCMD_show;
+
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 隐藏   参考 jQuery hide() 方法 
+ * @param {*} selector   元素选择器
+ * @returns 
+ */
+var browserbrowserCMD_hide = function(selector){
+
+    let action = 'hide';
+
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    return res.getBody('utf8');
+}
+exports.browserbrowserCMD_hide = browserbrowserCMD_hide;
+
+
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 移除元素   参考 jQuery remove() 方法 
+ * @param {*} selector   元素选择器
+ * @returns 
+ */
+ var browserbrowserCMD_remove = function(selector){
+
+    let action = 'remove';
+
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    return res.getBody('utf8');
+}
+exports.browserbrowserCMD_remove = browserbrowserCMD_remove;
+
+
+
+
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 获取或者设置文本   参考 jQuery text() 方法
+ * @param {*} selector  元素选择器
+ * @param {*} content
+ * @returns 
+ */
+var browserbrowserCMD_text = function(selector,content=undefined){
+
+    let action = 'text';
+
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    return res.getBody('utf8');
+
+}
+exports.browserbrowserCMD_text = browserbrowserCMD_text;
+
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 获取或者设置html   参考 jQuery html() 方法
+ * @param {*} selector  元素选择器
+ * @param {*} content
+ * @returns 
+ */
+var browserbrowserCMD_html = function(selector,content=undefined){
+
+    let action = 'html';
+
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    return res.getBody('utf8');
+
+}
+exports.browserbrowserCMD_html = browserbrowserCMD_html;
+
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 获取或设置值 input select等   参考 jQuery val() 方法
+ * @param {*} selector  元素选择器
+ * @param {*} content
+ * @returns 
+ */
+ var browserbrowserCMD_val = function(selector,content=undefined){
+
+    let action = 'val';
+
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    return res.getBody('utf8');
+
+}
+exports.browserbrowserCMD_val = browserbrowserCMD_val;
+
+
+
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 获取或设置css样式   参考 jQuery css() 方法
+ * @param {*} selector  元素选择器
+ * @param {*} propertyname
+ * @param {*} value
+ * @returns 
+ */
+ var browserbrowserCMD_css = function(selector,propertyname,value=undefined){
+
+    let action = 'css';
+
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    return res.getBody('utf8');
+
+}
+exports.browserbrowserCMD_css = browserbrowserCMD_css;
