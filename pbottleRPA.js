@@ -442,7 +442,7 @@ exports.aiOcr = aiOcr
  * @param {*} msg 显示文本内容
  * @returns 
  */
-var browserbrowserCMD_alert = function(msg){
+var browserCMD_alert = function(msg){
 
     let action = 'alert';
 
@@ -452,7 +452,7 @@ var browserbrowserCMD_alert = function(msg){
     return res.getBody('utf8');
 
 }
-exports.browserbrowserCMD_alert = browserbrowserCMD_alert;
+exports.browserCMD_alert = browserCMD_alert;
 
 
 
@@ -466,7 +466,7 @@ exports.browserbrowserCMD_alert = browserbrowserCMD_alert;
  * @param {*} selector   元素选择器
  * @returns 
  */
- var browserbrowserCMD_click = function(selector){
+ var browserCMD_click = function(selector){
 
     let action = 'click';
 
@@ -475,7 +475,7 @@ exports.browserbrowserCMD_alert = browserbrowserCMD_alert;
     let res = request('GET', url);
     return res.getBody('utf8');
 }
-exports.browserbrowserCMD_click = browserbrowserCMD_click;
+exports.browserCMD_click = browserCMD_click;
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -483,7 +483,7 @@ exports.browserbrowserCMD_click = browserbrowserCMD_click;
  * @param {*} selector   元素选择器
  * @returns 
  */
-var browserbrowserCMD_show = function(selector){
+var browserCMD_show = function(selector){
 
     let action = 'show';
 
@@ -492,7 +492,7 @@ var browserbrowserCMD_show = function(selector){
     let res = request('GET', url);
     return res.getBody('utf8');
 }
-exports.browserbrowserCMD_show = browserbrowserCMD_show;
+exports.browserCMD_show = browserCMD_show;
 
 
 /**
@@ -501,7 +501,7 @@ exports.browserbrowserCMD_show = browserbrowserCMD_show;
  * @param {*} selector   元素选择器
  * @returns 
  */
-var browserbrowserCMD_hide = function(selector){
+var browserCMD_hide = function(selector){
 
     let action = 'hide';
 
@@ -510,7 +510,7 @@ var browserbrowserCMD_hide = function(selector){
     let res = request('GET', url);
     return res.getBody('utf8');
 }
-exports.browserbrowserCMD_hide = browserbrowserCMD_hide;
+exports.browserCMD_hide = browserCMD_hide;
 
 
 
@@ -520,7 +520,7 @@ exports.browserbrowserCMD_hide = browserbrowserCMD_hide;
  * @param {*} selector   元素选择器
  * @returns 
  */
- var browserbrowserCMD_remove = function(selector){
+ var browserCMD_remove = function(selector){
 
     let action = 'remove';
 
@@ -529,7 +529,7 @@ exports.browserbrowserCMD_hide = browserbrowserCMD_hide;
     let res = request('GET', url);
     return res.getBody('utf8');
 }
-exports.browserbrowserCMD_remove = browserbrowserCMD_remove;
+exports.browserCMD_remove = browserCMD_remove;
 
 
 
@@ -542,7 +542,7 @@ exports.browserbrowserCMD_remove = browserbrowserCMD_remove;
  * @param {*} content
  * @returns 
  */
-var browserbrowserCMD_text = function(selector,content=undefined){
+var browserCMD_text = function(selector,content=undefined){
 
     let action = 'text';
 
@@ -552,7 +552,7 @@ var browserbrowserCMD_text = function(selector,content=undefined){
     return res.getBody('utf8');
 
 }
-exports.browserbrowserCMD_text = browserbrowserCMD_text;
+exports.browserCMD_text = browserCMD_text;
 
 
 /**
@@ -562,7 +562,7 @@ exports.browserbrowserCMD_text = browserbrowserCMD_text;
  * @param {*} content
  * @returns 
  */
-var browserbrowserCMD_html = function(selector,content=undefined){
+var browserCMD_html = function(selector,content=undefined){
 
     let action = 'html';
 
@@ -572,7 +572,7 @@ var browserbrowserCMD_html = function(selector,content=undefined){
     return res.getBody('utf8');
 
 }
-exports.browserbrowserCMD_html = browserbrowserCMD_html;
+exports.browserCMD_html = browserCMD_html;
 
 
 /**
@@ -582,7 +582,7 @@ exports.browserbrowserCMD_html = browserbrowserCMD_html;
  * @param {*} content
  * @returns 
  */
- var browserbrowserCMD_val = function(selector,content=undefined){
+ var browserCMD_val = function(selector,content=undefined){
 
     let action = 'val';
 
@@ -592,7 +592,7 @@ exports.browserbrowserCMD_html = browserbrowserCMD_html;
     return res.getBody('utf8');
 
 }
-exports.browserbrowserCMD_val = browserbrowserCMD_val;
+exports.browserCMD_val = browserCMD_val;
 
 
 
@@ -605,7 +605,7 @@ exports.browserbrowserCMD_val = browserbrowserCMD_val;
  * @param {*} value
  * @returns 
  */
- var browserbrowserCMD_css = function(selector,propertyname,value=undefined){
+ var browserCMD_css = function(selector,propertyname,value=undefined){
 
     let action = 'css';
 
@@ -615,4 +615,4 @@ exports.browserbrowserCMD_val = browserbrowserCMD_val;
     return res.getBody('utf8');
 
 }
-exports.browserbrowserCMD_css = browserbrowserCMD_css;
+exports.browserCMD_css = browserCMD_css;
