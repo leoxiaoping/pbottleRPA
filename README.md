@@ -46,7 +46,7 @@
 
 2.必须保留版权信息，请自觉遵守;
 
-3.未经授权禁止将本项目的代码、程序和资源进行任何形式的出售，产生的一切任何后果责任由侵权者自负;
+3.未经授权禁止将本软件、代码和其他资源以任何形式出售（包含收费项目捆绑的免费部分）;
 
 
 # 安装教程
@@ -59,13 +59,13 @@
 
 #### 常见问题
 
- ①：如果系统提示 缺少vcruntime140XX.dll   微软官网下载安装即可：[https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140)  （新版本已兼容）
+ ① 如果系统提示 缺少vcruntime140XX.dll   微软官网下载安装即可：[https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140)  （新版本已兼容）
 
- ②： **exe启动目录的路径不能含中文** ，直接复制到其他目录，或者文件夹copy到磁盘根目录即可  （新版本已兼容）
+ ② **exe启动目录的路径不能含中文** ，直接复制到其他目录，或者文件夹copy到磁盘根目录即可  （新版本已兼容）
 
- ③： 服务端口（49888）监听不成功问题  排查请看：[https://rpa.pbottle.com/a-13924.html](https://rpa.pbottle.com/a-13924.html)
+ ③ 服务端口（49888）监听不成功问题  排查请看：[https://rpa.pbottle.com/a-13924.html](https://rpa.pbottle.com/a-13924.html)
 
- ④： 软件不再支持32位老旧版操作系统
+ ④ 软件不再支持32位老旧版操作系统
 
 
 #### 电脑要求
