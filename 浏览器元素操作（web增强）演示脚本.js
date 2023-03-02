@@ -9,6 +9,10 @@ console.log("=== 需要安装 小瓶RPA 浏览器插件 ===");
 console.log("=== ※※※※※※※※※ ===");
 
 pbottleRPA.tts('浏览器元素操作演示，请打开百度首页网页')
+pbottleRPA.tts('必须安装小瓶RPA浏览器增强插件')
+pbottleRPA.openURL('https://www.baidu.com/')
+
+
 let ret = "" //接受返回值
 
 
@@ -59,7 +63,7 @@ pbottleRPA.sleep(1000*3)
 
 
 pbottleRPA.tts('开始去广告')
-for (let index = 0; index < 15; index++) {
+for (let index = 0; index < 1; index++) {
     
     pbottleRPA.sleep(1500)
     ret = pbottleRPA.browserCMD_remove('#content_left div:first')
