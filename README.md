@@ -70,11 +70,9 @@
 
 #### 电脑要求
 
-新！V2023版本进一步提高了AI算法对电脑的兼容性，请下载最新版本。
+新！V2023版本进一步提高了AI算法库对电脑的兼容性，请下载最新版本。
 
-满足基本要求win7以上64位系统，99%普通电脑都能正常运行，只有1%例外，例外原因：
-由于新版本集成ai模块需要依赖cpu、显卡的支持的硬件级算法。默认集成openblas算法，最大兼容性，但仍不保证任何电脑运行基座exe成功。
-如果exe启动不成功请下载非ai版本：[https://gitee.com/pbottle/pbottle-rpa/releases/v202112](https://gitee.com/pbottle/pbottle-rpa/releases/v202112)
+win7系统注意事项：https://rpa.pbottle.com/a-13941.html
 
 
 #### 手机应用RPA
