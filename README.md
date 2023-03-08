@@ -95,7 +95,6 @@ web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快�
 插件安装下载地址：[https://rpa.pbottle.com/a-13942.html](https://rpa.pbottle.com/a-13942.html)
 
 
-
 #### Demo示例
 
 自带Demo示例：（中文标题为demo示例脚本 后续会添加更多）
@@ -108,6 +107,7 @@ web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快�
 - 屏幕文字提取OCR测试脚本.js
 - 剪切板演示脚本.js
 - 截屏操作演示脚本.js
+- 浏览器元素操作（web增强）演示脚本.js
 
 #### 全局热键
 
