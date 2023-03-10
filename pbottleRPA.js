@@ -595,6 +595,27 @@ exports.browserCMD_html = browserCMD_html;
 exports.browserCMD_val = browserCMD_val;
 
 
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 获取或设置当前站点的 cookie
+ * @param {*} cName  cookie 名称 
+ * @param {*} cValue cookie 值  留空为获取cookie的值
+ * @param {*} expDays cookie 过期时间，单位：天, 留空为会话cookie
+ * @returns  返回 cookie的值
+ */
+ var browserCMD_cookie = function(cName,cValue=undefined,expDays=undefined){
+
+    let action = 'cookie';
+
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    return res.getBody('utf8');
+
+}
+exports.browserCMD_cookie = browserCMD_cookie;
+
+
 
 
 /**

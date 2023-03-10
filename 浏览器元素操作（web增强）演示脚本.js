@@ -28,6 +28,13 @@ if (ret !== 'ok') {
 pbottleRPA.sleep(1000*1)
 
 
+
+
+ret = pbottleRPA.browserCMD_cookie('BAIDUID')
+console.log('返回操作结果',ret);
+ret = pbottleRPA.browserCMD_cookie('pbottleID',"good",3)
+console.log('返回操作结果',ret);
+
 ret = pbottleRPA.browserCMD_css('body',"background-color",'gray')
 console.log('返回操作结果',ret);
 ret = pbottleRPA.browserCMD_css('body',"background-color")
