@@ -144,6 +144,10 @@ web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快�
 
 ![输入图片说明](https://www.pbottle.com/static/upload/20221213/16709408628938.jpg)
 
+RPA技术交流学习群
+
+![输入图片说明](https://www.pbottle.com/static/upload/20230323/16795481781498.jpg)
+
 
 #### 官方定制开发服务
 
