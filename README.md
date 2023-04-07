@@ -20,12 +20,13 @@
 
 ⑤ 无登录和注册，永久免费软件，商业License授权零费用，真正的降本增效。
 
-#### 拖拽组件  vs  脚本代码
+#### 图形拖拽  vs  脚本代码
 
-大多数的RPA采用可拖拽图形组件来描述流程，小瓶RPA目前只采用编程脚本描述流程。
-原因是：在复杂一点的场景下进行流程描述，脚本编程比可视化编程在这种情况下有更高综合效率。
+ 图形拖拽具有直观、门槛低的特点优势，但复杂流程表达能力、版本迭代、工程化管理等脚本代码具有明显优势。
+小瓶RPA现阶段采用脚本代码，原因是根据目前的自动化项目实践，有价值的自动化流程都有一定复杂度。
+当然我们后期也会考虑将常用功能封装成图形编程的拖拽组件，在脚本代码开发基础上进一步降低开发门槛，让更多人享受自动化乐趣。
 
- V2023.3版本 新增加鼠标操作录制自动生成脚本功能_ 
+ V2023.3版本 新增加鼠标操作录制自动生成脚本功能。
 
 
 #### 软件架构
@@ -46,7 +47,22 @@
 
 2.必须保留版权信息，请自觉遵守;
 
-3.未经授权禁止将本项目的代码、程序和资源进行任何形式的出售，产生的一切任何后果责任由侵权者自负;
+3.未经授权禁止将本软件、代码和其他资源以任何形式出售（包含收费项目捆绑的免费部分）;
+
+#### 新版本计划 V2023.6
+
+ _正在开发版本的功能简介，欢迎提出意见和反馈问题！~_ 
+
+1.修复 V2023.5 版本的已知bug
+
+2.针对游戏等应用的硬件键盘模拟事件做适配
+
+3.增加脚本运行状态管理，保证脚本运行完整性
+
+4.增加小瓶云RPA增值功能（ChatGPT,任务掉线通知）
+
+
+
 
 
 # 安装教程
@@ -59,22 +75,20 @@
 
 #### 常见问题
 
- ①：如果系统提示 缺少vcruntime140XX.dll   微软官网下载安装即可：[https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140)  （新版本已兼容）
+ ① 如果系统提示 缺少vcruntime140XX.dll   微软官网下载安装即可：[https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140)  （新版本已兼容）
 
- ②： **exe启动目录的路径不能含中文** ，直接复制到其他目录，或者文件夹copy到磁盘根目录即可  （新版本已兼容）
+ ② **exe启动目录的路径不能含中文** ，直接复制到其他目录，或者文件夹copy到磁盘根目录即可  （新版本已兼容）
 
- ③： 服务端口（49888）监听不成功问题  排查请看：[https://rpa.pbottle.com/a-13924.html](https://rpa.pbottle.com/a-13924.html)
+ ③ 服务端口（49888）监听不成功问题  排查请看：[https://rpa.pbottle.com/a-13924.html](https://rpa.pbottle.com/a-13924.html)
 
- ④： 软件不再支持32位老旧版操作系统
+ ④ 软件不再支持32位老旧版操作系统
 
 
 #### 电脑要求
 
-新！V2023版本进一步提高了AI算法对电脑的兼容性，请下载最新版本。
+新！V2023版本进一步提高了AI算法库对电脑的兼容性，请下载最新版本。
 
-满足基本要求win7以上64位系统，99%普通电脑都能正常运行，只有1%例外，例外原因：
-由于新版本集成ai模块需要依赖cpu、显卡的支持的硬件级算法。默认集成openblas算法，最大兼容性，但仍不保证任何电脑运行基座exe成功。
-如果exe启动不成功请下载非ai版本：[https://gitee.com/pbottle/pbottle-rpa/releases/v202112](https://gitee.com/pbottle/pbottle-rpa/releases/v202112)
+win7系统注意事项：https://rpa.pbottle.com/a-13941.html
 
 
 #### 手机应用RPA
@@ -97,7 +111,6 @@ web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快�
 插件安装下载地址：[https://rpa.pbottle.com/a-13942.html](https://rpa.pbottle.com/a-13942.html)
 
 
-
 #### Demo示例
 
 自带Demo示例：（中文标题为demo示例脚本 后续会添加更多）
@@ -110,6 +123,7 @@ web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快�
 - 屏幕文字提取OCR测试脚本.js
 - 剪切板演示脚本.js
 - 截屏操作演示脚本.js
+- 浏览器元素操作（web增强）演示脚本.js
 
 #### 全局热键
 
@@ -144,6 +158,10 @@ web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快�
 喜欢群聊的可以微信扫码加入（永不过期）：
 
 ![输入图片说明](https://www.pbottle.com/static/upload/20221213/16709408628938.jpg)
+
+RPA技术交流学习群
+
+![输入图片说明](https://www.pbottle.com/static/upload/20230323/16795481781498.jpg)
 
 
 #### 官方定制开发服务
