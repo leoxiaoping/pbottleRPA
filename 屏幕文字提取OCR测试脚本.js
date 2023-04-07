@@ -19,6 +19,6 @@ pbottleRPA.sleep(1000*5)
 
 console.log("准备结束脚本");
 pbottleRPA.tts("准备结束脚本");
+
 //脚本强制退出
-process.exit(1)
-console.log("已经退出了，无效");
+pbottleRPA.exit("结束")

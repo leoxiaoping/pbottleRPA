@@ -33,6 +33,21 @@ exports.jsPath = jsPath;
 exports.beep = beep
 
 
+
+/**
+ * 强制退出当前脚本
+ * @param {*} msg 退出时候输出的信息
+ */
+ let exit = (msg='')=>{
+    if (msg) {
+        console.log(msg)
+    }
+    beep()
+    process.exit(1)
+}
+exports.exit = exit
+
+
 /**
  * 脚本暂停等待
  * @param {*} milliseconds  毫秒
