@@ -395,7 +395,7 @@ exports.openURL = openURL
 
 
 /**
- * 用资源管理器打开展示文件夹
+ * 用资源管理器打开展示文件夹 或者 文件
  * @param {*} path 文件夹路径
  */
 var openDir= (path)=>{
@@ -405,6 +405,9 @@ var openDir= (path)=>{
     let res = request('GET', url);
 }
 exports.openDir = openDir
+
+//打开word excel 文档等
+exports.openFile = openDir
 
 
 
