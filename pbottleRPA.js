@@ -396,7 +396,7 @@ exports.openURL = openURL
 
 /**
  * 用资源管理器打开展示文件夹 或者 文件
- * @param {*} path 文件夹路径
+ * @param {*} path 文件夹路径  或者  文件路径
  */
 var openDir= (path)=>{
     path = encodeURIComponent(path)
