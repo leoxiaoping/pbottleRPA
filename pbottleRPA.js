@@ -93,14 +93,15 @@ exports.moveAndClick = moveAndClick
 
 /**
  * 当前位置点击鼠标 默认左键  可选 'right'
- * @param {*} leftRight 
+ * @param {*} leftRight    可选
+ * @param {*} 点按时间 单位毫秒  可选
  * @returns 
  */
-let mouseClick = (leftRight = 'left')=>{
+let mouseClick = (leftRight = 'left',time=30)=>{
 
-    let url = `${CppUrl}?action=mouseLeftClick`
+    let url = `${CppUrl}?action=mouseLeftClick&time=${time}`
     if (leftRight == 'right') {
-        url = `${CppUrl}?action=mouseRightClick`
+        url = `${CppUrl}?action=mouseRightClick&time=${time}`
     }
 
     // console.log(url)
