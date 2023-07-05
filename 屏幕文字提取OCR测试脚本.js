@@ -12,9 +12,11 @@ pbottleRPA.tts('正在识别您的电脑屏幕左上角区域文字')
 //延迟5秒
 pbottleRPA.sleep(1000*5)
 
-console.log('开始时间',Date.now()/1000);
+let start = Date.now()
 console.log('屏幕orc结果：',pbottleRPA.aiOcr('screen',10,10,500,500))
-console.log('完成时间',Date.now()/1000);
+let end = Date.now();
+console.log('OCR耗时：（毫秒）',end-start);
+
 
 pbottleRPA.tts("已经输出 JSON 格式到运行日志")
 

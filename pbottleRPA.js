@@ -78,6 +78,19 @@ let moveMouseSmooth = (x,y)=>{
 exports.moveMouseSmooth = moveMouseSmooth
 exports.moveMouse = moveMouseSmooth  //增加别名
 
+
+/**
+ * 移动鼠标到指定位置并点击
+ * @param {*} x 横坐标
+ * @param {*} y 纵坐标
+ */
+let moveAndClick = (x,y)=>{
+    this.moveMouse(x,y)
+    this.mouseClick()
+}
+exports.moveAndClick = moveAndClick
+
+
 /**
  * 当前位置点击鼠标 默认左键  可选 'right'
  * @param {*} leftRight 
@@ -183,11 +196,11 @@ exports.getScreenColor = getScreenColor
  * @param {*} savePath  保存路径默认 我的图片，图片格式为PNG；如果使用自定义路径请以 '.png' 结尾; 
  * @param {*} x  截图开始位置
  * @param {*} y 
- * @param {*} w  截图宽度
- * @param {*} h  截图长度
+ * @param {*} w  可选 截图宽度
+ * @param {*} h  可选 截图长度
  * @returns 
  */
-let screenShot = (savePath='',x=0,y=0,w=0,h=0)=>{
+let screenShot = (savePath='',x=0,y=0,w=-1,h=-1)=>{
     savePath = encodeURIComponent(savePath)
     let url = `${CppUrl}?action=screenShot&savePath=${savePath}&x=${x}&y=${y}&w=${w}&h=${h}`
     // console.log(url)
@@ -255,20 +268,24 @@ exports.keyTap = keyTap
  * 屏幕查找图象定位
  * @param {*} tpPath 要选择对象的图片  相对路径
  * @param {*} miniSimilarity 可选，指定最低相似度，默认0.9。取值0-1，1为找到完全相同的。
+ * @param {*} fromX=0 可选，查找开始的开始横坐标
+ * @param {*} fromY=0 可选，查找开始的开始纵坐标
+ * @param {*} width=-1 可选，搜索宽度
+ * @param {*} height=-1 可选，搜索高度
  * @returns 返回找到的结果
  */
-var findScreen = (tpPath,miniSimilarity=0.9) =>{
+var findScreen = (tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1) =>{
 
     tpPath = jsPath+tpPath;
     tpPath = encodeURIComponent(tpPath)
-    let url = `${CppUrl}?action=findScreen&imgPath=${tpPath}`
+    let url = `${CppUrl}?action=findScreen&imgPath=${tpPath}&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}`
     // console.log(url)
     let res = request('GET', url);
 
     // console.log(res.getBody('utf8'));
     jsonRes = JSON.parse(res.getBody('utf8'));
 
-    console.log(jsonRes);
+    // console.log(jsonRes);
 
     if (jsonRes.error) {
         return false;
@@ -395,8 +412,8 @@ exports.openURL = openURL
 
 
 /**
- * 用资源管理器打开展示文件夹 或者 文件
- * @param {*} path 文件夹路径  或者  文件路径
+ * 用资源管理器打开展示文件夹
+ * @param {*} path 文件夹路径
  */
 var openDir= (path)=>{
     path = encodeURIComponent(path)
@@ -405,9 +422,6 @@ var openDir= (path)=>{
     let res = request('GET', url);
 }
 exports.openDir = openDir
-
-//打开word excel 文档等
-exports.openFile = openDir
 
 
 
@@ -431,15 +445,15 @@ exports.getResolution = getResolution
  * 
  * @param {*} imagePath 空或者screen 为电脑屏幕;  路径位绝对路径
  * 
- * @param {*} x 剪裁起始点  左上角开始
- * @param {*} y 剪裁起始点
- * @param {*} width  剪裁 宽度
- * @param {*} height 剪裁 高度
+ * @param {*} x 可选 剪裁起始点  左上角开始
+ * @param {*} y 可选 剪裁起始点
+ * @param {*} width  可选 剪裁宽度
+ * @param {*} height 可选 剪裁高度
  * 
  * @returns   ai OCR识别的json结果 包含准确率的评分    格式： [{text:'A',score:'0.319415'},...]
 
  */
-var aiOcr= (imagePath="screen",  x=0, y=0, width=0, height=0)=>{
+var aiOcr= (imagePath="screen",  x=0, y=0, width=-1, height=-1)=>{
     
 
     imagePath = encodeURIComponent(imagePath);
