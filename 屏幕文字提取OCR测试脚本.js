@@ -26,4 +26,7 @@ console.log("准备结束脚本");
 pbottleRPA.tts("准备结束脚本");
 
 //脚本强制退出
+
 pbottleRPA.exit("结束")
+
+
