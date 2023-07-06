@@ -1,6 +1,9 @@
 /**
- *  小瓶RPA 脚本API  Node版本
+ *  小瓶RPA 脚本API  nodeJS版本
  *  官网：https://rpa.pbottle.com/
+ *  作者：leo@pbottle.com
+ *  
+ *  欢迎各路高手将本代码转换成 python、lua、等其他语言封装
  */
 
 const request = require('sync-request');  //默认同步请求
