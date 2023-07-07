@@ -1,7 +1,5 @@
 const pbottleRPA = require('./pbottleRPA')
 
-
-console.log("=== 测试 ===");
 console.log(Date());
 
 console.log("=== ※※※※※※※※※ ===");
@@ -14,8 +12,6 @@ pbottleRPA.openURL('https://www.baidu.com/')
 
 
 let ret = "" //接受返回值
-
-
 ret = pbottleRPA.browserCMD_alert('来自小瓶RPA的问候，手动点击确定开始，20秒超时')
 console.log('返回操作结果',ret);
 if (ret !== 'ok') {
