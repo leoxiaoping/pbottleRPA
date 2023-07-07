@@ -673,3 +673,43 @@ exports.browserCMD_cookie = browserCMD_cookie;
 
 }
 exports.browserCMD_css = browserCMD_css;
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 获取或设置attr样式   参考 jQuery attr() 方法
+ * @param {*} selector 元素选择器
+ * @param {*} 属性名
+ * @param {*} value
+ * @returns 
+ */
+var browserCMD_attr = function(selector,propertyname,value=undefined){
+
+    let action = 'attr';
+
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    return res.getBody('utf8');
+
+}
+exports.browserCMD_attr = browserCMD_attr;
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 获取或设置prop样式   参考 jQuery prop() 方法
+ * @param {*} selector 元素选择器
+ * @param {*} 属性名
+ * @param {*} value
+ * @returns 
+ */
+ var browserCMD_prop = function(selector,propertyname,value=undefined){
+
+    let action = 'prop';
+
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    return res.getBody('utf8');
+
+}
+exports.browserCMD_prop = browserCMD_prop;
