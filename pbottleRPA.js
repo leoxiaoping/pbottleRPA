@@ -315,26 +315,9 @@ var paste = (txt)=>{
     // console.log(url)
     request('GET', url);
     sleep(100)
-    // keyToggle('control',"down")
-    // keyTap('v')
-    // keyToggle('control',"up")
+    
 }
-// var paste = (text)=>{
-//     exec('echo off | clip')
-//     let cmd = `echo ${text}| clip`
-//     exec(cmd,{encoding:'utf8'}, (err, stdout, stderr) => {
-//         if (err) {
-//           console.error(err);
-//           return;
-//         }
-//         console.log(stdout);
-//     });
 
-//     keyToggle('control',"down")
-//     keyToggle('v',"down")
-//     keyToggle('v',"up")
-//     keyToggle('control',"up")
-// }
 exports.paste = paste
 
 /**
