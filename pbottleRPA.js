@@ -71,6 +71,8 @@ exports.sleep = sleep
  * @returns 
  */
 let moveMouseSmooth = (x,y)=>{
+    x=Math.round(x)
+    y=Math.round(y)
     let url = `${CppUrl}?action=moveMouse&x=${x}&y=${y}`
     // console.log(url)
     let res = request('GET', url);
