@@ -10,7 +10,6 @@ pbottleRPA.sleep(1000*5)
 
 
 pbottleRPA.tts('方式一：采用webhook 方式  企业微信、钉钉都支持')
-//延迟5秒
 pbottleRPA.sleep(1000*5)
 
 
@@ -26,7 +25,6 @@ pbottleRPA.postJson('https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=67bc3b
 
 
 pbottleRPA.tts('方式二：个人微信通知，需要关注小瓶科技公众号')
-//延迟5秒
 pbottleRPA.sleep(1000*5)
 
 //微信消息测试，几乎零延迟，100%到达率   详情： https://www.pbottle.com/a-12586.html

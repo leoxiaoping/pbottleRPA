@@ -200,7 +200,7 @@ let getScreenColor = (x,y)=>{
     let url = `${CppUrl}?action=getScreenColor&x=${x}&y=${y}`
     // console.log(url)
     let res = request('GET', url);
-    let jsonRes = JSON.parse(res.getBody())
+    let jsonRes = JSON.parse(res.getBody('utf8'))
     return jsonRes.rs;
 }
 exports.getScreenColor = getScreenColor
@@ -220,6 +220,7 @@ let screenShot = (savePath='',x=0,y=0,w=-1,h=-1)=>{
     let url = `${CppUrl}?action=screenShot&savePath=${savePath}&x=${x}&y=${y}&w=${w}&h=${h}`
     // console.log(url)
     let res = request('GET', url);
+    res = res.getBody('utf8')
     return res;
 }
 exports.screenShot = screenShot
@@ -308,8 +309,6 @@ var findScreen = (tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1) 
     if (jsonRes.value<miniSimilarity) {
         return false;
     }
-
-    
     return jsonRes;
 }
 exports.findScreen = findScreen
@@ -384,8 +383,6 @@ var wxMessage= (title,content,key)=>{
 
 }
 exports.wxMessage = wxMessage
-
-
 
 
 /**
@@ -659,8 +656,6 @@ exports.browserCMD_val = browserCMD_val;
 
 }
 exports.browserCMD_cookie = browserCMD_cookie;
-
-
 
 
 /**

@@ -1,3 +1,7 @@
+/**
+ * 小瓶RPA OCR示例
+ */
+
 const pbottleRPA = require('./pbottleRPA')
 
 
@@ -15,11 +19,10 @@ pbottleRPA.sleep(1000*5)
 let start = Date.now()
 console.log('屏幕orc结果：',pbottleRPA.aiOcr('screen',10,10,500,500))
 let end = Date.now();
-console.log('OCR耗时：（毫秒）',end-start);
+console.log('OCR耗时：（秒）',(end-start)/1000);
 
 
 pbottleRPA.tts("已经输出 JSON 格式到运行日志")
-
 pbottleRPA.sleep(1000*5);
 
 console.log("准备结束脚本");
@@ -27,5 +30,3 @@ pbottleRPA.tts("准备结束脚本");
 
 //脚本强制退出
 pbottleRPA.exit("结束")
-
-
