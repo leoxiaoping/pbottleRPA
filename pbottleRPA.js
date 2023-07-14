@@ -297,8 +297,6 @@ var findScreen = (tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1) 
     if (jsonRes.value<miniSimilarity) {
         return false;
     }
-
-    
     return jsonRes;
 }
 exports.findScreen = findScreen
@@ -348,8 +346,6 @@ var wxMessage= (title,content,key)=>{
 
 }
 exports.wxMessage = wxMessage
-
-
 
 
 /**
@@ -623,8 +619,6 @@ exports.browserCMD_val = browserCMD_val;
 
 }
 exports.browserCMD_cookie = browserCMD_cookie;
-
-
 
 
 /**
