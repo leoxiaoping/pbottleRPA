@@ -28,7 +28,8 @@ pbottleRPA.sleep(1000*3)
 pbottleRPA.screenShot();
 
 pbottleRPA.tts('正在截屏（区域）...')
-pbottleRPA.screenShot('',resolution.w/4,resolution.h/4,resolution.w/2,resolution.h/2);
+let rs = pbottleRPA.screenShot('',resolution.w/4,resolution.h/4,resolution.w/2,resolution.h/2);
+console.log('截屏结果：',rs);
 
 pbottleRPA.sleep(1000*3)
 

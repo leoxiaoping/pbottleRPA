@@ -6,22 +6,26 @@ pbottleRPA.tts('准备开始运行朋友圈批量点赞脚本，适配1920分辨
 pbottleRPA.sleep(1000*7)
 
 
+let resolution = pbottleRPA.getResolution()
+console.log('当前电脑屏幕分辨率',resolution)
+if (resolution.w !==1920) {
+    pbottleRPA.tts('错误：此demo只适配1920分辨率屏幕')
+    console.log('错误：此demo只适配1920分辨率屏幕');
+    pbottleRPA.sleep(1000*6)
+    process.exit(1)
+}
+
+
+let color = pbottleRPA.getScreenColor(1,resolution.h - 1);
+console.log('系统任务栏色：',color);
+
+
 
 //输入路径中不要有自定义中文  
 let rs =  pbottleRPA.findScreen('./input/pengYouQuanDianZan/0.png')
 if (rs === false) {
     pbottleRPA.tts('错误：没有检测到微信界面，请先打开电脑版微信')
     console.log('错误：没有检测到微信界面，请先打开电脑版微信');
-    pbottleRPA.sleep(1000*6)
-    process.exit(1)
-}
-
-
-let resolution = pbottleRPA.getResolution()
-console.log('当前电脑屏幕分辨率',resolution)
-if (resolution.w !==1920) {
-    pbottleRPA.tts('错误：此demo只适配1920分辨率屏幕')
-    console.log('错误：此demo只适配1920分辨率屏幕');
     pbottleRPA.sleep(1000*6)
     process.exit(1)
 }
