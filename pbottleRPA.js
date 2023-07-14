@@ -326,7 +326,6 @@ var paste = (txt)=>{
     // console.log(url)
     request('GET', url);
     sleep(100)
-    
 }
 
 exports.paste = paste
