@@ -85,6 +85,7 @@ exports.sleep = sleep
 let moveMouseSmooth = (x,y)=>{
     x=Math.round(x)
     y=Math.round(y)
+    
     let url = `${CppUrl}?action=moveMouse&x=${x}&y=${y}`
     // console.log(url)
     let res = request('GET', url);
@@ -317,6 +318,31 @@ var findScreen = (tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1) 
 }
 exports.findScreen = findScreen
 
+
+/**
+ * 屏幕查找物体或者窗口轮廓
+ * @param {*} minimumArea 轮廓最小面积  默认过滤掉 10x10 以下的元素
+ * @param {*} fromX 
+ * @param {*} fromY 
+ * @param {*} width 
+ * @param {*} height 
+ * @returns 所有查找到的轮廓信息  
+ */
+var findContours = (minimumArea=1000,fromX=0,fromY=0,width=-1,height=-1) =>{
+
+    let url = `${CppUrl}?action=findContours&minimumArea=${minimumArea}&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}`
+    // console.log(url)
+    let res = request('GET', url);
+
+    // console.log(res.getBody('utf8'));
+    jsonRes = JSON.parse(res.getBody('utf8'));
+
+    // console.log(jsonRes);
+
+    return jsonRes;
+}
+exports.findContours = findContours
+
 /**
  * 当前位置 粘贴（输入）文字  
  * @param {*} text  复制到电脑剪切板的文本
@@ -328,7 +354,22 @@ var paste = (txt)=>{
     request('GET', url);
     sleep(100)
 }
+// var paste = (text)=>{
+//     exec('echo off | clip')
+//     let cmd = `echo ${text}| clip`
+//     exec(cmd,{encoding:'utf8'}, (err, stdout, stderr) => {
+//         if (err) {
+//           console.error(err);
+//           return;
+//         }
+//         console.log(stdout);
+//     });
 
+//     keyToggle('control',"down")
+//     keyToggle('v',"down")
+//     keyToggle('v',"up")
+//     keyToggle('control',"up")
+// }
 exports.paste = paste
 
 /**
