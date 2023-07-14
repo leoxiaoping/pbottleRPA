@@ -2,6 +2,7 @@
  *  小瓶RPA 脚本API  nodeJS版本
  *  官网：https://rpa.pbottle.com/
  *  作者：leo@pbottle.com
+ *  需要基座版本：2024.1 以上
  *  
  *  欢迎各路高手将本代码转换成 python、lua、等其他语言封装
  */
@@ -33,6 +34,19 @@ exports.jsPath = jsPath;
 }
 exports.beep = beep
 
+
+/**
+ * 获得基座版本号
+ * @returns 返回格式：{}
+ */
+let getBaseVersion = ()=>{
+    let url = `${CppUrl}?action=getBaseVersion`
+    // console.log(url)
+    let res = request('GET', url);
+    let jsonRes = JSON.parse(res.getBody())
+    return jsonRes.rs;
+}
+exports.beep = getBaseVersion
 
 
 /**
