@@ -2,7 +2,6 @@
  *  小瓶RPA 脚本API  nodeJS版本
  *  官网：https://rpa.pbottle.com/
  *  作者：leo@pbottle.com
- *  需要基座版本：2024.1 以上
  *  
  *  欢迎各路高手将本代码转换成 python、lua、C# 等其他语言封装
  */
