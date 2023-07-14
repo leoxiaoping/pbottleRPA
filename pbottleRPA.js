@@ -34,19 +34,6 @@ exports.jsPath = jsPath;
 exports.beep = beep
 
 
-/**
- * 获得基座版本号
- * @returns 返回格式：{}
- */
-let getBaseVersion = ()=>{
-    let url = `${CppUrl}?action=getBaseVersion`
-    // console.log(url)
-    let res = request('GET', url);
-    let jsonRes = JSON.parse(res.getBody())
-    return jsonRes.rs;
-}
-exports.beep = getBaseVersion
-
 
 /**
  * 强制退出当前脚本
