@@ -18,8 +18,6 @@ const jsPath = path.resolve('./')+'/';
 const CppUrl = `http://127.0.0.1:49888/`
 
 console.log("基座服务地址：",CppUrl);
-
-
 exports.jsPath = jsPath;
 
 
@@ -272,7 +270,7 @@ exports.keyTap = keyTap
 
 /**
  * 屏幕查找图象定位
- * @param {*} tpPath 要选择对象的图片  相对路径
+ * @param {*} tpPath 搜索的小图片，建议png格式  相对路径
  * @param {*} miniSimilarity 可选，指定最低相似度，默认0.9。取值0-1，1为找到完全相同的。
  * @param {*} fromX=0 可选，查找开始的开始横坐标
  * @param {*} fromY=0 可选，查找开始的开始纵坐标
@@ -315,7 +313,6 @@ var paste = (txt)=>{
     // console.log(url)
     request('GET', url);
     sleep(100)
-    
 }
 
 exports.paste = paste
@@ -335,7 +332,6 @@ exports.getClipboard = getClipboard
 
 
 
-
 /**
  * 通知到手机
  * 通过小瓶云发送微信通知 (微信到达率高，并且免费)
@@ -347,7 +343,6 @@ exports.getClipboard = getClipboard
 var wxMessage= (title,content,key)=>{
     
     let url =  `https://yun.pbottle.com/manage/yun/?msg=${encodeURIComponent(content)}&name=${encodeURIComponent(title)}&key=${key}`;
-
     let res = request('GET', url);
     console.log('发送微信消息：',res.getBody('utf8') );
 
@@ -430,7 +425,7 @@ exports.getResolution = getResolution
 
 
 /**
- * 文字识别 OCR已经从经典算法升级为AI模型预测
+ * 文字识别 OCR已经从经典算法升级为AI模型预测，永久免费可脱网使用
  * 
  * @param {*} imagePath 空或者screen 为电脑屏幕;  路径位绝对路径
  * 
@@ -442,7 +437,7 @@ exports.getResolution = getResolution
  * @returns   ai OCR识别的json结果 包含准确率的评分    格式： [{text:'A',score:'0.319415'},...]
 
  */
-var aiOcr= (imagePath="screen",  x=0, y=0, width=-1, height=-1)=>{
+var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
     
 
     imagePath = encodeURIComponent(imagePath);
@@ -477,13 +472,9 @@ exports.browserCMD_alert = browserCMD_alert;
 
 
 
-
-
-
-
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
- * 模拟点击   参考 jQuery click() 方法 注意要点击A标签内的元素而不是A标签本身
+ * 模拟点击   参考 jQuery click() 方法，改为浏览器 native 的 click()
  * @param {*} selector   元素选择器
  * @returns 
  */
@@ -551,9 +542,6 @@ exports.browserCMD_hide = browserCMD_hide;
     return res.getBody('utf8');
 }
 exports.browserCMD_remove = browserCMD_remove;
-
-
-
 
 
 /**
