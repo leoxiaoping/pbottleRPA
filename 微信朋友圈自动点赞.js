@@ -22,13 +22,15 @@ console.log('系统任务栏色：',color);
 
 
 //输入路径中不要有自定义中文  
-let rs =  pbottleRPA.findScreen('./input/pengYouQuanDianZan/0.png')
-if (rs === false) {
-    pbottleRPA.tts('错误：没有检测到微信界面，请先打开电脑版微信')
-    console.log('错误：没有检测到微信界面，请先打开电脑版微信');
-    pbottleRPA.sleep(1000*6)
-    process.exit(1)
-}
+let rs =  pbottleRPA.waitImage('./input/pengYouQuanDianZan/0.png',()=>{
+    console.log('等待中，请先打开电脑版微信界面');
+},120)
+// if (rs === false) {
+//     pbottleRPA.tts('错误：没有检测到微信界面，请先打开电脑版微信')
+//     console.log('错误：没有检测到微信界面，请先打开电脑版微信');
+//     pbottleRPA.sleep(1000*6)
+//     process.exit(1)
+// }
 
 
 //打开微信朋友圈

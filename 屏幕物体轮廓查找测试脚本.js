@@ -21,6 +21,9 @@ console.log('查找耗时：（秒）',(end-start)/1000);
 pbottleRPA.tts("已经输出 JSON 格式到运行日志")
 pbottleRPA.sleep(1000*3);
 
+pbottleRPA.tts("已生成调试参考图片到RPA根目录")
+pbottleRPA.sleep(1000*3);
+
 console.log("准备结束脚本");
 pbottleRPA.tts("准备结束脚本");
 

@@ -717,3 +717,55 @@ exports.browserCMD_attr = browserCMD_attr;
 
 }
 exports.browserCMD_prop = browserCMD_prop;
+
+
+
+/**
+ * 常用工具
+ * 停止并等待图片出现
+ */
+function waitImage(tpPath, intervalFun = () => { }, timeOut = 30) {
+    console.log('waitImage',tpPath);
+    for (let index = 0; index < timeOut; index++) {
+        sleep(1000)
+        let position = findScreen(tpPath)
+        if (position !== false) {
+            return position;
+        }
+
+        if (intervalFun() == 'stopWait') {
+            console.log('stopWait from intervalFun');
+            return false
+        }
+    }
+    //error
+    let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
+    let lineNumber = frame.split(":").reverse()[1];
+    let functionName = frame.split(" ")[5];
+    exit(`等待图片超时 ${tpPath} line:${lineNumber} function:${functionName}`)
+}
+exports.waitImage =  waitImage;
+/**
+ * 常用工具
+ * 停止并等待图片消失
+ */
+function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30) {
+    console.log('waitImageDisappear',tpPath);
+    for (let index = 0; index < timeOut; index++) {
+        sleep(1000)
+        let position = findScreen(tpPath)
+        if (position === false) {
+            return 'ok';
+        }
+        if (intervalFun() == 'stopWait') {
+            console.log('stopWait from intervalFun');
+            return false
+        }
+    }
+    //error
+    let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
+    let lineNumber = frame.split(":").reverse()[1];
+    let functionName = frame.split(" ")[5];
+    exit(`等待图片消失超时 ${tpPath} line:${lineNumber} function:${functionName}`)
+}
+exports.waitImageDisappear =  waitImageDisappear;
