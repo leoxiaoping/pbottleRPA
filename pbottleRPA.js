@@ -33,18 +33,7 @@ exports.jsPath = jsPath;
 }
 exports.beep = beep
 
-/**
- * 获得基座版本号
- * @returns 返回格式：{}
- */
-let getBaseVersion = ()=>{
-    let url = `${CppUrl}?action=getBaseVersion`
-    // console.log(url)
-    let res = request('GET', url);
-    let jsonRes = JSON.parse(res.getBody())
-    return jsonRes.rs;
-}
-exports.beep = getBaseVersion
+
 
 /**
  * 强制退出当前脚本
@@ -722,7 +711,11 @@ exports.browserCMD_prop = browserCMD_prop;
 
 /**
  * 常用工具
- * 停止并等待图片出现
+ * 等待屏幕上的图片出现
+ * @param {*} tpPath 图片模板路径
+ * @param {*} intervalFun 间隔的收入，function格式
+ * @param {*} timeOut 等待超时时间
+ * @returns 
  */
 function waitImage(tpPath, intervalFun = () => { }, timeOut = 30) {
     console.log('waitImage',tpPath);
@@ -745,9 +738,14 @@ function waitImage(tpPath, intervalFun = () => { }, timeOut = 30) {
     exit(`等待图片超时 ${tpPath} line:${lineNumber} function:${functionName}`)
 }
 exports.waitImage =  waitImage;
+
 /**
  * 常用工具
- * 停止并等待图片消失
+ * 等待屏幕上的图片消失
+ * @param {*} tpPath 图片模板路径
+ * @param {*} intervalFun 间隔的收入，function格式
+ * @param {*} timeOut 等待超时时间
+ * @returns 
  */
 function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30) {
     console.log('waitImageDisappear',tpPath);
