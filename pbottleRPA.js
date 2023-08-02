@@ -22,15 +22,16 @@ exports.jsPath = jsPath;
 
 
 
-let defaultInterval = 1000;  //默认值（毫秒）
+let defaultDelay = 1000;  //默认值一秒
 /**
- * 设置RPA模拟操作的间隔时间  包含鼠标、键盘、粘贴、打开网页操作
+ * 设置RPA模拟操作的延时  包含鼠标、键盘、粘贴、打开网页操作
+ * 设置为 0  可以用 sleep() 手动管理操作延时
  * @param {*} millisecond   毫秒单位的数字
  */
-let setDefaultInterval = (millisecond)=>{
-    defaultInterval = millisecond
+let setDefaultDelay = (millisecond)=>{
+    defaultDelay = millisecond
 }
-exports.setDefaultInterval = setDefaultInterval
+exports.setDefaultDelay = setDefaultDelay
 
 
 
@@ -91,7 +92,7 @@ let moveMouseSmooth = (x,y)=>{
     // console.log(url)
     let res = request('GET', url);
 
-    sleep(defaultInterval);
+    sleep(defaultDelay);
     return res;
 }
 exports.moveMouseSmooth = moveMouseSmooth
@@ -126,7 +127,7 @@ let mouseClick = (leftRight = 'left',time=30)=>{
     // console.log(url)
     let res = request('GET', url);
 
-    sleep(defaultInterval);
+    sleep(defaultDelay);
     return res;
 }
 exports.mouseClick = mouseClick
@@ -143,7 +144,7 @@ exports.mouseClick = mouseClick
     // console.log(url)
     let res = request('GET', url);
 
-    sleep(defaultInterval);
+    sleep(defaultDelay);
     return res;
 }
 exports.mouseDoubleClick = mouseDoubleClick
@@ -158,7 +159,7 @@ let mouseWheel = (data = -720)=>{
     let url = `${CppUrl}?action=mouseWheel&data=${data}`
     // console.log(url)
     let res = request('GET', url);
-    sleep(defaultInterval);
+    sleep(defaultDelay);
     return res;
 }
 exports.mouseWheel = mouseWheel
@@ -174,7 +175,7 @@ let mouseLeftDragTo = (x,y)=>{
     let url = `${CppUrl}?action=mouseLeftDragTo&x=${x}&y=${y}`
     // console.log(url)
     let res = request('GET', url);
-    sleep(defaultInterval);
+    sleep(defaultDelay);
     return res;
 }
 exports.mouseLeftDragTo = mouseLeftDragTo
@@ -190,7 +191,7 @@ let mouseRightDragTo = (x,y)=>{
     let url = `${CppUrl}?action=mouseRightDragTo&x=${x}&y=${y}`
     // console.log(url)
     let res = request('GET', url);
-    sleep(defaultInterval);
+    sleep(defaultDelay);
     return res;
 }
 exports.mouseRightDragTo = mouseRightDragTo
@@ -282,7 +283,7 @@ let keyTap = (key)=>{
         keyToggle(key,"up")
     }
 
-    sleep(defaultInterval);
+    sleep(defaultDelay);
 }
 exports.keyTap = keyTap
 
@@ -354,7 +355,7 @@ var paste = (txt)=>{
     url = `${CppUrl}?action=paste&txt=${txt}`
     // console.log(url)
     request('GET', url);
-    sleep(defaultInterval);
+    sleep(defaultDelay);
 }
 
 exports.paste = paste
@@ -417,7 +418,7 @@ var tts= (text)=>{
     let url = `${CppUrl}?action=tts&txt=${text}`
     // console.log(url)
     let res = request('GET', url);
-    sleep(defaultInterval);
+    sleep(defaultDelay);
 }
 exports.tts = tts
 
@@ -431,7 +432,7 @@ var openURL= (myurl)=>{
     let url = `${CppUrl}?action=openURL&url=${myurl}`
     // console.log(url)
     let res = request('GET', url);
-    sleep(defaultInterval+1000);
+    sleep(defaultDelay+1000);
 }
 exports.openURL = openURL
 
@@ -446,7 +447,7 @@ var openDir= (path)=>{
     let url = `${CppUrl}?action=openDir&path=${path}`
     // console.log(url)
     let res = request('GET', url);
-    sleep(defaultInterval);
+    sleep(defaultDelay);
 }
 exports.openDir = openDir
 
