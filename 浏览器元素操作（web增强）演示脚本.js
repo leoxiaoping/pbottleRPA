@@ -78,8 +78,10 @@ pbottleRPA.browserCMD_click('div#content_left a:first')
 pbottleRPA.sleep(1500)
 
 
+pbottleRPA.tts('读取 logo 路径')
 ret = pbottleRPA.browserCMD_attr('img:first','src')
 console.log('网站logo图片地址',ret);
+pbottleRPA.sleep(1500)
 
 
 pbottleRPA.tts('演示完成准备退出')

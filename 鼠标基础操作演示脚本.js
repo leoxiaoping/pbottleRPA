@@ -3,7 +3,7 @@ const pbottleRPA = require('./pbottleRPA')
 
 console.log("=== 测试 ===");
 console.log(Date());
-
+pbottleRPA.setDefaultDelay(0); //手动管理操作延时
 
 
 
@@ -15,7 +15,7 @@ pbottleRPA.sleep(1000*12)
 
 let resolution = pbottleRPA.getResolution()
 console.log('当前电脑屏幕分辨率',resolution)
-
+pbottleRPA.keyTap('windows+d')
 
 
 pbottleRPA.tts(`当前电脑屏幕分辨率: ${resolution.w} 乘以 ${resolution.h}`)

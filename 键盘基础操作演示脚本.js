@@ -3,6 +3,7 @@ const pbottleRPA = require('./pbottleRPA')
 
 console.log("=== 测试 ===");
 console.log(Date());
+pbottleRPA.setDefaultDelay(0); //手动管理操作延时
 
 
 
