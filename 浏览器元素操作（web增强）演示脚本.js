@@ -23,14 +23,13 @@ if (ret !== 'ok') {
 //延迟1秒
 pbottleRPA.sleep(1000*1)
 
-
-
-
 ret = pbottleRPA.browserCMD_cookie('BAIDUID')
 console.log('返回操作结果',ret);
 ret = pbottleRPA.browserCMD_cookie('pbottleID',"good",3)
 console.log('返回操作结果',ret);
 
+
+pbottleRPA.tts('变换背景色')
 ret = pbottleRPA.browserCMD_css('body',"background-color",'gray')
 console.log('返回操作结果',ret);
 ret = pbottleRPA.browserCMD_css('body',"background-color")
@@ -78,15 +77,15 @@ pbottleRPA.browserCMD_click('div#content_left a:first')
 pbottleRPA.sleep(1500)
 
 
-pbottleRPA.tts('读取 logo 路径')
+pbottleRPA.tts('读取 logo 路径，显示到日志')
 ret = pbottleRPA.browserCMD_attr('img:first','src')
 console.log('网站logo图片地址',ret);
 pbottleRPA.sleep(1500)
 
 
 pbottleRPA.tts('演示完成准备退出')
-pbottleRPA.sleep(10)
 console.log("准备结束脚本");
+ret = pbottleRPA.browserCMD_alert('演示结束')
 //脚本强制退出
 process.exit(1)
 console.log("已经退出了，无效");
