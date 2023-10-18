@@ -50,6 +50,24 @@ exports.beep = beep
 
 
 /**
+ * 系统原生消息提示
+ * @param {*} title  标题
+ * @param {*} content  内容
+ * @returns 
+ */
+let showMsg = (title,content)=>{
+    title = encodeURIComponent(title)
+    content = encodeURIComponent(content)
+    let url = `${CppUrl}?action=showMsg&title=${title}&content=${content}`
+    // console.log(url)
+    let res = request('GET', url);
+    return res;
+}
+exports.showMsg = showMsg
+
+
+
+/**
  * 强制退出当前脚本
  * @param {*} msg 退出时候输出的信息
  */
@@ -361,8 +379,11 @@ var paste = (txt)=>{
 exports.paste = paste
 
 /**
- * 获取当前电脑的剪切板内容   版本 V2023.5 开始生效
- * @returns 文本
+ * 获取当前电脑的剪切板内容，系统剪切板支持多种格式   版本 V2024.2 开始生效
+ * ①纯文本格式：普通复制  如'小瓶RPA'
+ * ②图片格式：浏览器复制图片    'data:image/png;base64,i' 开头
+ * ③html格式：浏览器或者钉钉复制富文本综合内容弄个    '<html>'开头
+ * @returns 结果文本
  */
 var getClipboard= ()=>{
     

@@ -25,3 +25,4 @@ if (number < 0.5) {        //用 if 判断数值是否小于 0.5
 
 //语音播报
 pbottleRPA.tts('流程结束！~')
+pbottleRPA.showMsg('小瓶RPA提示','流程结束！~')
