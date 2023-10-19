@@ -1,7 +1,7 @@
 const pbottleRPA = require('./pbottleRPA')
 
 
-
+pbottleRPA.showMsg('流程已开始运行','请打开电脑声音，关注运行日志信息')
 pbottleRPA.tts('准备开始运行朋友圈批量点赞脚本，适配1920分辨率屏幕')
 pbottleRPA.sleep(1000*7)
 

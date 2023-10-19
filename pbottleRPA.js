@@ -318,6 +318,10 @@ exports.keyTap = keyTap
  */
 var findScreen = (tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1) =>{
 
+    if (fromX<0 || fromY<0) {
+        exit(`错误：找图起始点不能为负，x:${fromX} y:${fromY} `);
+    }
+
     tpPath = jsPath+tpPath;
     tpPath = encodeURIComponent(tpPath)
     let url = `${CppUrl}?action=findScreen&imgPath=${tpPath}&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}`
@@ -326,7 +330,6 @@ var findScreen = (tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1) 
 
     // console.log(res.getBody('utf8'));
     jsonRes = JSON.parse(res.getBody('utf8'));
-
     // console.log(jsonRes);
 
     if (jsonRes.error) {
@@ -351,6 +354,9 @@ exports.findScreen = findScreen
  */
 var findContours = (minimumArea=1000,fromX=0,fromY=0,width=-1,height=-1) =>{
 
+    if (fromX<0 || fromY<0) {
+        exit(`错误：轮廓查找起始点不能为负，x:${fromX} y:${fromY} `);
+    }
     let url = `${CppUrl}?action=findContours&minimumArea=${minimumArea}&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}`
     // console.log(url)
     let res = request('GET', url);
@@ -375,14 +381,13 @@ var paste = (txt)=>{
     request('GET', url);
     sleep(defaultDelay);
 }
-
 exports.paste = paste
 
 /**
  * 获取当前电脑的剪切板内容，系统剪切板支持多种格式   版本 V2024.2 开始生效
  * ①纯文本格式：普通复制  如'小瓶RPA'
- * ②图片格式：浏览器复制图片    'data:image/png;base64,i' 开头
- * ③html格式：浏览器或者钉钉复制富文本综合内容弄个    '<html>'开头
+ * ②图片格式 base64形式：浏览器复制图片    'data:image/png;base64,' 开头
+ * ③html格式：浏览器或者钉钉复制富文本综合内容    '<html>'开头
  * @returns 结果文本
  */
 var getClipboard= ()=>{
@@ -426,8 +431,6 @@ var postJson= (url,msgJson)=>{
 
 }
 exports.postJson = postJson
-
-
 
 /**
  * 从文本到语音(TextToSpeech)  语音播报
@@ -504,9 +507,11 @@ exports.getResolution = getResolution
  */
 var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
     
-
+    if (x<0 || y<0) {
+        exit(`错误：OCR 起始点不能为负，x:${x} y:${y} `);
+    }
+    
     imagePath = encodeURIComponent(imagePath);
-
     let url = `${CppUrl}?action=aiOcr&path=${imagePath}&x=${x}&y=${y}&width=${width}&height=${height}&onlyEn=0`
     // console.log(url)
     let res = request('GET', url);

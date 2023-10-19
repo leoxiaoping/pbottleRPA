@@ -29,4 +29,5 @@ console.log("准备结束脚本");
 pbottleRPA.tts("准备结束脚本");
 
 //脚本强制退出
+pbottleRPA.showMsg('演示结束','请查看运行日志')
 pbottleRPA.exit("结束")

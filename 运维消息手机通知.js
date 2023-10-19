@@ -20,6 +20,7 @@ let msgJson={
         "content": "小瓶Rpa测试脚本运行中..."
     }
 };
+//修改下方接收地址，可以用自己手机接收信息
 pbottleRPA.postJson('https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=67bc3b43-85d1-4e0b-b7a2-d8c22d415a80',msgJson);
 
 
