@@ -9,7 +9,8 @@ const pbottleRPA = require('./pbottleRPA')
 
 //for 循环 重复操作 10 次 打开网页
 for (let index = 0; index < 10; index++) {
-    console.log('第' + index + '次操作');
+    let number = index+1
+    console.log('第' + number + '次操作');
 
     pbottleRPA.openURL('https://www.baidu.com/') //操作：用默认浏览器打开网页
     pbottleRPA.sleep(500) //等待500毫秒
