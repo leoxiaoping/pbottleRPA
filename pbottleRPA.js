@@ -407,7 +407,6 @@ exports.getClipboard = getClipboard
  * @param {*} name 消息标题
  * @param {*} content  消息详细内容
  * @param {*} key  获取key详情方法：https://www.pbottle.com/a-12586.html
-
  */
 var wxMessage= (title,content,key)=>{
     
