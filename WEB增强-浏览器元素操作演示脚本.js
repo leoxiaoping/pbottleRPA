@@ -1,3 +1,9 @@
+/**
+ * 小瓶RPA演示demo，具体api请查看*流程开发文档*
+ * 官网：https://rpa.pbottle.com/
+ * 流程开发文档：https://gitee.com/pbottle/pbottle-rpa/wikis/pages
+ */
+
 const pbottleRPA = require('./pbottleRPA')
 
 console.log(Date());
@@ -6,8 +12,9 @@ console.log("=== ※※※※※※※※※ ===");
 console.log("=== 需要安装 小瓶RPA 浏览器插件 ===");
 console.log("=== ※※※※※※※※※ ===");
 
-pbottleRPA.tts('浏览器元素操作演示，请打开百度首页网页')
+
 pbottleRPA.tts('必须安装小瓶RPA浏览器增强插件，手动点击确定继续')
+pbottleRPA.showMsg('提示：','必须先安装浏览器增强插件')
 pbottleRPA.openURL('https://www.baidu.com/')
 
 

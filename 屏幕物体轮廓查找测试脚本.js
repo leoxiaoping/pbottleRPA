@@ -1,5 +1,7 @@
 /**
- * 小瓶RPA 屏幕物体轮廓示例
+ * 小瓶RPA演示demo，具体api请查看*流程开发文档*
+ * 官网：https://rpa.pbottle.com/
+ * 流程开发文档：https://gitee.com/pbottle/pbottle-rpa/wikis/pages
  */
 
 const pbottleRPA = require('./pbottleRPA')
