@@ -4,12 +4,15 @@
  * 流程开发文档：https://gitee.com/pbottle/pbottle-rpa/wikis/pages
  */
 
-
 const pbottleRPA = require('./pbottleRPA')
-const xlsx = require("node-xlsx");
 const fs = require('fs')
 const os = require('os')
-
+if (!fs.existsSync('./node_modules/node-xlsx')) {
+    pbottleRPA.showMsg('Excel模块未安装',"请先运行 “[第三方模块安装].bat” 安装模块 ")
+    pbottleRPA.tts("请先双击运行 [第三方模块安装].bat ")
+    pbottleRPA.exit('错误：excel模块未安装' + "请先运行 “[第三方] 模块安装.bat” 安装模块 ")
+}
+const xlsx = require("node-xlsx");
 
 console.log("=== Excel 读写测试 ===");
 console.log(Date());
