@@ -9,7 +9,7 @@ const fs = require('fs')
 const os = require('os')
 if (!fs.existsSync('./node_modules/node-xlsx')) {
     pbottleRPA.showMsg('Excel模块未安装',"请先运行 “[第三方模块安装].bat” 安装模块 ")
-    pbottleRPA.tts("请先双击运行 [第三方模块安装].bat ")
+    pbottleRPA.tts("请先双击运行 [第三方模块安装]  安装所需模块 ")
     pbottleRPA.exit('错误：excel模块未安装' + "请先运行 “[第三方] 模块安装.bat” 安装模块 ")
 }
 const xlsx = require("node-xlsx");
