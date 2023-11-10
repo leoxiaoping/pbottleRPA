@@ -26,7 +26,7 @@ let defaultDelay = 1000;  //默认值一秒
 /**
  * 设置RPA模拟操作的延时  包含鼠标、键盘、粘贴、打开网页操作
  * 设置为 0  可以用 sleep() 手动管理操作延时
- * @param {*} millisecond   毫秒单位的数字
+ * @param {*} millisecond   毫秒单位的数字，系统默认 1000 毫秒 即1秒
  */
 let setDefaultDelay = (millisecond)=>{
     defaultDelay = millisecond
@@ -314,7 +314,7 @@ exports.keyTap = keyTap
  * @param {*} fromY=0 可选，查找开始的开始纵坐标
  * @param {*} width=-1 可选，搜索宽度
  * @param {*} height=-1 可选，搜索高度
- * @returns 返回找到的结果
+ * @returns 返回找到的结果json 格式：{x,y}
  */
 var findScreen = (tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1) =>{
 
@@ -792,7 +792,7 @@ exports.waitImage =  waitImage;
  * @param {*} tpPath 图片模板路径
  * @param {*} intervalFun 间隔的收入，function格式
  * @param {*} timeOut 等待超时时间
- * @returns 
+ * @returns  结果的位置信息，json格式：{x,y}
  */
 function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30) {
     console.log('waitImageDisappear',tpPath);
