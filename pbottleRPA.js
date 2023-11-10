@@ -762,7 +762,7 @@ exports.browserCMD_prop = browserCMD_prop;
  * @param {*} tpPath 图片模板路径
  * @param {*} intervalFun 间隔的收入，function格式
  * @param {*} timeOut 等待超时时间
- * @returns 
+ * @returns 结果的位置信息，json格式：{x,y}
  */
 function waitImage(tpPath, intervalFun = () => { }, timeOut = 30) {
     console.log('waitImage',tpPath);
@@ -792,7 +792,7 @@ exports.waitImage =  waitImage;
  * @param {*} tpPath 图片模板路径
  * @param {*} intervalFun 间隔的收入，function格式
  * @param {*} timeOut 等待超时时间
- * @returns  结果的位置信息，json格式：{x,y}
+ * @returns  
  */
 function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30) {
     console.log('waitImageDisappear',tpPath);
