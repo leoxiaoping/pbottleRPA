@@ -494,7 +494,7 @@ exports.getResolution = getResolution
 /**
  * 文字识别 OCR已经从经典算法升级为AI模型预测，永久免费可脱网使用
  * 
- * @param {*} imagePath 空或者screen 为电脑屏幕;  路径位绝对路径
+ * @param {*} imagePath 空或者screen 为电脑屏幕;  或者本地图片的绝对路径;
  * 
  * @param {*} x 可选 剪裁起始点  左上角开始
  * @param {*} y 可选 剪裁起始点
