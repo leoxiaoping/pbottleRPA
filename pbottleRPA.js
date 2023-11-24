@@ -477,8 +477,8 @@ exports.openDir = openDir
 
 
 /**
- * 获取当前屏幕分辨率  
- * @returns JSON  内容格式 {w:1920,h:1080}
+ * 获取当前屏幕分辨率， ratio 为桌面缩放比例
+ * @returns JSON  内容格式 {w:1920,h:1080,ratio:1.5}
  */
 var getResolution= ()=>{
     
