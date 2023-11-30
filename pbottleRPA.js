@@ -426,8 +426,8 @@ exports.wxMessage = wxMessage
 var postJson= (url,msgJson)=>{
     
     let res = request('POST',url,{json:msgJson});
-    console.log('发送webhook消息：',res.getBody('utf8') );
-
+    console.log('Post反馈：',res.getBody('utf8') );
+    return res.getBody('utf8')
 }
 exports.postJson = postJson
 
@@ -518,7 +518,49 @@ var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
 }
 exports.aiOcr = aiOcr
 
+/**
+ * 获取buffer存储内容
+ * 此buffer可以跨脚本存取，RPA重启时才重置，存取多线程下安全
+ * http外部获取方式：http://ip:49888/action=bufferGet&n=0 
+ * @param {*} n buffer编号，从0-9共10个  默认：0 第一个buffer
+ * @returns  字符串
+ */
+var bufferGet = (n=0)=>{
+    let url = `${CppUrl}?action=bufferGet&n=${n}`
+    let res = request('GET', url);
+    return res.getBody('utf8');
+}
+exports.bufferGet = bufferGet
 
+
+/**
+ * 设置buffer存储内容
+ * 此buffer可以跨脚本存取，RPA重启时才重置，存取多线程下安全
+ * http外部设置方式（POST方法）：http://ip:49888/action=bufferSet&n=0 ，content设置到Post的body中
+ * @param {*} content 存储的内容，通常为一个json，也可以字符串
+ * @param {*} n buffer编号，从0-9共10个  默认：0 第一个buffer
+ * @returns  ok 表示成功
+ */
+var bufferSet = (content,n=0)=>{
+    
+    let url = `${CppUrl}?action=bufferSet&n=${n}`
+    let res = postJson(url,content);
+    return res;
+
+}
+exports.bufferSet = bufferSet
+
+
+/**
+ * 获取当前的设备唯一号
+ * @returns String
+ */
+var deviceID = ()=>{
+    let url = `${CppUrl}?action=pbottleRPA_deviceID`
+    let res = request('GET', url);
+    return res.getBody('utf8');
+}
+exports.deviceID = deviceID
 
 
 /**
