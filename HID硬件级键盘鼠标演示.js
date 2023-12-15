@@ -21,27 +21,28 @@ pbottleRPA.sleep(2000)
 
 
 
-    pbottleHID.keyTap('0')
-    pbottleHID.keyTap('9')
-    pbottleHID.keyTap('a')
-    pbottleHID.keyTap('z')
+    // pbottleHID.keyTap('0')
+    // pbottleHID.keyTap('9')
+    // pbottleHID.keyTap('a')
+    // pbottleHID.keyTap('z')
 
-
-    pbottleHID.moveMouse(500,500)
+    pbottleHID.moveMouse(600,600)
     pbottleHID.mouseClick();
 
     // pbottleRPA.sleep(1000)
     // pbottleHID.mouseClick('left',3000);
+    // pbottleHID.mouseClick('right');
 
+    // pbottleHID.moveMouse(500,500)
     // pbottleHID.mouseDoubleClick()
 
-    // pbottleHID.mouseLeftDrag(1900,1000)
+    // pbottleHID.mouseLeftDrag(12000,800)
 
     pbottleRPA.sleep(1000)
     pbottleHID.keyTap('ctrl + alt + del')
 
-    // pbottleRPA.sleep(1000)
-    // pbottleHID.keyTap('esc')
+    pbottleRPA.sleep(2*1000)
+    pbottleHID.keyTap('esc')
 
 
 
