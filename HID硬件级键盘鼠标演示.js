@@ -17,6 +17,7 @@ const pbottleHID = require('./pbottleRPA-HID')
     console.log("=== 测试 ===");
     console.log(Date());
     pbottleRPA.showMsg('需要硬件外设','测试需要硬件外设')
+    pbottleRPA.tts('正在打开键盘测试网站，需要开启RPA硬件模拟功能')
     pbottleRPA.openURL('https://key-test.com/cn/')
     pbottleRPA.sleep(3*1000)
 
@@ -24,6 +25,7 @@ const pbottleHID = require('./pbottleRPA-HID')
 
 
     let resolution = pbottleRPA.getResolution()
+    console.log('当前分辨率：',resolution);
     pbottleHID.moveMouse(resolution.w/2,resolution.h/2)
     pbottleHID.mouseClick();
 
