@@ -84,8 +84,6 @@ let mouseCMD = (button=1,x=0,y=0,mouseWheel=0,time=10)=>{
     return res;
 }
 
-
-
 /**
  * 移动鼠标到指定位置  起点为屏幕左上角  屏幕绝对位置（硬件分辨率）
  * @param {int} x   横坐标
@@ -164,3 +162,15 @@ let mouseRightDragTo = (x,y)=>{
     mouseCMD(0,0,0,0,0)
 }
 exports.mouseRightDragTo = mouseRightDragTo
+
+
+/**
+ * 鼠标滚轮
+ * @param {*} data 滚动的量  默认为-1   向下滚动一个齿轮;  正数向上滚动；
+ * @returns 
+ */
+let mouseWheel = (data = -1)=>{
+    mouseCMD(0,0,0,data,0)
+    mouseCMD(0,0,0,0,0)
+}
+exports.mouseWheel = mouseWheel

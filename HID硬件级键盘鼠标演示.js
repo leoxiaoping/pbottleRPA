@@ -14,34 +14,64 @@ const pbottleRPA = require('./pbottleRPA')
 const pbottleHID = require('./pbottleRPA-HID')
 
 
-console.log("=== 测试 ===");
-console.log(Date());
-pbottleRPA.showMsg('需要硬件外设','测试需要硬件外设')
-pbottleRPA.sleep(2000)
+    console.log("=== 测试 ===");
+    console.log(Date());
+    pbottleRPA.showMsg('需要硬件外设','测试需要硬件外设')
+    pbottleRPA.openURL('https://key-test.com/cn/')
+    pbottleRPA.sleep(3*1000)
+
+    // pbottleRPA.exit()
 
 
-
-    // pbottleHID.keyTap('0')
-    // pbottleHID.keyTap('9')
-    // pbottleHID.keyTap('a')
-    // pbottleHID.keyTap('z')
-
-    pbottleHID.moveMouse(600,600)
+    let resolution = pbottleRPA.getResolution()
+    pbottleHID.moveMouse(resolution.w/2,resolution.h/2)
     pbottleHID.mouseClick();
 
-    // pbottleRPA.sleep(1000)
-    // pbottleHID.mouseClick('left',3000);
-    // pbottleHID.mouseClick('right');
+    pbottleHID.mouseWheel(-2)
+    pbottleRPA.sleep(1000)
+    pbottleHID.mouseWheel(1)
+    pbottleRPA.sleep(1000)
+    pbottleHID.mouseWheel()
 
-    // pbottleHID.moveMouse(500,500)
-    // pbottleHID.mouseDoubleClick()
+    pbottleHID.mouseClick('middle');
+    pbottleHID.mouseClick('left',3000);
+    pbottleHID.mouseClick('right');
+    pbottleRPA.sleep(1000)
+    pbottleHID.moveMouse(resolution.w/3,resolution.h/2)
+    pbottleHID.mouseDoubleClick()
+    pbottleHID.mouseClick();
+
+
+    //内容按键
+    let str = "abcdefghijklmnopqrstuvwxyz`1234567890-=[]\\;',./";  
+    for (let char of str) {
+        console.log(char);
+        pbottleHID.keyTap(char)
+    }
+
+
+    //控制输入
+    pbottleHID.keyTap('up')
+    pbottleHID.keyTap('down')
+    pbottleHID.keyTap('left')
+    pbottleHID.keyTap('right')
+    pbottleHID.keyTap('space')
+    pbottleHID.keyTap('page up')
+    pbottleHID.keyTap('page down')
+    pbottleHID.keyTap('end')
+    pbottleHID.keyTap('home')
+    pbottleHID.keyTap('tab')
+    pbottleHID.keyTap('shift')
+    pbottleHID.keyTap('backspace')
+    pbottleHID.keyTap('enter')
+
 
     // pbottleHID.mouseLeftDrag(12000,800)
 
     pbottleRPA.sleep(1000)
     pbottleHID.keyTap('ctrl + alt + del')
 
-    pbottleRPA.sleep(2*1000)
+    pbottleRPA.sleep(1*1000)
     pbottleHID.keyTap('esc')
 
 
