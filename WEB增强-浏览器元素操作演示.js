@@ -30,6 +30,12 @@ if (ret !== 'ok') {
 //延迟1秒
 pbottleRPA.sleep(1000*1)
 
+
+
+ret = pbottleRPA.browserCMD_text('span.title-content-title')
+console.log('返回操作结果【一次多个】',ret);
+
+
 ret = pbottleRPA.browserCMD_cookie('BAIDUID')
 console.log('返回操作结果',ret);
 ret = pbottleRPA.browserCMD_cookie('pbottleID',"good",3)
@@ -37,10 +43,10 @@ console.log('返回操作结果',ret);
 
 
 pbottleRPA.tts('变换背景色')
-ret = pbottleRPA.browserCMD_css('body',"background-color",'gray')
+ret = pbottleRPA.browserCMD_css('body',"background-color",'blue')
 console.log('返回操作结果',ret);
 ret = pbottleRPA.browserCMD_css('body',"background-color")
-console.log('返回操作结果',ret);
+console.log('返回操作结果【颜色值】',ret);
 ret = pbottleRPA.browserCMD_css('body',"background-color",'white')
 console.log('返回操作结果',ret);
 

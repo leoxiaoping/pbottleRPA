@@ -660,7 +660,7 @@ exports.browserCMD_remove = browserCMD_remove;
  * 获取或者设置文本   参考 jQuery text() 方法
  * @param {*} selector  元素选择器
  * @param {*} content
- * @returns 
+ * @returns 选择多个元素时会返回一个数组
  */
 var browserCMD_text = function(selector,content=undefined){
 
@@ -680,7 +680,7 @@ exports.browserCMD_text = browserCMD_text;
  * 获取或者设置html   参考 jQuery html() 方法
  * @param {*} selector  元素选择器
  * @param {*} content
- * @returns 
+ * @returns 选择多个元素时会返回一个数组
  */
 var browserCMD_html = function(selector,content=undefined){
 
@@ -700,7 +700,7 @@ exports.browserCMD_html = browserCMD_html;
  * 获取或设置值 input select等   参考 jQuery val() 方法
  * @param {*} selector  元素选择器
  * @param {*} content
- * @returns 
+ * @returns 选择多个元素时会返回一个数组
  */
  var browserCMD_val = function(selector,content=undefined){
 
