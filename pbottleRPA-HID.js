@@ -19,8 +19,8 @@ const CppUrl = `http://127.0.0.1:49888/`
 
 /**
  * 模拟按键触发事件 (硬件级)
- * @param {*} key  按键名称参考：https://www.pbottle.com/a-13862.html
- * @param {*} upDown  默认按下down，up松开按键
+ * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
+ * @param {string} upDown  默认按下down，up松开按键
  * @returns 
  */
 let keyToggle = (key,upDown)=>{
@@ -39,7 +39,7 @@ exports.keyToggle = keyToggle
 
 /**
  * 按一下键盘（硬件级）   支持组合按键 加号连接 如：  keyTap('ctrl + alt + del')
- * @param {*} key  按键名称参考：https://www.pbottle.com/a-13862.html
+ * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
  */
 let keyTap = (key)=>{
 
@@ -86,8 +86,8 @@ let mouseCMD = (button=1,x=0,y=0,mouseWheel=0,time=10)=>{
 
 /**
  * 移动鼠标到指定位置  起点为屏幕左上角  屏幕绝对位置（硬件分辨率）
- * @param {int} x   横坐标
- * @param {int} y   纵坐标
+ * @param {number} x   横坐标
+ * @param {number} y   纵坐标
  * @returns 
  */
 let moveMouse = (x,y)=>{
@@ -137,8 +137,8 @@ exports.mouseDoubleClick = mouseDoubleClick
 
 /**
  * 鼠标左键拖到一段位置
- * @param {*} x  位置
- * @param {*} y  位置
+ * @param {number} x  位置
+ * @param {number} y  位置
  * @returns 
  */
 let mouseLeftDragTo = (x,y)=>{
@@ -152,8 +152,8 @@ exports.mouseLeftDragTo = mouseLeftDragTo
 
 /**
  * 鼠标左键拖到一段位置
- * @param {*} x  位置
- * @param {*} y  位置
+ * @param {number} x  位置
+ * @param {number} y  位置
  * @returns 
  */
 let mouseRightDragTo = (x,y)=>{
@@ -166,7 +166,7 @@ exports.mouseRightDragTo = mouseRightDragTo
 
 /**
  * 鼠标滚轮
- * @param {*} data 滚动的量  默认为-1   向下滚动一个齿轮;  正数向上滚动；
+ * @param {number} data 滚动的量  默认为-1   向下滚动一个齿轮;  正数向上滚动；
  * @returns 
  */
 let mouseWheel = (data = -1)=>{
