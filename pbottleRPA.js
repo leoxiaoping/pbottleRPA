@@ -132,7 +132,7 @@ exports.moveAndClick = moveAndClick
 /**
  * 当前位置点击鼠标 默认左键  可选 'right'
  * @param {string} leftRight    可选
- * @param {number} 点按时间 单位毫秒  可选
+ * @param {number} time 点按时间 单位毫秒  可选
  * @returns 
  */
 let mouseClick = (leftRight = 'left',time=30)=>{
@@ -418,13 +418,13 @@ exports.wxMessage = wxMessage
 
 /**
  * 向指定API网址post一个json，最常用网络接口方式
- * @param {string} API 网络地址 
- * @param {object} Json对象 
+ * @param {string} url API网络地址 
+ * @param {object} msgJson Json对象 
  * @returns 
  */
 var postJson= (url,msgJson)=>{
     let res = request('POST',url,{json:msgJson});
-    console.log('Post反馈：',res.getBody('utf8') );
+    // console.log('Post反馈：',res.getBody('utf8') );
     return res.getBody('utf8')
 }
 exports.postJson = postJson
@@ -654,7 +654,7 @@ exports.browserCMD_remove = browserCMD_remove;
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 获取或者设置文本   参考 jQuery text() 方法
  * @param {string} selector  元素选择器
- * @param {string} content
+ * @param {string} content 可选
  * @returns 选择多个元素时会返回一个数组
  */
 var browserCMD_text = function(selector,content=undefined){
@@ -674,7 +674,7 @@ exports.browserCMD_text = browserCMD_text;
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 获取或者设置html   参考 jQuery html() 方法
  * @param {string} selector  元素选择器
- * @param {string} content
+ * @param {string} content  可选
  * @returns 选择多个元素时会返回一个数组
  */
 var browserCMD_html = function(selector,content=undefined){
@@ -694,7 +694,7 @@ exports.browserCMD_html = browserCMD_html;
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 获取或设置值 input select等   参考 jQuery val() 方法
  * @param {string} selector  元素选择器
- * @param {string} content
+ * @param {string} content  可选，值
  * @returns 选择多个元素时会返回一个数组
  */
  var browserCMD_val = function(selector,content=undefined){
@@ -734,8 +734,8 @@ exports.browserCMD_cookie = browserCMD_cookie;
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 获取或设置css样式   参考 jQuery css() 方法
  * @param {string} selector  元素选择器
- * @param {string} 名
- * @param {string} 值
+ * @param {string} propertyname 名
+ * @param {string} value 值
  * @returns 
  */
  var browserCMD_css = function(selector,propertyname,value=undefined){
@@ -754,8 +754,8 @@ exports.browserCMD_css = browserCMD_css;
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 获取或设置attr样式   参考 jQuery attr() 方法
  * @param {string} selector 元素选择器
- * @param {string} 属性名
- * @param {string} 值
+ * @param {string} propertyname 属性名
+ * @param {string} value 值
  * @returns 
  */
 var browserCMD_attr = function(selector,propertyname,value=undefined){
@@ -774,8 +774,8 @@ exports.browserCMD_attr = browserCMD_attr;
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 获取或设置prop样式   参考 jQuery prop() 方法
  * @param {string} selector 元素选择器
- * @param {string} 属性名
- * @param {string} value
+ * @param {string} propertyname 属性名
+ * @param {string} value 值
  * @returns 
  */
  var browserCMD_prop = function(selector,propertyname,value=undefined){

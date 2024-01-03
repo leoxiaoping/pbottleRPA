@@ -27,8 +27,10 @@ let msgJson={
         "content": "小瓶Rpa测试脚本运行中..."
     }
 };
-//修改下方接收地址，可以用自己手机接收信息
-pbottleRPA.postJson('https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=67bc3b43-85d1-4e0b-b7a2-d8c22d415a80',msgJson);
+
+//修改下方接收地址，可以用自己手机接收信息  参考：https://open.work.weixin.qq.com/help2/pc/14931#%E4%BA%94%E3%80%81%E7%BE%A4%E6%9C%BA%E5%99%A8%E4%BA%BAWebhook%E5%9C%B0%E5%9D%80
+let apiUrl = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=67bc3b43-85d1-4e0b-b7a2-d8c22d415a80';
+pbottleRPA.postJson(apiUrl,msgJson);
 
 
 
@@ -38,11 +40,9 @@ pbottleRPA.sleep(1000*5)
 //微信消息测试，几乎零延迟，100%到达率   详情： https://www.pbottle.com/a-12586.html
 pbottleRPA.wxMessage('小瓶RPA机器人消息',"主人，我的任务已经完成了,随时等您的吩咐",'key599a9e4136010');
 
-
-
 pbottleRPA.tts("运行结束")
 
-console.log("准备结束脚本");
+console.log("准备结束脚本")
 pbottleRPA.sleep(1000*3)
 //脚本强制退出
 process.exit(1)
