@@ -15,9 +15,9 @@ pbottleRPA.sleep(1000*7)
 
 let resolution = pbottleRPA.getResolution()
 console.log('当前电脑屏幕分辨率',resolution)
-if (resolution.w !==1920) {
-    pbottleRPA.tts('错误：此demo只适配1920分辨率屏幕')
-    console.log('错误：此demo只适配1920分辨率屏幕');
+if (resolution.w !==1920 || resolution.ratio !==1) {
+    pbottleRPA.tts('错误：此demo只适配1920分辨率无缩放屏幕')
+    console.log('错误：此demo只适配1920分辨率无缩放屏幕');
     pbottleRPA.sleep(1000*6)
     process.exit(1)
 }
