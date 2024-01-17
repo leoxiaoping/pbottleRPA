@@ -45,5 +45,5 @@ console.log('请求结果:',html);
 
 //语音播报
 pbottleRPA.tts('演示流程结束！~')
-console.log('演示流程结束！~');
+console.log('演示流程结束！~')
 pbottleRPA.showMsg('小瓶RPA提示','演示流程结束！~')
