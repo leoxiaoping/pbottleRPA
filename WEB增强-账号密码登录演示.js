@@ -34,7 +34,10 @@ pbottleRPA.sleep(1000)
 
 
 //输入账号密码
+pbottleRPA.browserCMD_click(`input[name='uname']`)
 pbottleRPA.browserCMD_val(`input[name='uname']`,'test')
+
+pbottleRPA.browserCMD_click(`input[name='pwd']`)
 pbottleRPA.browserCMD_val(`input[name='pwd']`,'123456')
 pbottleRPA.sleep(1000)
 

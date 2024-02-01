@@ -580,7 +580,7 @@ exports.browserCMD_alert = browserCMD_alert;
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
- * 模拟点击   参考 jQuery click() 方法，改为浏览器 native 的 click()
+ * 模拟点击   参考 jQuery click() 方法，改为浏览器 native 的 click() 并获取焦点
  * @param {string} selector   元素选择器
  * @returns 
  */
@@ -594,6 +594,7 @@ exports.browserCMD_alert = browserCMD_alert;
     return res.getBody('utf8');
 }
 exports.browserCMD_click = browserCMD_click;
+
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -795,7 +796,7 @@ exports.browserCMD_prop = browserCMD_prop;
  * 常用工具
  * 等待屏幕上的图片出现
  * @param {string} tpPath 图片模板路径
- * @param {Function} intervalFun 间隔的收入，function格式
+ * @param {Function} intervalFun 检测间隔的操作，function格式
  * @param {number} timeOut 等待超时时间 单位秒
  * @returns 结果的位置信息，json格式：{x,y}
  */
@@ -825,7 +826,7 @@ exports.waitImage =  waitImage;
  * 常用工具
  * 等待屏幕上的图片消失
  * @param {string} tpPath 图片模板路径
- * @param {function} intervalFun 间隔的收入，function格式
+ * @param {function} intervalFun 检测间隔的操作，function格式
  * @param {number} timeOut 等待超时时间 单位秒
  * @returns  
  */
