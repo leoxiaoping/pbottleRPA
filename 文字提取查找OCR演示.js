@@ -28,6 +28,8 @@ pbottleRPA.sleep(1000*5);
 
 
 //点击桌面微信
+console.log("查找并点击微信")
+pbottleRPA.tts("查找并点击微信")
 let position = pbottleRPA.findText('微信')
 console.log('查找文字结果：',position);
 if (position) {
