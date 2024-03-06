@@ -343,6 +343,30 @@ exports.findScreen = findScreen
 
 
 /**
+ * 查找文字，注：此功能受电脑性能影响，低配电脑可能速度较慢。 需要小瓶RPA客户端版本 > V2024.5
+ * @param {string} inputTxt 
+ * @param {number} fromX=0 可选，查找开始的开始横坐标
+ * @param {number} fromY=0 可选，查找开始的开始纵坐标
+ * @param {number} width=-1 可选，搜索宽度
+ * @param {number} height=-1 可选，搜索高度
+ * @returns {JSON}  返回json结果：{x,y,text} x,y坐标相对于fromX，fromY。
+ */
+var findText = (inputTxt,fromX=0,fromY=0,width=-1,height=-1) =>{
+    let jsonDatas = aiOcr('screen',fromX,fromY,width,height);
+    let result = false;
+    jsonDatas.forEach(element => {
+        // console.log(element.text);
+        if (element.text == inputTxt ) {
+            result = element;
+            return;
+        }
+    });
+    return result;
+}
+exports.findText = findText
+
+
+/**
  * 屏幕查找物体或者窗口轮廓
  * @param {number} minimumArea 轮廓最小面积  默认过滤掉 10x10 以下的元素
  * @param {number} fromX  开始坐标
