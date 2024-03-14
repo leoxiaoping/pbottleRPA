@@ -153,10 +153,10 @@ web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快�
 #### RPA脚本开发文档
 [文档入口](https://gitee.com/pbottle/pbottle-rpa/wikis/pages)
 
-目前支持脚本语言：
-NodeJS
-Python（Beta）
+# 目前支持脚本语言
 
+1. NodeJS
+2. Python（Beta）
 
 
 
