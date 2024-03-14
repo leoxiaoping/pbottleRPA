@@ -17,7 +17,7 @@ const path = require("path");
 const jsPath = path.resolve('./')+'/';
 const CppUrl = `http://127.0.0.1:49888/`
 
-console.log("基座服务地址：",CppUrl);
+console.log("基座服务地址：（NodeJS）",CppUrl);
 exports.jsPath = jsPath;
 
 
