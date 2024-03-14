@@ -2,6 +2,7 @@
 小瓶RPA python版本（Beta）
 https://gitee.com/pbottle/pbottle-rpa
 官网：https://rpa.pbottle.com/
+Nodejs移植兼容版
 
 """
 import time
@@ -150,9 +151,8 @@ def keyToggle(key,upDown='down'):
 
 
     url = f'{CppUrl}?action=keyToggle&key_n={key_n}&upDown_n={upDown_n}'
-    print(url)
+    # print(url)
     urllib.request.urlopen(url)
-
 
 
 def keyTap (key):
