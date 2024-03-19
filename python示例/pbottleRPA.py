@@ -2,13 +2,23 @@
 小瓶RPA python版本（Beta）
 https://gitee.com/pbottle/pbottle-rpa
 官网：https://rpa.pbottle.com/
-Nodejs移植兼容版
+
+Nodejs 移植兼容版
+
+js -> python 对照表：
+
+console.log ->  print  日志
+json ->  {}   json 字典 
+`` ->  f""   字符串模板
+encodeURIComponent -> urlencode
 
 """
+
 import time
+import json
+import sys
 import urllib.request #发送请求
 import urllib.parse
-
 
 # 当前脚本的路径
 # jsPath = path.resolve('./')+'/';
@@ -23,8 +33,6 @@ def urlencode(input):
     """
     rsString = urllib.parse.urlencode({'myrs':input})
     return rsString.replace('myrs=','')
-     
-
 
 def setDefaultDelay(millisecond):
     """
@@ -135,6 +143,18 @@ def keyToggle(key,upDown='down'):
         'ins': 45,
         'del': 46,
         'cmd': 91,
+        'f1': 112,
+        'f2': 113,
+        'f3': 114,
+        'f4': 115,
+        'f5': 116,
+        'f6': 117,
+        'f7': 118,
+        'f8': 119,
+        'f9': 120,
+        'f10': 121,
+        'f11': 122,
+        'f12': 123,
     }
 
     upDown_n = 0;
@@ -143,12 +163,14 @@ def keyToggle(key,upDown='down'):
 
     key_n = 0;
     if len(key)==1:
-        key_n = ord(key)
+        key_n = ord(key.upper()) 
     else:
         for item_key, item_asc2 in replacement_dict.items():
             if key == item_key:
                 key_n = item_asc2
-
+    if(key_n == 0):
+        print('输入键名不存在！',key)
+        return
 
     url = f'{CppUrl}?action=keyToggle&key_n={key_n}&upDown_n={upDown_n}'
     # print(url)
@@ -167,7 +189,8 @@ def keyTap (key):
 
         for element in subkeys:
             keyToggle(element,"down")
-        subkeys = subkeys.reverse()
+
+        subkeys.reverse()
         for element in subkeys:
             keyToggle(element,"up")
                 
@@ -177,3 +200,132 @@ def keyTap (key):
     
     sleep(defaultDelay);
 
+
+def tts(text):
+    """
+    * 从文本到语音(TextToSpeech)  语音播报
+    * 非阻塞
+    * @param {string} text 朗读内容
+    """
+    text = urlencode(text)
+    url = f'{CppUrl}?action=tts&txt={text}'
+    urllib.request.urlopen(url);
+    sleep(defaultDelay);
+
+
+
+def getResolution():
+    """
+    * 获取当前屏幕分辨率和缩放 
+    * @returns JSON内容格式 {w:1920,h:1080,ratio:1.5} ratio 为桌面缩放比例
+    """
+    url = f"{CppUrl}?action=getResolution"
+    respose = urllib.request.urlopen(url)
+    return json.loads(respose.read().decode("utf-8"))
+
+
+def exit(msg=''):
+    """
+    * 强制退出当前脚本
+    * @param {string} msg 退出时候输出的信息
+    """
+    if (msg):
+        print(msg)
+    beep()
+    sys.exit(0)
+
+
+def moveMouseSmooth(x,y):
+    """
+    * 移动鼠标到指定位置  起点为屏幕左上角
+    * @param {number} x   横坐标
+    * @param {number} y   纵坐标
+    """
+    x=round(x)
+    y=round(y)
+    url = f'{CppUrl}?action=moveMouse&x={x}&y={y}'
+    respose = urllib.request.urlopen(url)
+    sleep(defaultDelay)
+moveMouse = moveMouseSmooth  #增加别名
+
+
+def moveAndClick (x,y):
+    """
+    * 移动鼠标到指定位置并点击
+    * @param {number} x 横坐标
+    * @param {number} y 纵坐标
+    """
+    moveMouse(x,y)
+    mouseClick()
+
+
+def mouseClick(leftRight = 'left',time=30):
+    """
+    * 当前位置点击鼠标 默认左键  可选 'right'
+    * @param {string} leftRight    可选
+    * @param {number} time 点按时间 单位毫秒  可选
+    """
+    url = f"{CppUrl}?action=mouseLeftClick&time={time}"
+    if (leftRight == 'right') :
+        url = f"{CppUrl}?action=mouseRightClick&time={time}"
+    respose = urllib.request.urlopen(url)
+    sleep(defaultDelay);
+
+
+def mouseDoubleClick():
+    """
+    * 双击鼠标  默认左键
+    """
+    url = f'{CppUrl}?action=mouseDoubleClick'
+    respose = urllib.request.urlopen(url)
+    sleep(defaultDelay)
+
+
+
+def mouseWheel(data = -720):
+    """
+    * 鼠标滚轮
+    * @param {number} data 滚动的量  默认为-720   向下滚动720度
+    * @returns 
+    """
+    url = f"{CppUrl}?action=mouseWheel&data={data}"
+    respose = urllib.request.urlopen(url)
+    sleep(defaultDelay);
+
+
+
+def mouseLeftDragTo(x,y):
+    """
+    * 鼠标左键拖到指定位置
+    * @param {number} x 
+    * @param {number} y 
+    """
+    url = f'{CppUrl}?action=mouseLeftDragTo&x={x}&y={y}'
+    respose = urllib.request.urlopen(url)
+    sleep(defaultDelay);
+
+
+def mouseRightDragTo(x,y):
+    """
+    * 鼠标右键拖到指定位置
+    * @param {number} x 
+    * @param {number} y 
+    * @returns 
+    """
+    url = f'{CppUrl}?action=mouseRightDragTo&x={x}&y={y}'
+    respose = urllib.request.urlopen(url)
+    sleep(defaultDelay);
+
+
+
+def showMsg(title,content):
+    """
+    * 系统原生消息提示
+    * @param {string} title  标题
+    * @param {string} content  内容
+    * @returns
+    """
+    title = urlencode(title)
+    content = urlencode(content)
+    url = f'{CppUrl}?action=showMsg&title={title}&content={content}'
+    respose = urllib.request.urlopen(url)
