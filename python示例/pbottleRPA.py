@@ -3,7 +3,8 @@
 https://gitee.com/pbottle/pbottle-rpa
 官网：https://rpa.pbottle.com/
 
-Nodejs 移植兼容版
+Nodejs 移植兼容版 beta
+注：目前尚未完全移植nodejs版本中所有API，正在持续更新中
 
 js -> python 对照表：
 
@@ -23,7 +24,7 @@ import urllib.parse
 # 当前脚本的路径
 # jsPath = path.resolve('./')+'/';
 CppUrl = 'http://127.0.0.1:49888/'
-print("基座服务地址：（python）",CppUrl)
+print("基座服务地址：（Python）",CppUrl)
 defaultDelay = 1000;  #默认值一秒
 
 
@@ -329,3 +330,33 @@ def showMsg(title,content):
     content = urlencode(content)
     url = f'{CppUrl}?action=showMsg&title={title}&content={content}'
     respose = urllib.request.urlopen(url)
+
+
+
+def screenShot(savePath='',x=0,y=0,w=-1,h=-1):
+    """
+    * 屏幕截图
+    * @param {string} savePath  保存路径默认 我的图片，图片格式为PNG；如果使用自定义路径请以 '.png' 结尾; 
+    * @param {number} x  截图开始位置
+    * @param {number} y 
+    * @param {number} w  可选 截图宽度
+    * @param {number} h  可选 截图长度
+    * @returns 
+    """
+    savePath = urlencode(savePath)
+    x=int(x)
+    y=int(y)
+    w=int(w)
+    h=int(h)
+    url = f'{CppUrl}?action=screenShot&savePath={savePath}&x={x}&y={y}&w={w}&h={h}'
+    respose = urllib.request.urlopen(url)
+    return respose.read().decode("utf-8")  #返回string
+
+
+if __name__ == '__main__':
+    """
+    入口检测提示
+    """
+    print('当前文件不能执行',"请直接执行中文名的脚本文件");
+    showMsg('当前文件不能执行',"请直接执行中文名的脚本文件");
+    exit()

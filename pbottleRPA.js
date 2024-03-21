@@ -11,6 +11,7 @@ const keycode = require('keycode');
 const path = require("path");
 
 
+
 /**
  * 当前脚本的路径
  */
@@ -243,6 +244,10 @@ exports.getScreenColor = getScreenColor
  */
 let screenShot = (savePath='',x=0,y=0,w=-1,h=-1)=>{
     savePath = encodeURIComponent(savePath)
+    x=parseInt(x)
+    y=parseInt(y)
+    w=parseInt(w)
+    h=parseInt(h)
     let url = `${CppUrl}?action=screenShot&savePath=${savePath}&x=${x}&y=${y}&w=${w}&h=${h}`
     // console.log(url)
     let res = request('GET', url);
@@ -874,3 +879,14 @@ function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30) {
     exit(`等待图片消失超时 ${tpPath} line:${lineNumber} function:${functionName}`)
 }
 exports.waitImageDisappear =  waitImageDisappear;
+
+
+
+/**
+ * 入口检测提示
+ */
+if (process.argv[1] === __filename) {
+    console.log('当前文件不能执行',"请直接执行中文名的脚本文件");
+    showMsg('当前文件不能执行',"请直接执行中文名的脚本文件");
+    process.exit(1);
+}
