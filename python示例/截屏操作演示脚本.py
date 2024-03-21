@@ -32,7 +32,6 @@ pbottleRPA.screenShot();
 
 
 pbottleRPA.tts('正在截屏（区域）...')
-print(resolution["w"]/4,resolution["h"]/4,resolution["w"]/2,resolution["h"]/2)
 rs = pbottleRPA.screenShot('',resolution["w"]/4,resolution["h"]/4,resolution["w"]/2,resolution["h"]/2);
 print('截屏结果：',rs)
 pbottleRPA.sleep(1000*3)
