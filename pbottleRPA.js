@@ -67,6 +67,26 @@ let showMsg = (title,content)=>{
 exports.showMsg = showMsg
 
 
+/**
+ * 有效屏幕内显示一个彩色方框，直观提示流程操作范围和目标的当前的定位
+ * V2024.6以上版本有效
+ * @param {number} fromX  起始位置xy坐标，屏幕左上角为零点
+ * @param {number} fromY 
+ * @param {number} width  宽度
+ * @param {number} height 高度
+ * @param {string} color  颜色 红绿蓝黄4色可选：red|green|blue|yellow 
+ * @param {number} msec  显示持续时间 单位毫秒
+ * @returns 
+ */
+let showRect = (fromX=0,fromY=0,width=500,height=500,color='red',msec=500)=>{
+    color = encodeURIComponent(color)
+    let url = `${CppUrl}?action=showRect&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}&color=${color}&msec=${msec}`
+    // console.log(url)
+    let res = request('GET', url);
+    return res;
+}
+exports.showRect = showRect
+
 
 /**
  * 强制退出当前脚本
@@ -142,7 +162,6 @@ let mouseClick = (leftRight = 'left',time=30)=>{
     if (leftRight == 'right') {
         url = `${CppUrl}?action=mouseRightClick&time=${time}`
     }
-
     // console.log(url)
     let res = request('GET', url);
 
@@ -248,6 +267,11 @@ let screenShot = (savePath='',x=0,y=0,w=-1,h=-1)=>{
     y=parseInt(y)
     w=parseInt(w)
     h=parseInt(h)
+
+    if (x!=0 || y!=0 || w!=-1 || h!=-1) {
+        showRect(x,y,w,h);
+    }
+
     let url = `${CppUrl}?action=screenShot&savePath=${savePath}&x=${x}&y=${y}&w=${w}&h=${h}`
     // console.log(url)
     let res = request('GET', url);
@@ -326,6 +350,11 @@ var findScreen = (tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1) 
     if (fromX<0 || fromY<0) {
         exit(`错误：找图起始点不能为负，x:${fromX} y:${fromY} `);
     }
+
+    if (fromX!=0 || fromY!=0 || width!=-1 || height!=-1) {
+        showRect(fromX,fromY,width,height);
+    }
+
     tpPath = jsPath+tpPath;
     tpPath = encodeURIComponent(tpPath)
     let url = `${CppUrl}?action=findScreen&imgPath=${tpPath}&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}`
@@ -342,6 +371,8 @@ var findScreen = (tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1) 
     if (jsonRes.value<miniSimilarity) {
         return false;
     }
+
+    showRect(jsonRes.x-25,jsonRes.y-25,50,50,'green');
     return jsonRes;
 }
 exports.findScreen = findScreen
@@ -366,6 +397,9 @@ var findText = (inputTxt,fromX=0,fromY=0,width=-1,height=-1) =>{
             return;
         }
     });
+    if(result!==false){
+        showRect(result.x-25,result.y-25,50,50,'green');
+    }
     return result;
 }
 exports.findText = findText
@@ -385,6 +419,11 @@ var findContours = (minimumArea=1000,fromX=0,fromY=0,width=-1,height=-1) =>{
     if (fromX<0 || fromY<0) {
         exit(`错误：轮廓查找起始点不能为负，x:${fromX} y:${fromY} `);
     }
+
+    if (fromX!=0 || fromY!=0 || width!=-1 || height!=-1) {
+        showRect(fromX,fromY,width,height);
+    }
+
     let url = `${CppUrl}?action=findContours&minimumArea=${minimumArea}&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}`
     // console.log(url)
     let res = request('GET', url);
@@ -532,6 +571,10 @@ var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
     
     if (x<0 || y<0) {
         exit(`错误：OCR 起始点不能为负，x:${x} y:${y} `);
+    }
+
+    if (x!=0 || y!=0 || width!=-1 || height!=-1) {
+        showRect(x,y,width,height);
     }
     
     imagePath = encodeURIComponent(imagePath);
@@ -690,7 +733,6 @@ exports.browserCMD_remove = browserCMD_remove;
 var browserCMD_text = function(selector,content=undefined){
 
     let action = 'text';
-
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
     let res = request('GET', url);

@@ -53,7 +53,7 @@ loop()
 function loop() {
     console.log('进入')
 
-    let rs =  pbottleRPA.findScreen('./input/pengYouQuanDianZan/1.png',0.99)
+    let rs =  pbottleRPA.findScreen('./input/pengYouQuanDianZan/1.png',0.99,100,100)
     if (rs === false) {
         console.log('下一页')
         // pbottleRPA.keyTap('page down')    //微信bug，按键容易加载不成功
