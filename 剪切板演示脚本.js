@@ -12,6 +12,7 @@ console.log(Date());
 
 pbottleRPA.tts('电脑剪切板演示')
 pbottleRPA.showMsg('超级剪切板','新版剪切板已经支持获取图片、网页格式内容')
+console.log('超级剪切板','新版剪切板已经支持获取图片、网页格式内容')
 //延迟5秒
 pbottleRPA.sleep(1000*5)
 

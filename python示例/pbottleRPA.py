@@ -333,6 +333,28 @@ def showMsg(title,content):
 
 
 
+def showRect(fromX=0,fromY=0,width=500,height=500,color='red',msec=500):
+    """
+    * 有效屏幕内显示一个彩色方框，直观提示流程操作范围和目标的当前的定位
+    * V2024.6以上版本有效
+    * @param {number} fromX  起始位置xy坐标，屏幕左上角为零点
+    * @param {number} fromY 
+    * @param {number} width  宽度
+    * @param {number} height 高度
+    * @param {string} color  颜色 红绿蓝黄4色可选：red|green|blue|yellow 
+    * @param {number} msec  显示持续时间 单位毫秒
+    * @returns 
+    """
+    color = urlencode(color)
+    fromX=int(fromX)
+    fromY=int(fromY)
+    width=int(width)
+    height=int(height)
+    url = f'{CppUrl}?action=showRect&fromX={fromX}&fromY={fromY}&width={width}&height={height}&color={color}&msec={msec}'
+    respose = urllib.request.urlopen(url)
+
+
+
 def screenShot(savePath='',x=0,y=0,w=-1,h=-1):
     """
     * 屏幕截图
@@ -344,6 +366,9 @@ def screenShot(savePath='',x=0,y=0,w=-1,h=-1):
     * @returns 
     """
     savePath = urlencode(savePath)
+    if x!=0 or y!=0 or w!=-1 or h!=-1 :
+        showRect(x,y,w,h);
+
     x=int(x)
     y=int(y)
     w=int(w)
@@ -351,6 +376,20 @@ def screenShot(savePath='',x=0,y=0,w=-1,h=-1):
     url = f'{CppUrl}?action=screenShot&savePath={savePath}&x={x}&y={y}&w={w}&h={h}'
     respose = urllib.request.urlopen(url)
     return respose.read().decode("utf-8")  #返回string
+
+
+def getClipboard():
+    """
+    * 获取当前电脑的剪切板内容，系统剪切板支持多种格式   版本 V2024.2 开始生效
+    * ①纯文本格式：普通复制  如'小瓶RPA'
+    * ②图片格式 base64形式：浏览器复制图片    'data:image/png;base64,' 开头
+    * ③html格式：浏览器或者钉钉复制富文本综合内容    '<html>'开头
+    * @returns 结果文本
+    """
+    url = f'{CppUrl}?action=getClipboard'
+    respose = urllib.request.urlopen(url)
+    return respose.read().decode("utf-8")
+
 
 
 if __name__ == '__main__':
