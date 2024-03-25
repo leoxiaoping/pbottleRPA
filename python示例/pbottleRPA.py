@@ -18,11 +18,13 @@ encodeURIComponent -> urlencode
 import time
 import json
 import sys
+import os
+import inspect
 import urllib.request #发送请求
 import urllib.parse
 
 # 当前脚本的路径
-# jsPath = path.resolve('./')+'/';
+jsPath = os.getcwd()
 CppUrl = 'http://127.0.0.1:49888/'
 print("基座服务地址：（Python）",CppUrl)
 defaultDelay = 1000;  #默认值一秒
@@ -221,8 +223,8 @@ def getResolution():
     * @returns JSON内容格式 {w:1920,h:1080,ratio:1.5} ratio 为桌面缩放比例
     """
     url = f"{CppUrl}?action=getResolution"
-    respose = urllib.request.urlopen(url)
-    return json.loads(respose.read().decode("utf-8"))
+    response = urllib.request.urlopen(url)
+    return json.loads(response.read().decode("utf-8"))
 
 
 def exit(msg=''):
@@ -245,7 +247,7 @@ def moveMouseSmooth(x,y):
     x=round(x)
     y=round(y)
     url = f'{CppUrl}?action=moveMouse&x={x}&y={y}'
-    respose = urllib.request.urlopen(url)
+    response = urllib.request.urlopen(url)
     sleep(defaultDelay)
 moveMouse = moveMouseSmooth  #增加别名
 
@@ -269,7 +271,7 @@ def mouseClick(leftRight = 'left',time=30):
     url = f"{CppUrl}?action=mouseLeftClick&time={time}"
     if (leftRight == 'right') :
         url = f"{CppUrl}?action=mouseRightClick&time={time}"
-    respose = urllib.request.urlopen(url)
+    response = urllib.request.urlopen(url)
     sleep(defaultDelay);
 
 
@@ -278,7 +280,7 @@ def mouseDoubleClick():
     * 双击鼠标  默认左键
     """
     url = f'{CppUrl}?action=mouseDoubleClick'
-    respose = urllib.request.urlopen(url)
+    response = urllib.request.urlopen(url)
     sleep(defaultDelay)
 
 
@@ -290,7 +292,7 @@ def mouseWheel(data = -720):
     * @returns 
     """
     url = f"{CppUrl}?action=mouseWheel&data={data}"
-    respose = urllib.request.urlopen(url)
+    response = urllib.request.urlopen(url)
     sleep(defaultDelay);
 
 
@@ -302,7 +304,7 @@ def mouseLeftDragTo(x,y):
     * @param {number} y 
     """
     url = f'{CppUrl}?action=mouseLeftDragTo&x={x}&y={y}'
-    respose = urllib.request.urlopen(url)
+    response = urllib.request.urlopen(url)
     sleep(defaultDelay);
 
 
@@ -314,7 +316,7 @@ def mouseRightDragTo(x,y):
     * @returns 
     """
     url = f'{CppUrl}?action=mouseRightDragTo&x={x}&y={y}'
-    respose = urllib.request.urlopen(url)
+    response = urllib.request.urlopen(url)
     sleep(defaultDelay);
 
 
@@ -329,7 +331,7 @@ def showMsg(title,content):
     title = urlencode(title)
     content = urlencode(content)
     url = f'{CppUrl}?action=showMsg&title={title}&content={content}'
-    respose = urllib.request.urlopen(url)
+    response = urllib.request.urlopen(url)
 
 
 
@@ -351,7 +353,7 @@ def showRect(fromX=0,fromY=0,width=500,height=500,color='red',msec=500):
     width=int(width)
     height=int(height)
     url = f'{CppUrl}?action=showRect&fromX={fromX}&fromY={fromY}&width={width}&height={height}&color={color}&msec={msec}'
-    respose = urllib.request.urlopen(url)
+    response = urllib.request.urlopen(url)
 
 
 
@@ -374,8 +376,8 @@ def screenShot(savePath='',x=0,y=0,w=-1,h=-1):
     w=int(w)
     h=int(h)
     url = f'{CppUrl}?action=screenShot&savePath={savePath}&x={x}&y={y}&w={w}&h={h}'
-    respose = urllib.request.urlopen(url)
-    return respose.read().decode("utf-8")  #返回string
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")  #返回string
 
 
 def getClipboard():
@@ -387,8 +389,124 @@ def getClipboard():
     * @returns 结果文本
     """
     url = f'{CppUrl}?action=getClipboard'
-    respose = urllib.request.urlopen(url)
-    return respose.read().decode("utf-8")
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
+
+
+
+def wxMessage(title,content,key):
+    """
+    * 通知到手机
+    * 通过小瓶云发送微信通知 (微信到达率高，并且免费)
+    * @param {string} title 消息标题
+    * @param {string} content  消息详细内容
+    * @param {string} key  获取key详情方法：https://www.pbottle.com/a-12586.html
+    """
+    url =  f'https://yun.pbottle.com/manage/yun/?msg={urlencode(content)}&name={urlencode(title)}&key={key}';
+    response = urllib.request.urlopen(url)
+    print('发送微信消息：',response.read().decode("utf-8") );
+
+
+
+
+def postJson(url,msgJson):
+    """
+    * 向指定API网址post一个json，最常用网络接口方式
+    * @param {string} url API网络地址 
+    * @param {object} msgJson Json对象  -- python 中为字典对象
+    * @returns 
+    """
+    # 将Python字典转换为JSON格式的字符串
+    json_data = json.dumps(msgJson).encode('utf-8')
+    # 创建请求对象
+    req = urllib.request.Request(url, data=json_data, headers={'Content-Type': 'application/json'}, method='POST')
+    # 发送POST请求
+    with urllib.request.urlopen(req) as f:
+        response = f.read().decode('utf-8')
+    return response
+
+
+
+def openDir(path):
+    """
+    * 用资源管理器打开展示文件夹
+    * @param {string} path 文件夹路径  如：'./input/RPAlogo128.png'  Windows磁盘路径分隔符要双 '\\'
+    """
+    path = urlencode(path)
+    url = f'{CppUrl}?action=openDir&path={path}'
+    response = urllib.request.urlopen(url)
+    sleep(defaultDelay);
+
+
+
+def getScreenColor(x,y):
+    """
+    * 屏幕一个点取色
+    * @param {number} x 
+    * @param {number} y 
+    * @returns 返回颜色值
+    """
+    url = f'{CppUrl}?action=getScreenColor&x={x}&y={y}'
+    response = urllib.request.urlopen(url)
+    jsonRes = json.loads(response.read().decode("utf-8"))
+    return jsonRes["rs"];
+
+
+def findScreen(tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1):
+    """
+    * 屏幕查找图象定位
+    * @param {string} tpPath 搜索的小图片，建议png格式  相对路径
+    * @param {number} miniSimilarity 可选，指定最低相似度，默认0.9。取值0-1，1为找到完全相同的。
+    * @param {number} fromX=0 可选，查找开始的开始横坐标
+    * @param {number} fromY=0 可选，查找开始的开始纵坐标
+    * @param {number} width=-1 可选，搜索宽度
+    * @param {number} height=-1 可选，搜索高度
+    * @returns 返回找到的结果json 格式：{x,y}  python 为字典格式
+    """
+
+    if (fromX<0 or fromY<0) :
+        exit('错误：找图起始点不能为负，x:{fromX} y:{fromY}')
+    
+    if (fromX!=0 or fromY!=0 or width!=-1 or height!=-1) :
+        showRect(fromX,fromY,width,height);
+
+    tpPath = jsPath+tpPath;
+    tpPath = urlencode(tpPath)
+    url = f'{CppUrl}?action=findScreen&imgPath={tpPath}&fromX={fromX}&fromY={fromY}&width={width}&height={height}'
+
+    response = urllib.request.urlopen(url)
+    jsonRes = json.loads(response.read().decode("utf-8"))
+
+    if "error" in jsonRes:
+        return False
+    if (jsonRes["value"]<miniSimilarity) :
+        return False
+    showRect(jsonRes["x"]-25,jsonRes["y"]-25,50,50,'green')
+    return jsonRes
+
+
+
+def waitImage(tpPath, intervalFun = None, timeOut = 30):
+    """
+    * 常用工具
+    * 等待屏幕上的图片出现
+    * @param {string} tpPath 图片模板路径
+    * @param {Function} intervalFun 检测间隔的操作，function格式
+    * @param {number} timeOut 等待超时时间 单位秒
+    * @returns 结果的位置信息，json格式：{x,y}
+    """
+    print('waitImage',tpPath)
+    for index in range(timeOut):
+        sleep(1000)
+        position = findScreen(tpPath)
+        if (position != False) :
+            return position
+        if (intervalFun() == 'stopWait') :
+            print('stopWait from intervalFun');
+            return False
+    #error
+    lineNumber = inspect.currentframe().f_back.f_lineno
+    exit(f'等待图片超时 ${tpPath} 位置（行）:{lineNumber}')
 
 
 

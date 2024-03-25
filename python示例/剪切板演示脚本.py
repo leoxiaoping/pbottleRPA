@@ -9,7 +9,7 @@ https://gitee.com/pbottle/pbottle-rpa
 import pbottleRPA  #引入小瓶RPA模块
 import time
 
-print("=== 截屏操作演示脚本 ===")
+print("=== 剪切板演示脚本 ===")
 current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 print(current_time)
 

@@ -19,7 +19,7 @@ if (resolution.w !==1920 || resolution.ratio !==1) {
     pbottleRPA.tts('错误：此demo只适配1920分辨率无缩放屏幕')
     console.log('错误：此demo只适配1920分辨率无缩放屏幕');
     pbottleRPA.sleep(1000*6)
-    process.exit(1)
+    pbottleRPA.exit()
 }
 
 
@@ -72,13 +72,13 @@ function loop() {
         pbottleRPA.mouseClick()
 
         //点1000个赞就行了，不要贪杯
-        n++;
+        n += 1
         if (n>=1000) {
-            process.exit(0)
+            pbottleRPA.exit()
         }
 
         pbottleRPA.sleep(100)
-        loop()
+        loop() //重复
     }
 
 

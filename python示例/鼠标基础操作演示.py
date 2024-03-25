@@ -8,7 +8,7 @@ https://gitee.com/pbottle/pbottle-rpa
 import pbottleRPA  #引入小瓶RPA模块
 import time
 
-print("=== 键盘操作测试 ===")
+print("=== 鼠标操作测试 ===")
 current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 print(current_time)
 pbottleRPA.setDefaultDelay(0)  #忽略自动按键间隔
