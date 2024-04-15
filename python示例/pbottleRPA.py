@@ -510,6 +510,48 @@ def waitImage(tpPath, intervalFun = None, timeOut = 30):
 
 
 
+def browserCMD_alert(msg):
+    """
+    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+    * 警告框
+    * @param {string} msg 显示文本内容
+    * @returns  正常返回ok
+    """
+    action = 'alert'
+    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":[msg]}))
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
+
+
+
+def browserCMD_click(selector):
+    """
+    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+    * 模拟点击   参考 jQuery click() 方法，改为浏览器 native 的 click() 并获取焦点
+    * @param {string} selector   元素选择器
+    * @returns 
+    """
+    action = 'click'
+    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":[selector]}))
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
+
+
+def browserCMD_val(selector,content=None):
+    """
+    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+    * 获取或设置值 input select等   参考 jQuery val() 方法
+    * @param {string} selector  元素选择器
+    * @param {string} content  可选，值
+    * @returns 选择多个元素时会返回一个数组
+    """
+    action = 'val'
+    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":[selector,content]}))
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
+
+
+
 if __name__ == '__main__':
     """
     入口检测提示
