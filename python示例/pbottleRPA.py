@@ -510,6 +510,12 @@ def waitImage(tpPath, intervalFun = None, timeOut = 30):
 
 
 
+"""
+以下是浏览器增强插件接口 🌐
+以下是浏览器增强插件接口 🌐
+以下是浏览器增强插件接口 🌐
+"""
+
 def browserCMD_alert(msg):
     """
     * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -537,6 +543,47 @@ def browserCMD_click(selector):
     return response.read().decode("utf-8")
 
 
+def browserCMD_show(selector):
+    """
+    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+    * 显示   参考 jQuery show() 方法 
+    * @param {string} selector   元素选择器
+    * @returns 
+    """
+    action = 'show'
+    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":[selector]}))
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
+
+
+
+def browserCMD_hide(selector):
+    """
+    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+    * 隐藏   参考 jQuery hide() 方法 
+    * @param {string} selector   元素选择器
+    * @returns 
+    """
+    action = 'hide'
+    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":[selector]}))
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
+
+
+def browserCMD_remove(selector):
+    """
+    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+    * 移除元素   参考 jQuery remove() 方法 
+    * @param {string} selector   元素选择器
+    * @returns 
+    """
+    action = 'remove'
+    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":[selector]}))
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
+
+
+
 def browserCMD_val(selector,content=None):
     """
     * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -546,11 +593,125 @@ def browserCMD_val(selector,content=None):
     * @returns 选择多个元素时会返回一个数组
     """
     action = 'val'
-    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":[selector,content]}))
+    args = [selector]
+    if content is not None:
+        args.append(content)
+    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":args}))
     response = urllib.request.urlopen(url)
     return response.read().decode("utf-8")
 
 
+def browserCMD_text(selector,content=None):
+    """
+    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+    * 获取或者设置文本   参考 jQuery text() 方法
+    * @param {string} selector  元素选择器
+    * @param {string} content 可选
+    * @returns 选择多个元素时会返回一个数组
+    """
+    action = 'text'
+    args = [selector]
+    if content is not None:
+        args.append(content)
+    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":args}))
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
+
+
+def browserCMD_html(selector,content=None):
+    """
+    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+    * 获取或者设置html   参考 jQuery html() 方法
+    * @param {string} selector  元素选择器
+    * @param {string} content  可选
+    * @returns 选择多个元素时会返回一个数组
+    """
+    action = 'html'
+    args = [selector]
+    if content is not None:
+        args.append(content)
+    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":args}))
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
+
+
+def browserCMD_cookie(cName,cValue=None,expDays=None):
+    """
+    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+    * 获取或设置当前站点的 cookie
+    * @param {string} cName  cookie 名称 
+    * @param {string} cValue cookie 值  留空为获取cookie的值
+    * @param {number} expDays cookie 过期时间，单位：天, 留空为会话cookie
+    * @returns  返回 cookie的值
+    """
+    action = 'cookie'
+    args = [cName]
+    if cValue is not None:
+        args.append(cValue)
+    if expDays is not None:
+        args.append(expDays)
+    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":args}))
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
+
+
+def browserCMD_css(selector,propertyname,value=None):
+    """
+    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+    * 获取或设置css样式   参考 jQuery css() 方法
+    * @param {string} selector  元素选择器
+    * @param {string} propertyname 名
+    * @param {string} value 值
+    * @returns 
+    """
+    action = 'css'
+    args = [selector,propertyname]
+    if value is not None:
+        args.append(value)
+    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":args}))
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
+
+
+def browserCMD_attr(selector,propertyname,value=None):
+    """
+    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+    * 获取或设置attr属性   参考 jQuery attr() 方法
+    * @param {string} selector 元素选择器
+    * @param {string} propertyname 属性名
+    * @param {string} value 值
+    * @returns 
+    """
+    action = 'attr'
+    args = [selector,propertyname]
+    if value is not None:
+        args.append(value)
+    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":args}))
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
+
+
+def browserCMD_prop(selector,propertyname,value=None):
+    """
+    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+    * 获取或设置prop属性   参考 jQuery prop() 方法
+    * @param {string} selector 元素选择器
+    * @param {string} propertyname 属性名
+    * @param {string} value 值
+    """
+    action = 'prop'
+    args = [selector,propertyname]
+    if value is not None:
+        args.append(value)
+    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":args}))
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
+
+
+
+"""
+入口检测
+"""
 
 if __name__ == '__main__':
     """

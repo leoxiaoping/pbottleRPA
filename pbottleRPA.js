@@ -634,12 +634,11 @@ exports.deviceID = deviceID
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 警告框
  * @param {string} msg 显示文本内容
- * @returns 
+ * @returns 正常返回 'ok'
  */
 var browserCMD_alert = function(msg){
 
     let action = 'alert';
-
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
     let res = request('GET', url);
@@ -824,7 +823,7 @@ exports.browserCMD_css = browserCMD_css;
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
- * 获取或设置attr样式   参考 jQuery attr() 方法
+ * 获取或设置attr属性   参考 jQuery attr() 方法
  * @param {string} selector 元素选择器
  * @param {string} propertyname 属性名
  * @param {string} value 值
@@ -844,7 +843,7 @@ exports.browserCMD_attr = browserCMD_attr;
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
- * 获取或设置prop样式   参考 jQuery prop() 方法
+ * 获取或设置prop属性   参考 jQuery prop() 方法
  * @param {string} selector 元素选择器
  * @param {string} propertyname 属性名
  * @param {string} value 值

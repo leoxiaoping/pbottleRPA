@@ -10,7 +10,7 @@ import pbottleRPA  #引入小瓶RPA模块
 import time
 
 
-print("=== 微信朋友圈自动点赞 ===")
+print("=== WEB增强插件-账号密码登录演示 ===")
 current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 print(current_time)
 

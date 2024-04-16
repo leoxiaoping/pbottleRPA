@@ -20,7 +20,7 @@ pbottleRPA.openURL('https://www.baidu.com/')
 
 let ret = "" //接受返回值
 ret = pbottleRPA.browserCMD_alert('来自小瓶RPA的问候，手动点击确定开始，20秒超时')
-console.log('返回操作结果',ret);
+console.log('返回操作结果 alert',ret);
 if (ret !== 'ok') {
     console.log('没有检测到小瓶RPA浏览器插件',ret);
     process.exit(1)
@@ -37,29 +37,29 @@ console.log('返回操作结果【一次多个】',ret);
 
 
 ret = pbottleRPA.browserCMD_cookie('BAIDUID')
-console.log('返回操作结果',ret);
+console.log('返回操作结果 cookieGet',ret);
 ret = pbottleRPA.browserCMD_cookie('pbottleID',"good",3)
-console.log('返回操作结果',ret);
+console.log('返回操作结果 cookieSet',ret);
 
 
 pbottleRPA.tts('变换背景色')
 ret = pbottleRPA.browserCMD_css('body',"background-color",'blue')
-console.log('返回操作结果',ret);
+console.log('返回操作结果 cssSet',ret);
 ret = pbottleRPA.browserCMD_css('body',"background-color")
 console.log('返回操作结果【颜色值】',ret);
 ret = pbottleRPA.browserCMD_css('body',"background-color",'white')
-console.log('返回操作结果',ret);
+console.log('返回操作结果 cssSet',ret);
 
 
 ret = pbottleRPA.browserCMD_text('title')
-console.log('返回操作结果',ret);
+console.log('返回操作结果 textGet',ret);
 pbottleRPA.tts('获取标题 ')
 pbottleRPA.sleep(1000*3)
 
 
 pbottleRPA.tts('设置页面标题 ')
 ret = pbottleRPA.browserCMD_text('title','[小瓶RPA]-'+ret)
-console.log('返回操作结果',ret);
+console.log('返回操作结果 textSet',ret);
 ret = pbottleRPA.browserCMD_text('title')
 console.log('当前页面标题：',ret);
 pbottleRPA.sleep(1000*3)
@@ -67,11 +67,11 @@ pbottleRPA.sleep(1000*3)
 
 pbottleRPA.tts('输入搜索词 点击搜索按钮 ')
 ret = pbottleRPA.browserCMD_val('#kw','小瓶RPA')
-console.log('返回点击操作结果',ret);
+console.log('返回点击操作结果 valSet',ret);
 
 
 ret = pbottleRPA.browserCMD_click('#su')
-console.log('返回点击操作结果',ret);
+console.log('返回点击操作结果 click',ret);
 
 
 pbottleRPA.sleep(1000*3)
@@ -80,7 +80,7 @@ pbottleRPA.sleep(1000*3)
 pbottleRPA.tts('开始去广告')
 for (let index = 0; index < 1; index++) {
     ret = pbottleRPA.browserCMD_remove('#content_left div:first')
-    console.log('返回点击操作结果',ret);
+    console.log('返回点击操作结果 remove',ret);
     pbottleRPA.sleep(3000)
 }
 
