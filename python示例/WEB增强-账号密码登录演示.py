@@ -1,7 +1,7 @@
 """
 
 小瓶RPA python版本（Beta）
-https:#gitee.com/pbottle/pbottle-rpa
+https://gitee.com/pbottle/pbottle-rpa
 示例
 
 """
