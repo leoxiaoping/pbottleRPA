@@ -648,6 +648,29 @@ var browserCMD_alert = function(msg){
 exports.browserCMD_alert = browserCMD_alert;
 
 
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 元素数量   参考 jQuery 选择器 
+ * @param {string} selector   元素选择器
+ * @returns {number}  返回选择元素的数量，最优的选择结果是1
+ */
+var browserCMD_count = function(selector){
+
+    let action = 'count';
+
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    let resStr = res.getBody('utf8')
+    if (isNumeric(resStr)) {
+        return parseInt(resStr)
+    }else{
+        return 0
+    }
+    
+}
+exports.browserCMD_count = browserCMD_count;
+
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -665,6 +688,7 @@ exports.browserCMD_alert = browserCMD_alert;
     return res.getBody('utf8');
 }
 exports.browserCMD_click = browserCMD_click;
+
 
 
 /**
@@ -921,6 +945,51 @@ function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30) {
 }
 exports.waitImageDisappear =  waitImageDisappear;
 
+/**
+ * 常用工具
+ * 判断是否为数字化的字符串
+ * console.log(isNumeric(10)); // true
+ * console.log(isNumeric("10")); // true
+ * console.log(isNumeric("10.5")); // true
+ * console.log(isNumeric("abc")); // false
+ * console.log(isNumeric(null)); // false
+ * @param {*} value 
+ * @returns {boolean}
+ */
+function isNumeric(value) {
+    return !isNaN(parseFloat(value)) && isFinite(value);
+}
+exports.isNumeric =  isNumeric;
+
+/**
+ * 常用工具
+ * 格式化的时间  getTime('Y-m-d H:i:s') 输出类似 "2023-09-17 14:30:45" 的日期时间字符串
+ * @param {string} format 格式参考 https://www.runoob.com/php/php-date.html  仅支持 Y|y|m|d|H|i|s|n|j
+ * @param {number} timestamp 
+ * @returns {string}
+ */
+function getTime(format='Y-m-d H:i:s', timestamp = null) {
+    
+        // 如果没有提供 timestamp，使用当前时间  
+        const date = timestamp ? new Date(timestamp * 1000) : new Date();  
+      
+        // 映射 PHP 的日期格式到 JavaScript 的日期方法  
+        const formatMap = {  
+            'Y': date.getFullYear(),         // 4位数的年份  
+            'y': (date.getFullYear() % 100).toString().padStart(2, '0').slice(-2), // 2位数的年份 
+            'm': ('0' + (date.getMonth() + 1)).slice(-2), // 月份，01-12  
+            'd': ('0' + date.getDate()).slice(-2),        // 日期，01-31  
+            'H': ('0' + date.getHours()).slice(-2),       // 24小时制的小时，00-23  
+            'i': ('0' + date.getMinutes()).slice(-2),     // 分钟，00-59  
+            's': ('0' + date.getSeconds()).slice(-2),     // 秒，00-59  
+            'n': date.getMonth() + 1,           // 月份，1-12，没有前导零  
+            'j': date.getDate(),                // 日期，1-31，没有前导零
+        };
+        // 替换格式字符串中的占位符  
+        return format.replace(/Y|y|m|d|H|i|s|n|j/g, (matched) => formatMap[matched]);
+}
+exports.getTime =  getTime;
+  
 
 
 /**

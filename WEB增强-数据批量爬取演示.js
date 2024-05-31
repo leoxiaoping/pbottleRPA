@@ -6,7 +6,7 @@
 
 const pbottleRPA = require('./pbottleRPA')
 
-console.log(Date());
+console.log(pbottleRPA.getTime());
 
 console.log("=== ※※※※※※※※※ ===");
 console.log("=== 需要安装 小瓶RPA 浏览器插件 ===");
@@ -20,10 +20,17 @@ pbottleRPA.showMsg('提示：','必须先安装浏览器增强插件')
 //打开被获取数据的网页
 pbottleRPA.sleep(5*1000)
 pbottleRPA.openURL('https://rpa.pbottle.com/')
-pbottleRPA.sleep(5*1000)
+
+
+
+//判断打开页面
+let n_rpa = pbottleRPA.browserCMD_count('span:contains(小瓶RPA)')
+console.log('元素数量：',n_rpa);
 pbottleRPA.keyTap('page down')
 pbottleRPA.keyTap('page down')
 pbottleRPA.keyTap('page down')
+
+
 
 
 //开始获取网页上的数据
