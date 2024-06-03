@@ -392,7 +392,7 @@ var findText = (inputTxt,fromX=0,fromY=0,width=-1,height=-1) =>{
     let result = false;
     jsonDatas.forEach(element => {
         // console.log(element.text);
-        if (element.text == inputTxt ) {
+        if (element.text.includes(inputTxt)) {
             result = element;
             return;
         }
