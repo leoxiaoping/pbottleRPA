@@ -74,3 +74,12 @@ pbottleRPA.sleep(1000*5)
 pbottleRPA.tts('演示结束')
 console.log('演示结束');
 pbottleRPA.showMsg('演示结束','请查看运行日志')
+
+
+
+function appendLine(xlsxPath,line=[]) {
+    const workSheetsFromFile = xlsx.parse(`${__dirname}\\Excel测试表格.xlsx`);
+    let sheet = [];
+    sheet = workSheetsFromFile[0].data;
+    sheet.push(['追加项','追加值'])
+}

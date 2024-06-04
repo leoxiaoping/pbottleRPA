@@ -450,6 +450,25 @@ var paste = (txt)=>{
 }
 exports.paste = paste
 
+
+/**
+ * 模拟复制文件操作，支持文件路径和文件夹路径，复制后在目标文件夹ctrl+V 即可粘贴  V2024.7开始生效
+ * 复制文件后，在微信发送窗口粘贴，即可发送文件 
+ * @param {string} filepath  路径
+ */
+var copyFile = (filepath)=>{
+    filepath = path.join(filepath)
+    if (!fs.existsSync(filepath)) {
+        console.log('copyFile警告:文件不存在',filepath);
+    }
+    filepath = filepath.replace(/\\/g,'/')
+    filepath = encodeURIComponent(filepath)
+    url = `${CppUrl}?action=copyFile&path=${filepath}`
+    // console.log(url)
+    request('GET', url);
+}
+exports.copyFile = copyFile
+
 /**
  * 获取当前电脑的剪切板内容，系统剪切板支持多种格式   版本 V2024.2 开始生效
  * ①纯文本格式：普通复制  如'小瓶RPA'

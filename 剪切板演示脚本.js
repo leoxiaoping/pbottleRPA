@@ -7,6 +7,7 @@
 const pbottleRPA = require('./pbottleRPA')
 
 
+
 console.log("=== 测试 ===");
 console.log(Date());
 
@@ -27,6 +28,13 @@ pbottleRPA.paste("小瓶RPA官网：https://rpa.pbottle.com/")
 pbottleRPA.sleep(1000*5)
 let text = pbottleRPA.getClipboard();
 console.log("获取当前剪切板文本：",text);
+
+
+//
+console.log("复制文件模拟操作：")
+pbottleRPA.copyFile(__dirname + '/pbottleRPA.js')
+let filepath = pbottleRPA.getClipboard();
+console.log("剪切板文件路径：",filepath);
 
 
 console.log("准备结束脚本");
