@@ -339,7 +339,7 @@ exports.keyTap = keyTap
 
 /**
  * 屏幕查找图象定位
- * @param {string} tpPath 搜索的小图片，建议png格式  相对路径
+ * @param {string} tpPath 搜索的小图片，建议png格式  相对路径:./image/123.png
  * @param {number} miniSimilarity 可选，指定最低相似度，默认0.9。取值0-1，1为找到完全相同的。
  * @param {number} fromX=0 可选，查找开始的开始横坐标
  * @param {number} fromY=0 可选，查找开始的开始纵坐标
@@ -357,7 +357,7 @@ var findScreen = (tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1) 
         showRect(fromX,fromY,width,height);
     }
 
-    tpPath = jsPath+tpPath;
+    tpPath = path.join(jsPath+tpPath)
     tpPath = encodeURIComponent(tpPath)
     let url = `${CppUrl}?action=findScreen&imgPath=${tpPath}&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}`
     // console.log(url)
@@ -368,6 +368,7 @@ var findScreen = (tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1) 
     // console.log(jsonRes);
 
     if (jsonRes.error) {
+        console.log(jsonRes.error);
         return false;
     }
     if (jsonRes.value<miniSimilarity) {
@@ -910,7 +911,7 @@ exports.browserCMD_prop = browserCMD_prop;
 /**
  * 常用工具
  * 等待屏幕上的图片出现
- * @param {string} tpPath 图片模板路径
+ * @param {string} tpPath 图片模板路径 相对路径：./image/123.png
  * @param {Function} intervalFun 检测间隔的操作，function格式
  * @param {number} timeOut 等待超时时间 单位秒
  * @returns 结果的位置信息，json格式：{x,y}
@@ -940,7 +941,7 @@ exports.waitImage =  waitImage;
 /**
  * 常用工具
  * 等待屏幕上的图片消失
- * @param {string} tpPath 图片模板路径
+ * @param {string} tpPath 图片模板路径  相对路径：./image/123.png
  * @param {function} intervalFun 检测间隔的操作，function格式
  * @param {number} timeOut 等待超时时间 单位秒
  * @returns  
