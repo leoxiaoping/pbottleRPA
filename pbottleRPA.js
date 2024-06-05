@@ -9,6 +9,7 @@
 const request = require('sync-request');  //默认同步请求
 const keycode = require('keycode');
 const path = require("path");
+const fs = require("fs");
 
 
 
@@ -453,14 +454,14 @@ exports.paste = paste
 
 
 /**
- * 模拟复制文件操作，支持文件路径和文件夹路径，复制后在目标文件夹ctrl+V 即可粘贴  V2024.7开始生效
+ * 模拟复制操作，支持文件路径和文件夹路径，复制后在目标文件夹ctrl+V 即可粘贴  V2024.7开始生效
  * 复制文件后，在微信发送窗口粘贴，即可发送文件 
- * @param {string} filepath  路径
+ * @param {string} filepath  绝对路径
  */
 var copyFile = (filepath)=>{
     filepath = path.join(filepath)
     if (!fs.existsSync(filepath)) {
-        console.log('copyFile警告:文件不存在',filepath);
+        console.log('copyFile警告:文件路径不存在',filepath);
     }
     filepath = filepath.replace(/\\/g,'/')
     filepath = encodeURIComponent(filepath)
