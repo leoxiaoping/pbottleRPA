@@ -13,13 +13,14 @@ const path = require("path");
 
 
 /**
- * 当前脚本的路径
+ * 当前脚本的路径，结尾无/  如 'D:/pbottleRPAdemo'
  */
-const jsPath = path.resolve('./')+'/';
+const jsPath = path.resolve('./');
 const CppUrl = `http://127.0.0.1:49888/`
 
 console.log("基座服务地址：（NodeJS）",CppUrl);
-exports.jsPath = jsPath;
+exports.jsPath = jsPath
+exports.__dirname = jsPath
 
 
 
@@ -547,8 +548,8 @@ exports.openURL = openURL
 
 
 /**
- * 用资源管理器打开展示文件夹
- * @param {string} path 文件夹路径  如：'./input/RPAlogo128.png'  Windows磁盘路径分隔符要双 '\\'
+ * 用资源管理器打开展示文件夹，
+ * @param {string} path 文件夹绝对路径  如：'c:/input/RPAlogo128.png'  Windows磁盘路径分隔符要双 '\\'
  */
 var openDir= (path)=>{
     path = encodeURIComponent(path)

@@ -20,7 +20,7 @@ if (process.version<'v18') {
 
 
 global.__filename = fileURLToPath(import.meta.url)
-global.__dirname = path.dirname(__filename)
+global.__dirname = path.dirname(__filename)  //pbottleRPA.__dirname 也可以
 console.log('当前文件名：',__filename)
 console.log('当前路径：',__dirname)
 
