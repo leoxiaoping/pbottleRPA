@@ -9,9 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "exceljs": "^4.4.0",
     "keycode": "^2.2.0",
-    "node-xlsx": "^0.24.0",
     "sync-request": "^6.1.0"
   }
 }

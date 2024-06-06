@@ -4,6 +4,7 @@
  * 流程开发文档：https://gitee.com/pbottle/pbottle-rpa/wikis/pages
  * 
  * es模块化新脚本(.mjs)，支持顶级 await 处理 promise 异步
+ * 注意：所有异步方法（async 返回 promise），都用 await 以形成顺序执行的流程
  */
 import pbottleRPA from "./pbottleRPA.js";  //必须含 .js 后缀
 import path from "path";
