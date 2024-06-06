@@ -11,8 +11,6 @@ const keycode = require('keycode');
 const path = require("path");
 const fs = require("fs");
 
-
-
 /**
  * 当前脚本的路径，结尾无/  如 'D:/pbottleRPAdemo'
  */
@@ -987,7 +985,7 @@ exports.isNumeric =  isNumeric;
  * 常用工具
  * 格式化的时间  getTime('Y-m-d H:i:s') 输出类似 "2023-09-17 14:30:45" 的日期时间字符串
  * @param {string} format 格式参考 https://www.runoob.com/php/php-date.html  仅支持 Y|y|m|d|H|i|s|n|j
- * @param {number} timestamp 
+ * @param {number} timestamp 时间戳秒
  * @returns {string}
  */
 function getTime(format='Y-m-d H:i:s', timestamp = null) {
@@ -1011,7 +1009,34 @@ function getTime(format='Y-m-d H:i:s', timestamp = null) {
         return format.replace(/Y|y|m|d|H|i|s|n|j/g, (matched) => formatMap[matched]);
 }
 exports.getTime =  getTime;
-  
+
+
+/**
+ * 常用工具
+ * 根据关键字定位具体文件
+ * @param {string} directory  绝对路径
+ * @param {string} words  文件名包含的关键字
+ * @returns {string[]}  文件路径 || [] 未找到
+ */
+function searchFile(directory, words,rs=[]) {
+    // 读取目录内容
+    let files = fs.readdirSync(directory)
+    // console.log('files',files);
+    // 遍历每个文件
+    files.forEach((file) => {
+        let filePath = path.join(directory, file);
+        let stats = fs.statSync(filePath);
+        if (stats.isDirectory()) { //深入目录
+            rs = searchFile(filePath,words,rs)
+        }
+        // console.log(filePath);
+        if (filePath.toLowerCase().includes(words)) {
+            rs.push(filePath)
+        }
+    });
+    return rs;
+}
+exports.searchFile =  searchFile;
 
 
 /**
