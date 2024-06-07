@@ -670,6 +670,23 @@ exports.browserCMD_alert = browserCMD_alert;
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 当前浏览器的url网址  pbottleRPA.browserCMD_url()
+ * @returns {string}  返回当前浏览器的url网址
+ */
+var browserCMD_url = function(){
+
+    let action = 'url';
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    return res.getBody('utf8')
+    
+}
+exports.browserCMD_url = browserCMD_url;
+
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 元素数量   参考 jQuery 选择器 
  * @param {string} selector   元素选择器
  * @returns {number}  返回选择元素的数量，最优的选择结果是1

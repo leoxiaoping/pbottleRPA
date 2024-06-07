@@ -72,9 +72,13 @@ console.log('返回点击操作结果 valSet',ret);
 
 ret = pbottleRPA.browserCMD_click('#su')
 console.log('返回点击操作结果 click',ret);
-
-
 pbottleRPA.sleep(1000*3)
+
+
+pbottleRPA.tts('获取当前网址：')
+ret = pbottleRPA.browserCMD_url()
+console.log('获取当前网址：',ret);
+pbottleRPA.sleep(2000)
 
 
 pbottleRPA.tts('开始去广告')
