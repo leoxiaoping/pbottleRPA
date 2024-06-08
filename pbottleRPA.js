@@ -670,17 +670,15 @@ exports.browserCMD_alert = browserCMD_alert;
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
- * 当前浏览器的url网址  pbottleRPA.browserCMD_url()
- * @returns {string}  返回当前浏览器的url网址
+ * @param {string} urlStr 当前网页转向新网址，默认为空获取当前网址   【小瓶RPA浏览器增强插件V2023.8以上生效】
+ * @returns {string}  返回当前浏览器的url网址 或者 ok
  */
-var browserCMD_url = function(){
-
+var browserCMD_url = function(urlStr=undefined){
     let action = 'url';
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
     let res = request('GET', url);
     return res.getBody('utf8')
-    
 }
 exports.browserCMD_url = browserCMD_url;
 

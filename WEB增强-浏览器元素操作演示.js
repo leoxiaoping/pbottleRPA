@@ -18,6 +18,7 @@ pbottleRPA.showMsg('提示：','必须先安装浏览器增强插件')
 pbottleRPA.openURL('https://www.baidu.com/')
 
 
+
 let ret = "" //接受返回值
 ret = pbottleRPA.browserCMD_alert('来自小瓶RPA的问候，手动点击确定开始，20秒超时')
 console.log('返回操作结果 alert',ret);
@@ -26,9 +27,11 @@ if (ret !== 'ok') {
     process.exit(1)
 }
 
-
-//延迟1秒
 pbottleRPA.sleep(1000*1)
+pbottleRPA.tts("跳转新网址：")
+pbottleRPA.browserCMD_url('https://www.baidu.com/?from=pbottleRPA')
+//延迟1秒
+pbottleRPA.sleep(1000*2)
 
 
 
@@ -103,6 +106,3 @@ pbottleRPA.sleep(1500)
 pbottleRPA.tts('演示完成准备退出')
 console.log("准备结束脚本");
 ret = pbottleRPA.browserCMD_alert('演示结束')
-//脚本强制退出
-process.exit(1)
-console.log("已经退出了，无效");
