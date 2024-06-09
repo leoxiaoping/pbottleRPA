@@ -6,7 +6,7 @@
 
 import pbottleRPA from "./pbottleRPA.js";  //必须含 .js 后缀
 import os from 'node:os'
-let ExcelJS
+let ExcelJS   // import ExcelJS  from "exceljs"
 try {
 	const {default:myExcelJS} = await import('exceljs') // 中文文档： https://gitee.com/mirrors/exceljs ；所有序号从1开始和excel序号保持一致 👍
     ExcelJS=myExcelJS

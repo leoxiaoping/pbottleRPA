@@ -6,7 +6,7 @@ call npm config set registry https://registry.npmmirror.com/
 echo.
 
 echo 正在安装模块中
-call npm install node-xlsx exceljs
+call npm install  exceljs mammoth docx
 echo.
 
 echo.

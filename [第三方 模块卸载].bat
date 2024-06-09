@@ -2,7 +2,7 @@
 cd .
 
 echo 正在卸载模块中
-call npm uninstall node-xlsx exceljs
+call npm uninstall  exceljs mammoth docx
 echo.
 
 echo.
