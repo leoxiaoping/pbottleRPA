@@ -4,6 +4,7 @@
  *  作者：leo@pbottle.com
  *  
  *  欢迎各路高手将本代码转换成 python、lua、C# 等其他语言封装
+ * 
  */
 
 const request = require('sync-request');  //默认同步请求
@@ -334,7 +335,13 @@ let keyTap = (key)=>{
 }
 exports.keyTap = keyTap
 
-
+/**
+ *
+ * @typedef {Object} position - 位置坐标
+ * @property {number} x - 横坐标-从左边开始
+ * @property {number} y - 纵坐标-从上边开始
+ * 
+ */
 /**
  * 屏幕查找图象定位
  * @param {string} tpPath 搜索的小图片，建议png格式  相对路径:./image/123.png
@@ -343,7 +350,7 @@ exports.keyTap = keyTap
  * @param {number} fromY=0 可选，查找开始的开始纵坐标
  * @param {number} width=-1 可选，搜索宽度
  * @param {number} height=-1 可选，搜索高度
- * @returns 返回找到的结果json 格式：{x,y}
+ * @returns {position|boolean} 返回找到的结果json 格式：{x,y}
  */
 var findScreen = (tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1) =>{
 
@@ -380,13 +387,19 @@ exports.findScreen = findScreen
 
 
 /**
+ * @typedef {Object} textposition - 查找文字结果
+ * @property {number} x - 横坐标-从左边开始
+ * @property {number} y - 纵坐标-从上边开始
+ * @property {string} text - 文本结果
+ */
+/**
  * 查找文字，注：此功能受电脑性能影响，低配电脑可能速度较慢。 需要小瓶RPA客户端版本 > V2024.5
  * @param {string} inputTxt 
  * @param {number} fromX=0 可选，查找开始的开始横坐标
  * @param {number} fromY=0 可选，查找开始的开始纵坐标
  * @param {number} width=-1 可选，搜索宽度
  * @param {number} height=-1 可选，搜索高度
- * @returns {JSON}  返回json结果：{x,y,text} x,y坐标相对于fromX，fromY。
+ * @returns {textposition}  返回json结果：{x,y,text} x,y坐标相对于fromX，fromY
  */
 var findText = (inputTxt,fromX=0,fromY=0,width=-1,height=-1) =>{
     let jsonDatas = aiOcr('screen',fromX,fromY,width,height);
@@ -561,10 +574,15 @@ var openDir= (path)=>{
 exports.openDir = openDir
 
 
-
+/**
+ * @typedef {Object} ResolutionInfo
+ * @property {number} w - 宽度
+ * @property {number} h - 高度
+ * @property {number} ratio - 缩放比例
+ */
 /**
  * 获取当前屏幕分辨率和缩放 
- * @returns JSON内容格式 {w:1920,h:1080,ratio:1.5} ratio 为桌面缩放比例
+ * @returns {ResolutionInfo} JSON内容格式 {w:1920,h:1080,ratio:1.5} ratio 为桌面缩放比例
  */
 var getResolution= ()=>{
     let url = `${CppUrl}?action=getResolution`
@@ -584,8 +602,7 @@ exports.getResolution = getResolution
  * @param {number} y 可选 剪裁起始点
  * @param {number} width  可选 剪裁宽度
  * @param {number} height 可选 剪裁高度
- * 
- * @returns  AI OCR识别的json结果 包含准确率的评分    格式： [{text:'A',score:'0.319415'},...]
+ * @returns {Array}  AI OCR识别的json结果 包含准确率的评分    格式： [{text:'A',score:'0.319415'},...]
  */
 var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
     
@@ -610,7 +627,7 @@ exports.aiOcr = aiOcr
  * 此buffer可以跨脚本存取，RPA重启时才重置，存取多线程下安全
  * http外部获取方式：http://ip:49888/action=bufferGet&n=0 
  * @param {number} n buffer编号，从0-9共10个  默认：0 第一个buffer
- * @returns  字符串
+ * @returns  {string} 返回字符串
  */
 var bufferGet = (n=0)=>{
     let url = `${CppUrl}?action=bufferGet&n=${n}`
@@ -640,7 +657,7 @@ exports.bufferSet = bufferSet
 
 /**
  * 获取当前的设备唯一号
- * @returns String
+ * @returns {string} 返回字符串
  */
 var deviceID = ()=>{
     let url = `${CppUrl}?action=pbottleRPA_deviceID`
@@ -927,7 +944,7 @@ exports.browserCMD_prop = browserCMD_prop;
  * @param {string} tpPath 图片模板路径 相对路径：./image/123.png
  * @param {Function} intervalFun 检测间隔的操作，function格式
  * @param {number} timeOut 等待超时时间 单位秒
- * @returns 结果的位置信息，json格式：{x,y}
+ * @returns {position|boolean} 结果的位置信息，json格式：{x,y}
  */
 function waitImage(tpPath, intervalFun = () => { }, timeOut = 30) {
     console.log('waitImage',tpPath);
@@ -957,7 +974,7 @@ exports.waitImage =  waitImage;
  * @param {string} tpPath 图片模板路径  相对路径：./image/123.png
  * @param {function} intervalFun 检测间隔的操作，function格式
  * @param {number} timeOut 等待超时时间 单位秒
- * @returns  
+ * @returns  {string|boolean}
  */
 function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30) {
     console.log('waitImageDisappear',tpPath);
@@ -988,7 +1005,7 @@ exports.waitImageDisappear =  waitImageDisappear;
  * console.log(isNumeric("10.5")); // true
  * console.log(isNumeric("abc")); // false
  * console.log(isNumeric(null)); // false
- * @param {*} value 
+ * @param {*} value 变量
  * @returns {boolean}
  */
 function isNumeric(value) {
