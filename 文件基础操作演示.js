@@ -37,5 +37,5 @@ console.log('删除文件')
 fs.unlinkSync(__dirname + '/input/RPAlogo128-新复制.png')
 
 pbottleRPA.tts('演示结束')
-console.log('演示结束');
+console.log('演示结束')
 pbottleRPA.showMsg('演示结束','请查看运行日志')

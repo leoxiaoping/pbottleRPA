@@ -939,7 +939,6 @@ exports.browserCMD_prop = browserCMD_prop;
 
 
 /**
- * 常用工具
  * 等待屏幕上的图片出现
  * @param {string} tpPath 图片模板路径 相对路径：./image/123.png
  * @param {Function} intervalFun 检测间隔的操作，function格式
@@ -969,7 +968,6 @@ function waitImage(tpPath, intervalFun = () => { }, timeOut = 30) {
 exports.waitImage =  waitImage;
 
 /**
- * 常用工具
  * 等待屏幕上的图片消失
  * @param {string} tpPath 图片模板路径  相对路径：./image/123.png
  * @param {function} intervalFun 检测间隔的操作，function格式
@@ -997,6 +995,17 @@ function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30) {
 }
 exports.waitImageDisappear =  waitImageDisappear;
 
+
+
+
+
+
+/**
+ * 小瓶RPA 公共工具类  用法：pbottleRPA.utils.function(parameters) or pbottleRPA.function(parameters)
+ * 持续添加常用工具，提供快捷方法。
+ */
+exports.utils={}
+
 /**
  * 常用工具
  * 判断是否为数字化的字符串
@@ -1012,6 +1021,7 @@ function isNumeric(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
 }
 exports.isNumeric =  isNumeric;
+exports.utils.isNumeric =  isNumeric;
 
 /**
  * 常用工具
@@ -1041,6 +1051,7 @@ function getTime(format='Y-m-d H:i:s', timestamp = null) {
         return format.replace(/Y|y|m|d|H|i|s|n|j/g, (matched) => formatMap[matched]);
 }
 exports.getTime =  getTime;
+exports.utils.getTime =  getTime;
 
 
 /**
@@ -1069,6 +1080,7 @@ function searchFile(directory, words,rs=[]) {
     return rs;
 }
 exports.searchFile =  searchFile;
+exports.utils.searchFile =  searchFile;
 
 
 /**

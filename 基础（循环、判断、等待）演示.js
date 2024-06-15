@@ -30,13 +30,3 @@ pbottleRPA.sleep(1000)
 //语音播报
 pbottleRPA.tts('流程结束！~')
 pbottleRPA.showMsg('小瓶RPA提示','流程结束！~')
-
-
-//自带基础工具方法
-let timeStr = pbottleRPA.getTime()  //标准格式时间
-console.log('标准格式时间:',timeStr);
-
-console.log('检测变量是否为数字或数字字符串：',pbottleRPA.isNumeric("3.14")); //数字字符串检测
-
-let rs = pbottleRPA.searchFile(__dirname,'.png')  //模拟资源管理器的文件搜索
-console.log('当前目录定位.png文件',rs);
