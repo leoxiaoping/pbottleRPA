@@ -19,7 +19,7 @@ pbottleRPA.sleep(1000*2)
 
 pbottleRPA.tts('打开图片')
 console.log('打开图片');
-pbottleRPA.openDir(__dirname + '/input/RPAlogo128.png')
+pbottleRPA.openfile(__dirname + '/input/RPAlogo128.png')
 pbottleRPA.sleep(1000*2)
 pbottleRPA.tts('关闭')
 pbottleRPA.keyTap('alt+f4')

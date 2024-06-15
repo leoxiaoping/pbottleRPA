@@ -561,7 +561,7 @@ exports.openURL = openURL
 
 
 /**
- * 用资源管理器打开展示文件夹，
+ * 打开文件（用默认软件）或者 用资源管理器打开展示文件夹，
  * @param {string} path 文件夹绝对路径  如：'c:/input/RPAlogo128.png'  Windows磁盘路径分隔符要双 '\\'
  */
 var openDir= (path)=>{
@@ -572,6 +572,7 @@ var openDir= (path)=>{
     sleep(defaultDelay);
 }
 exports.openDir = openDir
+exports.openfile = openDir
 
 
 /**
@@ -1001,8 +1002,8 @@ exports.waitImageDisappear =  waitImageDisappear;
 
 
 /**
- * 小瓶RPA 公共工具类  用法：pbottleRPA.utils.function(parameters) or pbottleRPA.function(parameters)
- * 持续添加常用工具，提供快捷方法。
+ * 公共工具类，一般和模拟操作没有直接关系的方法。  用法：pbottleRPA.utils.function(parameters) or pbottleRPA.function(parameters)
+ * 持续添加常用工具，为流程提供快捷方法。
  */
 exports.utils={}
 
