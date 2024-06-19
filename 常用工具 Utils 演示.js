@@ -22,6 +22,13 @@ console.log('标准格式时间:',timeStr);
 pbottleRPA.sleep(1000)
 
 
+//随机数
+console.log(pbottleRPA.utils.uniqid()); // 默认前缀和时间戳，可能没有额外的随机性  
+console.log(pbottleRPA.utils.uniqid('myPrefix_')); // 使用自定义前缀  
+console.log(pbottleRPA.utils.uniqid('', true)); // 带有额外随机性的唯一ID，默认只是毫秒级的
+pbottleRPA.sleep(1000)
+
+
 //数字字符串检测
 console.log('检测变量是否为数字或数字字符串：',pbottleRPA.utils.isNumeric("3.14")); 
 pbottleRPA.sleep(1000)

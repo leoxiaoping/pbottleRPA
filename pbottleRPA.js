@@ -1084,6 +1084,27 @@ exports.searchFile =  searchFile;
 exports.utils.searchFile =  searchFile;
 
 
+
+/**
+ * 常用工具
+ * 生成唯一符串 注意：默认只是毫秒级的
+ * @param {string} prefix 前缀
+ * @param {boolean} moreEntropy  是否开启更精细的随机，如果还不能满足请使用uuid
+ * @returns {string}
+ */
+function uniqid(prefix = '', moreEntropy = false) {  
+    let timestamp = Date.now().toString(36); // 将时间戳转换为36进制  
+    let randomStr = '';  
+    if (moreEntropy) {  
+        // 如果需要更多的熵，则添加一些随机字符  
+        randomStr = Math.random().toString(36).substring(2);  
+    }  
+    return prefix + timestamp + randomStr;  
+}
+exports.uniqid =  uniqid;
+exports.utils.uniqid =  uniqid;
+
+
 /**
  * 入口检测提示
  */
