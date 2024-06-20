@@ -104,7 +104,8 @@ exports.exit = exit
 
 
 /**
- * 脚本暂停等待
+ * 脚本暂停等待操作响应
+ * 注意：一次等待上限时长两分钟内
  * @param {number} milliseconds  毫秒
  * @returns 
  */
