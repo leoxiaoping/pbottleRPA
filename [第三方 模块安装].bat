@@ -1,16 +1,16 @@
+chcp 65001
 @echo off
 cd .
 
-echo ÕýÔÚÇÐ»»¹úÄÚ°²×°Ô´ 
+echo æ­£åœ¨åˆ‡æ¢å›½å†…å®‰è£…æº 
 call npm config set registry https://registry.npmmirror.com/
 echo.
 
-echo ÕýÔÚ°²×°Ä£¿éÖÐ
+echo æ­£åœ¨å®‰è£…æ¨¡å—ä¸­
 call npm install  exceljs mammoth docx
 echo.
 
 echo.
-echo ¹§Ï²£¬°²×°Íê³É!~    °´ÈÎÒâ¼üÍË³ö
+echo æ­å–œï¼Œå®‰è£…å®Œæˆ!~    æŒ‰ä»»æ„é”®é€€å‡º
 
 pause >nul
-

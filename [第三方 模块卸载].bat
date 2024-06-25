@@ -1,12 +1,15 @@
+chcp 65001
 @echo off
 cd .
 
-echo ÕýÔÚÐ¶ÔØÄ£¿éÖÐ
+echo æ­£åœ¨å¸è½½æ¨¡å—ä¸­
 call npm uninstall  exceljs mammoth docx
 echo.
 
 echo.
-echo Ð¶ÔØÍê³É!~    °´ÈÎÒâ¼üÍË³ö
+echo å¸è½½å®Œæˆ!~    æŒ‰ä»»æ„é”®é€€å‡º
 
 pause >nul
+
+
 
