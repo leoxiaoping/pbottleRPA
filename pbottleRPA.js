@@ -71,7 +71,7 @@ exports.showMsg = showMsg
 
 /**
  * 强行关闭指定软件，相当于模拟任务管理器的结束任务操作
- * @param {*} processName 进程名称，如：'WINWORD.EXE' 任务管理器 ‘进程名称’ 栏目 。注意不是 名称，如不显示，右键勾选显示这一栏目即可
+ * @param {string} processName 进程名称，如：'WINWORD.EXE' 任务管理器 ‘进程名称’ 栏目 。注意不是 名称，如不显示，右键勾选显示这一栏目即可
  */
 let kill = (processName)=>{
     childProcess.exec(`taskkill /F /IM ${processName}`, (error, stdout, stderr) => {
