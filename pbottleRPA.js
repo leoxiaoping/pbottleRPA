@@ -11,6 +11,7 @@ const request = require('sync-request');  //默认同步请求
 const keycode = require('keycode');
 const path = require("path");
 const fs = require("fs");
+const childProcess = require('child_process');
 
 /**
  * 当前脚本的路径，结尾无/  如 'D:/pbottleRPAdemo'
@@ -66,6 +67,22 @@ let showMsg = (title,content)=>{
     return res;
 }
 exports.showMsg = showMsg
+
+
+/**
+ * 强行关闭指定软件，相当于模拟任务管理器的结束任务操作
+ * @param {*} processName 进程名称，如：'WINWORD.EXE' 任务管理器 ‘进程名称’ 栏目 。注意不是 名称，如不显示，右键勾选显示这一栏目即可
+ */
+let kill = (processName)=>{
+    childProcess.exec(`taskkill /F /IM ${processName}`, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`关闭进程（${processName}）失败，可能软件未运行`);
+          return;
+        }
+        console.log('关闭进程成功：' + processName);
+      });
+}
+exports.kill = kill
 
 
 /**
