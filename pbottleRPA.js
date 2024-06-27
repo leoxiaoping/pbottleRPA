@@ -74,13 +74,13 @@ exports.showMsg = showMsg
  * @param {string} processName 进程名称，如：'WINWORD.EXE' 任务管理器 ‘进程名称’ 栏目 。注意不是 名称，如不显示，右键勾选显示这一栏目即可
  */
 let kill = (processName)=>{
-    childProcess.exec(`taskkill /F /IM ${processName}`, (error, stdout, stderr) => {
-        if (error) {
-          console.error(`关闭进程（${processName}）失败，可能软件未运行`);
-          return;
-        }
-        console.log('关闭进程成功：' + processName);
-      });
+    try {
+        childProcess.execSync(`taskkill /F /IM ${processName}`,{ stdio: 'ignore',encoding: 'utf8' })
+    } catch (error) {
+        console.error(`关闭进程（${processName}）失败，可能软件未运行`);
+        return;
+    }
+    console.log('关闭进程成功：' + processName);
 }
 exports.kill = kill
 
@@ -363,14 +363,14 @@ exports.keyTap = keyTap
 /**
  * 屏幕查找图象定位
  * @param {string} tpPath 搜索的小图片，建议png格式  相对路径:./image/123.png
- * @param {number} miniSimilarity 可选，指定最低相似度，默认0.9。取值0-1，1为找到完全相同的。
+ * @param {number} miniSimilarity 可选，指定最低相似度，默认0.85。取值0-1，1为找到完全相同的。
  * @param {number} fromX=0 可选，查找开始的开始横坐标
  * @param {number} fromY=0 可选，查找开始的开始纵坐标
  * @param {number} width=-1 可选，搜索宽度
  * @param {number} height=-1 可选，搜索高度
  * @returns {position|boolean} 返回找到的结果json 格式：{x,y}
  */
-var findScreen = (tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1) =>{
+var findScreen = (tpPath,miniSimilarity=0.85,fromX=0,fromY=0,width=-1,height=-1) =>{
 
     if (fromX<0 || fromY<0) {
         exit(`错误：找图起始点不能为负，x:${fromX} y:${fromY} `);
