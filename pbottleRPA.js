@@ -121,14 +121,18 @@ exports.exit = exit
 
 
 /**
- * 脚本暂停等待操作响应
+ * 脚本暂停等待操作响应 (毫秒)
  * 注意：一次等待上限时长两分钟内
  * @param {number} milliseconds  毫秒
  * @returns 
  */
  let sleep = (milliseconds)=>{
     if(milliseconds<1){
+        console.log('milliseconds input error');
         return;
+    }
+    if (milliseconds>=120000) {
+        console.log('警告：一次等待上限时长两分钟内');
     }
     let url = `${CppUrl}?action=httpSleep&milliseconds=${milliseconds}`
     // console.log(url)
@@ -136,6 +140,22 @@ exports.exit = exit
     return res;
 }
 exports.sleep = sleep
+
+
+/**
+ * 脚本暂停等待操作响应 (秒)
+ * 注意：一次等待上限时长两分钟内
+ * @param {number} seconds  秒
+ * @returns 
+ */
+let wait = (seconds)=>{
+    if(seconds<=0  || !isNumeric(seconds)){
+        console.log('seconds input error');
+        return;
+    }
+    sleep(seconds*1000)
+}
+exports.wait = wait
 
 /**
  * 移动鼠标到指定位置  起点为屏幕左上角

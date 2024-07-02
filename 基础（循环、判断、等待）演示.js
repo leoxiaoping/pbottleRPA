@@ -6,6 +6,12 @@
 
 const pbottleRPA = require('./pbottleRPA')
 
+
+pbottleRPA.tts('等待3秒开始')
+console.log('等待3秒开始');
+pbottleRPA.wait(3)
+
+
 //for 循环 重复操作 10 次 打开网页
 for (let index = 0; index < 10; index++) {
     let number = index+1
@@ -24,8 +30,8 @@ if (number < 0.5) {        //用 if 判断数值是否小于 0.5
     console.log('大于或等于 0.5。', number)
     pbottleRPA.tts('大于等于 0.5。')
 }
-pbottleRPA.sleep(1000)
 
+pbottleRPA.wait(3)
 
 //语音播报
 pbottleRPA.tts('流程结束！~')
