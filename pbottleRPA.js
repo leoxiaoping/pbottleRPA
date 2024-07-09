@@ -158,7 +158,7 @@ let wait = (seconds)=>{
 exports.wait = wait
 
 /**
- * 移动鼠标到指定位置  起点为屏幕左上角
+ * 移动鼠标到指定位置并点击  起点为屏幕左上角
  * @param {number} x   横坐标
  * @param {number} y   纵坐标
  * @returns 
