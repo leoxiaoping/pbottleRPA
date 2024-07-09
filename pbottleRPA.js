@@ -998,6 +998,9 @@ function waitImage(tpPath, intervalFun = () => { }, timeOut = 30) {
             return false
         }
     }
+    //debug 保存当前屏幕
+    console.log('已经保存超时截图到：我的图片');
+    screenShot();
     //error
     let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
     let lineNumber = frame.split(":").reverse()[1];
@@ -1026,6 +1029,9 @@ function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30) {
             return false
         }
     }
+    //debug 保存当前屏幕
+    console.log('已经保存超时截图到：我的图片');
+    screenShot();
     //error
     let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
     let lineNumber = frame.split(":").reverse()[1];
