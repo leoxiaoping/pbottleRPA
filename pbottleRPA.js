@@ -70,12 +70,17 @@ exports.showMsg = showMsg
 
 
 /**
- * 强行关闭指定软件，相当于模拟任务管理器的结束任务操作
+ * （强行）关闭指定软件
  * @param {string} processName 进程名称，如：'WINWORD.EXE' 任务管理器 ‘进程名称’ 栏目 。注意不是 名称，如不显示，右键勾选显示这一栏目即可
+ * @param {boolean} force 是否强制，相当于模拟任务管理器的结束任务操作。默认普通关闭，可能跟随保存确认框
  */
-let kill = (processName)=>{
+let kill = (processName,force=false)=>{
+    let forceCMD = ''
+    if (force) {
+        forceCMD = '/F'
+    }
     try {
-        childProcess.execSync(`taskkill /F /IM ${processName}`,{ stdio: 'ignore',encoding: 'utf8' })
+        childProcess.execSync(`taskkill ${forceCMD} /IM ${processName}`,{ stdio: 'ignore',encoding: 'utf8' })
     } catch (error) {
         console.error(`关闭进程（${processName}）失败，可能软件未运行`);
         return;
