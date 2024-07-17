@@ -687,7 +687,7 @@ exports.bufferGet = bufferGet
  * http外部设置方式（POST方法）：http://ip:49888/action=bufferSet&n=0 ，content设置到Post的body中
  * @param {string} content 存储的内容，通常为一个json，也可以字符串
  * @param {number} n buffer编号，从0-9共10个  默认：0 第一个buffer
- * @returns  ok 表示成功
+ * @returns {string} ok 表示成功
  */
 var bufferSet = (content,n=0)=>{
     
@@ -715,7 +715,7 @@ exports.deviceID = deviceID
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 警告框
  * @param {string} msg 显示文本内容
- * @returns 正常返回 'ok'
+ * @returns {string} 正常返回 'ok'
  */
 var browserCMD_alert = function(msg){
 
@@ -772,7 +772,7 @@ exports.browserCMD_count = browserCMD_count;
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 模拟点击   参考 jQuery click() 方法，改为浏览器 native 的 click() 并获取焦点
  * @param {string} selector   元素选择器
- * @returns 
+ * @returns {string}
  */
  var browserCMD_click = function(selector){
 
@@ -789,9 +789,9 @@ exports.browserCMD_click = browserCMD_click;
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
- * 显示   参考 jQuery show() 方法 
+ * 显示元素   参考 jQuery show() 方法 
  * @param {string} selector   元素选择器
- * @returns 
+ * @returns {string}
  */
 var browserCMD_show = function(selector){
 
@@ -807,9 +807,9 @@ exports.browserCMD_show = browserCMD_show;
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
- * 隐藏   参考 jQuery hide() 方法 
+ * 隐藏元素   参考 jQuery hide() 方法 
  * @param {string} selector   元素选择器
- * @returns 
+ * @returns {string}
  */
 var browserCMD_hide = function(selector){
 
@@ -823,12 +823,30 @@ var browserCMD_hide = function(selector){
 exports.browserCMD_hide = browserCMD_hide;
 
 
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展   2024.0 以上版本生效
+ * 获取元素定位，相对浏览器文档左上角   参考 jQuery offset() 方法 
+ * @param {string} selector   元素选择器
+ * @returns {string}  返回 json:{"top":100,"left":100}
+ */
+var browserCMD_offset = function(selector){
+
+    let action = 'offset';
+
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = request('GET', url);
+    return res.getBody('utf8');
+}
+exports.browserCMD_offset = browserCMD_offset;
+
+
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 移除元素   参考 jQuery remove() 方法 
  * @param {string} selector   元素选择器
- * @returns 
+ * @returns {string}
  */
  var browserCMD_remove = function(selector){
 
@@ -847,7 +865,7 @@ exports.browserCMD_remove = browserCMD_remove;
  * 获取或者设置文本   参考 jQuery text() 方法
  * @param {string} selector  元素选择器
  * @param {string} content 可选
- * @returns 选择多个元素时会返回一个数组
+ * @returns {string} 选择多个元素时会返回一个数组
  */
 var browserCMD_text = function(selector,content=undefined){
 
@@ -866,7 +884,7 @@ exports.browserCMD_text = browserCMD_text;
  * 获取或者设置html   参考 jQuery html() 方法
  * @param {string} selector  元素选择器
  * @param {string} content  可选
- * @returns 选择多个元素时会返回一个数组
+ * @returns {string} 选择多个元素时会返回一个数组
  */
 var browserCMD_html = function(selector,content=undefined){
 
@@ -886,7 +904,7 @@ exports.browserCMD_html = browserCMD_html;
  * 获取或设置值 input select等   参考 jQuery val() 方法
  * @param {string} selector  元素选择器
  * @param {string} content  可选，值
- * @returns 选择多个元素时会返回一个数组
+ * @returns {string} 选择多个元素时会返回一个数组
  */
  var browserCMD_val = function(selector,content=undefined){
 
@@ -907,7 +925,7 @@ exports.browserCMD_val = browserCMD_val;
  * @param {string} cName  cookie 名称 
  * @param {string} cValue cookie 值  留空为获取cookie的值
  * @param {number} expDays cookie 过期时间，单位：天, 留空为会话cookie
- * @returns  返回 cookie的值
+ * @returns {string} 返回 cookie的值
  */
  var browserCMD_cookie = function(cName,cValue=undefined,expDays=undefined){
 
@@ -947,7 +965,7 @@ exports.browserCMD_css = browserCMD_css;
  * @param {string} selector 元素选择器
  * @param {string} propertyname 属性名
  * @param {string} value 值
- * @returns 
+ * @returns {string}
  */
 var browserCMD_attr = function(selector,propertyname,value=undefined){
 
@@ -967,7 +985,7 @@ exports.browserCMD_attr = browserCMD_attr;
  * @param {string} selector 元素选择器
  * @param {string} propertyname 属性名
  * @param {string} value 值
- * @returns 
+ * @returns {string}
  */
  var browserCMD_prop = function(selector,propertyname,value=undefined){
 

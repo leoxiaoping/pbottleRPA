@@ -27,6 +27,9 @@ let color = pbottleRPA.getScreenColor(1,resolution.h - 1);
 console.log('系统任务栏色：',color);
 
 
+//打开微信界面
+pbottleRPA.keyTap('ctrl+alt+w')
+
 
 //输入路径中不要有自定义中文  
 let rs =  pbottleRPA.waitImage('./input/pengYouQuanDianZan/0.png',()=>{
@@ -60,7 +63,6 @@ function loop() {
         pbottleRPA.mouseWheel()
         pbottleRPA.wait(0.5)
         loop()
-
     }else{
 
         pbottleRPA.moveMouseSmooth(rs.x,rs.y,0);

@@ -103,6 +103,11 @@ console.log('网站logo图片地址',ret);
 pbottleRPA.sleep(1500)
 
 
+ret = pbottleRPA.browserCMD_offset('img:first')
+console.log('位置',ret);
+pbottleRPA.sleep(1500)
+
+
 pbottleRPA.tts('演示完成准备退出')
 console.log("准备结束脚本");
 ret = pbottleRPA.browserCMD_alert('演示结束')
