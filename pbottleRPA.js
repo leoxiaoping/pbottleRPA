@@ -471,7 +471,7 @@ exports.findText = findText
  * @param {number} fromY 
  * @param {number} width  作用范围
  * @param {number} height 
- * @returns 所有查找到的轮廓信息  
+ * @returns {array} 所有查找到的轮廓信息，包含闭合区域的起始坐标，中点坐标，面积，id。 格式：[{ x: 250, y: 10, cx: 265.5, cy: 30.5, area: 2401, id: 42 },...]
  */
 var findContours = (minimumArea=1000,fromX=0,fromY=0,width=-1,height=-1) =>{
 
@@ -1068,7 +1068,6 @@ function waitImage(tpPath, intervalFun = () => { }, timeOut = 30) {
         if (position !== false) {
             return position;
         }
-
         if (intervalFun() == 'stopWait') {
             console.log('stopWait from intervalFun');
             return false
