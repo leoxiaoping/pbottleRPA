@@ -464,6 +464,8 @@ exports.findText = findText
 
 /**
  * 屏幕查找物体或者窗口轮廓
+ * 调试：软件根目录会生成 debug/findContours.png
+ * 
  * @param {number} minimumArea 轮廓最小面积  默认过滤掉 10x10 以下的元素
  * @param {number} fromX  开始坐标
  * @param {number} fromY 
@@ -646,7 +648,7 @@ exports.getResolution = getResolution
  * @param {number} y 可选 剪裁起始点
  * @param {number} width  可选 剪裁宽度
  * @param {number} height 可选 剪裁高度
- * @returns {Array}  AI OCR识别的json结果 包含准确率的评分    格式： [{text:'A',score:'0.319415'},...]
+ * @returns {array}  AI OCR识别的json结果 包含准确率的评分和中点位置    格式： [{text:'A',score:'0.319415',x:100,y:200},...]
  */
 var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
     
@@ -662,9 +664,60 @@ var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
     let url = `${CppUrl}?action=aiOcr&path=${imagePath}&x=${x}&y=${y}&width=${width}&height=${height}&onlyEn=0`
     // console.log(url)
     let res = request('GET', url);
-    return JSON.parse(res.getBody('utf8'));
+    res = res.getBody('utf8');
+
+    if (res == '文字识别引擎未启动') {
+        console.log('⚠',res,'请在软件设置中开启');
+        exit()
+    }
+
+    let jsons = JSON.parse(res); 
+    return jsons;
 }
 exports.aiOcr = aiOcr
+
+
+/**
+ * AI 物体识别 已经从经典算法升级为AI模型预测，永久免费可脱网使用  V2024.8 以上版本有效
+ * 调试：软件根目录会生成 debug/Ai_ObjectDetect.png 文件
+ * 
+ * @param {number} imagePath 空或者screen 为电脑屏幕;  或者本地图片的绝对路径;
+ * @param {number} x 可选 剪裁起始点  左上角开始
+ * @param {number} y 可选 剪裁起始点
+ * @param {number} width  可选 剪裁宽度
+ * @param {number} height 可选 剪裁高度
+ * @returns {array}  AI 物体识别的 json 结果 包含准确率的评分    格式： [{x:100,y:100,width:150,height:150,score:0.86,class:'分类名'},...]
+ */
+var aiObject= (minimumScore=0.5, x=0, y=0, width=-1, height=-1)=>{
+    
+    if (x<0 || y<0) {
+        exit(`错误：OCR 起始点不能为负，x:${x} y:${y} `);
+    }
+
+    if (x!=0 || y!=0 || width!=-1 || height!=-1) {
+        showRect(x,y,width,height);
+    }
+    
+    minimumScore = encodeURIComponent(minimumScore);
+    let url = `${CppUrl}?action=aiObject&minimumScore=${minimumScore}&x=${x}&y=${y}&width=${width}&height=${height}&onlyEn=0`
+    // console.log(url)
+    let res = request('GET', url);
+    res = res.getBody('utf8');
+
+    if (res == '物体识别引擎未启动') {
+        console.log('⚠',res,'请在软件设置中开启');
+        exit()
+    }
+
+    let jsons = JSON.parse(res);
+    for (const json of jsons) {
+        json.x += x
+        json.y += y
+        showRect(json.x,json.y,json.width,json.height,'green');
+    }
+    return jsons;
+}
+exports.aiObject = aiObject
 
 /**
  * 获取buffer存储内容
