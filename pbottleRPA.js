@@ -678,7 +678,7 @@ exports.aiOcr = aiOcr
 
 
 /**
- * AI 物体识别 已经从经典算法升级为AI模型预测，永久免费可脱网使用  V2024.8 以上版本有效
+ * AI 物体识别 已经从经典算法升级为AI模型预测，企业版可脱网使用  V2024.8 以上版本有效
  * 调试：软件根目录会生成 debug/Ai_ObjectDetect.png 文件
  * 
  * @param {number} imagePath 空或者screen 为电脑屏幕;  或者本地图片的绝对路径;
