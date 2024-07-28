@@ -133,7 +133,7 @@ exports.exit = exit
  */
  let sleep = (milliseconds)=>{
     if(milliseconds<1){
-        console.log('milliseconds input error');
+        // console.log('milliseconds input error');
         return;
     }
     if (milliseconds>=120000) {
@@ -326,13 +326,12 @@ exports.screenShot = screenShot
 
 
 /**
- * 模拟按键触发事件
+ * 模拟键盘按键触发基础事件
  * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
- * @param {string} upDown  默认按下down，up松开按键
+ * @param {string} "up" 或 "down"  默认按下down。up松开按键
  * @returns 
  */
 let keyToggle = (key,upDown='down')=>{
-    
     let upDown_n = 0;
     if (upDown == 'up') {
         upDown_n = 2;
@@ -344,6 +343,37 @@ let keyToggle = (key,upDown='down')=>{
     return res;
 }
 exports.keyToggle = keyToggle
+
+
+/**
+ * 模拟鼠标按键触发基础事件
+ * @param {string} key   鼠标 left | right | middle  
+ * @param {string} "up" 或 "down"  默认按下down。up松开按键
+ * @returns 
+ */
+let mouseKeyToggle = (key='left',upDown='down')=>{
+    let upDown_n = 0;
+    if (upDown == 'up') {
+        upDown_n = 2;
+    }
+    let key_n = 0
+    switch (key) {
+        case 'right':
+            key_n = 1
+            break;
+        case 'middle':
+            key_n = 2
+            break;
+        default:
+            key_n = 0
+            break;
+    }
+    let url = `${CppUrl}?action=mouseKeyToggle&key_n=${key_n}&upDown_n=${upDown_n}`
+    // console.log(url)
+    let res = request('GET', url);
+    return res;
+}
+exports.mouseKeyToggle = mouseKeyToggle
 
 
 /**

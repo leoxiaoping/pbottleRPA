@@ -81,7 +81,13 @@ pbottleRPA.tts('拖拽或选区')
 pbottleRPA.sleep(1000*4)
 pbottleRPA.moveMouseSmooth(1634,143)
 pbottleRPA.mouseLeftDragTo(500,500)
-
+//
+pbottleRPA.tts('缓慢拖拽')
+pbottleRPA.sleep(1000*4)
+pbottleRPA.mouseClick()
+pbottleRPA.mouseKeyToggle('left','down')
+pbottleRPA.moveMouse(1634,143)
+pbottleRPA.mouseKeyToggle('left','up')
 
 
 pbottleRPA.sleep(1000*5)
