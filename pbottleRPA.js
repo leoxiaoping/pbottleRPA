@@ -166,15 +166,15 @@ exports.wait = wait
  * 移动鼠标到指定位置并点击  起点为屏幕左上角
  * @param {number} x   横坐标
  * @param {number} y   纵坐标
+ * @param {number} interval  像素间隔时间，越大移动越慢  毫秒单位，默认：0
  * @returns 
  */
-let moveMouseSmooth = (x,y)=>{
+let moveMouseSmooth = (x,y,interval=0)=>{
     x=Math.round(x)
     y=Math.round(y)
-    let url = `${CppUrl}?action=moveMouse&x=${x}&y=${y}`
+    let url = `${CppUrl}?action=moveMouse&x=${x}&y=${y}&interval=${interval}`
     // console.log(url)
     let res = request('GET', url);
-
     sleep(defaultDelay);
     return res;
 }
@@ -254,6 +254,8 @@ exports.mouseWheel = mouseWheel
  * @returns 
  */
 let mouseLeftDragTo = (x,y)=>{
+    x=Math.round(x)
+    y=Math.round(y)
     let url = `${CppUrl}?action=mouseLeftDragTo&x=${x}&y=${y}`
     // console.log(url)
     let res = request('GET', url);
@@ -270,6 +272,8 @@ exports.mouseLeftDragTo = mouseLeftDragTo
  * @returns 
  */
 let mouseRightDragTo = (x,y)=>{
+    x=Math.round(x)
+    y=Math.round(y)
     let url = `${CppUrl}?action=mouseRightDragTo&x=${x}&y=${y}`
     // console.log(url)
     let res = request('GET', url);
