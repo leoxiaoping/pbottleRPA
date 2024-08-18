@@ -42,6 +42,7 @@ pbottleRPA.sleep(1000*3)
 
 
 pbottleRPA.tts('图片保存在我的电脑 我的图片...')
+console.log('图片保存在:我的电脑 我的图片')
 pbottleRPA.sleep(1000*5)
 
 

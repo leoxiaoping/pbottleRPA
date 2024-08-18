@@ -155,7 +155,7 @@ exports.sleep = sleep
  */
 let wait = (seconds)=>{
     if(seconds<=0  || !isNumeric(seconds)){
-        console.log('seconds input error');
+        console.log('pbottle.wait：seconds input error');
         return;
     }
     sleep(seconds*1000)
