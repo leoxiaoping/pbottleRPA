@@ -17,12 +17,15 @@ pbottleRPA.sleep(2000)
 
 
 //标准格式时间
+console.log('时间格式化:getTime');
 let timeStr = pbottleRPA.utils.getTime()  
 console.log('标准格式时间:',timeStr);
+console.log('任意格式日期:',pbottleRPA.getTime('Y/m/d'));
 pbottleRPA.sleep(1000)
 
 
 //随机数
+console.log('随机数:uniqid');
 console.log(pbottleRPA.utils.uniqid()); // 默认前缀和时间戳，可能没有额外的随机性  
 console.log(pbottleRPA.utils.uniqid('myPrefix_')); // 使用自定义前缀  
 console.log(pbottleRPA.utils.uniqid('', true)); // 带有额外随机性的唯一ID，默认只是毫秒级的
@@ -30,10 +33,39 @@ pbottleRPA.sleep(1000)
 
 
 //数字字符串检测
-console.log('检测变量是否为数字或数字字符串：',pbottleRPA.utils.isNumeric("3.14")); 
+console.log('检测变量是否为数字化：isNumeric');
+console.log(pbottleRPA.utils.isNumeric(10)); // true
+console.log(pbottleRPA.utils.isNumeric("10")); // true
+console.log(pbottleRPA.utils.isNumeric("10.5")); // true
+console.log(pbottleRPA.utils.isNumeric("abc")); // false
+console.log(pbottleRPA.utils.isNumeric(null)); // false
+console.log(pbottleRPA.utils.isNumeric(NaN)); // false
+pbottleRPA.sleep(1000)
+
+
+//变量是否包含数据
+console.log('变量是否包含数据测试：hasData');
+console.log(pbottleRPA.hasData());  // false
+console.log(pbottleRPA.hasData([])); // false
+console.log(pbottleRPA.hasData({}));  // false
+console.log(pbottleRPA.hasData(0));  // false
+console.log(pbottleRPA.hasData(Number("abc")));  // false
+console.log(pbottleRPA.hasData(""));  // false
+console.log(pbottleRPA.hasData('   '));  // false
+console.log(pbottleRPA.hasData(false));  // false
+console.log(pbottleRPA.hasData(null));  // false
+console.log(pbottleRPA.hasData(undefined));  // false
+console.log(pbottleRPA.hasData(0n));  // false
+console.log('--------------------------');
+console.log(pbottleRPA.hasData(800n)); // true
+console.log(pbottleRPA.hasData(3.14)); // true
+console.log(pbottleRPA.hasData('小瓶RPA ')); // true
+console.log(pbottleRPA.hasData([12,5])); // true
+console.log(pbottleRPA.hasData({"pbottleRPA":666})); // true
 pbottleRPA.sleep(1000)
 
 
 //模拟资源管理器的文件搜索
+console.log('模拟资源管理器的文件搜索:searchFile');
 let rs = pbottleRPA.utils.searchFile(__dirname,'.png')  
 console.log('当前目录搜索.png文件',rs);

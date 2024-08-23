@@ -1162,13 +1162,9 @@ exports.utils={}
 
 /**
  * 常用工具
- * 判断是否为数字化的字符串
- * console.log(isNumeric(10)); // true
- * console.log(isNumeric("10")); // true
- * console.log(isNumeric("10.5")); // true
- * console.log(isNumeric("abc")); // false
- * console.log(isNumeric(null)); // false
- * @param {*} value 变量
+ * 判断是否为数字化变量（包含数字化的字符串）
+
+ * @param {*} value 任意类型变量
  * @returns {boolean}
  */
 function isNumeric(value) {
@@ -1176,6 +1172,44 @@ function isNumeric(value) {
 }
 exports.isNumeric =  isNumeric;
 exports.utils.isNumeric =  isNumeric;
+
+/**
+ * 常用工具
+ * 判断变量中是否有数据，直接if()可用。
+ * 非零数字 或 非空字符串、数组、对象 返回 true，其他都返回 false
+ * @param {*} value 任意类型变量
+ * @returns {boolean}
+ */
+function hasData(value) {
+    // console.log(value);
+    if (value === null || value === undefined) {
+        return false;
+    }
+    if (typeof value ==='string' && value.trim().length === 0) {
+        return false;
+    }
+    if (Array.isArray(value) && value.length === 0) {
+        return false;
+    }
+    if (typeof value ==='number' && (value===0 || isNaN(value)) ) {
+        return false;
+    }
+    if (typeof value ==='bigint' && value===0n) {
+        return false;
+    }
+    if (typeof value === 'boolean') { 
+        return value;
+    }
+    if (typeof value === 'symbol' || typeof value === 'function') {
+        return false;
+    }
+    if (typeof value === 'object' && Object.keys(value).length === 0) {
+        return false;
+    }
+    return true;
+}
+exports.hasData =  hasData;
+exports.utils.hasData =  hasData;
 
 /**
  * 常用工具

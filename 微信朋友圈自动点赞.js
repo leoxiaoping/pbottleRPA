@@ -9,15 +9,15 @@ const pbottleRPA = require('./pbottleRPA')
 
 
 pbottleRPA.showMsg('流程已开始运行','请打开电脑声音，关注运行日志信息')
-pbottleRPA.tts('准备开始运行朋友圈批量点赞脚本，适配1920分辨率屏幕')
+pbottleRPA.tts('准备开始运行朋友圈批量点赞脚本，请先登录微信')
 pbottleRPA.wait(7)
 
 
 let resolution = pbottleRPA.getResolution()
 console.log('当前电脑屏幕分辨率',resolution)
-if (resolution.w !==1920 || resolution.ratio !==1) {
-    pbottleRPA.tts('错误：此demo只适配1920分辨率无缩放屏幕')
-    console.log('错误：此demo只适配1920分辨率无缩放屏幕');
+if (resolution.ratio !==1) {
+    pbottleRPA.tts('错误：此demo只适配无缩放屏幕')
+    console.log('错误：此demo只适配无缩放屏幕');
     pbottleRPA.wait(6)
     pbottleRPA.exit()
 }
