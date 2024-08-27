@@ -1102,7 +1102,7 @@ function waitImage(tpPath, intervalFun = () => { }, timeOut = 30) {
         if (position !== false) {
             return position;
         }
-        if (intervalFun() == 'stopWait') {
+        if (typeof intervalFun === 'function' && intervalFun() == 'stopWait') {
             console.log('stopWait from intervalFun');
             return false
         }
@@ -1133,7 +1133,7 @@ function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30) {
         if (position === false) {
             return 'ok';
         }
-        if (intervalFun() == 'stopWait') {
+        if (typeof intervalFun === 'function' && intervalFun() == 'stopWait') {
             console.log('stopWait from intervalFun');
             return false
         }
@@ -1150,8 +1150,34 @@ function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30) {
 exports.waitImageDisappear =  waitImageDisappear;
 
 
-
-
+/**
+ * 等待文件下载成功或者生成
+ * @param {string} dirPath 监控文件夹目录  如：'c:/User/pbottle/download'
+ * @param {string} keyWords 过滤关键词  如：'.zip'
+ * @param {function} intervalFun 检测间隔的操作，function格式
+ * @param {number} timeOut 等待超时时间 单位秒
+ * @returns  {string[]}
+ */
+function waitFile(dirPath,keyWords='',intervalFun=()=>{},timeOut = 30){
+    console.log('waitFile',dirPath,keyWords);
+    for (let index = 0; index < timeOut; index++) {
+        sleep(1000)
+        let rs = searchFile(dirPath,keyWords)
+        if (hasData(rs)) {
+            return rs;
+        }
+        if (typeof intervalFun === 'function' && intervalFun() == 'stopWait') {
+            console.log('stopWait from intervalFun');
+            return false
+        }
+    }
+    //error
+    let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
+    let lineNumber = frame.split(":").reverse()[1];
+    let functionName = frame.split(" ")[5];
+    exit(`等待文件超时： ${dirPath} line:${lineNumber} function:${functionName}`)
+}
+exports.waitFile =  waitFile;
 
 
 /**
@@ -1246,7 +1272,7 @@ exports.utils.getTime =  getTime;
  * 常用工具
  * 根据关键字定位具体文件
  * @param {string} directory  绝对路径
- * @param {string} words  文件名包含的关键字
+ * @param {string} words  文件名包含的关键字，过滤词，默认忽略大小写
  * @returns {string[]}  文件路径 || [] 未找到
  */
 function searchFile(directory, words,rs=[]) {
@@ -1254,6 +1280,7 @@ function searchFile(directory, words,rs=[]) {
     let files = fs.readdirSync(directory)
     // console.log('files',files);
     // 遍历每个文件
+    words = words.toLowerCase()
     files.forEach((file) => {
         let filePath = path.join(directory, file);
         let stats = fs.statSync(filePath);
