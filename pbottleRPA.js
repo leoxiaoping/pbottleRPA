@@ -1149,7 +1149,6 @@ function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30) {
 }
 exports.waitImageDisappear =  waitImageDisappear;
 
-
 /**
  * 等待文件下载成功或者生成
  * @param {string} dirPath 监控文件夹目录  如：'c:/User/pbottle/download'
@@ -1178,6 +1177,165 @@ function waitFile(dirPath,keyWords='',intervalFun=()=>{},timeOut = 30){
     exit(`等待文件超时： ${dirPath} line:${lineNumber} function:${functionName}`)
 }
 exports.waitFile =  waitFile;
+
+/**
+ *  小瓶RPA 硬件键鼠模拟接口
+ *  注意：
+ *  ①此模块不是必须模块 
+ *  ②此模块功能需要添加电脑硬件外设，购买装配请咨询小瓶RPA客服
+ */
+exports.hid={}
+/**
+ * 模拟按键触发事件 (硬件级)
+ * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
+ * @param {string} upDown  默认按下down，up松开按键
+ * @returns 
+ */
+let hid_keyToggle = (key,upDown)=>{
+    let upDown_n = 0;
+    if (upDown == 'up') {
+        upDown_n = 2;
+    }
+    let key_n = keycode(key)
+    let url = `${CppUrl}?action=keyToggleHardWare&key_n=${key_n}&upDown_n=${upDown_n}`
+    // console.log(url)
+    let res = request('GET', url);
+    return res;
+}
+exports.hid.keyToggle = hid_keyToggle
+
+/**
+ * 按一下键盘（硬件级）   支持组合按键 加号连接 如：  keyTap('ctrl + alt + del')
+ * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
+ */
+let hid_keyTap = (key)=>{
+    if (key.includes('+')) {
+        let subkeys = new Array();
+        subkeys = key.split('+')
+        subkeys = subkeys.map((value)=>{
+            return value.trim()
+        })
+        for (let index = 0; index < subkeys.length; index++) {
+            const element = subkeys[index];
+            hid_keyToggle(element,"down")
+        }
+        
+        subkeys = subkeys.reverse()
+        for (let index = 0; index < subkeys.length; index++) {
+            const element = subkeys[index];
+            hid_keyToggle(element,"up")
+        }
+        
+    }else{
+        hid_keyToggle(key,"down")
+        hid_keyToggle(key,"up")
+    }
+}
+exports.hid.keyTap = hid_keyTap
+
+
+/**
+ * 基础鼠标命令  全部为零释放
+ * @param {number} button 按键  1，2，4 代表鼠标的 左键，右键，中键。
+ * @param {number} x 按键时候移动的位置，绝对位置  x=100：向右移动 100像素，负数向左
+ * @param {number} y 按键时候移动的位置，拖拽相对位置  y=100：向下移动 100像素，负数向上
+ * @param {number} mouseWheel 滚动齿轮数  正数向下，负数向下
+ * @param {number} time 按下到释放时间
+ * @returns 
+ */
+let hid_mouseCMD = (button=1,x=0,y=0,mouseWheel=0,time=10)=>{
+    let url = `${CppUrl}?action=mouseDataHardWare&bt=${button}&x=${x}&y=${y}&wheel=${mouseWheel}&time=${time}`
+    // console.log(url)
+    let res = request('GET', url);
+    return res;
+}
+
+/**
+ * 移动鼠标到指定位置  起点为屏幕左上角  屏幕绝对位置（硬件分辨率）
+ * @param {number} x   横坐标
+ * @param {number} y   纵坐标
+ * @returns 
+ */
+let hid_moveMouse = (x,y)=>{
+    hid_mouseCMD(0,x,y,0,10)
+}
+exports.hid.moveMouse = hid_moveMouse
+
+
+/**
+ * 当前位置点击鼠标 默认左键  
+ * @param {string} 鼠标的按键选择 left right middle 可选  ，默认左键
+ * @param {number} 点按时间 单位毫秒 可选
+ * @returns 
+ */
+let hid_mouseClick = (button='left',time=10)=>{
+    let bt = 1
+    switch (button) {
+        case 'right':
+            bt = 2
+            break;
+        case 'middle':
+            bt = 4
+            break
+        default:
+            bt = 1
+            break;
+    }
+    hid_mouseCMD(bt,0,0,0,time)
+    hid_mouseCMD(0,0,0,0,0)
+}
+exports.hid.mouseClick = hid_mouseClick
+
+
+/**
+ * 双击鼠标  左键
+ * @returns 
+ */
+let hid_mouseDoubleClick = ()=>{
+    hid_mouseCMD(1,0,0,0,10)
+    hid_mouseCMD(0,0,0,0,0)
+    hid_mouseCMD(1,0,0,0,10)
+    hid_mouseCMD(0,0,0,0,0)
+}
+exports.hid.mouseDoubleClick = hid_mouseDoubleClick
+
+/**
+ * 鼠标左键拖到一段位置
+ * @param {number} x  位置
+ * @param {number} y  位置
+ * @returns 
+ */
+let hid_mouseLeftDragTo = (x,y)=>{
+    hid_mouseCMD(1,0,0,0,10)
+    hid_mouseCMD(1,x,y,0,10)
+    hid_mouseCMD(0,0,0,0,0)
+}
+exports.hid.mouseLeftDragTo = hid_mouseLeftDragTo
+
+/**
+ * 鼠标左键拖到一段位置
+ * @param {number} x  位置
+ * @param {number} y  位置
+ * @returns 
+ */
+let hid_mouseRightDragTo = (x,y)=>{
+    mouseCMD(2,0,0,0,10)
+    mouseCMD(2,x,y,0,10)
+    mouseCMD(0,0,0,0,0)
+}
+exports.hid.mouseRightDragTo = hid_mouseRightDragTo
+
+
+/**
+ * 鼠标滚轮
+ * @param {number} data 滚动的量  默认为-1   向下滚动一个齿轮;  正数向上滚动；
+ * @returns 
+ */
+let hid_mouseWheel = (data = -1)=>{
+    hid_mouseCMD(0,0,0,data,0)
+    hid_mouseCMD(0,0,0,0,0)
+}
+exports.hid.mouseWheel = hid_mouseWheel
 
 
 /**

@@ -10,6 +10,15 @@ const pbottleRPA = require('./pbottleRPA')
 console.log("=== 测试开始 ===");
 console.log(Date());
 
+let deviceID = pbottleRPA.deviceID();
+console.log('设备号：',deviceID);
+if (deviceID == '个人版不可用') {
+    console.log('个人版不可用，请先开通企业版');
+    pbottleRPA.showMsg('个人版不可用','请先开通企业版')
+    pbottleRPA.tts('个人版不可用，请先开通企业版')
+    pbottleRPA.exit('个人版不可用，请先开通企业版')
+}
+
 
 console.log('物体识别种类依赖于当前的训练模型');
 pbottleRPA.tts('物体识别种类依赖于当前的训练模型')

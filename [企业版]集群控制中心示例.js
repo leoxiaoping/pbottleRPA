@@ -7,6 +7,16 @@
 const pbottleRPA = require('./pbottleRPA')
 
 
+let deviceID = pbottleRPA.deviceID();
+console.log('设备号：',deviceID);
+if (deviceID == '个人版不可用') {
+    console.log('个人版不可用，请先开通企业版');
+    pbottleRPA.showMsg('个人版不可用','请先开通企业版')
+    pbottleRPA.tts('个人版不可用，请先开通企业版')
+    pbottleRPA.exit('个人版不可用，请先开通企业版')
+}
+
+
 //控制中心配置参数从本地 buffer0 中直接读取
 let buffer = pbottleRPA.bufferGet(0) 
 console.log('控制中心任务参数（json格式）：',JSON.parse(buffer));
