@@ -1433,7 +1433,7 @@ exports.utils.getTime =  getTime;
  * @param {string} words  文件名包含的关键字，过滤词，默认忽略大小写
  * @returns {string[]}  文件路径 || [] 未找到
  */
-function searchFile(directory, words,rs=[]) {
+function searchFile(directory, words='',rs=[]) {
     // 读取目录内容
     let files = fs.readdirSync(directory)
     // console.log('files',files);
