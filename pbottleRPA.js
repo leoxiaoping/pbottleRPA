@@ -120,7 +120,7 @@ let showRect = (fromX=0,fromY=0,width=500,height=500,color='red',msec=500)=>{
     return res;
 }
 exports.showRect = showRect
-exports.显示提示框 = showRect
+exports.显示标记框 = showRect
 
 
 /**
@@ -845,13 +845,11 @@ exports.deviceID = deviceID
  * @returns {string} 正常返回 'ok'
  */
 var browserCMD_alert = function(msg){
-
     let action = 'alert';
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
     let res = request('GET', url);
     return res.getBody('utf8');
-
 }
 exports.browserCMD_alert = browserCMD_alert;
 
@@ -878,9 +876,7 @@ exports.browserCMD_url = browserCMD_url;
  * @returns {number}  返回选择元素的数量，最优的选择结果是1
  */
 var browserCMD_count = function(selector){
-
     let action = 'count';
-
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
     let res = request('GET', url);
@@ -890,7 +886,6 @@ var browserCMD_count = function(selector){
     }else{
         return 0
     }
-    
 }
 exports.browserCMD_count = browserCMD_count;
 
@@ -904,7 +899,6 @@ exports.browserCMD_count = browserCMD_count;
  var browserCMD_click = function(selector){
 
     let action = 'click';
-
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
     let res = request('GET', url);
@@ -923,7 +917,6 @@ exports.browserCMD_click = browserCMD_click;
 var browserCMD_show = function(selector){
 
     let action = 'show';
-
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
     let res = request('GET', url);
@@ -941,7 +934,6 @@ exports.browserCMD_show = browserCMD_show;
 var browserCMD_hide = function(selector){
 
     let action = 'hide';
-
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
     let res = request('GET', url);
