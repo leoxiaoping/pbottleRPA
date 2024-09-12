@@ -8,6 +8,14 @@
 
 ![小瓶RPA logo](input/RPAlogo128.png)
 
+
+```
+pbottleRPA.打开网址('https://www.baidu.com/')
+pbottleRPA.粘贴输入('小瓶RPA官网')
+pbottleRPA.键盘按键('enter')
+```
+
+
 #### 小瓶RPA优势
 
 ① 基于AI图像识别技术，纯图像驱动，真正安全无侵入。
