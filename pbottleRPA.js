@@ -22,6 +22,7 @@ const CppUrl = `http://127.0.0.1:49888/`
 console.log("基座服务地址：（NodeJS）",CppUrl);
 exports.jsPath = jsPath
 exports.__dirname = jsPath
+exports.目录路径 = jsPath
 
 
 
@@ -35,6 +36,7 @@ let setDefaultDelay = (millisecond)=>{
     defaultDelay = millisecond
 }
 exports.setDefaultDelay = setDefaultDelay
+exports.设置默认操作延时 = setDefaultDelay
 
 
 
@@ -49,6 +51,7 @@ exports.setDefaultDelay = setDefaultDelay
     return res;
 }
 exports.beep = beep
+exports.蜂鸣声 = beep
 
 
 
@@ -67,6 +70,7 @@ let showMsg = (title,content)=>{
     return res;
 }
 exports.showMsg = showMsg
+exports.显示系统消息 = showMsg
 
 
 /**
@@ -88,6 +92,7 @@ let kill = (processName,force=false)=>{
     console.log('关闭进程成功：' + processName);
 }
 exports.kill = kill
+exports.关闭软件 = kill
 
 
 /**
@@ -109,6 +114,7 @@ let showRect = (fromX=0,fromY=0,width=500,height=500,color='red',msec=500)=>{
     return res;
 }
 exports.showRect = showRect
+exports.显示提示框 = showRect
 
 
 /**
@@ -123,6 +129,7 @@ exports.showRect = showRect
     process.exit(1)
 }
 exports.exit = exit
+exports.退出流程 = exit
 
 
 /**
@@ -145,6 +152,7 @@ exports.exit = exit
     return res;
 }
 exports.sleep = sleep
+exports.睡眠毫秒 = sleep
 
 
 /**
@@ -161,6 +169,7 @@ let wait = (seconds)=>{
     sleep(seconds*1000)
 }
 exports.wait = wait
+exports.等待 = wait
 
 /**
  * 移动鼠标到指定位置并点击  起点为屏幕左上角
@@ -180,6 +189,7 @@ let moveMouseSmooth = (x,y,interval=0)=>{
 }
 exports.moveMouseSmooth = moveMouseSmooth
 exports.moveMouse = moveMouseSmooth  //增加别名
+exports.鼠标移动 = moveMouseSmooth
 
 
 /**
@@ -192,6 +202,7 @@ let moveAndClick = (x,y)=>{
     this.mouseClick()
 }
 exports.moveAndClick = moveAndClick
+exports.鼠标移动并点击 = moveAndClick
 
 
 /**
@@ -213,6 +224,7 @@ let mouseClick = (leftRight = 'left',time=30)=>{
     return res;
 }
 exports.mouseClick = mouseClick
+exports.鼠标点击 = mouseClick
 
 
 /**
@@ -230,6 +242,7 @@ exports.mouseClick = mouseClick
     return res;
 }
 exports.mouseDoubleClick = mouseDoubleClick
+exports.鼠标双击 = mouseDoubleClick
 
 
 /**
@@ -245,6 +258,7 @@ let mouseWheel = (data = -720)=>{
     return res;
 }
 exports.mouseWheel = mouseWheel
+exports.鼠标滚轮 = mouseWheel
 
 
 /**
@@ -263,6 +277,7 @@ let mouseLeftDragTo = (x,y)=>{
     return res;
 }
 exports.mouseLeftDragTo = mouseLeftDragTo
+exports.鼠标左键拖动 = mouseLeftDragTo
 
 
 /**
@@ -281,6 +296,7 @@ let mouseRightDragTo = (x,y)=>{
     return res;
 }
 exports.mouseRightDragTo = mouseRightDragTo
+exports.鼠标右键拖动 = mouseRightDragTo
 
 
 
@@ -298,6 +314,7 @@ let getScreenColor = (x,y)=>{
     return jsonRes.rs;
 }
 exports.getScreenColor = getScreenColor
+exports.获取屏幕颜色 = getScreenColor
 
 
 /**
@@ -327,6 +344,7 @@ let screenShot = (savePath='',x=0,y=0,w=-1,h=-1)=>{
     return res;
 }
 exports.screenShot = screenShot
+exports.屏幕截图 = screenShot
 
 
 /**
@@ -347,6 +365,7 @@ let keyToggle = (key,upDown='down')=>{
     return res;
 }
 exports.keyToggle = keyToggle
+exports.键盘基础触发 = keyToggle
 
 
 /**
@@ -378,6 +397,7 @@ let mouseKeyToggle = (key='left',upDown='down')=>{
     return res;
 }
 exports.mouseKeyToggle = mouseKeyToggle
+exports.鼠标基础触发 = mouseKeyToggle
 
 
 /**
@@ -411,6 +431,7 @@ let keyTap = (key)=>{
     sleep(defaultDelay);
 }
 exports.keyTap = keyTap
+exports.键盘按键 = keyTap
 
 /**
  *
@@ -461,6 +482,7 @@ var findScreen = (tpPath,miniSimilarity=0.85,fromX=0,fromY=0,width=-1,height=-1)
     return jsonRes;
 }
 exports.findScreen = findScreen
+exports.寻找图像 = findScreen
 
 
 /**
@@ -494,6 +516,7 @@ var findText = (inputTxt,fromX=0,fromY=0,width=-1,height=-1) =>{
     return result;
 }
 exports.findText = findText
+exports.寻找文字 = findText
 
 
 /**
@@ -529,6 +552,7 @@ var findContours = (minimumArea=1000,fromX=0,fromY=0,width=-1,height=-1) =>{
     return jsonRes;
 }
 exports.findContours = findContours
+exports.寻找轮廓 = findContours
 
 /**
  * 当前位置 粘贴（输入）文字  
@@ -542,6 +566,8 @@ var paste = (txt)=>{
     sleep(defaultDelay);
 }
 exports.paste = paste
+exports.粘贴输入 = paste
+
 
 
 /**
@@ -561,6 +587,7 @@ var copyFile = (filepath)=>{
     request('GET', url);
 }
 exports.copyFile = copyFile
+exports.复制文件 = copyFile
 
 /**
  * 获取当前电脑的剪切板内容，系统剪切板支持多种格式   版本 V2024.2 开始生效
@@ -576,6 +603,7 @@ var getClipboard= ()=>{
     return res.getBody('utf8');
 }
 exports.getClipboard = getClipboard
+exports.获取剪切板内容 = getClipboard
 
 
 
@@ -594,6 +622,7 @@ var wxMessage= (title,content,key)=>{
 
 }
 exports.wxMessage = wxMessage
+exports.微信消息发送 = wxMessage
 
 
 /**
@@ -622,6 +651,7 @@ var tts= (text)=>{
     sleep(defaultDelay);
 }
 exports.tts = tts
+exports.文字转语音 = tts
 
 
 /**
@@ -636,7 +666,7 @@ var openURL= (myurl)=>{
     sleep(defaultDelay+1000);
 }
 exports.openURL = openURL
-
+exports.打开网址 = openURL
 
 
 /**
@@ -652,6 +682,8 @@ var openDir= (path)=>{
 }
 exports.openDir = openDir
 exports.openfile = openDir
+exports.打开目录 = openDir
+exports.打开文件 = openDir
 
 
 /**
@@ -671,7 +703,7 @@ var getResolution= ()=>{
     return JSON.parse(res.getBody('utf8'));
 }
 exports.getResolution = getResolution
-
+exports.获取屏幕分辨率 = getResolution
 
 
 /**
@@ -709,6 +741,7 @@ var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
     return jsons;
 }
 exports.aiOcr = aiOcr
+exports.文字识别 = aiOcr
 
 
 /**
@@ -752,6 +785,7 @@ var aiObject= (minimumScore=0.5, x=0, y=0, width=-1, height=-1)=>{
     return jsons;
 }
 exports.aiObject = aiObject
+exports.物体识别 = aiObject
 
 /**
  * 获取buffer存储内容
@@ -1077,7 +1111,6 @@ exports.browserCMD_attr = browserCMD_attr;
  var browserCMD_prop = function(selector,propertyname,value=undefined){
 
     let action = 'prop';
-
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
     let res = request('GET', url);
@@ -1117,6 +1150,7 @@ function waitImage(tpPath, intervalFun = () => { }, timeOut = 30) {
     exit(`等待图片超时 ${tpPath} line:${lineNumber} function:${functionName}`)
 }
 exports.waitImage =  waitImage;
+exports.等待图像出现 =  waitImage;
 
 /**
  * 等待屏幕上的图片消失
@@ -1148,6 +1182,7 @@ function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30) {
     exit(`等待图片消失超时 ${tpPath} line:${lineNumber} function:${functionName}`)
 }
 exports.waitImageDisappear =  waitImageDisappear;
+exports.等待图像消失 =  waitImageDisappear;
 
 /**
  * 等待文件下载成功或者生成
@@ -1177,6 +1212,7 @@ function waitFile(dirPath,keyWords='',intervalFun=()=>{},timeOut = 30){
     exit(`等待文件超时： ${dirPath} line:${lineNumber} function:${functionName}`)
 }
 exports.waitFile =  waitFile;
+exports.等待文件 =  waitFile;
 
 /**
  *  小瓶RPA 硬件键鼠模拟接口
@@ -1355,6 +1391,7 @@ function isNumeric(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
 }
 exports.isNumeric =  isNumeric;
+exports.是否数字 =  isNumeric;
 exports.utils.isNumeric =  isNumeric;
 
 /**
@@ -1393,6 +1430,7 @@ function hasData(value) {
     return true;
 }
 exports.hasData =  hasData;
+exports.是否有内容 =  hasData;
 exports.utils.hasData =  hasData;
 
 /**
@@ -1423,6 +1461,7 @@ function getTime(format='Y-m-d H:i:s', timestamp = null) {
         return format.replace(/Y|y|m|d|H|i|s|n|j/g, (matched) => formatMap[matched]);
 }
 exports.getTime =  getTime;
+exports.获取格式化时间 =  getTime;
 exports.utils.getTime =  getTime;
 
 
@@ -1453,6 +1492,7 @@ function searchFile(directory, words='',rs=[]) {
     return rs;
 }
 exports.searchFile =  searchFile;
+exports.搜索文件 =  searchFile;
 exports.utils.searchFile =  searchFile;
 
 
@@ -1474,6 +1514,7 @@ function uniqid(prefix = '', moreEntropy = false) {
     return prefix + timestamp + randomStr;  
 }
 exports.uniqid =  uniqid;
+exports.唯一数 =  uniqid;
 exports.utils.uniqid =  uniqid;
 
 

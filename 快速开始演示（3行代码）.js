@@ -3,10 +3,10 @@
  * 官网：https://rpa.pbottle.com/
  * 流程开发文档：https://gitee.com/pbottle/pbottle-rpa/wikis/pages
  */
-
 const pbottleRPA = require('./pbottleRPA')
 
 
-pbottleRPA.openURL('https://www.baidu.com/') // 用浏览器打开百度
-pbottleRPA.paste('小瓶RPA官网')  //输入搜索词
-pbottleRPA.keyTap('enter')  //确认搜索
+//开始RPA操作
+pbottleRPA.打开网址('https://www.baidu.com/')
+pbottleRPA.粘贴输入('小瓶RPA官网')
+pbottleRPA.键盘按键('enter')
