@@ -7,6 +7,7 @@ const pbottleRPA = require('./pbottleRPA')
 
 
 //开始RPA操作
+
 pbottleRPA.打开网址('https://www.baidu.com/')
 pbottleRPA.粘贴输入('小瓶RPA官网')
 pbottleRPA.键盘按键('enter')

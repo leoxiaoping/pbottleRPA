@@ -7,32 +7,33 @@
 const pbottleRPA = require('./pbottleRPA')
 
 
-pbottleRPA.tts('等待3秒开始')
-console.log('等待3秒开始');
-pbottleRPA.wait(3)
+pbottleRPA.文字转语音('等待3秒开始')
+pbottleRPA.日志输出('等待3秒开始');
+pbottleRPA.等待(3)
 
 
 //for 循环 重复操作 10 次 打开网页
 for (let index = 0; index < 10; index++) {
-    let number = index+1
-    console.log('第' + number + '次操作'); //输出到日志，文件日志永久保存
-    pbottleRPA.openURL('https://www.baidu.com/s?wd='+number) //操作：用默认浏览器打开网页
-    pbottleRPA.sleep(500) //等待500毫秒
+    let 计数器 = index+1
+    pbottleRPA.日志输出('第' + 计数器 + '次操作'); //输出到日志，文件日志永久保存
+    pbottleRPA.打开网址('https://www.baidu.com/s?wd='+计数器) //操作：用默认浏览器打开网页
+    pbottleRPA.等待(0.5)
 }
+
 
 
 //判断
-let number = Math.random() //生成一个 0-1 的随机数  用于判断
-if (number < 0.5) {        //用 if 判断数值是否小于 0.5
-    console.log('小于 0.5。', number)
-    pbottleRPA.tts('小于 0.5')
+let 随机数 = Math.random()
+if (随机数 < 0.5) {        //用 if 判断数值是否小于 0.5
+    pbottleRPA.日志输出('小于 0.5。', 随机数)
+    pbottleRPA.文字转语音('小于 0.5')
 } else {
-    console.log('大于或等于 0.5。', number)
-    pbottleRPA.tts('大于等于 0.5。')
+    pbottleRPA.日志输出('大于或等于 0.5。', 随机数)
+    pbottleRPA.文字转语音('大于等于 0.5。')
 }
+pbottleRPA.等待(3)
 
-pbottleRPA.wait(3)
 
 //语音播报
-pbottleRPA.tts('流程结束！~')
-pbottleRPA.showMsg('小瓶RPA提示','流程结束！~')
+pbottleRPA.文字转语音('流程结束！~')
+pbottleRPA.显示系统消息('小瓶RPA提示','流程结束！~')

@@ -9,20 +9,21 @@ const os = require('os');
 const path = require('node:path')
 
 
-let downlaodPath = path.join(os.homedir(),'Downloads')
-// downlaodPath = 'D:\\Users\\Leo\\Downloads'   //修改成自己电脑浏览器默认下载路径
-console.log('电脑浏览器默认下载路径，根据自己的情况修改',downlaodPath)
+let 下载保存路径 = path.join(os.homedir(),'Downloads')
+// 下载保存路径 = 'D:\\Users\\Leo\\Downloads'   //修改成自己电脑浏览器默认下载路径
+pbottleRPA.日志输出('电脑浏览器默认下载路径，根据自己的情况修改',下载保存路径)
 
 
 
-pbottleRPA.openURL('https://pc.weixin.qq.com/')
-pbottleRPA.openURL('https://dldir1v6.qq.com/weixin/Windows/WeChatSetup.exe')
-pbottleRPA.keyTap('enter')
+pbottleRPA.打开网址('https://pc.weixin.qq.com/')
+pbottleRPA.打开网址('https://dldir1v6.qq.com/weixin/Windows/WeChatSetup.exe')
+pbottleRPA.键盘按键('enter')
 
-pbottleRPA.waitFile(downlaodPath,'WeChatSetup.exe',()=>{
-    console.log('正在下载...');
-},60)
-console.log('文件已经下载成功');
+pbottleRPA.等待文件(下载保存路径,'WeChatSetup.exe',()=>{
+    pbottleRPA.日志输出('正在下载...');
+},120)
+
+pbottleRPA.日志输出('文件已经下载成功');
 pbottleRPA.showMsg('监测下载完成','文件已经下载成功')
 
 

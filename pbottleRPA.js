@@ -54,6 +54,12 @@ exports.beep = beep
 exports.蜂鸣声 = beep
 
 
+/**
+ * 日志输出，同时生成文件日志
+ */
+exports.log = console.log
+exports.日志输出 = console.log
+
 
 /**
  * 系统原生消息提示
@@ -1379,6 +1385,7 @@ exports.hid.mouseWheel = hid_mouseWheel
  * 持续添加常用工具，为流程提供快捷方法。
  */
 exports.utils={}
+exports.工具箱={}
 
 /**
  * 常用工具
@@ -1393,6 +1400,7 @@ function isNumeric(value) {
 exports.isNumeric =  isNumeric;
 exports.是否数字 =  isNumeric;
 exports.utils.isNumeric =  isNumeric;
+exports.工具箱.是否数字 =  isNumeric;
 
 /**
  * 常用工具
@@ -1432,6 +1440,7 @@ function hasData(value) {
 exports.hasData =  hasData;
 exports.是否有内容 =  hasData;
 exports.utils.hasData =  hasData;
+exports.工具箱.是否有内容 =  hasData;
 
 /**
  * 常用工具
@@ -1463,6 +1472,7 @@ function getTime(format='Y-m-d H:i:s', timestamp = null) {
 exports.getTime =  getTime;
 exports.获取格式化时间 =  getTime;
 exports.utils.getTime =  getTime;
+exports.工具箱.获取格式化时间 =  getTime;
 
 
 /**
@@ -1494,6 +1504,7 @@ function searchFile(directory, words='',rs=[]) {
 exports.searchFile =  searchFile;
 exports.搜索文件 =  searchFile;
 exports.utils.searchFile =  searchFile;
+exports.工具箱.搜索文件 =  searchFile;
 
 
 
@@ -1516,6 +1527,8 @@ function uniqid(prefix = '', moreEntropy = false) {
 exports.uniqid =  uniqid;
 exports.唯一数 =  uniqid;
 exports.utils.uniqid =  uniqid;
+exports.工具箱.唯一数 =  uniqid;
+
 
 
 /**
