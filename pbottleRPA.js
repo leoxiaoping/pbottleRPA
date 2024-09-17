@@ -1212,6 +1212,37 @@ function waitFile(dirPath,keyWords='',intervalFun=()=>{},timeOut = 30){
 exports.waitFile =  waitFile;
 exports.等待文件 =  waitFile;
 
+
+/**
+ * 等待文件消失或者被删除
+ * @param {string} dirPath 监控文件夹目录  如：'c:/User/pbottle/download'
+ * @param {string} keyWords 过滤关键词  如：'.crdownload'
+ * @param {function} intervalFun 检测间隔的操作，function格式
+ * @param {number} timeOut 等待超时时间 单位秒
+ * @returns  {string[]}
+ */
+function waitFileDisappear(dirPath,keyWords='',intervalFun=()=>{},timeOut = 30){
+    console.log('waitFileDisappear',dirPath,keyWords);
+    for (let index = 0; index < timeOut; index++) {
+        sleep(1000)
+        let rs = searchFile(dirPath,keyWords)
+        if (!hasData(rs)) {
+            return true;
+        }
+        if (typeof intervalFun === 'function' && intervalFun() == 'stopWait') {
+            console.log('stopWait from intervalFun');
+            return false
+        }
+    }
+    //error
+    let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
+    let lineNumber = frame.split(":").reverse()[1];
+    let functionName = frame.split(" ")[5];
+    exit(`等待文件错误： ${dirPath} line:${lineNumber} function:${functionName}`)
+}
+exports.waitFileDisappear =  waitFileDisappear;
+exports.等待文件消失 =  waitFileDisappear;
+
 /**
  *  小瓶RPA 硬件键鼠模拟接口
  *  注意：
