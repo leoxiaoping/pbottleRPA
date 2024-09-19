@@ -420,6 +420,7 @@ let keyTap = (key)=>{
         })
         for (let index = 0; index < subkeys.length; index++) {
             const element = subkeys[index];
+            keyToggle(element,"up")  //净化复位
             keyToggle(element,"down")
         }
         
@@ -428,8 +429,8 @@ let keyTap = (key)=>{
             const element = subkeys[index];
             keyToggle(element,"up")
         }
-        
     }else{
+        keyToggle(key,"up")  //净化复位
         keyToggle(key,"down")
         keyToggle(key,"up")
     }
