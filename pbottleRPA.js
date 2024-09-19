@@ -164,10 +164,10 @@ exports.睡眠毫秒 = sleep
 /**
  * 脚本暂停等待操作响应 (秒)
  * 注意：一次等待上限时长两分钟内
- * @param {number} seconds  秒
+ * @param {number} seconds  秒,  缺省值为 1 秒
  * @returns 
  */
-let wait = (seconds)=>{
+let wait = (seconds = 1)=>{
     if(seconds<=0  || !isNumeric(seconds)){
         console.log('pbottle.wait：seconds input error');
         return;
