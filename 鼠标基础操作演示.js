@@ -29,17 +29,20 @@ pbottleRPA.tts(`当前电脑屏幕分辨率: ${resolution.w} 乘以 ${resolution
 pbottleRPA.wait(6)
 
 pbottleRPA.tts(`移动指针到屏幕中点`)
-pbottleRPA.moveMouseSmooth(resolution.w/2,resolution.h/2)
+pbottleRPA.log(`移动指针到屏幕中点`)
+pbottleRPA.moveMouse(resolution.w/2,resolution.h/2)
 pbottleRPA.wait(3)
 
 pbottleRPA.tts(`长按左键`)
+pbottleRPA.log(`长按左键`)
 pbottleRPA.mouseClick('left',1500); 
 pbottleRPA.wait(2)
 
 
 
 pbottleRPA.tts(`鼠标双击`)
-pbottleRPA.moveMouseSmooth(38,38)
+pbottleRPA.log(`鼠标双击`)
+pbottleRPA.moveMouse(38,38)
 pbottleRPA.mouseDoubleClick()
 pbottleRPA.wait(3)
 
@@ -50,7 +53,7 @@ pbottleRPA.wait(10)
 
 //用浏览器打开网址
 pbottleRPA.openURL('https://rpa.pbottle.com?from=demo')
-pbottleRPA.wait(2)
+pbottleRPA.wait(3)
 pbottleRPA.keyTap('f11')
 pbottleRPA.wait(1)
 
@@ -65,11 +68,13 @@ pbottleRPA.wait(4)
 
 
 pbottleRPA.tts('右键页面')
-pbottleRPA.moveMouseSmooth(200,250)
+pbottleRPA.log('右键页面')
+pbottleRPA.moveMouse(200,250)
 pbottleRPA.mouseClick('right')
 pbottleRPA.wait(3)
-pbottleRPA.moveMouseSmooth(150,250)
+pbottleRPA.moveMouse(150,250)
 pbottleRPA.tts('左键单击')
+pbottleRPA.log('左键单击')
 pbottleRPA.mouseClick()
 pbottleRPA.wait(3)
 
@@ -78,12 +83,14 @@ pbottleRPA.wait(3)
 
 //测试鼠标拖拽
 pbottleRPA.tts('拖拽或选区')
+pbottleRPA.log('拖拽或选区')
 pbottleRPA.wait(4)
 pbottleRPA.moveMouse(resolution.w*0.7,resolution.h*0.5)
 pbottleRPA.wait(1)
 pbottleRPA.mouseLeftDragTo(resolution.w*0.3,resolution.h*0.2)
 //
 pbottleRPA.tts('缓慢拖拽')
+pbottleRPA.log('缓慢拖拽')
 pbottleRPA.wait(4)
 pbottleRPA.mouseClick()
 pbottleRPA.wait(1)

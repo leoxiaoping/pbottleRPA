@@ -365,6 +365,10 @@ let keyToggle = (key,upDown='down')=>{
         upDown_n = 2;
     }
     let key_n = keycode(key)
+    if (key_n === undefined) {
+        console.log(`⚠ 按键 ${key} 不存在！~`);
+        return
+    }
     let url = `${CppUrl}?action=keyToggle&key_n=${key_n}&upDown_n=${upDown_n}`
     // console.log(url)
     let res = request('GET', url);

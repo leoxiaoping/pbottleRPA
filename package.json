@@ -9,10 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "docx": "^8.5.0",
-    "exceljs": "^4.4.0",
     "keycode": "^2.2.0",
-    "mammoth": "^1.8.0",
     "sync-request": "^6.1.0"
   }
 }
