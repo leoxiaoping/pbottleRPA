@@ -580,6 +580,18 @@ exports.paste = paste
 exports.粘贴输入 = paste
 
 
+/**
+ * 模拟复制文字，相当于选择并复制文本内容
+ * @param {string} txt 复制的文本内容
+ */
+var copyText=(txt)=>{
+    txt =  encodeURIComponent(txt)
+    url = `${CppUrl}?action=copyText&txt=${txt}`
+    // console.log(url)
+    request('GET', url);
+}
+exports.copyText = copyText
+exports.复制文字 = copyText
 
 /**
  * 模拟复制操作，支持文件路径和文件夹路径，复制后在目标文件夹ctrl+V 即可粘贴  V2024.7开始生效
