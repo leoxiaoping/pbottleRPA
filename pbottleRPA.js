@@ -740,6 +740,10 @@ exports.获取屏幕分辨率 = getResolution
  * @returns {array}  AI OCR识别的json结果 包含准确率的评分和中点位置    格式： [{text:'A',score:'0.319415',x:100,y:200},...]
  */
 var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
+
+    if (!imagePath) {
+        imagePath="screen"
+    }
     
     if (x<0 || y<0) {
         exit(`错误：OCR 起始点不能为负，x:${x} y:${y} `);
