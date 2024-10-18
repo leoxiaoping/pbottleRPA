@@ -180,7 +180,7 @@ web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快�
 
 喜欢群聊的可以微信扫码加入（永不过期）：
 
-![输入图片说明](https://www.pbottle.com/static/upload/20221213/16709408628938.jpg)
+![输入图片说明](input/discuss.jpg)
 
 
 #### 官方RPA增值服务
