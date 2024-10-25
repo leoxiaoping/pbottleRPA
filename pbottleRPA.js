@@ -16,11 +16,13 @@ const childProcess = require('child_process');
 /**
  * 当前脚本的路径，结尾无/  如 'D:/pbottleRPAdemo'
  */
-const jsPath = path.resolve('./');
+const jsPath = path.resolve('./');  
 const CppUrl = `http://127.0.0.1:49888/`
+let basePath = ''; //基座路径
 
 console.log("基座服务地址：（NodeJS）",CppUrl);
 exports.jsPath = jsPath
+exports.basePath = basePath
 exports.__dirname = jsPath
 exports.目录路径 = jsPath
 
@@ -38,6 +40,22 @@ let setDefaultDelay = (millisecond)=>{
 exports.setDefaultDelay = setDefaultDelay
 exports.设置默认操作延时 = setDefaultDelay
 
+
+
+/**
+ * 获取并设置基座平台的根目录路径  | V2025.0 以上版本启用
+ * @returns {string}
+ */
+function getBasePath() {
+    if (basePath) {
+        return basePath;
+    }
+    let url = `${CppUrl}?action=basePath`
+    let res = request('GET', url);
+    basePath = res.getBody('utf8')
+    return basePath;
+}
+exports.getBasePath = getBasePath
 
 
 /**
@@ -813,6 +831,54 @@ var aiObject= (minimumScore=0.5, x=0, y=0, width=-1, height=-1)=>{
 }
 exports.aiObject = aiObject
 exports.物体识别 = aiObject
+
+
+/**
+ * 压缩文件夹内容成一个zip文件包    v2025.0 以后版本生效
+ * @param {string} directory 文件夹路径，输入绝对路径
+ * @param {string} zipFilePath zip文件包
+ */
+function zipDir(directory,zipFilePath="") {
+    let basePath = getBasePath()
+    if (!zipFilePath) {
+        zipFilePath = path.join(directory,'RPA生成的压缩包.zip')
+    }
+    try {
+        zipFilePath = path.join(zipFilePath)
+        directory = path.join(directory)
+        let exe = path.join(`${basePath}/bin/7za`)
+        childProcess.execSync(`"${exe}" a "${zipFilePath}" "${directory}"`, { stdio: ['ignore', 'ignore', 'pipe'], encoding: 'utf8' })
+    } catch (error) {
+        if (!error.stderr.includes('Headers Error')) {  //warning
+            console.error(`压缩失败`, error);
+        }
+    }
+}
+exports.zipDir = zipDir
+exports.压缩 = zipDir
+
+
+/**
+ * 解压缩zip文件内容到指定文件夹内    v2025.0 以后版本生效
+ * @param {string} zipFilePath zip文件包
+ * @param {string} directory 文件夹路径，输入绝对路径  默认解压到zip文件当前目录
+ */
+function unZip(zipFilePath,directory="") {
+    let basePath = getBasePath()
+    if (!directory) {
+        directory = path.dirname(zipFilePath)
+    }
+    try {
+        filePath = path.join(zipFilePath)
+        directory = path.join(directory)
+        let exe = path.join(`${basePath}/bin/7za`)
+        childProcess.execSync(`"${exe}" x "${filePath}" -o"${directory}" -aoa`, { stdio: ['ignore', 'ignore', 'pipe'], encoding: 'utf8' })
+    } catch (error) {
+            console.error(`解压缩失败`, error);
+    }
+}
+exports.unZip = unZip
+exports.解压缩 = unZip
 
 /**
  * 获取buffer存储内容
