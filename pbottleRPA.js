@@ -588,10 +588,13 @@ exports.寻找轮廓 = findContours
  * @param {string} text  复制到电脑剪切板的文本
  */
 var paste = (txt)=>{
-    txt =  encodeURIComponent(txt)
-    url = `${CppUrl}?action=paste&txt=${txt}`
+    copyText(txt)
+    sleep(200)
+    keyTap('ctrl+v')
+    // txt =  encodeURIComponent(txt)
+    // url = `${CppUrl}?action=paste&txt=${txt}`
     // console.log(url)
-    request('GET', url);
+    // request('GET', url);
     sleep(defaultDelay);
 }
 exports.paste = paste
