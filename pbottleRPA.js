@@ -1608,7 +1608,7 @@ function searchFile(directory, words='',recursive=false) {
         if (recursive) {  //判断子目录
             let stats = fs.statSync(filePath);
             if (stats.isDirectory()) {
-                rsTemp = searchFile(filePath,words)
+                rsTemp = searchFile(filePath,words,recursive)
                 rs.push(...rsTemp)
             }
         }
