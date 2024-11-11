@@ -1,5 +1,5 @@
 /**
- *  小瓶RPA 脚本API  nodeJS版本
+ *  小瓶 RPA 标准库API  NodeJS版本
  *  官网：https://rpa.pbottle.com/
  *  作者：leo@pbottle.com
  *  
@@ -602,7 +602,7 @@ exports.粘贴输入 = paste
 
 
 /**
- * 模拟复制文字，相当于选择并复制文本内容
+ * 模拟复制文字，相当于选择并复制文本内容  v2025.0以上生效
  * @param {string} txt 复制的文本内容
  */
 var copyText=(txt)=>{
@@ -1593,9 +1593,11 @@ exports.工具箱.获取格式化时间 =  getTime;
  * 根据关键字定位具体文件
  * @param {string} directory  绝对路径
  * @param {string} words  文件名包含的关键字，过滤词，默认忽略大小写
+ * @param {boolean} recursive  是否递归深入目录子目录查找 ，默认false
  * @returns {string[]}  文件路径 || [] 未找到
  */
-function searchFile(directory, words='',rs=[]) {
+function searchFile(directory, words='',recursive=false) {
+    let rs=[]  //全局结果
     // 读取目录内容
     let files = fs.readdirSync(directory)
     // console.log('files',files);
@@ -1603,9 +1605,12 @@ function searchFile(directory, words='',rs=[]) {
     words = words.toLowerCase()
     files.forEach((file) => {
         let filePath = path.join(directory, file);
-        let stats = fs.statSync(filePath);
-        if (stats.isDirectory()) { //深入目录
-            rs = searchFile(filePath,words,rs)
+        if (recursive) {  //判断子目录
+            let stats = fs.statSync(filePath);
+            if (stats.isDirectory()) {
+                rsTemp = searchFile(filePath,words)
+                rs.push(...rsTemp)
+            }
         }
         // console.log(filePath);
         if (filePath.toLowerCase().includes(words)) {
