@@ -21,4 +21,5 @@ for (let index = 0; index < asks.length; index++) {
     let rs= pbottleRPA.cloud_GPT(ask)
     pbottleRPA.log('云端 AI 生成答案:',rs.content)
     pbottleRPA.log('------------')
+    pbottleRPA.log()
 }
