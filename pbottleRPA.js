@@ -907,7 +907,6 @@ exports.bufferGet = bufferGet
  * @returns {string} ok 表示成功
  */
 var bufferSet = (content,n=0)=>{
-    
     let url = `${CppUrl}?action=bufferSet&n=${n}`
     let res = postJson(url,content);
     return res;
@@ -920,13 +919,50 @@ exports.bufferSet = bufferSet
  * 获取当前的设备唯一号
  * @returns {string} 返回字符串
  */
-var deviceID = ()=>{
+function deviceID(){
     let url = `${CppUrl}?action=pbottleRPA_deviceID`
     let res = request('GET', url);
     return res.getBody('utf8');
 }
 exports.deviceID = deviceID
 
+
+
+/**
+ *  小瓶RPA 云端模块，AI在线大模型
+ *  注意：
+ *  ①此模块不是必须模块 ，云端模块不影响本地模块的独立运行
+ *  ②此模块功能需要登录并激活云端模块。碍于成本因素，部分功能需要充值计费才能使用
+ */
+exports.cloud={}
+
+
+/**
+ * @typedef {Object} Answerinfo  AI回答结果
+ * @property {string} content - 回答结果
+ * @property {number} usage - 消耗token数量
+ */
+/**
+ * 和小瓶RPA整合的云端大语言对话模型
+ * @param {string} question 提问问题，如：'今天是xx日，你能给我写首诗吗？'
+ * @returns {Answerinfo} JSON内容格式 {content:'结果',tokens:消耗token的数量}
+ */
+function cloud_GPT(question) {
+    let deviceToken = deviceID()
+    let rs = postJson('https://rpa.pbottle.com/API/',{question,deviceToken})
+    return JSON.parse(rs)
+}
+exports.cloud_GPT = cloud_GPT
+exports.cloud.GPT = cloud_GPT
+
+
+/**
+ *  小瓶RPA 浏览器增强命令
+ *  注意：
+ *  ①此模块不是必须模块 
+ *  ②此模块功能需要安装小瓶RPA浏览器增强插件：https://rpa.pbottle.com/a-13942.html
+ */
+exports.browserCMD={}
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -942,7 +978,7 @@ var browserCMD_alert = function(msg){
     return res.getBody('utf8');
 }
 exports.browserCMD_alert = browserCMD_alert;
-
+exports.browserCMD.alert = browserCMD_alert
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -957,6 +993,7 @@ var browserCMD_url = function(urlStr=undefined){
     return res.getBody('utf8')
 }
 exports.browserCMD_url = browserCMD_url;
+exports.browserCMD.url = browserCMD_url
 
 
 /**
@@ -978,6 +1015,7 @@ var browserCMD_count = function(selector){
     }
 }
 exports.browserCMD_count = browserCMD_count;
+exports.browserCMD.count = browserCMD_count
 
 
 /**
@@ -995,7 +1033,7 @@ exports.browserCMD_count = browserCMD_count;
     return res.getBody('utf8');
 }
 exports.browserCMD_click = browserCMD_click;
-
+exports.browserCMD.click = browserCMD_click;
 
 
 /**
@@ -1013,7 +1051,7 @@ var browserCMD_show = function(selector){
     return res.getBody('utf8');
 }
 exports.browserCMD_show = browserCMD_show;
-
+exports.browserCMD.show = browserCMD_show;
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -1030,7 +1068,7 @@ var browserCMD_hide = function(selector){
     return res.getBody('utf8');
 }
 exports.browserCMD_hide = browserCMD_hide;
-
+exports.browserCMD.hide = browserCMD_hide;
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展   2024.0 以上版本生效
@@ -1048,7 +1086,7 @@ var browserCMD_offset = function(selector){
     return res.getBody('utf8');
 }
 exports.browserCMD_offset = browserCMD_offset;
-
+exports.browserCMD.offset = browserCMD_offset;
 
 
 /**
@@ -1067,7 +1105,7 @@ exports.browserCMD_offset = browserCMD_offset;
     return res.getBody('utf8');
 }
 exports.browserCMD_remove = browserCMD_remove;
-
+exports.browserCMD.remove = browserCMD_remove;
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -1086,7 +1124,7 @@ var browserCMD_text = function(selector,content=undefined){
 
 }
 exports.browserCMD_text = browserCMD_text;
-
+exports.browserCMD.text = browserCMD_text;
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -1106,7 +1144,7 @@ var browserCMD_html = function(selector,content=undefined){
 
 }
 exports.browserCMD_html = browserCMD_html;
-
+exports.browserCMD.html = browserCMD_html;
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -1126,7 +1164,7 @@ exports.browserCMD_html = browserCMD_html;
 
 }
 exports.browserCMD_val = browserCMD_val;
-
+exports.browserCMD.val = browserCMD_val;
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -1146,7 +1184,7 @@ exports.browserCMD_val = browserCMD_val;
     return res.getBody('utf8');
 }
 exports.browserCMD_cookie = browserCMD_cookie;
-
+exports.browserCMD.cookie = browserCMD_cookie
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -1167,6 +1205,7 @@ exports.browserCMD_cookie = browserCMD_cookie;
 
 }
 exports.browserCMD_css = browserCMD_css;
+exports.browserCMD.css = browserCMD_css
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -1187,6 +1226,7 @@ var browserCMD_attr = function(selector,propertyname,value=undefined){
 
 }
 exports.browserCMD_attr = browserCMD_attr;
+exports.browserCMD.attr = browserCMD_attr
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -1206,6 +1246,7 @@ exports.browserCMD_attr = browserCMD_attr;
 
 }
 exports.browserCMD_prop = browserCMD_prop;
+exports.browserCMD.prop = browserCMD_prop
 
 
 /**
