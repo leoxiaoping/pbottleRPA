@@ -1253,14 +1253,15 @@ exports.browserCMD.prop = browserCMD_prop
  * 等待屏幕上的图片出现
  * @param {string} tpPath 图片模板路径 相对路径：./image/123.png
  * @param {Function} intervalFun 检测间隔的操作，function格式
- * @param {number} timeOut 等待超时时间 单位秒
+ * @param {number} timeOut 可选，等待超时时间 单位秒 默认30秒
+ * @param {number} miniSimilarity  可选，指定最低相似度，默认0.85。取值0-1，1为找到完全相同的。
  * @returns {position|boolean} 结果的位置信息，json格式：{x,y}
  */
-function waitImage(tpPath, intervalFun = () => { }, timeOut = 30) {
+function waitImage(tpPath, intervalFun = () => { }, timeOut = 30, miniSimilarity=0.85) {
     console.log('waitImage',tpPath);
     for (let index = 0; index < timeOut; index++) {
         sleep(1000)
-        let position = findScreen(tpPath)
+        let position = findScreen(tpPath,miniSimilarity)
         if (position !== false) {
             return position;
         }
@@ -1285,14 +1286,15 @@ exports.等待图像出现 =  waitImage;
  * 等待屏幕上的图片消失
  * @param {string} tpPath 图片模板路径  相对路径：./image/123.png
  * @param {function} intervalFun 检测间隔的操作，function格式
- * @param {number} timeOut 等待超时时间 单位秒
+ * @param {number} timeOut 可选，等待超时时间 单位秒 默认30秒
+ * @param {number} miniSimilarity  可选，指定最低相似度，默认0.85。取值0-1，1为找到完全相同的。
  * @returns  {string|boolean}
  */
-function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30) {
+function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30 ,miniSimilarity=0.85) {
     console.log('waitImageDisappear',tpPath);
     for (let index = 0; index < timeOut; index++) {
         sleep(1000)
-        let position = findScreen(tpPath)
+        let position = findScreen(tpPath,miniSimilarity)
         if (position === false) {
             return 'ok';
         }
