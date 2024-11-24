@@ -18,6 +18,8 @@ for (let index = 0; index < asks.length; index++) {
     const ask = asks[index];
     
     pbottleRPA.log(`问题 ${index+1}：`,ask);
+    pbottleRPA.tts(ask)
+
     let rs= pbottleRPA.cloud_GPT(ask)
     pbottleRPA.log('云端 AI 生成答案:',rs.content)
     pbottleRPA.log('------------')
