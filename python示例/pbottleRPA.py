@@ -74,16 +74,25 @@ def beep():
     urllib.request.urlopen(url)
 
 
+def copyText(txt):
+    """
+    * 模拟复制文字，相当于选择并复制文本内容  v2025.0以上生效
+    * @param {string} txt 复制的文本内容
+    """
+    txt =  urlencode(txt)
+    url = f'{CppUrl}?action=copyText&txt={txt}'
+    urllib.request.urlopen(url)
+
+
 def paste(txt):
     """
     * 当前位置 粘贴（输入）文字  
     * @param {string} text  复制到电脑剪切板的文本
     """
-    txt =  urlencode(txt)
-    url = f'{CppUrl}?action=paste&txt={txt}'
-    urllib.request.urlopen(url);
+    copyText(txt)
+    sleep(200)
+    keyTap('ctrl+v')
     sleep(defaultDelay);
-
 
 
 def keyToggle(key,upDown='down'):
@@ -425,6 +434,33 @@ def postJson(url,msgJson):
         response = f.read().decode('utf-8')
     return response
 
+
+def cloud_GPT(question,modelLevel=0):
+    """
+    * 小瓶RPA整合的云端大语言对话模型
+    * @param {string} question 提问问题，如：'今天是xx日，你能给我写首诗吗？'
+    * @param {string} modelLevel 模型等级，不同参数大小不同定价，默认 0 为标准模型
+    * @returns {Answerinfo} JSON内容格式 {content:'结果',tokens:消耗token的数量}
+    """
+    deviceToken = deviceID()
+    rs = postJson('https://rpa.pbottle.com/API/',{"question":question,"deviceToken":deviceToken,"modelLevel":modelLevel})
+    # print(rs)
+    jsonRes = json.loads(rs)
+    return jsonRes
+
+
+
+log = print # 输出日志
+wait = time.sleep #等待，时间单位秒
+
+
+def deviceID():
+    """
+    获取当前设备ID号
+    """
+    url = f'{CppUrl}?action=pbottleRPA_deviceID'
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
 
 
 def openDir(path):

@@ -30,7 +30,7 @@ else:
     pbottleRPA.tts('大于等于 0.5。')
 
 
-pbottleRPA.sleep(1000)
+pbottleRPA.wait(1)
 
 #语音播报
 pbottleRPA.tts('流程结束！~')
