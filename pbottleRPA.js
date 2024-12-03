@@ -945,7 +945,7 @@ exports.cloud={}
 /**
  * 小瓶RPA整合的云端大语言答案生成模型
  * @param {string} question 提问问题，如：'今天是xx日，你能给我写首诗吗？'
- * @param {string} modelLevel 模型等级，不同参数大小不同定价，默认 0 为标准模型
+ * @param {number} modelLevel 模型等级，不同参数大小不同定价，默认 0 为标准模型。0为低价模型；1为性价比模型；2为旗舰高智能模型；
  * @returns {Answerinfo} JSON内容格式 {content:'结果',tokens:消耗token的数量}
  */
 function cloud_GPT(question,modelLevel=0) {
@@ -955,6 +955,30 @@ function cloud_GPT(question,modelLevel=0) {
 }
 exports.cloud_GPT = cloud_GPT
 exports.cloud.GPT = cloud_GPT
+
+
+/**
+ * 小瓶RPA整合的云端图像分析大模型
+ * @param {string} question 提问问题，如：'分析这个图片的内容'
+ * @param {string} imagePath 上传图片的路径，如：'c:/test.jpg'
+ * @param {number} modelLevel 模型等级，不同参数大小不同定价，默认 0 为标准模型。
+ * @returns {Answerinfo} JSON内容格式 {content:'结果',tokens:消耗token的数量}
+ */
+function cloud_GPTV(question,imagePath,modelLevel=0) {
+    let deviceToken = deviceID()
+    imagePath = path.join(imagePath)
+    let image_base64
+    try {
+        image_base64 = fs.readFileSync(imagePath).toString('base64')
+    } catch (error) {
+        console.log('⚠ GPTV输入图片不存在！~',imagePath);
+        return 'GPTV输入图片不存在！~'
+    }
+    let rs = postJson('https://rpa.pbottle.com/API/gptv',{question,deviceToken,modelLevel,image_base64})
+    return JSON.parse(rs)
+}
+exports.cloud_GPTV = cloud_GPTV
+exports.cloud.GPTV = cloud_GPTV
 
 
 /**
