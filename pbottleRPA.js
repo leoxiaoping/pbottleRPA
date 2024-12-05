@@ -850,6 +850,10 @@ function zipDir(directory,zipFilePath="") {
         zipFilePath = path.join(zipFilePath)
         directory = path.join(directory)
         let exe = path.join(`${basePath}/bin/7za`)
+        const os = process.platform;
+        if (os === 'linux') {
+            exe = '7za'
+        }
         childProcess.execSync(`"${exe}" a "${zipFilePath}" "${directory}"`, { stdio: ['ignore', 'ignore', 'pipe'], encoding: 'utf8' })
     } catch (error) {
         if (!error.stderr.includes('Headers Error')) {  //warning
@@ -875,6 +879,10 @@ function unZip(zipFilePath,directory="") {
         filePath = path.join(zipFilePath)
         directory = path.join(directory)
         let exe = path.join(`${basePath}/bin/7za`)
+        const os = process.platform;
+        if (os === 'linux') {
+            exe = '7za'
+        }
         childProcess.execSync(`"${exe}" x "${filePath}" -o"${directory}" -aoa`, { stdio: ['ignore', 'ignore', 'pipe'], encoding: 'utf8' })
     } catch (error) {
             console.error(`解压缩失败`, error);

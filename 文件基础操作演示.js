@@ -13,8 +13,8 @@ pbottleRPA.tts('打开文件夹')
 console.log('打开文件夹');
 //延迟5秒
 pbottleRPA.sleep(1000*3)
-console.log(__dirname + '\\input\\');
-pbottleRPA.openDir(__dirname + '\\input\\')
+console.log(__dirname + '/input/');
+pbottleRPA.openDir(__dirname + '/input/')
 pbottleRPA.sleep(1000*2)
 
 pbottleRPA.tts('打开图片')
