@@ -439,7 +439,7 @@ def cloud_GPT(question,modelLevel=0):
     """
     * 小瓶RPA整合的云端大语言对话模型
     * @param {string} question 提问问题，如：'今天是xx日，你能给我写首诗吗？'
-    * @param {string} modelLevel 模型等级，不同参数大小不同定价，默认 0 为标准模型
+    * @param {string} modelLevel 模型等级，不同参数大小不同定价，默认 0 为标准模型。0为低价模型；1为性价比模型；2为旗舰高智能模型；
     * @returns {Answerinfo} JSON内容格式 {content:'结果',tokens:消耗token的数量}
     """
     deviceToken = deviceID()
@@ -447,6 +447,7 @@ def cloud_GPT(question,modelLevel=0):
     # print(rs)
     jsonRes = json.loads(rs)
     return jsonRes
+
 
 
 

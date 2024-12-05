@@ -15,15 +15,15 @@ current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 print(current_time)
 
 pbottleRPA.showMsg('流程已开始运行','请打开电脑声音，关注运行日志信息')
-pbottleRPA.tts('准备开始运行朋友圈批量点赞脚本，适配1920分辨率屏幕')
+pbottleRPA.tts('准备开始运行朋友圈批量点赞脚本，适配分辨率无缩放屏幕')
 pbottleRPA.sleep(1000*7)
 
 
 resolution = pbottleRPA.getResolution()
 print('当前电脑屏幕分辨率',resolution)
-if (resolution["w"] != 1920 or resolution["ratio"] !=1) :
-    pbottleRPA.tts('错误：此demo只适配1920分辨率无缩放屏幕')
-    print('错误：此demo只适配1920分辨率无缩放屏幕')
+if (resolution["ratio"] !=1) :
+    pbottleRPA.tts('错误：此demo只适配分辨率无缩放屏幕')
+    print('错误：此demo只适配无缩放屏幕')
     pbottleRPA.sleep(1000*6)
     pbottleRPA.exit()
 
