@@ -15,7 +15,7 @@ console.log('屏幕分辨率：',pbottleRPA.getResolution())
 pbottleRPA.sleep(1000*3)
 
 let start = Date.now()
-console.log('屏幕物体轮廓查找结果：',pbottleRPA.findContours(2000))
+console.log('屏幕物体轮廓查找结果：',pbottleRPA.findContours(2000,500,200))
 let end = Date.now();
 console.log('查找耗时：（秒）',(end-start)/1000);
 

@@ -30,12 +30,12 @@ pbottleRPA.sleep(1000*5);
 //点击桌面微信
 console.log("查找并点击微信")
 pbottleRPA.tts("查找并点击微信")
-let position = pbottleRPA.findText('微信')
+let position = pbottleRPA.findText('微信',10,10,1000,500)
 console.log('查找文字结果：',position);
 if (position) {
     pbottleRPA.moveAndClick(position.x,position.y)
 }else{
-    console.log("没有找到文字：微信");
+    console.log("范围内没有找到文字：微信");
 }
 
 

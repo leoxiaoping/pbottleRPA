@@ -9,9 +9,9 @@
 
 const request = require('sync-request');  //默认同步请求
 const keycode = require('keycode');
-const path = require("path");
-const fs = require("fs");
-const childProcess = require('child_process');
+const path = require("node:path");
+const fs = require("node:fs");
+const childProcess = require('node:child_process');
 
 /**
  * 当前脚本的路径，结尾无/  如 'D:/pbottleRPAdemo'
@@ -477,7 +477,7 @@ exports.键盘按键 = keyTap
  * @param {number} fromY=0 可选，查找开始的开始纵坐标
  * @param {number} width=-1 可选，搜索宽度
  * @param {number} height=-1 可选，搜索高度
- * @returns {position|boolean} 返回找到的结果json 格式：{x,y}
+ * @returns {position|boolean} 返回找到的结果json 格式：{x,y} 相对于左上角原点
  */
 var findScreen = (tpPath,miniSimilarity=0.85,fromX=0,fromY=0,width=-1,height=-1) =>{
 
@@ -527,7 +527,7 @@ exports.寻找图像 = findScreen
  * @param {number} fromY=0 可选，查找开始的开始纵坐标
  * @param {number} width=-1 可选，搜索宽度
  * @param {number} height=-1 可选，搜索高度
- * @returns {textposition}  返回json结果：{x,y,text} x,y坐标相对于fromX，fromY
+ * @returns {textposition}  返回json结果：{x,y,text} x,y坐标相对于左上角的原点
  */
 var findText = (inputTxt,fromX=0,fromY=0,width=-1,height=-1) =>{
     let jsonDatas = aiOcr('screen',fromX,fromY,width,height);
@@ -535,7 +535,7 @@ var findText = (inputTxt,fromX=0,fromY=0,width=-1,height=-1) =>{
     jsonDatas.forEach(element => {
         // console.log(element.text);
         if (element.text.includes(inputTxt)) {
-            result = element;
+            result = element
             return;
         }
     });
@@ -553,11 +553,11 @@ exports.寻找文字 = findText
  * 调试：软件根目录会生成 debug/findContours.png
  * 
  * @param {number} minimumArea 轮廓最小面积  默认过滤掉 10x10 以下的元素
- * @param {number} fromX  开始坐标
+ * @param {number} fromX  查找起点
  * @param {number} fromY 
- * @param {number} width  作用范围
+ * @param {number} width  查找范围
  * @param {number} height 
- * @returns {array} 所有查找到的轮廓信息，包含闭合区域的起始坐标，中点坐标，面积，id。 格式：[{ x: 250, y: 10, cx: 265.5, cy: 30.5, area: 2401, id: 42 },...]
+ * @returns {[]} 所有查找到的轮廓信息，包含闭合区域的起始坐标，中点坐标，面积，id。 格式：[{ x: 250, y: 10, cx: 265.5, cy: 30.5, area: 2401, id: 42 },...]  xy相对于原点
  */
 var findContours = (minimumArea=1000,fromX=0,fromY=0,width=-1,height=-1) =>{
 
@@ -576,8 +576,11 @@ var findContours = (minimumArea=1000,fromX=0,fromY=0,width=-1,height=-1) =>{
     // console.log(res.getBody('utf8'));
     jsonRes = JSON.parse(res.getBody('utf8'));
 
+    for (const json of jsonRes) {
+        json.x += fromX
+        json.y += fromY
+    }
     // console.log(jsonRes);
-
     return jsonRes;
 }
 exports.findContours = findContours
@@ -754,11 +757,11 @@ exports.获取屏幕分辨率 = getResolution
  * 文字识别 OCR已经从经典算法升级为AI模型预测，永久免费可脱网使用
  * 
  * @param {string} imagePath 空或者screen 为电脑屏幕;  或者本地图片的绝对路径;
- * @param {number} x 可选 剪裁起始点  左上角开始
- * @param {number} y 可选 剪裁起始点
- * @param {number} width  可选 剪裁宽度
- * @param {number} height 可选 剪裁高度
- * @returns {array}  AI OCR识别的json结果 包含准确率的评分和中点位置    格式： [{text:'A',score:'0.319415',x:100,y:200},...]
+ * @param {number} x 可选 查找起始点
+ * @param {number} y 可选 查找起始点
+ * @param {number} width  可选 宽度范围
+ * @param {number} height 可选 高度范围
+ * @returns {array}  AI OCR识别的json结果 包含准确率的评分和中点位置   格式： [{text:'A',score:'0.319415',x:100,y:200},...]  xy相对于原点
  */
 var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
 
@@ -786,6 +789,10 @@ var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
     }
 
     let jsons = JSON.parse(res); 
+    for (const json of jsons) {
+        json.x += x
+        json.y += y
+    }
     return jsons;
 }
 exports.aiOcr = aiOcr
@@ -797,11 +804,11 @@ exports.文字识别 = aiOcr
  * 调试：软件根目录会生成 debug/Ai_ObjectDetect.png 文件
  * 
  * @param {number} imagePath 空或者screen 为电脑屏幕;  或者本地图片的绝对路径;
- * @param {number} x 可选 剪裁起始点  左上角开始
- * @param {number} y 可选 剪裁起始点
- * @param {number} width  可选 剪裁宽度
- * @param {number} height 可选 剪裁高度
- * @returns {array}  AI 物体识别的 json 结果 包含准确率的评分    格式： [{x:100,y:100,width:150,height:150,score:0.86,class:'分类名'},...]
+ * @param {number} x 可选 查找范围
+ * @param {number} y 可选 查找范围
+ * @param {number} width  可选 查找宽度
+ * @param {number} height 可选 查找高度
+ * @returns {array}  AI 物体识别的 json 结果 包含准确率的评分    格式： [{x:100,y:100,width:150,height:150,score:0.86,class:'分类名'},...]  xy相对于原点
  */
 var aiObject= (minimumScore=0.5, x=0, y=0, width=-1, height=-1)=>{
     
@@ -1288,7 +1295,7 @@ exports.browserCMD.prop = browserCMD_prop
  * @param {Function} intervalFun 检测间隔的操作，function格式
  * @param {number} timeOut 可选，等待超时时间 单位秒 默认30秒
  * @param {number} miniSimilarity  可选，指定最低相似度，默认0.85。取值0-1，1为找到完全相同的。
- * @returns {position|boolean} 结果的位置信息，json格式：{x,y}
+ * @returns {position|boolean} 结果的位置信息，json格式：{x,y}  相对于屏幕左上角原点
  */
 function waitImage(tpPath, intervalFun = () => { }, timeOut = 30, miniSimilarity=0.85) {
     console.log('waitImage',tpPath);
