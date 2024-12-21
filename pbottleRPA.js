@@ -931,6 +931,22 @@ exports.bufferSet = bufferSet
 
 
 /**
+ * 设置接力执行的脚本
+ * 当前脚本结束后（无论正常结束还是错误退出），立刻启动的自动脚本。
+ * http外部设置方式（GET方法）：http://ip:49888/action=pbottleRPA_delay&path=MyPATH
+ * @param {string} scriptPath 接力脚本的路径 如：'D:/test.mjs'    如果路径为空，默认清除当前已经设置的接力任务。
+ * @returns {string} ok 表示成功
+ */
+var delaySet = (scriptPath='')=>{
+    scriptPath = encodeURIComponent(scriptPath)
+    let url = `${CppUrl}?action=pbottleRPA_delay&path=${scriptPath}`
+    let res = request('GET', url);
+    return res.getBody('utf8');
+}
+exports.delaySet = delaySet
+
+
+/**
  * 获取当前的设备唯一号
  * @returns {string} 返回字符串
  */

@@ -12,14 +12,13 @@
 
 const pbottleRPA = require('./pbottleRPA')
 
-    let deviceID = pbottleRPA.deviceID();
-    console.log('设备号：',deviceID);
-    if (deviceID == '个人版不可用') {
-        console.log('个人版不可用，请先开通企业版');
-        pbottleRPA.showMsg('个人版不可用','请先开通企业版')
-        pbottleRPA.tts('个人版不可用，请先开通企业版')
-        pbottleRPA.exit('个人版不可用，请先开通企业版')
-    }
+//监测是否开通企业版
+let bufferRS = pbottleRPA.bufferSet('pbottle');
+if (bufferRS == '个人版不可用') {
+    pbottleRPA.showMsg('个人版不可用','请先开通企业版')
+    pbottleRPA.tts('个人版不可用，请先开通企业版')
+    pbottleRPA.exit('⚠ 个人版不可用，请先开通企业版')
+}
 
 
 

@@ -8,7 +8,7 @@ const pbottleRPA = require('./pbottleRPA')
 
 
 //监测是否开通企业版
-let bufferRS = pbottleRPA.bufferSet('pbottle',5);
+let bufferRS = pbottleRPA.bufferSet('pbottle');
 if (bufferRS == '个人版不可用') {
     pbottleRPA.showMsg('个人版不可用','请先开通企业版')
     pbottleRPA.tts('个人版不可用，请先开通企业版')
@@ -16,11 +16,9 @@ if (bufferRS == '个人版不可用') {
 }
 
 
-//控制中心配置参数从本地 buffer0 中直接读取
-let buffer = pbottleRPA.bufferGet(0) 
-console.log('控制中心任务参数（json格式）：',JSON.parse(buffer));
 
-//流程开始
-let resolution = pbottleRPA.getResolution()
-console.log('当前电脑屏幕分辨率',resolution)
+pbottleRPA.delaySet(__filename)
 
+pbottleRPA.log('等待3秒')
+pbottleRPA.wait(3)
+pbottleRPA.log('完成')
