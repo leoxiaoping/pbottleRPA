@@ -9,8 +9,8 @@ const pbottleRPA = require('./pbottleRPA')
 //开始RPA操作
 
 let ask = '描述图片中有什么？'
-console.log(ask);
+console.log(ask,`./input/RPAlogo128.png`);
 
 const start =  Date.now()
 console.log(pbottleRPA.cloud_GPTV(ask,`./input/RPAlogo128.png`).content)
-console.log('图片解析耗时：',Date.now()-start);
+console.log('图片解析耗时：(毫秒)',Date.now()-start);
