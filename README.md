@@ -9,11 +9,12 @@
 ![小瓶RPA logo](input/RPAlogo128.png)
 
 
-```
+```javascript
 pbottleRPA.打开网址('https://www.baidu.com/')
 pbottleRPA.粘贴输入('小瓶RPA官网')
 pbottleRPA.键盘按键('enter')
 ```
+
 
 
 #### 小瓶RPA优势
@@ -22,7 +23,7 @@ pbottleRPA.键盘按键('enter')
 
 1.  支持非标准设备（硬件级）自动化。
 
-2.  技术运维人员友好，支持 NodeJS，Python等社区资源，最大化生态。
+2.  技术运维人员友好，支持 NodeJS、Python等社区资源，最大化生态。
 
 3.  轻量级RPA软件，无缝整合现有传统 IT 项目。
 
@@ -54,7 +55,7 @@ pbottleRPA.键盘按键('enter')
 
 #### 软件架构
 
-![小瓶RPA架构图](https://images.gitee.com/uploads/images/2021/1126/130823_ef4a3e3b_799608.png "2111021453106180e0566ebe4.png")
+![小瓶RPA架构图](https://images.gitee.com/uploads/images/2021/1126/130823_ef4a3e3b_799608.png "小瓶RPA架构图")
 
 
 #### 公司支持
@@ -78,16 +79,16 @@ pbottleRPA.键盘按键('enter')
 #### 步骤
 
 1.  下载exe运行基座  pbottleRPA.zip  [基座exe程序绿色版](https://gitee.com/pbottle/pbottle-rpa/releases)
-2.  安装 NodeJS 脚本引擎 .msi,并安装 [下载网站](http://nodejs.cn/download/)   安装后请重启基座
-3.  下载[测试脚本](https://gitee.com/pbottle/pbottle-rpa/repository/archive/master.zip)，运行基座选择demo脚本即可开始运行
+2.  安装 NodeJS 脚本引擎 .msi,并安装 [下载网站](https://rpa.pbottle.com/a-13943.html)   安装后请重启基座
+3.  下载 [测试脚本](https://gitee.com/pbottle/pbottle-rpa/repository/archive/master.zip)，运行基座选择demo脚本即可开始运行
 
 #### 常见问题
 
 1. 如果系统提示 缺少vcruntime140XX.dll   微软官网下载安装即可：[https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140)  （新版本已兼容）
 
- 1. **exe启动目录的路径不能含中文** ，直接复制到其他目录，或者文件夹copy到磁盘根目录即可  （新版本已兼容）
+ 1. exe启动目录的路径不能含中文，直接复制到其他目录，或者文件夹copy到磁盘根目录即可  （新版本已兼容）
 
- 1. 服务端口（49888）监听不成功问题  排查请看：[https://rpa.pbottle.com/a-13924.html](https://rpa.pbottle.com/a-13924.html)
+ 1. 服务端口（49888）监听不成功问题， 排查请看：[https://rpa.pbottle.com/a-13924.html](https://rpa.pbottle.com/a-13924.html)
 
  1. 软件不再支持32位老旧版操作系统
 
@@ -141,7 +142,10 @@ web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快�
 - WEB增强-浏览器元素操作演示
 - WEB增强-数据批量爬取演示
 - WEB增强-账号密码登录演示
-- 模块新脚本演示（顶级await）.mjs
+- 下载文件示例演示
+- 压缩和解压演示
+- GPT问题答案AI生成演示
+- GPT图像解析示例.js
 - [第三方] 读写Excel演示脚本
 
 注：【web增强】需要先安装小瓶RPA浏览器插件，【第三方】需要先双击  _第三方模块安装.bat_  安装所需模块。
@@ -165,7 +169,7 @@ web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快�
 
 #### 本地模型
 1. OCR文字识别  示例： [文字提取查找OCR演示.js](文字提取查找OCR演示.js)
-2. 对象识别模型  
+2. 对象识别模型  示例：[GPT图像解析示例](GPT图像解析示例.js)
    
 #### 云端大模型
 1. 大语言模型  示例： [文字提取查找OCR演示.js](文字提取查找OCR演示.js)
