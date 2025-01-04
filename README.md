@@ -9,11 +9,20 @@
 ![小瓶RPA logo](input/RPAlogo128.png)
 
 
+
+
+### 起步
+
 ```javascript
 pbottleRPA.打开网址('https://www.baidu.com/')
 pbottleRPA.粘贴输入('小瓶RPA官网')
 pbottleRPA.键盘按键('enter')
 ```
+
+
+### 文档入口
+
+[https://rpa.pbottle.com/docs/](https://rpa.pbottle.com/docs/)
 
 
 ### 小瓶RPA优势
