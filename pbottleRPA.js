@@ -982,7 +982,7 @@ exports.cloud={}
  */
 function cloud_GPT(question,modelLevel=0,response_format='text') {
     let deviceToken = deviceID()
-    let rs = postJson('https://rpa.pbottle.com/API/',{question,deviceToken,modelLevel})
+    let rs = postJson('https://rpa.pbottle.com/API/',{question,deviceToken,modelLevel,response_format})
     return JSON.parse(rs)
 }
 exports.cloud_GPT = cloud_GPT
