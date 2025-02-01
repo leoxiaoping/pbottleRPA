@@ -977,9 +977,10 @@ exports.cloud={}
  * 小瓶RPA整合的云端大语言答案生成模型
  * @param {string} question 提问问题，如：'今天是xx日，你能给我写首诗吗？'
  * @param {number} modelLevel 模型等级，不同参数大小不同定价，默认 0 为标准模型。0为低价模型；1为性价比模型；2为旗舰高智能模型；
+ * @param {string} response_format 云端模型输出格式，默认："text"，可选 "json_object" JSON格式
  * @returns {Answerinfo} JSON内容格式 {content:'结果',tokens:消耗token的数量}
  */
-function cloud_GPT(question,modelLevel=0) {
+function cloud_GPT(question,modelLevel=0,response_format='text') {
     let deviceToken = deviceID()
     let rs = postJson('https://rpa.pbottle.com/API/',{question,deviceToken,modelLevel})
     return JSON.parse(rs)
