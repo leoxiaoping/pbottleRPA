@@ -163,12 +163,18 @@ exports.退出流程 = exit
  * @returns 
  */
  let sleep = (milliseconds)=>{
+    // childProcess.execSync(` node -e "setTimeout(() => console.log('sleep ${milliseconds} 结束'), ${milliseconds})" `, { stdio: ['ignore', 'ignore', 'ignore'], encoding: 'utf8' })
     if(milliseconds<1){
         // console.log('milliseconds input error');
         return;
     }
     if (milliseconds>=120000) {
         console.log('警告：一次等待上限时长两分钟内');
+    }
+
+    milliseconds -= 300  //减小毫秒误差，接口请求导致，大小受电脑运行速度影响
+    if (milliseconds<1) {
+        milliseconds = 1
     }
     let url = `${CppUrl}?action=httpSleep&milliseconds=${milliseconds}`
     // console.log(url)
