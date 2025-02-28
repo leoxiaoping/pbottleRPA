@@ -2,7 +2,7 @@ const pbottleRPA = require('./pbottleRPA');
 
 
 
-//主流程指令序列
+//主流程指令序列化
 async function main(params) {
 
     pbottleRPA.log("主流程开始 📍")  //开始
