@@ -17,7 +17,7 @@ if (bufferRS == '个人版不可用') {
 
 
 
-pbottleRPA.delaySet(__filename)
+pbottleRPA.delaySet(__filename)  //自己接力自己
 
 pbottleRPA.log('等待3秒')
 pbottleRPA.wait(3)
