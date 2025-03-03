@@ -247,6 +247,21 @@ def exit(msg=''):
     sys.exit(0)
 
 
+def delaySet (scriptPath=''):
+    """
+    * 设置接力执行的脚本
+    * 当前脚本结束后（无论正常结束还是错误退出），立刻启动的自动脚本。
+    * http外部设置方式（GET方法）：http://ip:49888/action=pbottleRPA_delay&path=MyPATH
+    * @param {string} scriptPath 接力脚本的路径 如：'D:/test.mjs'    如果路径为空，默认清除当前已经设置的接力任务。
+    * @returns {string} ok 表示成功
+    """
+    scriptPath = urlencode(scriptPath)
+    url = f'{CppUrl}?action=pbottleRPA_delay&path={scriptPath}'
+    response = urllib.request.urlopen(url)
+    return response.read().decode("utf-8")
+
+
+
 def moveMouseSmooth(x,y):
     """
     * 移动鼠标到指定位置  起点为屏幕左上角
