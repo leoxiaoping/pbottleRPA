@@ -21,11 +21,15 @@ pbottleRPA.文字转语音(`当前电脑屏幕分辨率: ${分辨率.w} 乘以 $
 pbottleRPA.等待(6)
 
 
-
 pbottleRPA.文字转语音('正在截屏（全屏）...')
 pbottleRPA.等待(3)
 
-// pbottleRPA.屏幕截图('d:/abssds图片.png'); 
+
+pbottleRPA.屏幕截图('./小瓶RPA截图测试.png')
+pbottleRPA.文字转语音('图片保存在：当前目录')
+pbottleRPA.日志输出('图片保存在：当前目录')
+pbottleRPA.等待(3)
+
 
 pbottleRPA.屏幕截图();
 
@@ -35,7 +39,7 @@ pbottleRPA.日志输出('截屏结果：',结果)
 pbottleRPA.等待(3)
 
 
-pbottleRPA.文字转语音('图片保存在我的电脑 我的图片...')
+pbottleRPA.文字转语音('图片保存在：我的电脑 我的图片...')
 pbottleRPA.日志输出('图片保存在:我的电脑 我的图片')
 pbottleRPA.等待(5)
 

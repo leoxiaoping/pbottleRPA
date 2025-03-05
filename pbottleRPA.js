@@ -357,7 +357,12 @@ exports.获取屏幕颜色 = getScreenColor
  * @returns 
  */
 let screenShot = (savePath='',x=0,y=0,w=-1,h=-1)=>{
-    savePath = encodeURIComponent(savePath)
+
+    if (savePath) { //整理路径
+        savePath = path.resolve(savePath)
+        savePath = encodeURIComponent(savePath)
+    }
+    
     x=parseInt(x)
     y=parseInt(y)
     w=parseInt(w)
@@ -495,7 +500,7 @@ var findScreen = (tpPath,miniSimilarity=0.85,fromX=0,fromY=0,width=-1,height=-1)
         showRect(fromX,fromY,width,height);
     }
 
-    tpPath = path.join(jsPath+tpPath)
+    tpPath = path.resolve(tpPath)
     tpPath = encodeURIComponent(tpPath)
     let url = `${CppUrl}?action=findScreen&imgPath=${tpPath}&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}`
     // console.log(url)
@@ -629,7 +634,7 @@ exports.复制文字 = copyText
  * @param {string} filepath  绝对路径
  */
 var copyFile = (filepath)=>{
-    filepath = path.join(filepath)
+    filepath = path.resolve(filepath)
     if (!fs.existsSync(filepath)) {
         console.log('copyFile警告:文件路径不存在',filepath);
     }
@@ -724,11 +729,13 @@ exports.打开网址 = openURL
 
 /**
  * 打开文件（用默认软件）或者 用资源管理器打开展示文件夹，
- * @param {string} path 文件夹绝对路径  如：'c:/input/RPAlogo128.png'  Windows磁盘路径分隔符要双 '\\'
+ * @param {string} filePath 文件夹绝对路径  如：'c:/input/RPAlogo128.png'  Windows磁盘路径分隔符要双 '/'
  */
-var openDir= (path)=>{
-    path = encodeURIComponent(path)
-    let url = `${CppUrl}?action=openDir&path=${path}`
+var openDir= (filePath)=>{
+    filePath = path.resolve(filePath)
+    filePath = path.join(filePath)
+    filePath = encodeURIComponent(filePath)
+    let url = `${CppUrl}?action=openDir&path=${filePath}`
     // console.log(url)
     let res = request('GET', url);
     sleep(defaultDelay);
@@ -782,8 +789,12 @@ var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
     if (x!=0 || y!=0 || width!=-1 || height!=-1) {
         showRect(x,y,width,height);
     }
+
+    if (imagePath != 'screen') {
+        imagePath = path.relative(imagePath)
+        imagePath = encodeURIComponent(imagePath)
+    }
     
-    imagePath = encodeURIComponent(imagePath);
     let url = `${CppUrl}?action=aiOcr&path=${imagePath}&x=${x}&y=${y}&width=${width}&height=${height}&onlyEn=0`
     // console.log(url)
     let res = request('GET', url);
@@ -809,7 +820,7 @@ exports.文字识别 = aiOcr
  * AI 物体识别 已经从经典算法升级为AI模型预测，企业版可脱网使用  V2024.8 以上版本有效
  * 调试：软件根目录会生成 debug/Ai_ObjectDetect.png 文件
  * 
- * @param {number} imagePath 空或者screen 为电脑屏幕;  或者本地图片的绝对路径;
+ * @param {number} minimumScore 相似度阈值
  * @param {number} x 可选 查找范围
  * @param {number} y 可选 查找范围
  * @param {number} width  可选 查找宽度
@@ -826,7 +837,6 @@ var aiObject= (minimumScore=0.5, x=0, y=0, width=-1, height=-1)=>{
         showRect(x,y,width,height);
     }
     
-    minimumScore = encodeURIComponent(minimumScore);
     let url = `${CppUrl}?action=aiObject&minimumScore=${minimumScore}&x=${x}&y=${y}&width=${width}&height=${height}&onlyEn=0`
     // console.log(url)
     let res = request('GET', url);
@@ -857,12 +867,12 @@ exports.物体识别 = aiObject
 function zipDir(directory,zipFilePath="") {
     let basePath = getBasePath()
     if (!zipFilePath) {
-        zipFilePath = path.join(directory,'RPA生成的压缩包.zip')
+        zipFilePath = path.resolve(directory,'RPA生成的压缩包.zip')
     }
     try {
-        zipFilePath = path.join(zipFilePath)
-        directory = path.join(directory)
-        let exe = path.join(`${basePath}/bin/7za`)
+        zipFilePath = path.resolve(zipFilePath)
+        directory = path.resolve(directory)
+        let exe = path.resolve(`${basePath}/bin/7za`)
         const os = process.platform;
         if (os === 'linux') {
             exe = '7za'
@@ -889,9 +899,9 @@ function unZip(zipFilePath,directory="") {
         directory = path.dirname(zipFilePath)
     }
     try {
-        filePath = path.join(zipFilePath)
-        directory = path.join(directory)
-        let exe = path.join(`${basePath}/bin/7za`)
+        filePath = path.resolve(zipFilePath)
+        directory = path.resolve(directory)
+        let exe = path.resolve(`${basePath}/bin/7za`)
         const os = process.platform;
         if (os === 'linux') {
             exe = '7za'
@@ -944,6 +954,7 @@ exports.bufferSet = bufferSet
  * @returns {string} ok 表示成功
  */
 var delaySet = (scriptPath='')=>{
+    scriptPath = path.resolve(scriptPath)
     scriptPath = encodeURIComponent(scriptPath)
     let url = `${CppUrl}?action=pbottleRPA_delay&path=${scriptPath}`
     let res = request('GET', url);
@@ -1004,7 +1015,7 @@ exports.cloud.GPT = cloud_GPT
  */
 function cloud_GPTV(question,imagePath,modelLevel=0) {
     let deviceToken = deviceID()
-    imagePath = path.join(imagePath)
+    imagePath = path.resolve(imagePath)
     let image_base64
     try {
         image_base64 = fs.readFileSync(imagePath).toString('base64')
@@ -1697,7 +1708,7 @@ exports.工具箱.获取格式化时间 =  getTime;
 /**
  * 常用工具
  * 根据关键字定位具体文件
- * @param {string} directory  绝对路径
+ * @param {string} directory  目录绝对路径
  * @param {string} words  文件名包含的关键字，过滤词，默认忽略大小写
  * @param {boolean} recursive  是否递归深入目录子目录查找 ，默认false
  * @returns {string[]}  文件路径 || [] 未找到
