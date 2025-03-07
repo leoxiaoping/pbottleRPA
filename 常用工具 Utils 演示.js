@@ -65,7 +65,16 @@ console.log(pbottleRPA.hasData({"pbottleRPA":666})); // true
 pbottleRPA.wait(1)
 
 
+
+//文本截取
+let str = "小瓶RPA官网是 https://www.pbottle.com 输入浏览器即可访问官网"
+pbottleRPA.log('文本截取测试',str)
+let sub_str = pbottleRPA.utils.substringFromTo(str,'官网是','输入')
+pbottleRPA.log(sub_str)
+
+
+
 //模拟资源管理器的文件搜索
 console.log('模拟资源管理器的文件搜索:searchFile');
-let rs = pbottleRPA.utils.searchFile(__dirname,'.png')  
+let rs = pbottleRPA.utils.searchFile('./','.png',true)  
 console.log('当前目录搜索.png文件',rs);

@@ -733,7 +733,6 @@ exports.打开网址 = openURL
  */
 var openDir= (filePath)=>{
     filePath = path.resolve(filePath)
-    filePath = path.join(filePath)
     filePath = encodeURIComponent(filePath)
     let url = `${CppUrl}?action=openDir&path=${filePath}`
     // console.log(url)
@@ -1716,12 +1715,13 @@ exports.工具箱.获取格式化时间 =  getTime;
 function searchFile(directory, words='',recursive=false) {
     let rs=[]  //全局结果
     // 读取目录内容
+    directory = path.resolve(directory)
     let files = fs.readdirSync(directory)
     // console.log('files',files);
     // 遍历每个文件
     words = words.toLowerCase()
     files.forEach((file) => {
-        let filePath = path.join(directory, file);
+        let filePath = path.resolve(directory, file);
         if (recursive) {  //判断子目录
             let stats = fs.statSync(filePath);
             if (stats.isDirectory()) {
@@ -1763,6 +1763,37 @@ exports.uniqid =  uniqid;
 exports.唯一数 =  uniqid;
 exports.utils.uniqid =  uniqid;
 exports.工具箱.唯一数 =  uniqid;
+
+
+
+/**
+ * 常用工具
+ * 根据起始关键词，截取一部分字符串
+ * @param {string} str 检索目标
+ * @param {string} from 开始关键词 不包含本身  空表示从头部开始
+ * @param {string} to 结束关键词  不包含本身   空表示到结尾结束
+ * @returns  {string}
+ */
+function substringFromTo(str,from='',to='') {
+    let fromIndex = str.indexOf(from) + from.length
+    let toIndex =  str.lastIndexOf(to)
+    if (fromIndex == -1 || toIndex == -1) {
+        console.log('⚠substringFromTo 没有关键词:',from,to);
+        return ''
+    }
+    if (!from) {
+        fromIndex = 0
+    }
+    if (!to) {
+        toIndex = str.length
+    }
+    let rs = str.substring(fromIndex,toIndex);
+    return rs
+}
+exports.substringFromTo = substringFromTo
+exports.截取文本 = substringFromTo
+exports.utils.substringFromTo =  substringFromTo
+exports.工具箱.截取文本 =  substringFromTo
 
 
 
