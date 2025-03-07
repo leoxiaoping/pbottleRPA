@@ -687,14 +687,55 @@ exports.微信消息发送 = wxMessage
  * 向指定API网址post一个json，最常用网络接口方式
  * @param {string} url API网络地址 
  * @param {object} msgJson Json对象 
- * @returns 
+ * @param {object} headersJson 请求头 Json对象 
+ * @param {string} method e.g. GET, POST, PUT, DELETE or HEAD
+ * @returns {string}
  */
-var postJson= (url,msgJson)=>{
-    let res = request('POST',url,{json:msgJson});
+var postJson= (url,msgJson,headersJson={},method='POST')=>{
+    let res = request(method,url,{
+        json:msgJson,
+        headers: headersJson,
+    });
     // console.log('Post反馈：',res.getBody('utf8') );
     return res.getBody('utf8')
 }
 exports.postJson = postJson
+exports.提交json = postJson
+
+/**
+ * 普通请求网址，获取返回的html文本
+ * @param {string} url 网络地址 get方法
+ * @param {object} headersJson  请求头 Json对象 
+ * @returns {string}
+ */
+function getHtml(url,headersJson={}) {
+    let res = request('GET', url,{
+        headers: headersJson,
+    });
+    return res.getBody('utf8')
+}
+exports.getHtml = getHtml
+exports.请求网址 = getHtml
+
+/**
+ * 从网络下载一个文件到本地路径
+ * @param {string} fileUrl 网址
+ * @param {string} filename 本地路径文件名
+ * @param {object} headersJson  请求头 Json对象 
+ */
+function downloadFile(fileUrl,filename,headersJson={}) {
+    console.log('下载文件到',filename)
+    const response = request('GET', fileUrl,{
+        headers: headersJson,
+    });
+    const dirPath = path.dirname(filename);
+    if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
+    }
+    fs.writeFileSync(path.resolve(filename), response.getBody());
+}
+exports.downloadFile = downloadFile
+exports.下载文件 = downloadFile
 
 /**
  * 从文本到语音(TextToSpeech)  语音播报
