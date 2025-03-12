@@ -706,7 +706,7 @@ exports.提交json = postJson
  * 普通请求网址，获取返回的html文本
  * @param {string} url 网络地址 get方法
  * @param {object} headersJson  请求头 Json对象 
- * @returns {string}
+ * @returns {string} 返回的文本
  */
 function getHtml(url,headersJson={}) {
     let res = request('GET', url,{
