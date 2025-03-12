@@ -2,7 +2,7 @@ const pbottleRPA = require('./pbottleRPA.js')
 
 
 
-//集中注册全局变量，其他地方使用不用 global
+//集中注册全局变量，其他地方使用不用 global.
 global.global_processName = '小瓶RPA——XXXX流程模板'   
 global.global_startTime = pbottleRPA.utils.getTime()
 
