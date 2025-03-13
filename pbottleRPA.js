@@ -189,8 +189,7 @@ exports.睡眠毫秒 = sleep
 /**
  * 脚本暂停等待操作响应 (秒)
  * 注意：一次等待超过100s, 会有日志提示
- * @param {number} seconds  秒,  缺省值为 1 秒
- * @returns 
+ * @param {number} seconds  秒,  缺省值为 1 秒。支持小数。
  */
 let wait = (seconds = 1)=>{
     if(seconds<=0  || !isNumeric(seconds)){
