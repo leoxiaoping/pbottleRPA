@@ -163,6 +163,7 @@ exports.退出流程 = exit
  * @returns 
  */
  let sleep = (milliseconds)=>{
+    milliseconds = Math.floor(milliseconds) //毫秒取整
     // childProcess.execSync(` node -e "setTimeout(() => console.log('sleep ${milliseconds} 结束'), ${milliseconds})" `, { stdio: ['ignore', 'ignore', 'ignore'], encoding: 'utf8' })
     if(milliseconds<1){
         // console.log('milliseconds input error');
@@ -187,7 +188,7 @@ exports.睡眠毫秒 = sleep
 
 /**
  * 脚本暂停等待操作响应 (秒)
- * 注意：一次等待上限时长两分钟内
+ * 注意：一次等待超过100s, 会有日志提示
  * @param {number} seconds  秒,  缺省值为 1 秒
  * @returns 
  */
@@ -196,7 +197,17 @@ let wait = (seconds = 1)=>{
         console.log('pbottle.wait：seconds input error');
         return;
     }
-    sleep(seconds*1000)
+    if (seconds>100) {  //100秒
+        let quotient = Math.floor(seconds/100) 
+        for (let i = 0; i < quotient; i++) { //每100秒
+            sleep(100*1000)
+            console.log(`提示：已等待100s...`);
+        }
+
+        seconds = seconds % 100;
+    }else{
+        sleep(seconds*1000)
+    }
 }
 exports.wait = wait
 exports.等待 = wait
