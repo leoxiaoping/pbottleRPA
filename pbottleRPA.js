@@ -26,6 +26,25 @@ exports.basePath = basePath
 exports.__dirname = jsPath
 exports.目录路径 = jsPath
 
+/**
+ * 加速版 request() 网络请求 默认不启用
+ * @param {*} method 
+ * @param {*} url 
+ * @returns 
+ */
+// function request(method,url) {
+//     let command = `curl -s "${url}"`;
+//     try {
+//         let result = childProcess.execSync(command);
+//         result.getBody = ()=>{
+//             return result
+//         }
+//         return result.toString();
+//     } catch (error) {
+//         console.error('请求出错:', error.message);
+//         return null;
+//     }
+// }
 
 
 let defaultDelay = 1000;  //默认值一秒
@@ -163,12 +182,12 @@ exports.退出流程 = exit
  * @returns 
  */
  let sleep = (milliseconds)=>{
-    milliseconds = Math.floor(milliseconds) //毫秒取整
     // childProcess.execSync(` node -e "setTimeout(() => console.log('sleep ${milliseconds} 结束'), ${milliseconds})" `, { stdio: ['ignore', 'ignore', 'ignore'], encoding: 'utf8' })
     if(milliseconds<1){
         // console.log('milliseconds input error');
         return;
     }
+    milliseconds = Math.floor(milliseconds) //毫秒取整
     if (milliseconds>=120000) {
         console.log('警告：一次等待上限时长两分钟内');
     }
@@ -202,7 +221,6 @@ let wait = (seconds = 1)=>{
             sleep(100*1000)
             console.log(`提示：已等待100s...`);
         }
-
         seconds = seconds % 100;
     }else{
         sleep(seconds*1000)
@@ -463,7 +481,7 @@ let keyTap = (key)=>{
         })
         for (let index = 0; index < subkeys.length; index++) {
             const element = subkeys[index];
-            keyToggle(element,"up")  //净化复位
+            // keyToggle(element,"up")  //净化复位
             keyToggle(element,"down")
         }
         
@@ -473,7 +491,7 @@ let keyTap = (key)=>{
             keyToggle(element,"up")
         }
     }else{
-        keyToggle(key,"up")  //净化复位
+        // keyToggle(key,"up")  //净化复位
         keyToggle(key,"down")
         keyToggle(key,"up")
     }
@@ -613,7 +631,7 @@ exports.寻找轮廓 = findContours
  */
 var paste = (txt)=>{
     copyText(txt)
-    sleep(200)
+    // sleep(200)
     keyTap('ctrl+v')
     // txt =  encodeURIComponent(txt)
     // url = `${CppUrl}?action=paste&txt=${txt}`
