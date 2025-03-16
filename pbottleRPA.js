@@ -7,8 +7,6 @@
  * 
  */
 
-const request = require('sync-request');  //默认同步请求
-const keycode = require('keycode');
 const path = require("node:path");
 const fs = require("node:fs");
 const childProcess = require('node:child_process');
@@ -25,6 +23,8 @@ exports.jsPath = jsPath
 exports.basePath = basePath
 exports.__dirname = jsPath
 exports.目录路径 = jsPath
+
+
 
 /**
  * 加速版 request() 网络请求 默认不启用
@@ -65,16 +65,28 @@ exports.设置默认操作延时 = setDefaultDelay
  * 获取并设置基座平台的根目录路径  | V2025.0 以上版本启用
  * @returns {string}
  */
-function getBasePath() {
-    if (basePath) {
-        return basePath;
-    }
-    let url = `${CppUrl}?action=basePath`
-    let res = request('GET', url);
-    basePath = res.getBody('utf8')
-    return basePath;
-}
-exports.getBasePath = getBasePath
+// async function getBasePath() {
+//     const options = {
+//         hostname: '127.0.0.1',
+//         port: 49888,
+//         path: '/?action=basePath',
+//         method: 'GET'
+//     };
+//     const req = http.request(options, (res) => {
+//         let data = '';
+//         // 监听 data 事件，获取响应数据块
+//         res.on('data', (chunk) => {
+//             data += chunk;
+//         });
+//         // 监听 end 事件，响应结束时触发
+//         res.on('end', () => {
+//             console.log('响应数据:', data);
+            
+//         });
+//     });
+//     req.end()
+// }
+// getBasePath()  //获取基座路径 ：basePath
 
 
 /**
@@ -84,8 +96,7 @@ exports.getBasePath = getBasePath
  let beep = ()=>{
     let url = `${CppUrl}?action=beep`
     // console.log(url)
-    let res = request('GET', url);
-    return res;
+    let res = getHtml(url)
 }
 exports.beep = beep
 exports.蜂鸣声 = beep
@@ -109,7 +120,7 @@ let showMsg = (title,content)=>{
     content = encodeURIComponent(content)
     let url = `${CppUrl}?action=showMsg&title=${title}&content=${content}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
     return res;
 }
 exports.showMsg = showMsg
@@ -153,7 +164,7 @@ let showRect = (fromX=0,fromY=0,width=500,height=500,color='red',msec=500)=>{
     color = encodeURIComponent(color)
     let url = `${CppUrl}?action=showRect&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}&color=${color}&msec=${msec}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
     return res;
 }
 exports.showRect = showRect
@@ -198,7 +209,7 @@ exports.退出流程 = exit
     }
     let url = `${CppUrl}?action=httpSleep&milliseconds=${milliseconds}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
     return res;
 }
 exports.sleep = sleep
@@ -241,7 +252,7 @@ let moveMouseSmooth = (x,y,interval=0)=>{
     y=Math.round(y)
     let url = `${CppUrl}?action=moveMouse&x=${x}&y=${y}&interval=${interval}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
     sleep(defaultDelay);
     return res;
 }
@@ -276,7 +287,7 @@ let mouseClick = (leftRight = 'left',time=30)=>{
         url = `${CppUrl}?action=mouseRightClick&time=${time}`
     }
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
 
     sleep(defaultDelay);
     return res;
@@ -294,7 +305,7 @@ exports.鼠标点击 = mouseClick
     let url = `${CppUrl}?action=mouseDoubleClick`
 
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
 
     sleep(defaultDelay);
     return res;
@@ -311,7 +322,7 @@ exports.鼠标双击 = mouseDoubleClick
 let mouseWheel = (data = -720)=>{
     let url = `${CppUrl}?action=mouseWheel&data=${data}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
     sleep(defaultDelay);
     return res;
 }
@@ -330,7 +341,7 @@ let mouseLeftDragTo = (x,y)=>{
     y=Math.round(y)
     let url = `${CppUrl}?action=mouseLeftDragTo&x=${x}&y=${y}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
     sleep(defaultDelay);
     return res;
 }
@@ -349,7 +360,7 @@ let mouseRightDragTo = (x,y)=>{
     y=Math.round(y)
     let url = `${CppUrl}?action=mouseRightDragTo&x=${x}&y=${y}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
     sleep(defaultDelay);
     return res;
 }
@@ -367,8 +378,8 @@ exports.鼠标右键拖动 = mouseRightDragTo
 let getScreenColor = (x,y)=>{
     let url = `${CppUrl}?action=getScreenColor&x=${x}&y=${y}`
     // console.log(url)
-    let res = request('GET', url);
-    let jsonRes = JSON.parse(res.getBody('utf8'))
+    let res = getHtml(url)
+    let jsonRes = JSON.parse(res)
     return jsonRes.rs;
 }
 exports.getScreenColor = getScreenColor
@@ -402,13 +413,123 @@ let screenShot = (savePath='',x=0,y=0,w=-1,h=-1)=>{
 
     let url = `${CppUrl}?action=screenShot&savePath=${savePath}&x=${x}&y=${y}&w=${w}&h=${h}`
     // console.log(url)
-    let res = request('GET', url);
-    res = res.getBody('utf8')
+    let res = getHtml(url)
     return res;
 }
 exports.screenShot = screenShot
 exports.屏幕截图 = screenShot
 
+/**
+ * 按键名称 转成 键值
+ * @param {string} name 
+ * @returns {number}
+ */
+function keycode(name) {
+    const replacement_dict = {
+        'backspace': 8,
+        'tab': 9,
+        'enter': 13,
+        'shift': 16,
+        'ctrl': 17,
+        'alt': 18,
+        'pause/break': 19,
+        'caps lock': 20,
+        'esc': 27,
+        'space': 32,
+        'page up': 33,
+        'page down': 34,
+        'end': 35,
+        'home': 36,
+        'left': 37,
+        'up': 38,
+        'right': 39,
+        'down': 40,
+        'insert': 45,
+        'delete': 46,
+        'command': 91,
+        'left command': 91,
+        'right command': 93,
+        'numpad *': 106,
+        'numpad +': 107,
+        'numpad -': 109,
+        'numpad .': 110,
+        'numpad /': 111,
+        'num lock': 144,
+        'scroll lock': 145,
+        'my computer': 182,
+        'my calculator': 183,
+        'windows': 91,
+        '⇧': 16,
+        '⌥': 18,
+        '⌃': 17,
+        '⌘': 91,
+        'ctl': 17,
+        'control': 17,
+        'option': 18,
+        'pause': 19,
+        'break': 19,
+        'caps': 20,
+        'return': 13,
+        'escape': 27,
+        'spc': 32,
+        'spacebar': 32,
+        'pgup': 33,
+        'pgdn': 34,
+        'ins': 45,
+        'del': 46,
+        'cmd': 91,
+        'f1': 112,
+        'f2': 113,
+        'f3': 114,
+        'f4': 115,
+        'f5': 116,
+        'f6': 117,
+        'f7': 118,
+        'f8': 119,
+        'f9': 120,
+        'f10': 121,
+        'f11': 122,
+        'f12': 123,
+
+        "0": 48,
+        "1": 49,
+        "2": 50,
+        "3": 51,
+        "4": 52,
+        "5": 53,
+        "6": 54,
+        "7": 55,
+        "8": 56,
+        "9": 57,
+        "a": 65,
+        "b": 66,
+        "c": 67,
+        "d": 68,
+        "e": 69,
+        "f": 70,
+        "g": 71,
+        "h": 72,
+        "i": 73,
+        "j": 74,
+        "k": 75,
+        "l": 76,
+        "m": 77,
+        "n": 78,
+        "o": 79,
+        "p": 80,
+        "q": 81,
+        "r": 82,
+        "s": 83,
+        "t": 84,
+        "u": 85,
+        "v": 86,
+        "w": 87,
+        "x": 88,
+        "y": 89,
+        "z": 90,
+    }
+    return replacement_dict[name]
+}
 
 /**
  * 模拟键盘按键触发基础事件
@@ -428,7 +549,7 @@ let keyToggle = (key,upDown='down')=>{
     }
     let url = `${CppUrl}?action=keyToggle&key_n=${key_n}&upDown_n=${upDown_n}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
     return res;
 }
 exports.keyToggle = keyToggle
@@ -460,7 +581,7 @@ let mouseKeyToggle = (key='left',upDown='down')=>{
     }
     let url = `${CppUrl}?action=mouseKeyToggle&key_n=${key_n}&upDown_n=${upDown_n}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
     return res;
 }
 exports.mouseKeyToggle = mouseKeyToggle
@@ -532,10 +653,10 @@ var findScreen = (tpPath,miniSimilarity=0.85,fromX=0,fromY=0,width=-1,height=-1)
     tpPath = encodeURIComponent(tpPath)
     let url = `${CppUrl}?action=findScreen&imgPath=${tpPath}&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
 
     // console.log(res.getBody('utf8'));
-    jsonRes = JSON.parse(res.getBody('utf8'));
+    jsonRes = JSON.parse(res);
     // console.log(jsonRes);
 
     if (jsonRes.error) {
@@ -610,7 +731,7 @@ var findContours = (minimumArea=1000,fromX=0,fromY=0,width=-1,height=-1) =>{
 
     let url = `${CppUrl}?action=findContours&minimumArea=${minimumArea}&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
 
     // console.log(res.getBody('utf8'));
     jsonRes = JSON.parse(res.getBody('utf8'));
@@ -633,10 +754,7 @@ var paste = (txt)=>{
     copyText(txt)
     // sleep(200)
     keyTap('ctrl+v')
-    // txt =  encodeURIComponent(txt)
-    // url = `${CppUrl}?action=paste&txt=${txt}`
-    // console.log(url)
-    // request('GET', url);
+
     sleep(defaultDelay);
 }
 exports.paste = paste
@@ -651,7 +769,7 @@ var copyText=(txt)=>{
     txt =  encodeURIComponent(txt)
     url = `${CppUrl}?action=copyText&txt=${txt}`
     // console.log(url)
-    request('GET', url);
+    let res = getHtml(url)
 }
 exports.copyText = copyText
 exports.复制文字 = copyText
@@ -670,7 +788,7 @@ var copyFile = (filepath)=>{
     filepath = encodeURIComponent(filepath)
     url = `${CppUrl}?action=copyFile&path=${filepath}`
     // console.log(url)
-    request('GET', url);
+    let res = getHtml(url)
 }
 exports.copyFile = copyFile
 exports.复制文件 = copyFile
@@ -685,8 +803,8 @@ exports.复制文件 = copyFile
 var getClipboard= ()=>{
     let url = `${CppUrl}?action=getClipboard`
     // console.log(url)
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res;
 }
 exports.getClipboard = getClipboard
 exports.获取剪切板内容 = getClipboard
@@ -703,8 +821,8 @@ exports.获取剪切板内容 = getClipboard
 var wxMessage= (title,content,key)=>{
     
     let url =  `https://yun.pbottle.com/manage/yun/?msg=${encodeURIComponent(content)}&name=${encodeURIComponent(title)}&key=${key}`;
-    let res = request('GET', url);
-    console.log('发送微信消息：',res.getBody('utf8') );
+    let res = getHtml(url)
+    console.log('发送微信消息：',res );
 
 }
 exports.wxMessage = wxMessage
@@ -720,12 +838,31 @@ exports.微信消息发送 = wxMessage
  * @returns {string}
  */
 var postJson= (url,msgJson,headersJson={},method='POST')=>{
-    let res = request(method,url,{
-        json:msgJson,
-        headers: headersJson,
-    });
-    // console.log('Post反馈：',res.getBody('utf8') );
-    return res.getBody('utf8')
+
+    const jsonData = JSON.stringify(msgJson);
+    const command = 'curl';
+    const commandArgs = [
+        '-X', method,
+        '-H', 'Content-Type: application/json',
+        '-d', jsonData,
+        url
+    ];
+    if (Object.keys(headersJson).length !== 0) {
+        for (const [key, value] of Object.entries(options.headers)) {
+            commandArgs.push('-H', `${key}: ${value}`);
+        }
+    }
+
+    const result = childProcess.spawnSync('curl', commandArgs, { encoding: 'utf8' });
+    if (result.error) {
+        console.error('执行 curl 命令时出错:', result.error.message);
+        exit()
+    }
+    if (result.status!== 0) {
+        console.error('curl 命令执行失败:', result.stderr);
+        exit()
+    }
+    return result.stdout;
 }
 exports.postJson = postJson
 exports.提交json = postJson
@@ -737,10 +874,22 @@ exports.提交json = postJson
  * @returns {string} 返回的文本
  */
 function getHtml(url,headersJson={}) {
-    let res = request('GET', url,{
-        headers: headersJson,
-    });
-    return res.getBody('utf8')
+    let commandArgs = [url];
+    if (Object.keys(headersJson).length !== 0) {
+        for (const [key, value] of Object.entries(options.headers)) {
+            commandArgs.push('-H', `${key}: ${value}`);
+        }
+    }
+    const result = childProcess.spawnSync('curl', commandArgs, { encoding: 'utf8' });
+    if (result.error) {
+        console.error('执行 curl 命令时出错:', result.error.message);
+        exit()
+    }
+    if (result.status!== 0) {
+        console.error('curl 命令执行失败:', result.stderr);
+        exit()
+    }
+    return result.stdout;
 }
 exports.getHtml = getHtml
 exports.请求网址 = getHtml
@@ -752,15 +901,33 @@ exports.请求网址 = getHtml
  * @param {object} headersJson  请求头 Json对象 
  */
 function downloadFile(fileUrl,filename,headersJson={}) {
-    console.log('下载文件到',filename)
-    const response = request('GET', fileUrl,{
-        headers: headersJson,
-    });
+
     const dirPath = path.dirname(filename);
     if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath, { recursive: true });
     }
-    fs.writeFileSync(path.resolve(filename), response.getBody());
+
+    filename = path.resolve(filename)
+    console.log('下载文件到:',filename)
+    const commandArgs = [
+        '-o', filename,
+        fileUrl
+    ];
+    if (Object.keys(headersJson).length !== 0) {
+        for (const [key, value] of Object.entries(options.headers)) {
+            commandArgs.push('-H', `${key}: ${value}`);
+        }
+    }
+    const result = childProcess.spawnSync('curl', commandArgs, { encoding: 'utf8' });
+    if (result.error) {
+        console.error('执行 curl 命令时出错:', result.error.message);
+        exit()
+    }
+    if (result.status!== 0) {
+        console.error('curl 命令执行失败:', result.stderr);
+        exit()
+    }
+    return result.stdout;
 }
 exports.downloadFile = downloadFile
 exports.下载文件 = downloadFile
@@ -774,7 +941,7 @@ var tts= (text)=>{
     text = encodeURIComponent(text)
     let url = `${CppUrl}?action=tts&txt=${text}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
     sleep(defaultDelay);
 }
 exports.tts = tts
@@ -789,7 +956,7 @@ var openURL= (myurl)=>{
     myurl = encodeURIComponent(myurl)
     let url = `${CppUrl}?action=openURL&url=${myurl}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
     sleep(defaultDelay+1000);
 }
 exports.openURL = openURL
@@ -805,7 +972,7 @@ var openDir= (filePath)=>{
     filePath = encodeURIComponent(filePath)
     let url = `${CppUrl}?action=openDir&path=${filePath}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
     sleep(defaultDelay);
 }
 exports.openDir = openDir
@@ -827,8 +994,8 @@ exports.打开文件 = openDir
 var getResolution= ()=>{
     let url = `${CppUrl}?action=getResolution`
     // console.log(url)
-    let res = request('GET', url);
-    return JSON.parse(res.getBody('utf8'));
+    let res = getHtml(url)
+    return JSON.parse(res);
 }
 exports.getResolution = getResolution
 exports.获取屏幕分辨率 = getResolution
@@ -865,8 +1032,7 @@ var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
     
     let url = `${CppUrl}?action=aiOcr&path=${imagePath}&x=${x}&y=${y}&width=${width}&height=${height}&onlyEn=0`
     // console.log(url)
-    let res = request('GET', url);
-    res = res.getBody('utf8');
+    let res = getHtml(url)
 
     if (res == '文字识别引擎未启动') {
         console.log('⚠',res,'请在软件设置中开启');
@@ -907,8 +1073,7 @@ var aiObject= (minimumScore=0.5, x=0, y=0, width=-1, height=-1)=>{
     
     let url = `${CppUrl}?action=aiObject&minimumScore=${minimumScore}&x=${x}&y=${y}&width=${width}&height=${height}&onlyEn=0`
     // console.log(url)
-    let res = request('GET', url);
-    res = res.getBody('utf8');
+    let res = getHtml(url)
 
     if (res == '物体识别引擎未启动') {
         console.log('⚠',res,'请在软件设置中开启');
@@ -991,8 +1156,8 @@ exports.解压缩 = unZip
  */
 var bufferGet = (n=0)=>{
     let url = `${CppUrl}?action=bufferGet&n=${n}`
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res;
 }
 exports.bufferGet = bufferGet
 
@@ -1025,8 +1190,8 @@ var delaySet = (scriptPath='')=>{
     scriptPath = path.resolve(scriptPath)
     scriptPath = encodeURIComponent(scriptPath)
     let url = `${CppUrl}?action=pbottleRPA_delay&path=${scriptPath}`
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 }
 exports.delaySet = delaySet
 
@@ -1037,8 +1202,8 @@ exports.delaySet = delaySet
  */
 function deviceID(){
     let url = `${CppUrl}?action=pbottleRPA_deviceID`
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 }
 exports.deviceID = deviceID
 
@@ -1116,8 +1281,8 @@ var browserCMD_alert = function(msg){
     let action = 'alert';
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 }
 exports.browserCMD_alert = browserCMD_alert;
 exports.browserCMD.alert = browserCMD_alert
@@ -1131,8 +1296,8 @@ var browserCMD_url = function(urlStr=undefined){
     let action = 'url';
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    return res.getBody('utf8')
+    let res = getHtml(url)
+    return res
 }
 exports.browserCMD_url = browserCMD_url;
 exports.browserCMD.url = browserCMD_url
@@ -1148,8 +1313,8 @@ var browserCMD_count = function(selector){
     let action = 'count';
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    let resStr = res.getBody('utf8')
+    let res = getHtml(url)
+    let resStr = res
     if (isNumeric(resStr)) {
         return parseInt(resStr)
     }else{
@@ -1171,8 +1336,8 @@ exports.browserCMD.count = browserCMD_count
     let action = 'click';
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 }
 exports.browserCMD_click = browserCMD_click;
 exports.browserCMD.click = browserCMD_click;
@@ -1189,8 +1354,8 @@ var browserCMD_show = function(selector){
     let action = 'show';
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 }
 exports.browserCMD_show = browserCMD_show;
 exports.browserCMD.show = browserCMD_show;
@@ -1206,8 +1371,8 @@ var browserCMD_hide = function(selector){
     let action = 'hide';
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 }
 exports.browserCMD_hide = browserCMD_hide;
 exports.browserCMD.hide = browserCMD_hide;
@@ -1224,8 +1389,8 @@ var browserCMD_offset = function(selector){
 
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 }
 exports.browserCMD_offset = browserCMD_offset;
 exports.browserCMD.offset = browserCMD_offset;
@@ -1243,8 +1408,8 @@ exports.browserCMD.offset = browserCMD_offset;
 
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 }
 exports.browserCMD_remove = browserCMD_remove;
 exports.browserCMD.remove = browserCMD_remove;
@@ -1261,8 +1426,8 @@ var browserCMD_text = function(selector,content=undefined){
     let action = 'text';
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 
 }
 exports.browserCMD_text = browserCMD_text;
@@ -1281,8 +1446,8 @@ var browserCMD_html = function(selector,content=undefined){
 
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 
 }
 exports.browserCMD_html = browserCMD_html;
@@ -1301,8 +1466,8 @@ exports.browserCMD.html = browserCMD_html;
 
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 
 }
 exports.browserCMD_val = browserCMD_val;
@@ -1322,8 +1487,8 @@ exports.browserCMD.val = browserCMD_val;
 
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 }
 exports.browserCMD_cookie = browserCMD_cookie;
 exports.browserCMD.cookie = browserCMD_cookie
@@ -1342,8 +1507,8 @@ exports.browserCMD.cookie = browserCMD_cookie
 
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 
 }
 exports.browserCMD_css = browserCMD_css;
@@ -1363,8 +1528,8 @@ var browserCMD_attr = function(selector,propertyname,value=undefined){
 
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 
 }
 exports.browserCMD_attr = browserCMD_attr;
@@ -1383,8 +1548,8 @@ exports.browserCMD.attr = browserCMD_attr
     let action = 'prop';
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
-    let res = request('GET', url);
-    return res.getBody('utf8');
+    let res = getHtml(url)
+    return res
 
 }
 exports.browserCMD_prop = browserCMD_prop;
@@ -1539,7 +1704,7 @@ let hid_keyToggle = (key,upDown)=>{
     let key_n = keycode(key)
     let url = `${CppUrl}?action=keyToggleHardWare&key_n=${key_n}&upDown_n=${upDown_n}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
     return res;
 }
 exports.hid.keyToggle = hid_keyToggle
@@ -1586,7 +1751,7 @@ exports.hid.keyTap = hid_keyTap
 let hid_mouseCMD = (button=1,x=0,y=0,mouseWheel=0,time=10)=>{
     let url = `${CppUrl}?action=mouseDataHardWare&bt=${button}&x=${x}&y=${y}&wheel=${mouseWheel}&time=${time}`
     // console.log(url)
-    let res = request('GET', url);
+    let res = getHtml(url)
     return res;
 }
 
@@ -1866,9 +2031,8 @@ exports.工具箱.截取文本 =  substringFromTo
 
 
 
-/**
- * 入口检测提示
- */
+
+//检测入口文件
 if (process.argv[1] === __filename) {
     console.log('当前文件不能执行',"请直接执行中文名的脚本文件");
     showMsg('当前文件不能执行',"请直接执行中文名的脚本文件");
