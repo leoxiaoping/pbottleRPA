@@ -203,7 +203,7 @@ exports.退出流程 = exit
         console.log('警告：一次等待上限时长两分钟内');
     }
 
-    milliseconds -= 300  //减小毫秒误差，接口请求导致，大小受电脑运行速度影响
+    milliseconds -= 20  //减小毫秒误差，接口请求导致，大小受电脑运行速度影响
     if (milliseconds<1) {
         milliseconds = 1
     }
@@ -490,6 +490,18 @@ function keycode(name) {
         'f10': 121,
         'f11': 122,
         'f12': 123,
+
+        ';': 186,
+        '=': 187,
+        ',': 188,
+        '-': 189,
+        '.': 190,
+        '/': 191,
+        '`': 192,
+        '[': 219,
+        '\\': 220,
+        ']': 221,
+        "'": 222,
 
         "0": 48,
         "1": 49,
@@ -1702,6 +1714,10 @@ let hid_keyToggle = (key,upDown)=>{
         upDown_n = 2;
     }
     let key_n = keycode(key)
+    if (key_n === undefined) {
+        console.log(`⚠ 按键 ${key} 不存在！~`);
+        return
+    }
     let url = `${CppUrl}?action=keyToggleHardWare&key_n=${key_n}&upDown_n=${upDown_n}`
     // console.log(url)
     let res = getHtml(url)

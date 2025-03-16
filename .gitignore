@@ -7,3 +7,5 @@ Excel测试表格.xlsx
 test.js
 test.mjs
 配置项.json
+package-lock.json
+node_modules/

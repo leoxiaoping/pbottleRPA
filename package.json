@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "keycode": "^2.2.0",
-    "sync-request": "^6.1.0"
+
   }
 }
