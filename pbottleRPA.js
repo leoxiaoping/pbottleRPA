@@ -2064,16 +2064,16 @@ if (process.argv[1] === __filename) {
 
 //检测 win10  以下系统 curl 命令是否存在
 const isWindows = process.platform === 'win32';
+let command;
 if (isWindows) {
-    const release = os.release();
-    const majorVersion = parseInt(release.split('.')[0], 10);
-    if (majorVersion<10) {
-        const command = 'where curl';
-        try {
-            childProcess.execSync(command,{encoding: 'utf8' });
-        } catch (error) {
-            console.log('系统 curl 命令不存在');
-            process.exit(1);
-        }
-    }
+    command = 'where curl';
+} else {
+    command = 'which curl';
+}
+
+try {
+    childProcess.execSync(command,{encoding: 'utf8' });
+} catch (error) {
+    console.log('⚠️ 系统 curl 命令不存在');
+    process.exit(1);
 }
