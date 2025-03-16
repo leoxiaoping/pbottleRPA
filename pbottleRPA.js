@@ -1752,6 +1752,7 @@ let hid_keyTap = (key)=>{
         hid_keyToggle(key,"down")
         hid_keyToggle(key,"up")
     }
+    sleep(defaultDelay);
 }
 exports.hid.keyTap = hid_keyTap
 
@@ -1805,6 +1806,7 @@ let hid_mouseClick = (button='left',time=10)=>{
     }
     hid_mouseCMD(bt,0,0,0,time)
     hid_mouseCMD(0,0,0,0,0)
+    sleep(defaultDelay);
 }
 exports.hid.mouseClick = hid_mouseClick
 
@@ -1818,6 +1820,7 @@ let hid_mouseDoubleClick = ()=>{
     hid_mouseCMD(0,0,0,0,0)
     hid_mouseCMD(1,0,0,0,10)
     hid_mouseCMD(0,0,0,0,0)
+    sleep(defaultDelay);
 }
 exports.hid.mouseDoubleClick = hid_mouseDoubleClick
 
@@ -1831,6 +1834,7 @@ let hid_mouseLeftDragTo = (x,y)=>{
     hid_mouseCMD(1,0,0,0,10)
     hid_mouseCMD(1,x,y,0,10)
     hid_mouseCMD(0,0,0,0,0)
+    sleep(defaultDelay);
 }
 exports.hid.mouseLeftDragTo = hid_mouseLeftDragTo
 
@@ -1844,6 +1848,7 @@ let hid_mouseRightDragTo = (x,y)=>{
     mouseCMD(2,0,0,0,10)
     mouseCMD(2,x,y,0,10)
     mouseCMD(0,0,0,0,0)
+    sleep(defaultDelay);
 }
 exports.hid.mouseRightDragTo = hid_mouseRightDragTo
 
@@ -1856,6 +1861,7 @@ exports.hid.mouseRightDragTo = hid_mouseRightDragTo
 let hid_mouseWheel = (data = -1)=>{
     hid_mouseCMD(0,0,0,data,0)
     hid_mouseCMD(0,0,0,0,0)
+    sleep(defaultDelay);
 }
 exports.hid.mouseWheel = hid_mouseWheel
 
