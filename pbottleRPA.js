@@ -9,6 +9,7 @@
 
 const path = require("node:path");
 const fs = require("node:fs");
+const os = require('os');
 const childProcess = require('node:child_process');
 
 /**
@@ -2053,4 +2054,20 @@ if (process.argv[1] === __filename) {
     console.log('当前文件不能执行',"请直接执行中文名的脚本文件");
     showMsg('当前文件不能执行',"请直接执行中文名的脚本文件");
     process.exit(1);
+}
+
+//检测 win10  以下系统 curl 命令是否存在
+const isWindows = process.platform === 'win32';
+if (isWindows) {
+    const release = os.release();
+    const majorVersion = parseInt(release.split('.')[0], 10);
+    if (majorVersion<10) {
+        const command = 'where curl';
+        try {
+            childProcess.execSync(command,{encoding: 'utf8' });
+        } catch (error) {
+            console.log('系统 curl 命令不存在');
+            process.exit(1);
+        }
+    }
 }
