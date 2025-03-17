@@ -17,7 +17,8 @@ const childProcess = require('node:child_process');
  */
 const jsPath = path.resolve('./');  
 const CppUrl = `http://127.0.0.1:49888/`
-let basePath = ''; //基座路径
+let basePath = process.env.RPAbaseDir; //基座路径
+let curlCommand = 'curl';  //优先使用系统的，如果系统不存在curl命令，使用小瓶RPA自带的
 
 console.log("基座服务地址：（NodeJS）",CppUrl);
 exports.jsPath = jsPath
@@ -26,26 +27,6 @@ exports.__dirname = jsPath
 exports.目录路径 = jsPath
 
 
-
-/**
- * 加速版 request() 网络请求 默认不启用
- * @param {*} method 
- * @param {*} url 
- * @returns 
- */
-// function request(method,url) {
-//     let command = `curl -s "${url}"`;
-//     try {
-//         let result = childProcess.execSync(command);
-//         result.getBody = ()=>{
-//             return result
-//         }
-//         return result.toString();
-//     } catch (error) {
-//         console.error('请求出错:', error.message);
-//         return null;
-//     }
-// }
 
 
 let defaultDelay = 1000;  //默认值一秒
@@ -61,33 +42,6 @@ exports.setDefaultDelay = setDefaultDelay
 exports.设置默认操作延时 = setDefaultDelay
 
 
-
-/**
- * 获取并设置基座平台的根目录路径  | V2025.0 以上版本启用
- * @returns {string}
- */
-// async function getBasePath() {
-//     const options = {
-//         hostname: '127.0.0.1',
-//         port: 49888,
-//         path: '/?action=basePath',
-//         method: 'GET'
-//     };
-//     const req = http.request(options, (res) => {
-//         let data = '';
-//         // 监听 data 事件，获取响应数据块
-//         res.on('data', (chunk) => {
-//             data += chunk;
-//         });
-//         // 监听 end 事件，响应结束时触发
-//         res.on('end', () => {
-//             console.log('响应数据:', data);
-            
-//         });
-//     });
-//     req.end()
-// }
-// getBasePath()  //获取基座路径 ：basePath
 
 
 /**
@@ -224,7 +178,7 @@ exports.睡眠毫秒 = sleep
  */
 let wait = (seconds = 1)=>{
     if(seconds<=0  || !isNumeric(seconds)){
-        console.log('pbottle.wait：seconds input error');
+        console.log('pbottleRPA.wait：seconds input error');
         return;
     }
     if (seconds>100) {  //100秒
@@ -861,12 +815,11 @@ var postJson= (url,msgJson,headersJson={},method='POST')=>{
         url
     ];
     if (Object.keys(headersJson).length !== 0) {
-        for (const [key, value] of Object.entries(options.headers)) {
+        for (const [key, value] of Object.entries(headersJson)) {
             commandArgs.push('-H', `${key}: ${value}`);
         }
     }
-
-    const result = childProcess.spawnSync('curl', commandArgs, { encoding: 'utf8' });
+    const result = childProcess.spawnSync(curlCommand, commandArgs, { encoding: 'utf8' });
     if (result.error) {
         console.error('执行 curl 命令时出错:', result.error.message);
         exit()
@@ -889,11 +842,11 @@ exports.提交json = postJson
 function getHtml(url,headersJson={}) {
     let commandArgs = [url];
     if (Object.keys(headersJson).length !== 0) {
-        for (const [key, value] of Object.entries(options.headers)) {
+        for (const [key, value] of Object.entries(headersJson)) {
             commandArgs.push('-H', `${key}: ${value}`);
         }
     }
-    const result = childProcess.spawnSync('curl', commandArgs, { encoding: 'utf8' });
+    const result = childProcess.spawnSync(curlCommand, commandArgs, { encoding: 'utf8' });
     if (result.error) {
         console.error('执行 curl 命令时出错:', result.error.message);
         exit()
@@ -927,11 +880,11 @@ function downloadFile(fileUrl,filename,headersJson={}) {
         fileUrl
     ];
     if (Object.keys(headersJson).length !== 0) {
-        for (const [key, value] of Object.entries(options.headers)) {
+        for (const [key, value] of Object.entries(headersJson)) {
             commandArgs.push('-H', `${key}: ${value}`);
         }
     }
-    const result = childProcess.spawnSync('curl', commandArgs, { encoding: 'utf8' });
+    const result = childProcess.spawnSync(curlCommand , commandArgs, { encoding: 'utf8' });
     if (result.error) {
         console.error('执行 curl 命令时出错:', result.error.message);
         exit()
@@ -1111,7 +1064,6 @@ exports.物体识别 = aiObject
  * @param {string} zipFilePath zip文件包
  */
 function zipDir(directory,zipFilePath="") {
-    let basePath = getBasePath()
     if (!zipFilePath) {
         zipFilePath = path.resolve(directory,'RPA生成的压缩包.zip')
     }
@@ -1140,7 +1092,6 @@ exports.压缩 = zipDir
  * @param {string} directory 文件夹路径，输入绝对路径  默认解压到zip文件当前目录
  */
 function unZip(zipFilePath,directory="") {
-    let basePath = getBasePath()
     if (!directory) {
         directory = path.dirname(zipFilePath)
     }
@@ -1229,7 +1180,6 @@ exports.deviceID = deviceID
  *  ②此模块功能需要登录并激活云端模块。碍于成本因素，部分功能需要充值计费才能使用
  */
 exports.cloud={}
-
 
 /**
  * @typedef {Object} Answerinfo  AI回答结果
