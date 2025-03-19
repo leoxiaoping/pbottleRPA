@@ -20,7 +20,7 @@ pbottleRPA.键盘按键('enter')
 ```
 
 
-### 文档入口
+### 文档入口 【新】
 
 [https://rpa.pbottle.com/docs/](https://rpa.pbottle.com/docs/)
 
@@ -42,6 +42,8 @@ pbottleRPA.键盘按键('enter')
 - js脚本可以融入完整的 Nodejs（Python）生态，无缝引入万亿第三方功能包，同时可以使用 git 等代码工程管理工具和传统IT项目自然对接。
 
 - V2023.3版本 新增加鼠标操作录制自动生成简单的脚本功能。
+  
+- 🔥 AI 对话大模型 生成小瓶RPA流程脚本   [查看](https://rpa.pbottle.com/docs/AI%E7%94%9F%E6%88%90%E6%B5%81%E7%A8%8B%E8%84%9A%E6%9C%AC.html)
 
 
 ❓︎ 为什么小瓶采用js作为脚本语言，可以用 python、java、c# 等吗？
@@ -82,7 +84,7 @@ pbottleRPA.键盘按键('enter')
 
 ### 步骤
 
-1.  下载exe运行基座  pbottleRPA.zip  [基座exe程序绿色版](https://gitee.com/pbottle/pbottle-rpa/releases)
+1.  下载exe运行基座绿色版  pbottleRPA.zip  [基座exe程序绿色版](https://rpa.pbottle.com/)
 2.  安装 NodeJS 脚本引擎 .msi,并安装 [下载网站](https://rpa.pbottle.com/a-13943.html)   安装后请重启基座
 3.  下载 [测试脚本](https://gitee.com/pbottle/pbottle-rpa/repository/archive/master.zip)，运行基座选择demo脚本即可开始运行
 
@@ -133,29 +135,15 @@ web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快�
 
 自带Demo示例：（中文标题为demo示例脚本 后续会添加更多）
 
-- 基础（循环、判断、等待）演示
-- 键盘基础操作演示
-- 鼠标基础操作演示
-- 运维消息手机通知
-- 微信朋友圈自动点赞
-- 屏幕文字提取OCR测试脚本
-- 剪切板演示脚本
-- 文件基础操作演示
-- 截屏操作演示脚本
-- 屏幕物体轮廓查找测试脚本
-- WEB增强-浏览器元素操作演示
-- WEB增强-数据批量爬取演示
-- WEB增强-账号密码登录演示
-- 下载文件示例演示
-- 压缩和解压演示
-- GPT问题答案AI生成演示
-- GPT图像解析示例.js
-- [第三方] 读写Excel演示脚本
 
-注：【web增强】需要先安装小瓶RPA浏览器插件，【第三方】需要先双击  _第三方模块安装.bat_  安装所需模块。
+注意：
+
+1. 【web增强】需要先安装小瓶RPA浏览器插件
+2. 【第三方】需要先双击  _第三方模块安装.bat_  安装所需模块。
 
 
 ### 全局热键
+
 
  **Ctrl + Shift + Q** 
 
@@ -164,8 +152,6 @@ web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快�
  **Ctrl + Shift + R** 
 
 - 重新启动当前的脚本运行
-
-
 
 
 

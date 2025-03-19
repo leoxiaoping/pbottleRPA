@@ -62,6 +62,7 @@ export default defineConfig({
           { text: '用 js 脚本开发自动化流程', link: '/用 js 脚本开发自动化流程' },
           { text: '用 python 脚本开发自动化流程', link: '/用 python 脚本开发自动化流程' },
           { text: '中文调用', link: '/中文调用' },
+          { text: 'AI生成流程脚本 🔥', link: '/AI生成流程脚本' },
           { text: '流程运行日志', link: '/流程运行日志' },
           { text: '定时启动', link: '/定时启动' },
           { text: '流程录制', link: '/流程录制' },

@@ -3,6 +3,7 @@
 ## openURL 打开网址
 
 用电脑默认浏览器打开网址
+
 @param {*} myurl 网址
 
 示例：快速开始脚本
@@ -10,8 +11,11 @@
 ## getHtml 请求网址
 
   普通请求网址，获取返回的html文本
+
   @param {string} url 网络地址 get方法
+
   @param {object} headersJson  请求头 Json对象 
+
   @returns {string} 返回的文本
 
 
@@ -27,8 +31,11 @@
 ## downloadFile 下载文件
 
   从网络下载一个文件到本地路径
+
   @param {string} fileUrl 网址
+
   @param {string} filename 本地路径文件名
+  
   @param {object} headersJson  请求头 Json对象 
 
 
