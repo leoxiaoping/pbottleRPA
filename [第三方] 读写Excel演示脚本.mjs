@@ -21,9 +21,9 @@ try {
 console.log("=== Excel 读写测试 ===");
 console.log(Date());
 pbottleRPA.tts('Excel 读写测试')
-pbottleRPA.sleep(1000*3)
+pbottleRPA.wait(3)
 pbottleRPA.tts(`将当前电脑配置信息生成EXCEL文件`)
-pbottleRPA.sleep(1000*5)
+pbottleRPA.wait(5)
 
 //生成excel文档
 const workbook = new ExcelJS.Workbook()
@@ -56,7 +56,7 @@ pbottleRPA.openDir(pbottleRPA.__dirname)
 
 //追加一条数据
 await excelAppend(pbottleRPA.__dirname + `/Excel测试表格.xlsx`, ['项名','重新追加值'])   //所有异步方法（async 返回 promise），都用 await 以形成顺序执行的流程
-pbottleRPA.sleep(1000*5)
+pbottleRPA.wait(5)
 
 
 

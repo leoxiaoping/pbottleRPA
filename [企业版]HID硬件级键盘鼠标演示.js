@@ -27,7 +27,7 @@ if (bufferRS == '个人版不可用') {
     pbottleRPA.showMsg('需要硬件外设','测试需要硬件外设')
     pbottleRPA.tts('正在打开键盘测试网站，需要开启RPA硬件模拟功能')
     pbottleRPA.openURL('https://key-test.com/cn/')
-    pbottleRPA.sleep(3*1000)
+    pbottleRPA.wait(3)
     pbottleRPA.hid.keyTap('f11')
 
     // pbottleRPA.exit()
@@ -39,15 +39,15 @@ if (bufferRS == '个人版不可用') {
     pbottleRPA.hid.mouseClick();
 
     pbottleRPA.hid.mouseWheel(-2)
-    pbottleRPA.sleep(1000)
+    pbottleRPA.wait()
     pbottleRPA.hid.mouseWheel(1)
-    pbottleRPA.sleep(1000)
+    pbottleRPA.wait()
     pbottleRPA.hid.mouseWheel()
 
     pbottleRPA.hid.mouseClick('middle');
     pbottleRPA.hid.mouseClick('left',3000);
     pbottleRPA.hid.mouseClick('right');
-    pbottleRPA.sleep(1000)
+    pbottleRPA.wait()
     pbottleRPA.hid.moveMouse(resolution.w/3,resolution.h/2)
     pbottleRPA.hid.mouseDoubleClick()
     pbottleRPA.hid.mouseClick();

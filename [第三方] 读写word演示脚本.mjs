@@ -22,9 +22,9 @@ try {
 console.log("=== word 后台读写测试 ===");
 console.log(Date());
 pbottleRPA.tts('word 后台读写测试')
-pbottleRPA.sleep(1000*3)
+pbottleRPA.wait(3)
 pbottleRPA.tts(`将后台生成 word 文件`)
-pbottleRPA.sleep(1000*5)
+pbottleRPA.wait(5)
 
 //生成 word 文档  更多例子：https://gitee.com/mirrors_dolanmiu/docx/tree/master/demo
 const doc = new docx.Document({
@@ -70,7 +70,7 @@ pbottleRPA.openDir(pbottleRPA.__dirname)
 
 //读取word文档
 pbottleRPA.tts(`将后台读取 word 文件 显示到日志`)
-pbottleRPA.sleep(1000*3)
+pbottleRPA.wait(3)
 let rs = await mammoth.extractRawText({path:"./word测试文档.docx"})
 console.log('读取word文档内容：',rs.value);
 

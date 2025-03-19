@@ -23,13 +23,13 @@ if (bufferRS == '个人版不可用') {
 /**
  * buffers
  */
-pbottleRPA.sleep(200)
+pbottleRPA.wait()
 for (let index = 0; index < 10; index++) {
     let content = "我是 +=<& buffer"+index
     pbottleRPA.bufferSet(content,index)
 }
 
-pbottleRPA.sleep(200)
+pbottleRPA.wait()
 for (let index = 0; index < 10; index++) {
     console.log('buffer'+ index + ' 内容：', pbottleRPA.bufferGet(index));
 }

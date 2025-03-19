@@ -27,10 +27,10 @@ if (ret !== 'ok') {
 
 //点击登录按钮
 pbottleRPA.browserCMD_click(`a[role='button']:contains(登录或注册)`)
-pbottleRPA.sleep(2000)
+pbottleRPA.wait(2)
 
 pbottleRPA.browserCMD_click(`a[role='button']:contains(用帐号密码登录)`)
-pbottleRPA.sleep(1000)
+pbottleRPA.wait()
 
 
 //输入账号密码
@@ -39,12 +39,12 @@ pbottleRPA.browserCMD_val(`input[name='uname']`,'test')
 
 pbottleRPA.browserCMD_click(`input[name='pwd']`)
 pbottleRPA.browserCMD_val(`input[name='pwd']`,'123456')
-pbottleRPA.sleep(1000)
+pbottleRPA.wait()
 
 
 //登录按钮
 pbottleRPA.browserCMD_click(`button:contains(登录帐号)`)
-pbottleRPA.sleep(3000)
+pbottleRPA.wait(3)
 
 pbottleRPA.keyTap('enter')
 pbottleRPA.tts('演示结束')

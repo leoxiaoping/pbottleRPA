@@ -12,25 +12,25 @@ const fs = require('fs')
 pbottleRPA.tts('打开文件夹')
 console.log('打开文件夹');
 //延迟5秒
-pbottleRPA.sleep(1000*3)
+pbottleRPA.wait(3)
 console.log('./input/');
 pbottleRPA.openDir( './input/')
-pbottleRPA.sleep(1000*2)
+pbottleRPA.wait(2)
 
 pbottleRPA.tts('打开图片')
 console.log('打开图片');
 pbottleRPA.openfile('./input/RPAlogo128.png')
-pbottleRPA.sleep(1000*2)
+pbottleRPA.wait(2)
 pbottleRPA.tts('关闭')
 pbottleRPA.keyTap('alt+f4')
-pbottleRPA.sleep(1000)
+pbottleRPA.wait()
 
 
 
 pbottleRPA.tts('复制文件')
-console.log('复制文件');
+console.log('复制文件')
 fs.copyFileSync('./input/RPAlogo128.png',  './input/RPAlogo128-新复制.png')
-pbottleRPA.sleep(1000*3)
+pbottleRPA.wait(3)
 
 pbottleRPA.tts('删除文件')
 console.log('删除文件')

@@ -27,11 +27,11 @@ if (ret !== 'ok') {
     process.exit(1)
 }
 
-pbottleRPA.sleep(1000*1)
+pbottleRPA.wait(1)
 pbottleRPA.tts("跳转新网址：")
 pbottleRPA.browserCMD_url('https://www.baidu.com/?from=pbottleRPA')
 //延迟1秒
-pbottleRPA.sleep(1000*2)
+pbottleRPA.wait(2)
 
 
 
@@ -57,7 +57,7 @@ console.log('返回操作结果 cssSet',ret);
 ret = pbottleRPA.browserCMD_text('title')
 console.log('返回操作结果 textGet',ret);
 pbottleRPA.tts('获取标题 ')
-pbottleRPA.sleep(1000*3)
+pbottleRPA.wait(3)
 
 
 pbottleRPA.tts('设置页面标题 ')
@@ -65,7 +65,7 @@ ret = pbottleRPA.browserCMD_text('title','[小瓶RPA]-'+ret)
 console.log('返回操作结果 textSet',ret);
 ret = pbottleRPA.browserCMD_text('title')
 console.log('当前页面标题：',ret);
-pbottleRPA.sleep(1000*3)
+pbottleRPA.wait(3)
 
 
 pbottleRPA.tts('输入搜索词 点击搜索按钮 ')
@@ -75,37 +75,37 @@ console.log('返回点击操作结果 valSet',ret);
 
 ret = pbottleRPA.browserCMD_click('#su')
 console.log('返回点击操作结果 click',ret);
-pbottleRPA.sleep(1000*3)
+pbottleRPA.wait(3)
 
 
 pbottleRPA.tts('获取当前网址：')
 ret = pbottleRPA.browserCMD_url()
 console.log('获取当前网址：',ret);
-pbottleRPA.sleep(2000)
+pbottleRPA.wait(2)
 
 
 pbottleRPA.tts('开始去广告')
 for (let index = 0; index < 1; index++) {
     ret = pbottleRPA.browserCMD_remove('#content_left div:first')
     console.log('返回点击操作结果 remove',ret);
-    pbottleRPA.sleep(3000)
+    pbottleRPA.wait(3)
 }
 
 
 pbottleRPA.tts('打开网站')
 pbottleRPA.browserCMD_click('div#content_left a:first')
-pbottleRPA.sleep(1500)
+pbottleRPA.wait()
 
 
 pbottleRPA.tts('读取 logo 路径，显示到日志')
 ret = pbottleRPA.browserCMD_attr('img:first','src')
 console.log('网站logo图片地址',ret);
-pbottleRPA.sleep(1500)
+pbottleRPA.wait()
 
 
 ret = pbottleRPA.browserCMD_offset('img:first')
 console.log('位置',ret);
-pbottleRPA.sleep(1500)
+pbottleRPA.wait()
 
 
 pbottleRPA.tts('演示完成准备退出')

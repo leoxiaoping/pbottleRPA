@@ -18,7 +18,7 @@ pbottleRPA.showMsg('提示：','必须先安装浏览器增强插件')
 
 
 //打开被获取数据的网页
-pbottleRPA.sleep(5*1000)
+pbottleRPA.wait(5)
 pbottleRPA.openURL('https://rpa.pbottle.com/')
 
 
@@ -43,7 +43,7 @@ datas =  JSON.parse(rs)
 
 console.log('爬取数据数量：',datas.length);
 pbottleRPA.tts('爬取数据'+ datas.length +'条，请查看日志')
-pbottleRPA.sleep(1000*4)
+pbottleRPA.wait(4)
 
 console.log('数据列表：');
 datas.forEach(element => {
