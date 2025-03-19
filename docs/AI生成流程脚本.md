@@ -31,6 +31,6 @@ https://github.com/leoxiaoping/pbottleRPA
 输入对话提问例子
 
 ```
-生成js流程脚本和注释说明：打开多个网址并按 ctrl+d 收藏这些网址
+生成js流程脚本：打开多个网址并按 ctrl+d 收藏这些网址
 ```
 
