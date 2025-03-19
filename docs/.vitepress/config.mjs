@@ -111,7 +111,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://gitee.com/pbottle/pbottle-rpa/docs' }
+      { icon: 'github', link: 'https://gitee.com/pbottle/pbottle-rpa' }
     ],
 
 
