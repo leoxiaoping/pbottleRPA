@@ -9,3 +9,5 @@ test.mjs
 配置项.json
 package-lock.json
 node_modules/
+docs/.vitepress/cache
+docs/.vitepress/dist
