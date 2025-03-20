@@ -380,6 +380,7 @@ exports.屏幕截图 = screenShot
  * @returns {number}
  */
 function keycode(name) {
+    name = name.trim().toLowerCase();
     const replacement_dict = {
         'backspace': 8,
         'tab': 9,
