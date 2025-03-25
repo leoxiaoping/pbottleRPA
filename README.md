@@ -196,3 +196,9 @@ web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快�
 
  [联系我们](https://rpa.pbottle.com/value-added.php) 
 
+### 小瓶RPA招聘
+
+英雄不问出处，各路英才简历投递方式：
+
+打开小瓶RPA官网，浏览器console控制台查看。
+
