@@ -25,8 +25,3 @@ pbottleRPA.等待文件(下载保存路径,'WeChatSetup.exe',()=>{
 
 pbottleRPA.日志输出('文件已经下载成功');
 pbottleRPA.showMsg('监测下载完成','文件已经下载成功')
-
-
-
-
-

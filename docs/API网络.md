@@ -21,11 +21,20 @@
 
 ## postJson 接口post
 
-向指定网址post一个json，常用网络接口提交方式， 如 webhook 企业微信群机器人通知
+  向指定API网址post一个json，最常用网络接口方式
+  
+  @param {string} url API网络地址 
+  
+  @param {object} msgJson Json对象 
+  
+  @param {object} headersJson 请求头 Json对象 
 
-@param {*} url 目标网址
+  @param {string} method e.g. GET, POST, PUT, DELETE or HEAD
 
-@param {*} msgJson jsson内容字符串
+  @returns {string}
+
+
+示例：运维消息手机通知.js
 
 
 ## downloadFile 下载文件
