@@ -25,7 +25,9 @@ https://www.runoob.com/jquery/jquery-ref-selectors.html
 - 支持 虚拟DOM 的前端框架，如：Vue React 等
 - 支持伪类方案高级选择定位
 
-`pbottleRPA.browserCMD_click(`button:contains(登录帐号)`)`
+```javascript
+pbottleRPA.browserCMD_click('button:contains(登录帐号)')
+```
 
 
 
