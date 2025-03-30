@@ -18,14 +18,26 @@ VSCode
 
 下载：https://code.visualstudio.com/
 
-
 ## 推荐版本
+
 nodeJS v18 以上
 
 下载： https://rpa.pbottle.com/a-13943.html
 
-## 引入 nodeJS 功能模块
 
+
+## VSCode 断点调试脚本
+
+VSCode 提供原生对js脚本的断点调试功能动态实时观察变量数值，可设置暂停断点调试。
+
+1. 选择左侧工具栏-》运行调试  
+2. 选择 nodejs
+3. 点击行号设置红色断点 并运行
+   
+   ![小瓶脚本调试](./public/Snipaste_2025-03-30_19-57-57.png)
+
+
+## 引入 NodeJS 三方功能模块
 
 npm 第三方功能库：https://www.npmjs.com/
 

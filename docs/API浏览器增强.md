@@ -1,22 +1,32 @@
 # 浏览器增强 - web应用
 
-**⚠浏览器插件只是一种web浏览器页面操作的快捷操作方式，不是必须。按照小瓶RPA桌面应用的操作规则一样可以操作web浏览器应用。**
+**⚠ 浏览器插件只是一种web浏览器页面操作的快捷操作方式，不是必须。按照小瓶RPA桌面应用的操作规则一样可以操作web浏览器应用。**
 
 需要先安装小瓶RPA浏览器插件，安装方法查看：
 
 https://rpa.pbottle.com/a-13942.html
 
-可以参考 包含“web增强“ 的示例
 
-由于浏览器安全规范提升，已经不支持直接发送js代码给页面。
+基础调用方式：
+`pbottleRPA.browserCMD.xxx()`
 
-小瓶RPA web增强基本遵循已经被广泛使用jQuery选择器的设计规则，可以参考jquery的选择器文档。https://www.runoob.com/jquery/jquery-ref-selectors.html
+可以参考 “web增强“ 开头的demo示例。
+
+## 元素选择器
 
 
+小瓶RPA web增强基本遵循已经被广泛使用 **jQuery选择器** 的设计规则，可以参考jquery的选择器文档。
 
+https://www.runoob.com/jquery/jquery-ref-selectors.html
 
-调用方式：
-pbottleRPA.browserCMD.xxx()
+相比 xpath 等方案优势：
+
+- 支持动态元素的选择定位
+- 支持 虚拟DOM 的前端框架，如：Vue React 等
+- 支持伪类方案高级选择定位
+
+`pbottleRPA.browserCMD_click(`button:contains(登录帐号)`)`
+
 
 
 
