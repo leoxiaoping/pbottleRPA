@@ -1546,9 +1546,7 @@ function waitImage(tpPath, intervalFun = () => { }, timeOut = 30, miniSimilarity
     screenShot();
     //error
     let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
-    let lineNumber = frame.split(":").reverse()[1];
-    let functionName = frame.split(" ")[5];
-    exit(`等待图片超时 ${tpPath} line:${lineNumber} function:${functionName}`)
+    exit(`等待图片超时 ${tpPath}  ${frame}`)
 }
 exports.waitImage =  waitImage;
 exports.等待图像出现 =  waitImage;
@@ -1579,9 +1577,7 @@ function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30 ,miniS
     screenShot();
     //error
     let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
-    let lineNumber = frame.split(":").reverse()[1];
-    let functionName = frame.split(" ")[5];
-    exit(`等待图片消失超时 ${tpPath} line:${lineNumber} function:${functionName}`)
+    exit(`等待图片消失超时 ${tpPath} ${frame}`)
 }
 exports.waitImageDisappear =  waitImageDisappear;
 exports.等待图像消失 =  waitImageDisappear;
@@ -1609,9 +1605,7 @@ function waitFile(dirPath,keyWords='',intervalFun=()=>{},timeOut = 30){
     }
     //error
     let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
-    let lineNumber = frame.split(":").reverse()[1];
-    let functionName = frame.split(" ")[5];
-    exit(`等待文件超时： ${dirPath} line:${lineNumber} function:${functionName}`)
+    exit(`等待文件超时： ${dirPath} ${frame}`)
 }
 exports.waitFile =  waitFile;
 exports.等待文件 =  waitFile;
@@ -1640,9 +1634,7 @@ function waitFileDisappear(dirPath,keyWords='',intervalFun=()=>{},timeOut = 30){
     }
     //error
     let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
-    let lineNumber = frame.split(":").reverse()[1];
-    let functionName = frame.split(" ")[5];
-    exit(`等待文件错误： ${dirPath} line:${lineNumber} function:${functionName}`)
+    exit(`等待文件错误： ${dirPath} ${frame}`)
 }
 exports.waitFileDisappear =  waitFileDisappear;
 exports.等待文件消失 =  waitFileDisappear;
