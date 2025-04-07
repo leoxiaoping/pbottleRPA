@@ -60,6 +60,10 @@
 
 @returns {position|boolean} 结果的位置信息，json格式：`{x,y}`
 
+#### 调试
+
+等待图片超时情况，小瓶RPA会立刻全屏截图并保存到  `电脑-》我的图片`  供后续判断排查。    
+
 
 ## findContours 寻找轮廓
 

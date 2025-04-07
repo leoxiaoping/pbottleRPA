@@ -106,6 +106,7 @@ export default defineConfig({
            { text: '无尽模式', link: '/无尽模式'},  
            { text: '硬件键鼠模拟', link: '/硬件键鼠模拟'},
            { text: '集群控制中心', link: '/集群控制中心'},  
+           { text: '专用自动化独立软件', link: '/专用自动化独立软件'},  
         ]
       }
     ],
