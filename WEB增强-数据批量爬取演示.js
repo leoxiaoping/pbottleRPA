@@ -25,7 +25,7 @@ pbottleRPA.openURL('https://rpa.pbottle.com/')
 
 //判断打开页面
 let n_rpa = pbottleRPA.browserCMD_count('span:contains(小瓶RPA)')
-console.log('元素数量：',n_rpa);
+console.log('包含 小瓶RPA 元素数量：',n_rpa);
 pbottleRPA.keyTap('page down')
 pbottleRPA.keyTap('page down')
 pbottleRPA.keyTap('page down')
@@ -45,9 +45,19 @@ console.log('爬取数据数量：',datas.length);
 pbottleRPA.tts('爬取数据'+ datas.length +'条，请查看日志')
 pbottleRPA.wait(4)
 
+console.log('=====');
 console.log('数据列表：');
 datas.forEach(element => {
     element = element.trim().replace(/[\r\n]/g, '');
+    console.log(element);
+});
+
+
+rs = pbottleRPA.browserCMD_attr('a.list-group-item','href')
+datas =  JSON.parse(rs)
+console.log('====');
+console.log('链接列表：');
+datas.forEach(element => {
     console.log(element);
 });
 
