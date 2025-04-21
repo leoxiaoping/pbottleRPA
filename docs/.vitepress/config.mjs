@@ -70,7 +70,7 @@ export default defineConfig({
           { text: '手机应用的自动化', link: '/手机应用的自动化' },
           { text: 'win7 操作系统', link: '/win7操作系统' },
           { text: '信创操作系统', link: '/信创操作系统' },
-          { text: '‌Q&A', link: '/‌Q&A' },
+          { text: '‌Q&A 问答', link: '/‌Q&A' },
         ]
       },
 
