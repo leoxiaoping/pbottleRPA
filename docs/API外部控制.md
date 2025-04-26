@@ -11,7 +11,7 @@
 从外部控制启动小瓶RPA开始某项自定义的任务
 
 用法：
-:49888/?action=pbottleRPA_run&path=流程脚本路径
+http://ip:49888/?action=pbottleRPA_run&path=流程脚本路径
 
 - 成功启动任务返回：ok
 - 上一个任务还未结束：isRunning
@@ -23,7 +23,7 @@
 
 用法：
 
-:49888/?action=pbottleRPA_stop
+http://ip:49888/?action=pbottleRPA_stop
 
 
 ## 当前运行状态
@@ -32,7 +32,7 @@
 
 用法：
 
-:49888/?action=pbottleRPA_state
+http://ip:49888/?action=pbottleRPA_state
 
 - 未运行状态返回：ready
 - 正在运行状态返回：isRunning
@@ -76,7 +76,7 @@ http://ip:49888/action=bufferGet&n=0
 
 用法：
 
-:49888/?action=pbottleRPA_plan&plan=* *
+http://ip:49888/?action=pbottleRPA_plan&plan=* *
 
 定时器规则参考： https://www.pbottle.com/a-13868.html
 
@@ -86,9 +86,19 @@ http://ip:49888/action=bufferGet&n=0
 外部获取当前设备RPA唯一号
 
 用法：
-:49888/?action=pbottleRPA_deviceID
+http://ip:49888/?action=pbottleRPA_deviceID
 
 多用于商业加密脚本的分发控制和验证
+
+
+## 外部获取运行日志
+
+外部获取最后一个任务的运行日志
+
+用法：
+http://ip:49888/?action=pbottleRPA_lastLog
+
+通常用来检查详细的运行过程
 
 ## delaySet 设置接力任务
 

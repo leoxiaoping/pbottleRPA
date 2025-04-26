@@ -73,7 +73,8 @@ console.log("当前运行状态（isRunning | ready）：",rs);
 
 
 setTimeout(()=>{
+    // pbottleRPA.openURL('http://127.0.0.1:49888/?action=pbottleRPA_lastLog')  //获取日志
     //外部停止
     let urlStop = 'http://127.0.0.1:49888/?action=pbottleRPA_stop'
-    fetch(urlStop)
+    pbottleRPA.getHtml(urlStop)
 },3000)
