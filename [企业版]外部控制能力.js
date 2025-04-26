@@ -65,6 +65,13 @@ fetch(url).then((rs)=>{
 
 
 
+//当前运行状态
+let urlState = 'http://127.0.0.1:49888/?action=pbottleRPA_state'
+let rs = pbottleRPA.getHtml(urlState)
+console.log("当前运行状态（isRunning | ready）：",rs);
+
+
+
 setTimeout(()=>{
     //外部停止
     let urlStop = 'http://127.0.0.1:49888/?action=pbottleRPA_stop'
