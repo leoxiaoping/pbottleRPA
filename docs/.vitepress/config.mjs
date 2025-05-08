@@ -4,7 +4,7 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "小瓶 RPA 官方文档",
-  description: "小瓶RPA，长难业务自动化流程专精。 轻量级简单全能的RPA软件，显著降本增效 & 工作100%准确 & 非侵入式集成。同时支持浏览器web应用和客户端应用的操作流程自动化。同时支持 Js 和 Python 两种脚本制作流程。",
+  description: "小瓶RPA，专业用户的专业RPA软件。轻量级简单全能的RPA软件，显著降本增效 & 工作100%准确 & 非侵入式集成。同时支持浏览器web应用和客户端应用的操作流程自动化。同时支持 Js 和 Python 两种脚本制作流程。",
   lang: 'zh-Hans',
   lastUpdated: true,
   base: '/docs/',
@@ -13,7 +13,7 @@ export default defineConfig({
   },
   head:[
     ['link',{rel:'shortcut icon',href:'/rpa.ico',type:'image/x-icon'}], 
-    ['meta', { name: 'keywords', content: '小瓶RPA, 文档, 流程文档, 官方文档, RPA文档 ,机器人流程自动化文档' }],
+    ['meta', { name: 'keywords', content: '小瓶RPA, 专业RPA, 文档, 流程文档, 官方文档, RPA文档 ,机器人流程自动化文档' }],
     ['script', {type : 'text/javascript'}, `
         var _hmt = _hmt || [];
           (function() {
