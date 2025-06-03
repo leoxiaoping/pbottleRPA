@@ -14,7 +14,7 @@ Python 的设计具有很强的可读性，相比其他语言经常使用英文�
 如果您还没有任何脚本编写经验，可以参考网上的基础教程和demo来开发自己的流程，比如：https://www.runoob.com/python3/python3-tutorial.html
 
 
-## 推荐编辑器： 
+## 推荐编辑器
 
 推荐 VSCode 
 
