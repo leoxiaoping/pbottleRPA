@@ -1197,7 +1197,13 @@ exports.cloud={}
 function cloud_GPT(question,modelLevel=0,response_format='text') {
     let deviceToken = deviceID()
     let rs = postJson('https://rpa.pbottle.com/API/',{question,deviceToken,modelLevel,response_format})
-    return JSON.parse(rs)
+    // console.log(rs);
+    let json =  JSON.parse(rs)
+    if (json.error) {
+        console.log('❌ 错误',json.error)
+        exit()
+    }
+    return json
 }
 exports.cloud_GPT = cloud_GPT
 exports.cloud.GPT = cloud_GPT
@@ -1221,7 +1227,12 @@ function cloud_GPTV(question,imagePath,modelLevel=0) {
         return 'GPTV输入图片不存在！~'
     }
     let rs = postJson('https://rpa.pbottle.com/API/gptv',{question,deviceToken,modelLevel,image_base64})
-    return JSON.parse(rs)
+    let json =  JSON.parse(rs)
+    if (json.error) {
+        console.log('❌ 错误',json.error)
+        exit()
+    }
+    return json
 }
 exports.cloud_GPTV = cloud_GPTV
 exports.cloud.GPTV = cloud_GPTV

@@ -12,5 +12,6 @@ let ask = '描述图片中有什么？'
 console.log(ask,`./input/RPAlogo128.png`);
 
 const start =  Date.now()
+pbottleRPA.log('云端 AI 生成答案:')
 console.log(pbottleRPA.cloud_GPTV(ask,`./input/RPAlogo128.png`).content)
 console.log('图片解析耗时：(毫秒)',Date.now()-start);

@@ -23,7 +23,8 @@ for (let index = 0; index < asks.length; index++) {
     pbottleRPA.tts(ask)
 
     let rs= pbottleRPA.cloud_GPT(ask,0)
-    pbottleRPA.log('云端 AI 生成答案:',rs.content)
+    pbottleRPA.log('云端 AI 生成答案:')
+    pbottleRPA.log(rs.content)
     pbottleRPA.log('------------')
     pbottleRPA.log()
 }
