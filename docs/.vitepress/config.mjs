@@ -107,6 +107,7 @@ export default defineConfig({
            { text: '硬件键鼠模拟', link: '/硬件键鼠模拟'},
            { text: '集群控制中心', link: '/集群控制中心'},  
            { text: '专用自动化独立软件', link: '/专用自动化独立软件'},  
+           { text: '业务管理系统', link: '/业务管理系统'},  
         ]
       }
     ],
