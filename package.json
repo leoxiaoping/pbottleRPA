@@ -7,10 +7,5 @@
     "install-dep": "npm install  exceljs mammoth docx"
   },
   "author": "leo@pbottle.com",
-  "license": "MIT",
-  "dependencies": {
-    "docx": "^9.5.0",
-    "exceljs": "^4.4.0",
-    "mammoth": "^1.9.1"
-  }
+  "license": "MIT"
 }
