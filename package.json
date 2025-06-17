@@ -1,14 +1,16 @@
 {
-  "name": "pbottle-rpa",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "pbottle-rpa-demo",
+  "version": "2025.3.0",
+  "description": "小瓶RPA基础演示流程，使用教程：https://rpa.pbottle.com/a-14019.html，流程开发文档：https://rpa.pbottle.com/docs/",
+  "main": "",
   "scripts": {
-    "run": "node 基础测试脚本"
+    "install-dep": "npm install  exceljs mammoth docx"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "leo@pbottle.com",
+  "license": "MIT",
   "dependencies": {
-
+    "docx": "^9.5.0",
+    "exceljs": "^4.4.0",
+    "mammoth": "^1.9.1"
   }
 }
