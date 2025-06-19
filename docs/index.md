@@ -58,6 +58,7 @@ pbottleRPA.keyTap('enter')  #确认搜索
 
 ![小瓶RPA架构图](https://www.pbottle.com/TP/img/rpa.png)
 
-## 小瓶RPA基座界面
+## 小瓶RPA基座界面 和 浏览器插件界面
 
-![小瓶RPA软件截图](https://www.pbottle.com/static/upload/20250121/17374409604618.png)
+![小瓶RPA软件截图](https://www.pbottle.com/static/upload/20250619/17503069137119.png)
+![小瓶RPA浏览器插件截图](https://www.pbottle.com/static/upload/20250416/17447934102282.png)

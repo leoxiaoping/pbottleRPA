@@ -36,7 +36,7 @@ pbottleRPA.browserCMD_click('button:contains(登录帐号)')
 
 新版小瓶RPA增加了元素选择器测试功能，本功能旨在帮助用户在复杂网页中快速定位和选择html的元素。
 
-![web增强插件](https://foruda.gitee.com/images/1726713788047247323/d255c05c_799608.png)
+![web增强插件](https://www.pbottle.com/static/upload/20250416/17447934102282.png)
 
 
 ##  alert 警告框 
