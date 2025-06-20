@@ -17,7 +17,8 @@ async function main() {
 
     
     console.log('启动异步子流程 test.js');
-    await require('./test.js')()
+    let rs = await require('./test.js')('https://rpa.pbottle.com')  //子流程的输入和输出
+    console.log('异步子流程返回结果：',rs);
 
 
     // await process1() //有错误
@@ -32,8 +33,10 @@ main().catch((e)=>{  //主流程错误捕获
 
 
 //test.js 文件
-// module.exports = async () => {
+// module.exports = async (url) => {
 //     console.log('子流程开始')
-//     const res = await fetch('https://www.pbottle.com')
-//     pbottleRPA.log('网络请求完成！~',res.ok)
+//     const res = await fetch(url)
+//     pbottleRPA.log('网络请求完成！~',res.ok,res.url)
+//     console.log('子流程结束')
+//     return true
 // }
