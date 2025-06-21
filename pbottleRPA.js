@@ -18,6 +18,7 @@ const childProcess = require('node:child_process');
 const jsPath = path.resolve('./');  
 const CppUrl = `http://127.0.0.1:49888/`
 let basePath = process.env.RPAbaseDir; //基座路径
+let homePath = process.env.RPAhomeDir;
 let curlCommand = 'curl';  //优先使用系统的，如果系统不存在curl命令，使用小瓶RPA自带的
 
 console.log("基座服务地址：（NodeJS）",CppUrl);
@@ -26,8 +27,10 @@ exports.basePath = basePath
 exports.__dirname = jsPath
 exports.目录路径 = jsPath
 
-
-
+//node:fs
+exports.fs = fs  
+//node:path
+exports.path = path
 
 let defaultDelay = 1000;  //默认值一秒
 /**
@@ -808,7 +811,6 @@ exports.微信消息发送 = wxMessage
 var postJson= (url,msgJson,headersJson={},method='POST')=>{
 
     const jsonData = JSON.stringify(msgJson);
-    const command = 'curl';
     const commandArgs = [
         '-X', method,
         '-H', 'Content-Type: application/json',
@@ -833,6 +835,42 @@ var postJson= (url,msgJson,headersJson={},method='POST')=>{
 }
 exports.postJson = postJson
 exports.提交json = postJson
+
+/**
+ * 向指定API网址post一个json文件，适合大型json内容
+ * @param {string} url API网络地址 
+ * @param {object} msgJsonFile Json文件路径 
+ * @param {object} headersJson 请求头Json对象 
+ * @param {string} method e.g. GET, POST, PUT, DELETE or HEAD
+ * @returns {string}
+ */
+var postJsonFile= (url,msgJsonFile,headersJson={},method='POST')=>{
+
+    msgJsonFile = path.resolve(msgJsonFile);
+    const commandArgs = [
+        '-X', method,
+        '-H', 'Content-Type: application/json',
+        '-d', `@${msgJsonFile}`,
+        url
+    ];
+    if (Object.keys(headersJson).length !== 0) {
+        for (const [key, value] of Object.entries(headersJson)) {
+            commandArgs.push('-H', `${key}: ${value}`);
+        }
+    }
+    const result = childProcess.spawnSync(curlCommand, commandArgs, { encoding: 'utf8' });
+    if (result.error) {
+        console.error('执行 curl 命令时出错:', result.error.message);
+        exit()
+    }
+    if (result.status!== 0) {
+        console.error('curl 命令执行失败:', result.stderr);
+        exit()
+    }
+    return result.stdout;
+}
+exports.postJsonFile = postJsonFile
+exports.提交json文件 = postJsonFile
 
 /**
  * 普通请求网址，获取返回的html文本
@@ -1219,17 +1257,21 @@ exports.cloud.GPT = cloud_GPT
 function cloud_GPTV(question,imagePath,modelLevel=0) {
     let deviceToken = deviceID()
     imagePath = path.resolve(imagePath)
-    let image_base64
-    try {
-        image_base64 = fs.readFileSync(imagePath).toString('base64')
-    } catch (error) {
-        console.log('⚠ GPTV输入图片不存在！~',imagePath);
-        return 'GPTV输入图片不存在！~'
+
+    if (!fs.existsSync(imagePath)) {
+        console.log('❌ 输入分析图片不存在：cloud_GPTV')
+        exit()
     }
-    let rs = postJson('https://rpa.pbottle.com/API/gptv',{question,deviceToken,modelLevel,image_base64})
+
+    let tempJsonFile = homePath+'/cloud_GPTV.json'
+    
+    let image_base64 = fs.readFileSync(imagePath).toString('base64')
+    fs.writeFileSync(tempJsonFile,JSON.stringify({question,deviceToken,modelLevel,image_base64}))
+    
+    let rs = postJsonFile('https://rpa.pbottle.com/API/gptv',tempJsonFile);
     let json =  JSON.parse(rs)
     if (json.error) {
-        console.log('❌ 错误',json.error)
+        console.log('❌ 错误 cloud_GPTV',json.error,rs)
         exit()
     }
     return json
@@ -2028,6 +2070,9 @@ if (isWindows) {
 try {
     childProcess.execSync(command,{encoding: 'utf8' });
 } catch (error) {
-    console.log('⚠️ 系统 curl 命令不存在');
-    process.exit(1);
+    console.log('⚠️ 系统 curl 命令不存在，使用集成 curl');
+    curlCommand =  basePath + '/bin/curl.exe';
+    // process.exit(1);
 }
+
+

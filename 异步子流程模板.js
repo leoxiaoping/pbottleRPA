@@ -13,12 +13,12 @@ async function main() {
 
 
     console.log('启动子流程  同步子流程'); 
-    require('./快速开始演示（3行代码）.js')  //只有顶层代码
+    require('./快速开始演示（3行代码）.js')  //只有顶层代码的同步子流程
 
     
     console.log('启动异步子流程 test.js');
     let rs = await require('./test.js')('https://rpa.pbottle.com')  //子流程的输入和输出
-    console.log('异步子流程返回结果：',rs);
+    console.log('子流程返回结果：',rs);
 
 
     // await process1() //有错误
