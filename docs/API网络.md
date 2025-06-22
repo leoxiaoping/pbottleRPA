@@ -4,11 +4,11 @@
 
 用电脑默认浏览器打开网址
 
-@param {*} myurl 网址
+@param {string} myurl 网址
 
 示例：快速开始脚本
 
-## getHtml 请求网址
+## getHtml 请求网址 （同步方法）
 
   普通请求网址，获取返回的html文本
 
@@ -19,7 +19,7 @@
   @returns {string} 返回的文本
 
 
-## postJson 接口post
+## postJson 提交json
 
   向指定API网址post一个json，最常用网络接口方式
   
@@ -33,8 +33,24 @@
 
   @returns {string}
 
-
 示例：运维消息手机通知.js
+
+## postJsonFile 提交json文件
+
+  向指定API网址post一个json文件，适合大型json内容
+
+  @param {string} url API网络地址 
+
+  @param {string} msgJsonFile Json文件路径 
+
+  @param {object} headersJson 请求头Json对象 
+
+  @param {string} method e.g. GET, POST, PUT, DELETE or HEAD
+
+  @returns {string}
+
+示例：GPT图像解析示例.js
+
 
 
 ## downloadFile 下载文件
@@ -54,8 +70,8 @@
 
 通过小瓶云发送微信通知 (微信到达率高，并且免费)
 
-@param {*} name 消息标题
+@param {string} name 消息标题
 
-@param {*} content 消息详细内容
+@param {string} content 消息详细内容
 
-@param {*} key 获取key详情方法：https://www.pbottle.com/a-12586.html
+@param {string} key 获取key详情方法：https://www.pbottle.com/a-12586.html

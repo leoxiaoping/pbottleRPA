@@ -839,7 +839,7 @@ exports.提交json = postJson
 /**
  * 向指定API网址post一个json文件，适合大型json内容
  * @param {string} url API网络地址 
- * @param {object} msgJsonFile Json文件路径 
+ * @param {string} msgJsonFile Json文件路径 
  * @param {object} headersJson 请求头Json对象 
  * @param {string} method e.g. GET, POST, PUT, DELETE or HEAD
  * @returns {string}
