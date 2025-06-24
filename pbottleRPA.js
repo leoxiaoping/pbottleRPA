@@ -1230,11 +1230,12 @@ exports.cloud={}
  * @param {string} question 提问问题，如：'今天是xx日，你能给我写首诗吗？'
  * @param {number} modelLevel 模型等级，不同参数大小不同定价，默认 0 为标准模型。0为低价模型；1为性价比模型；2为旗舰高智能模型；
  * @param {string} response_format 云端模型输出格式，默认："text"，可选 "json_object" JSON格式
+ * @param {number} temperature 采样温度，控制输出的随机性，必须为正数 取值范围是：[0.0,1.0]， 默认值为 0.75，值越大，会使输出更随机，更具创造性；值越小，输出会更加稳定或确定
  * @returns {Answerinfo} JSON内容格式 {content:'结果',tokens:消耗token的数量}
  */
-function cloud_GPT(question,modelLevel=0,response_format='text') {
+function cloud_GPT(question,modelLevel=0,response_format='text',temperature=0.75) {
     let deviceToken = deviceID()
-    let rs = postJson('https://rpa.pbottle.com/API/',{question,deviceToken,modelLevel,response_format})
+    let rs = postJson('https://rpa.pbottle.com/API/',{question,deviceToken,modelLevel,response_format,temperature})
     // console.log(rs);
     let json =  JSON.parse(rs)
     if (json.error) {
