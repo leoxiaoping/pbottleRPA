@@ -119,6 +119,11 @@ exports.关闭软件 = kill
  * @returns 
  */
 let showRect = (fromX=0,fromY=0,width=500,height=500,color='red',msec=500)=>{
+    fromX = Math.round(fromX)
+    fromY = Math.round(fromY)
+    width = Math.round(width)
+    height = Math.round(height)
+
     color = encodeURIComponent(color)
     let url = `${CppUrl}?action=showRect&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}&color=${color}&msec=${msec}`
     // console.log(url)
@@ -1226,16 +1231,29 @@ exports.cloud={}
  * @property {number} usage - 消耗token数量
  */
 /**
+ * @typedef {Object} AiOptions  AI输入选项
+ * @property {string} response_format 云端模型输出格式，默认："text"，可选 "json_object" JSON格式
+ * @property {number} temperature  模型温度，默认：0.75，取值范围 [0-2).
+ * @property {boolean} enable_search   false|true  联网搜素开关，默认关闭，开启增加token消耗。开启后，只会根据问题自动判断是否联网，可以在问题中添加联网搜素关键词，如："联网搜素：xxxx"
+ */
+/**
  * 小瓶RPA整合的云端大语言答案生成模型
  * @param {string} question 提问问题，如：'今天是xx日，你能给我写首诗吗？'
  * @param {number} modelLevel 模型等级，不同参数大小不同定价，默认 0 为标准模型。0为低价模型；1为性价比模型；2为旗舰高智能模型；
- * @param {string} response_format 云端模型输出格式，默认："text"，可选 "json_object" JSON格式
- * @param {number} temperature 采样温度，控制输出的随机性，必须为正数 取值范围是：[0.0,1.0]， 默认值为 0.75，值越大，会使输出更随机，更具创造性；值越小，输出会更加稳定或确定
+ * @param {AiOptions} options AI输入选项
  * @returns {Answerinfo} JSON内容格式 {content:'结果',tokens:消耗token的数量}
  */
-function cloud_GPT(question,modelLevel=0,response_format='text',temperature=0.75) {
+function cloud_GPT(question,modelLevel=0,options={
+    response_format:'text',
+    temperature:0.75,
+    enable_search:false,
+}) {
     let deviceToken = deviceID()
-    let rs = postJson('https://rpa.pbottle.com/API/',{question,deviceToken,modelLevel,response_format,temperature})
+    if (question.length<3) {
+        console.log('❌ 错误','问题过短，请输入至少2个字符')
+        exit()
+    }
+    let rs = postJson('https://rpa.pbottle.com/API/',{question,deviceToken,modelLevel,options})
     // console.log(rs);
     let json =  JSON.parse(rs)
     if (json.error) {
@@ -1279,6 +1297,68 @@ function cloud_GPTV(question,imagePath,modelLevel=0) {
 }
 exports.cloud_GPTV = cloud_GPTV
 exports.cloud.GPTV = cloud_GPTV
+
+
+/**
+ * 小瓶RPA整合的云端图像分析大模型，直接操作屏幕
+ * @param {string} action  '点击'|'双击'|'右键'
+ * @param {string} question 提问问题，如：'分析这个图片的内容'
+ * @returns
+ */
+function cloud_GPTA(action='点击',question="桌面微信图标") {
+    let deviceToken = deviceID()
+
+    let tempScreenShoot = homePath+'/cloud_GPT_do.png'
+    let tempJsonFile = homePath+'/cloud_GPTV.json'
+
+    screenShot(tempScreenShoot)
+
+    let image_base64 = 'data:image/png;base64,'+fs.readFileSync(tempScreenShoot).toString('base64')
+
+    fs.writeFileSync(tempJsonFile,JSON.stringify({question,deviceToken,image_base64}))
+    
+    let rs = postJsonFile('https://rpa.pbottle.com/API/gpta',tempJsonFile);
+    let json =  JSON.parse(rs)
+    if (json.error) {
+        console.log('❌ 错误 cloud_GPTA',json.error,rs)
+        exit()
+    }
+    console.log(json);
+    let boxs = json.content.split('\n')
+    for (let index = 0; index < boxs.length; index++) {
+        const box = boxs[index];
+        if (!box) {
+            continue
+        }
+        let box4 = JSON.parse(box)
+        let resolution = getResolution()
+        box4[0] = box4[0]/1000*resolution.w
+        box4[1] = box4[1]/1000*resolution.h
+        box4[2] = box4[2]/1000*resolution.w
+        box4[3] = box4[3]/1000*resolution.h
+
+        showRect(box4[0],box4[1],box4[2]-box4[0],box4[3]-box4[1],'green')
+        
+        
+        let x = Math.round((box4[0] + box4[2])/2)
+        let y = Math.round((box4[1] + box4[3])/2)
+        console.log(question+'的位置',x,y);
+        moveMouseSmooth(x,y)
+        
+        if (action=='点击') {
+            mouseClick('left')
+        }else if (action=='双击') {
+            mouseDoubleClick()
+        }else if (action=='右键') {
+            mouseClick('right')
+        }
+  
+    }
+
+    
+}
+exports.cloud_GPTA = cloud_GPTA
+exports.cloud.GPTA = cloud_GPTA
 
 
 /**
