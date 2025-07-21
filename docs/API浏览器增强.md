@@ -21,9 +21,9 @@ https://www.runoob.com/jquery/jquery-ref-selectors.html
 
 相比 xpath 等方案优势：
 
-- 支持动态元素的选择定位
-- 支持 虚拟DOM 的前端框架，如：Vue React 等
-- 支持伪类方案高级选择定位
+- 学习成本低，规则和浏览器的 document.querySelector 原生方法一致
+- 兼容性强，支持虚拟DOM的前端框架，如：Vue React 等
+- 支持功能丰富且强大的伪类方案，可以高级选择定位
 
 ```javascript
 pbottleRPA.browserCMD_click('button:contains(登录帐号)')
@@ -37,6 +37,8 @@ pbottleRPA.browserCMD_click('button:contains(登录帐号)')
 新版小瓶RPA增加了元素选择器测试功能，本功能旨在帮助用户在复杂网页中快速定位和选择html的元素。
 
 ![web增强插件](https://www.pbottle.com/static/upload/20250416/17447934102282.png)
+
+**V2025.2 新增选中元素背景闪烁功能，方便用户查看元素位置。**
 
 
 ##  alert 警告框 
