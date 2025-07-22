@@ -70,13 +70,15 @@ browserCMD_url()
 
 browserCMD_click()
 
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展
+  浏览器增强命令  需要安装小瓶RPA的浏览器拓展
 
-模拟点击 参考 jQuery click() 方法 新版增加点击A标签能力
+  模拟点击   参考 jQuery click() 方法，改为浏览器 native 的 click() 并自动获取焦点
 
-@param {*} selector 元素选择器
+  @param {string} selector   元素选择器。如果选择多个元素，只触发第一个元素的click事件
 
-@returns
+  @param {number} 点击类型  0:默认浏览器原生点击，1：阻止冒泡事件，只触发元素自身点击事件
+
+  @returns {string}
 
 
 ## count 元素计数 
