@@ -81,6 +81,19 @@ browserCMD_click()
   @returns {string}
 
 
+  ## closeTab 关闭标签页
+
+browserCMD_closeTab('current'|'other')
+
+  浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+
+  关闭浏览器标签页。打开新标签页用 pbottleRPA.openURL()
+
+  @param {string} 关闭类型  'current':默认关闭当前标签页; 'other':关闭其他标签页
+
+  @returns {string} 正常返回 'ok'
+
+
 ## count 元素计数 
 
 browserCMD_count()

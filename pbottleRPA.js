@@ -1385,6 +1385,23 @@ var browserCMD_alert = function(msg){
 exports.browserCMD_alert = browserCMD_alert;
 exports.browserCMD.alert = browserCMD_alert
 
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 关闭浏览器标签页。打开新标签页用 pbottleRPA.openURL()
+ * @param {string} 关闭类型  'current':默认关闭当前标签页; 'other':关闭其他标签页
+ * @returns {string} 正常返回 'ok'
+ */
+var browserCMD_closeTab = function(type='current'){
+    let action = 'closeTab';
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let res = getHtml(url)
+    return res
+}
+exports.browserCMD_closeTab = browserCMD_closeTab
+exports.browserCMD.closeTab = browserCMD_closeTab
+
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * @param {string} urlStr 当前网页转向新网址，默认为空获取当前网址   【小瓶RPA浏览器增强插件V2023.8以上生效】
