@@ -29,7 +29,7 @@ if (ret !== 'ok') {
 pbottleRPA.browserCMD_click(`a[role='button']:contains(登录或注册)`)
 pbottleRPA.wait(2)
 
-pbottleRPA.browserCMD_click(`a[role='button']:contains(用帐号密码登录)`)
+pbottleRPA.browserCMD_click(`a[role='button']:contains(登录)`)
 pbottleRPA.wait()
 
 
