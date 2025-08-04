@@ -1907,6 +1907,17 @@ exports.hid.mouseClick = hid_mouseClick
 
 
 /**
+ * 移动鼠标到指定位置并点击
+ * @param {number} x 横坐标
+ * @param {number} y 纵坐标
+ */
+let hid_moveAndClick = (x,y)=>{
+    hid_moveMouse(x,y)
+    hid_mouseClick()
+}
+exports.hid.moveAndClick = hid_moveAndClick
+
+/**
  * 双击鼠标  左键
  * @returns 
  */

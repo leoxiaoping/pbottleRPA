@@ -28,7 +28,7 @@ http://ip:49888/?action=pbottleRPA_stop
 
 ## 当前运行状态
 
-从外部控制停止小瓶RPA正在运行的状态
+从外部控制查询小瓶RPA正在运行的状态
 
 用法：
 
@@ -36,7 +36,6 @@ http://ip:49888/?action=pbottleRPA_state
 
 - 未运行状态返回：ready
 - 正在运行状态返回：isRunning
-
 
 
 ## 外部控制buffer存取

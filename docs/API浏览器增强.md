@@ -83,7 +83,7 @@ browserCMD_click()
 
   ## closeTab 关闭标签页
 
-browserCMD_closeTab('current'|'other')
+browserCMD_closeTab('current'|'other')  V2025.4 以上版本支持。
 
   浏览器增强命令  需要安装小瓶RPA的浏览器拓展
 

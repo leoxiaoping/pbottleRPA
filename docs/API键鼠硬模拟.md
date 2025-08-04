@@ -14,20 +14,18 @@
 调用方式：pbottle.hid.XXX()
 
 
-## hid_keyToggle
+## hid.keyToggle
 
 * 模拟按键触发事件 (硬件级)
  * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
  * @param {string} upDown  默认按下down，up松开按键
 
-
-## hid_keyTap 
-
+## hid.keyTap 
 
 * 按一下键盘（硬件级）   支持组合按键 加号连接 如：  keyTap('ctrl + alt + del')
- * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
+* @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
 
-## hid_mouseCMD
+## hid.mouseCMD
 
 * 基础鼠标命令  全部为零释放
  * @param {number} button 按键  1，2，4 代表鼠标的 左键，右键，中键。
@@ -36,30 +34,36 @@
  * @param {number} mouseWheel 滚动齿轮数  正数向下，负数向下
  * @param {number} time 按下到释放时间
 
-## hid_moveMouse 
+## hid.moveMouse 
 
  * 移动鼠标到指定位置  起点为屏幕左上角  屏幕绝对位置（硬件分辨率）
  * @param {number} x   横坐标
  * @param {number} y   纵坐标
   
-## hid_mouseClick
+## hid.mouseClick
 
  * 当前位置点击鼠标 默认左键  
  * @param {string} 鼠标的按键选择 left right middle 可选  ，默认左键
  * @param {number} 点按时间 单位毫秒 可选
+  
+## hid.moveAndClick
 
-## hid_mouseDoubleClick 
+ * 移动鼠标到指定位置并点击
+ * @param {number} x 横坐标
+ * @param {number} y 纵坐标
+
+## hid.mouseDoubleClick 
 
 双击鼠标  左键
 
 
-## hid_mouseLeftDragTo 
+## hid.mouseLeftDragTo 
 
 * 鼠标左键拖到一段位置
  * @param {number} x  位置
  * @param {number} y  位置
 
-## hid_mouseRightDragTo 
+## hid.mouseRightDragTo 
 
  * 鼠标左键拖到一段位置
  * @param {number} x  位置
