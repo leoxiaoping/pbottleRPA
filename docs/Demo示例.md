@@ -1,6 +1,7 @@
 # Demo示例
 
-小瓶RPA提供多个基础功能的demo示例，方面大家参考
+小瓶RPA提供多个基础功能的demo示例，方面大家参考。具体API的使用可以参考demo，所有api接口都有demo示例。
+
 Demo示例为 JavaScript 和 python 脚本语言，符合完整 Nodejs NPM  和 python pip 项目规则。
 
 **官方推荐 JavaScript 版本**
