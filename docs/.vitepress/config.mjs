@@ -88,7 +88,7 @@ export default defineConfig({
           { text: '通用工具 Utils', link: '/API通用工具'},
           { text: 'AI图像（本地）', link: '/APIAI图像'},
           { text: 'AI大模型（云模块）', link: '/APIAI大模型'},
-          { text: '浏览器增强', link: '/API浏览器增强'},
+          { text: '浏览器增强 🔥', link: '/API浏览器增强'},
           { text: '办公文档', link: '/API办公文档'},
           { text: '外部控制', link: '/API外部控制'},
           { text: '键鼠硬模拟 hid', link: '/API键鼠硬模拟'},
