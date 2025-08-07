@@ -41,6 +41,17 @@ pbottleRPA.browserCMD_click('button:contains(登录帐号)')
 **V2025.2 新增选中元素背景闪烁功能，方便用户查看元素位置。**
 
 
+
+快速复制元素选择器步骤：
+
+1. 鼠标放到浏览器目标元素上，F12 或者 右键菜单“检查元素”
+2. 目标元素代码块上，右键弹出复制菜单
+3. 选择 复制selector 【复制选择器】
+
+![小瓶RPA如何精准选择网页的元素](https://www.pbottle.com/static/upload/20250807/17545509544351.png)
+
+
+
 ##  alert 警告框 
 
 
