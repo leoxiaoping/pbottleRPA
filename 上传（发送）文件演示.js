@@ -17,7 +17,7 @@ pbottleRPA.wait(2)
 console.log('开始演示');
 pbottleRPA.openURL('https://image.baidu.com/')
 pbottleRPA.wait()
-pbottleRPA.browserCMD_click('span.img-upload-icon_y6ZWd')
+pbottleRPA.browserCMD_click('span[class^="img-upload-icon_"]')
 let pos = pbottleRPA.findText('上传图片')
 pbottleRPA.moveAndClick(pos.x,pos.y)
 pbottleRPA.wait()
