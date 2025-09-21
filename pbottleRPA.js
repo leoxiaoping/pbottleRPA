@@ -230,8 +230,9 @@ exports.鼠标移动 = moveMouseSmooth
  * @param {number} y 纵坐标
  */
 let moveAndClick = (x,y)=>{
-    this.moveMouse(x,y)
-    this.mouseClick()
+    // call local functions directly instead of using `this` which may not refer to module exports
+    moveMouseSmooth(x,y)
+    mouseClick()
 }
 exports.moveAndClick = moveAndClick
 exports.鼠标移动并点击 = moveAndClick
@@ -632,7 +633,7 @@ var findScreen = (tpPath,miniSimilarity=0.85,fromX=0,fromY=0,width=-1,height=-1)
     let res = getHtml(url)
 
     // console.log(res.getBody('utf8'));
-    jsonRes = JSON.parse(res);
+    let jsonRes = JSON.parse(res);
     // console.log(jsonRes);
 
     if (jsonRes.error) {
@@ -709,8 +710,8 @@ var findContours = (minimumArea=1000,fromX=0,fromY=0,width=-1,height=-1) =>{
     // console.log(url)
     let res = getHtml(url)
 
-    // console.log(res.getBody('utf8'));
-    jsonRes = JSON.parse(res.getBody('utf8'));
+    // parse the response string directly (getHtml returns stdout string)
+    let jsonRes = JSON.parse(res);
 
     for (const json of jsonRes) {
         json.x += fromX
@@ -743,9 +744,10 @@ exports.粘贴输入 = paste
  */
 var copyText=(txt)=>{
     txt =  encodeURIComponent(txt)
-    url = `${CppUrl}?action=copyText&txt=${txt}`
+    let url = `${CppUrl}?action=copyText&txt=${txt}`
     // console.log(url)
     let res = getHtml(url)
+    return res
 }
 exports.copyText = copyText
 exports.复制文字 = copyText
@@ -762,9 +764,10 @@ var copyFile = (filepath)=>{
     }
     filepath = filepath.replace(/\\/g,'/')
     filepath = encodeURIComponent(filepath)
-    url = `${CppUrl}?action=copyFile&path=${filepath}`
+    let url = `${CppUrl}?action=copyFile&path=${filepath}`
     // console.log(url)
     let res = getHtml(url)
+    return res
 }
 exports.copyFile = copyFile
 exports.复制文件 = copyFile
@@ -1036,7 +1039,8 @@ var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
     }
 
     if (imagePath != 'screen') {
-        imagePath = path.relative(imagePath)
+        // use absolute path for local image files
+        imagePath = path.resolve(imagePath)
         imagePath = encodeURIComponent(imagePath)
     }
     
@@ -1951,9 +1955,10 @@ exports.hid.mouseLeftDragTo = hid_mouseLeftDragTo
  * @returns 
  */
 let hid_mouseRightDragTo = (x,y)=>{
-    mouseCMD(2,0,0,0,10)
-    mouseCMD(2,x,y,0,10)
-    mouseCMD(0,0,0,0,0)
+    // use hid_mouseCMD (hardware mouse command) instead of undefined mouseCMD
+    hid_mouseCMD(2,0,0,0,10)
+    hid_mouseCMD(2,x,y,0,10)
+    hid_mouseCMD(0,0,0,0,0)
     sleep(defaultDelay);
 }
 exports.hid.mouseRightDragTo = hid_mouseRightDragTo

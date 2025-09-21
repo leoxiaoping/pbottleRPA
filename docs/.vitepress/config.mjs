@@ -105,7 +105,7 @@ export default defineConfig({
            { text: '桌面快捷方式', link: '/桌面快捷方式'},
            { text: '无尽模式', link: '/无尽模式'},  
            { text: '硬件级键鼠模拟', link: '/硬件键鼠模拟'},
-           { text: '集群控制中心', link: '/集群控制中心'},  
+           { text: '集群控制中心 🔥', link: '/集群控制中心'},  
            { text: 'SaaS系统自动化能力', link: '/SaaS系统自动化任务'},  
 
         ]

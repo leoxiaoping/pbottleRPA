@@ -99,6 +99,12 @@ http://ip:49888/?action=pbottleRPA_lastLog
 
 通常用来检查详细的运行过程
 
+---
+
+获取倒数第二个运行日志
+`http://ip:49888/?action=pbottleRPA_lastLog2`
+
+
 ## delaySet 设置接力任务
 
 
