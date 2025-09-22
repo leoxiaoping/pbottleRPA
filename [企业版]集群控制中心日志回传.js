@@ -14,9 +14,17 @@ const localLogURL = 'http://127.0.0.1:49888/?action=pbottleRPA_lastLog2'
 
 const deviceId = pbottleRPA.deviceID()
 const buffer0 = pbottleRPA.bufferGet(0)
-const taskId = JSON.parse(buffer0)._taskInfo.id
+
+// 获取taskId
+let taskId;
+try {
+   taskId  = JSON.parse(buffer0)._taskInfo.id
+} catch (error) {
+    pbottleRPA.exit('⚠ 未获取到taskId，脚本终止')
+}
 
 
+// 获取本地运行日志
 const content = pbottleRPA.getHtml(localLogURL)
 
 console.log('本地日志长度：',content.length)
