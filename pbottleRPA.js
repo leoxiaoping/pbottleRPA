@@ -599,13 +599,7 @@ let keyTap = (key)=>{
 exports.keyTap = keyTap
 exports.键盘按键 = keyTap
 
-/**
- *
- * @typedef {Object} position - 位置坐标
- * @property {number} x - 横坐标-从左边开始
- * @property {number} y - 纵坐标-从上边开始
- * 
- */
+
 /**
  * 屏幕查找图象定位
  * @param {string} tpPath 搜索的小图片，建议png格式  相对路径:./image/123.png
@@ -614,7 +608,7 @@ exports.键盘按键 = keyTap
  * @param {number} fromY=0 可选，查找开始的开始纵坐标
  * @param {number} width=-1 可选，搜索宽度
  * @param {number} height=-1 可选，搜索高度
- * @returns {position|boolean} 返回找到的结果json 格式：{x,y} 相对于左上角原点
+ * @returns {{x:number,y:number}|false} 返回找到的结果json 格式：{x,y} 相对于左上角原点
  */
 var findScreen = (tpPath,miniSimilarity=0.85,fromX=0,fromY=0,width=-1,height=-1) =>{
 
@@ -652,19 +646,13 @@ exports.寻找图像 = findScreen
 
 
 /**
- * @typedef {Object} textposition - 查找文字结果
- * @property {number} x - 横坐标-从左边开始
- * @property {number} y - 纵坐标-从上边开始
- * @property {string} text - 文本结果
- */
-/**
  * 查找文字，注：此功能受电脑性能影响，低配电脑可能速度较慢。 需要小瓶RPA客户端版本 > V2024.5
  * @param {string} inputTxt 
  * @param {number} fromX=0 可选，查找开始的开始横坐标
  * @param {number} fromY=0 可选，查找开始的开始纵坐标
  * @param {number} width=-1 可选，搜索宽度
  * @param {number} height=-1 可选，搜索高度
- * @returns {textposition}  返回json结果：{x,y,text} x,y坐标相对于左上角的原点
+ * @returns {{x:number,y:number,text:string}}  返回json结果：{x,y,text} x,y坐标相对于左上角的原点
  */
 var findText = (inputTxt,fromX=0,fromY=0,width=-1,height=-1) =>{
     let jsonDatas = aiOcr('screen',fromX,fromY,width,height);
@@ -725,7 +713,7 @@ exports.寻找轮廓 = findContours
 
 /**
  * 当前位置 粘贴（输入）文字  
- * @param {string} text  复制到电脑剪切板的文本
+ * @param {string} txt  复制到电脑剪切板的文本
  */
 var paste = (txt)=>{
     copyText(txt)
@@ -736,6 +724,26 @@ var paste = (txt)=>{
 }
 exports.paste = paste
 exports.粘贴输入 = paste
+
+
+/**
+ * 图片相似度对比  需要小瓶RPA客户端版本 > V2025.3
+ * @param {string} path1  图片1路径
+ * @param {string} path2  图片2路径
+ * @param {'SIFT' | 'ORB' | 'SSIM'} checkType  对比算法  默认 'ORB'
+ * @returns {{score:number, time:number}}  score相似度分数 0-1 ; time耗时秒
+ */
+var imgSimilar=(path1,path2,checkType='ORB')=>{
+    path1 =  encodeURIComponent(path1)
+    path2 =  encodeURIComponent(path2)
+    let url = `${CppUrl}?action=imgSimilar&path1=${path1}&path2=${path2}&checkType=${checkType}`
+    let res = getHtml(url)
+    return JSON.parse(res);
+}
+exports.imgSimilar = imgSimilar
+exports.图片相似度对比 = imgSimilar
+
+
 
 
 /**
@@ -994,15 +1002,10 @@ exports.打开目录 = openDir
 exports.打开文件 = openDir
 
 
-/**
- * @typedef {Object} ResolutionInfo
- * @property {number} w - 宽度
- * @property {number} h - 高度
- * @property {number} ratio - 缩放比例
- */
+
 /**
  * 获取当前屏幕分辨率和缩放 
- * @returns {ResolutionInfo} JSON内容格式 {w:1920,h:1080,ratio:1.5} ratio 为桌面缩放比例
+ * @returns {{w:number,h:number,ratio:number}} JSON内容格式 {w:1920,h:1080,ratio:1.5} ratio 为桌面缩放比例
  */
 var getResolution= ()=>{
     let url = `${CppUrl}?action=getResolution`

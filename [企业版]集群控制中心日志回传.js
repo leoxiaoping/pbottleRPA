@@ -20,7 +20,7 @@ let taskId;
 try {
    taskId  = JSON.parse(buffer0)._taskInfo.id
 } catch (error) {
-    pbottleRPA.exit('⚠ 未获取到taskId，脚本终止')
+    pbottleRPA.exit('⚠ 未获取到taskId，日志回传终止')
 }
 
 
