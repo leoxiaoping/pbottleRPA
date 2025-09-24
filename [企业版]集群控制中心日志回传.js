@@ -8,7 +8,9 @@ const pbottleRPA = require('./pbottleRPA')
 
 
 
-const serverURL = 'http://pbottleRPA_cluster_test.com:39088/api/query?action=postLog'  // 修改远程日志接收服务器地址
+const serverURL = pbottleRPA.clusterCenter();
+console.log('集群控制中心地址:',serverURL);
+
 
 const localLogURL = 'http://127.0.0.1:49888/?action=pbottleRPA_lastLog2'
 
@@ -18,7 +20,7 @@ const buffer0 = pbottleRPA.bufferGet(0)
 // 获取taskId
 let taskId;
 try {
-   taskId  = JSON.parse(buffer0)._taskInfo.id
+   taskId = JSON.parse(buffer0)._taskInfo.id
 } catch (error) {
     pbottleRPA.exit('⚠ 未获取到taskId，日志回传终止')
 }
@@ -33,7 +35,7 @@ console.log("taskId:",taskId);
 
 
 // 远程传输日志
-fetch(serverURL, {
+fetch(serverURL+'?action=postLog', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

@@ -1,6 +1,6 @@
 {
   "name": "pbottle-rpa-demo",
-  "version": "2025.3.0",
+  "version": "2025.4.0",
   "description": "小瓶RPA基础演示流程，使用教程：https://rpa.pbottle.com/a-14019.html，流程开发文档：https://rpa.pbottle.com/docs/",
   "main": "",
   "scripts": {

@@ -1225,6 +1225,19 @@ exports.deviceID = deviceID
 
 
 /**
+ * 获取
+ * @returns {string} 返回字符串
+ */
+function clusterCenter(){
+    let url = `${CppUrl}?action=pbottleRPA_clusterCenter`
+    let res = getHtml(url)
+    return res
+}
+exports.clusterCenter = clusterCenter
+
+
+
+/**
  *  小瓶RPA 云端模块，AI在线大模型
  *  注意：
  *  ①此模块不是必须模块 ，云端模块不影响本地模块的独立运行
