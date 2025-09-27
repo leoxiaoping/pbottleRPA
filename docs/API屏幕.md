@@ -81,7 +81,19 @@
 
 屏幕查找物体或者窗口轮廓
 
+## imgSimilar 图片相似度对比
+
+图片相似度对比  需要小瓶RPA客户端版本 > V2025.3
+  
+@param {string} path1  图片1路径
+
+@param {string} path2  图片2路径
+
+@param 'SIFT' | 'ORB' | 'SSIM' checkType 对比算法  默认 'ORB'
+
+@returns {score:number, time:number}  score相似度分数 0-1 ; time耗时秒
+
 #### 调试
 
-软件根目录会生成 debug/findContours.png
+软件 home 目录会生成 debug/findContours.png
 
