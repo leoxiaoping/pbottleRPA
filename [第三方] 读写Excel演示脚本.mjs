@@ -1,7 +1,7 @@
 /**
  * 小瓶RPA演示demo，具体api请查看*流程开发文档*
  * 官网：https://rpa.pbottle.com/
- * 流程开发文档：https://gitee.com/pbottle/pbottle-rpa/wikis/pages
+ * 流程开发文档：https://rpa.pbottle.com/docs/
  */
 
 import pbottleRPA from "./pbottleRPA.js";  //必须含 .js 后缀
@@ -15,7 +15,6 @@ try {
     pbottleRPA.tts('请先安装第三方模块' + '双击【第三方 模块安装.bat】')
 	pbottleRPA.exit('请先安装第三方模块' + '双击【第三方 模块安装.bat】')
 }
-
 
 
 console.log("=== Excel 读写测试 ===");

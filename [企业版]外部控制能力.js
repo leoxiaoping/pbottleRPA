@@ -1,13 +1,13 @@
 /**
  * 小瓶RPA演示demo，具体api请查看*流程开发文档*
  * 官网：https://rpa.pbottle.com/
- * 流程开发文档：https://gitee.com/pbottle/pbottle-rpa/wikis/pages
+ * 流程开发文档：https://rpa.pbottle.com/docs/
  */
 
 const pbottleRPA = require('./pbottleRPA')
 
 
-console.log("=== 测试 ===");
+console.log("=== 外部控制能力测试 ===");
 console.log(Date());
 
 

@@ -1,39 +1,37 @@
 /**
  * 小瓶RPA演示demo，具体api请查看*流程开发文档*
  * 官网：https://rpa.pbottle.com/
- * 流程开发文档：https://gitee.com/pbottle/pbottle-rpa/wikis/pages
+ * 流程开发文档：https://rpa.pbottle.com/docs/
+ * 
+ * 功能说明：此脚本演示了RPA中的基本编程控制结构，包括等待、循环和条件判断
+ * 通过这些示例，您可以学习如何在RPA流程中实现重复操作和条件分支处理
  */
 
-const pbottleRPA = require('./pbottleRPA')
+const pbottleRPA = require('./pbottleRPA')     // 引入小瓶RPA的核心库，获得对RPA功能的访问权限
 
+pbottleRPA.文字转语音('等待3秒开始')           // 使用文字转语音功能播报提示信息
+pbottleRPA.日志输出('等待3秒开始');            // 将指定文本输出到日志文件中（日志永久保存）
+pbottleRPA.等待(3)                            // 暂停程序执行3秒钟，等待相关操作完成
 
-pbottleRPA.文字转语音('等待3秒开始')
-pbottleRPA.日志输出('等待3秒开始');
-pbottleRPA.等待(3)
-
-
-//for 循环 重复操作 10 次 打开网页
-for (let index = 0; index < 10; index++) {
-    let 计数器 = index+1
-    pbottleRPA.日志输出('第' + 计数器 + '次操作'); //输出到日志，文件日志永久保存
-    pbottleRPA.打开网址('https://www.baidu.com/s?wd='+计数器) //操作：用默认浏览器打开网页
-    pbottleRPA.等待(0.5)
+// for 循环示例：重复执行操作10次，每次打开不同的网页
+for (let index = 0; index < 10; index++) {    // 初始化循环计数器，设置循环条件（执行10次）
+    let 计数器 = index+1                      // 定义计数器变量，用于显示当前循环次数（从1开始）
+    pbottleRPA.日志输出('第' + 计数器 + '次操作'); // 输出当前操作次数到日志文件中
+    pbottleRPA.打开网址('https://www.baidu.com/s?wd='+计数器) // 使用默认浏览器打开指定网址，每次搜索不同的关键词
+    pbottleRPA.等待(0.5)                      // 每次操作后等待0.5秒，避免操作过快
 }
 
-
-
-//判断
-let 随机数 = Math.random()
-if (随机数 < 0.5) {        //用 if 判断数值是否小于 0.5
-    pbottleRPA.日志输出('小于 0.5。', 随机数)
-    pbottleRPA.文字转语音('小于 0.5')
-} else {
-    pbottleRPA.日志输出('大于或等于 0.5。', 随机数)
-    pbottleRPA.文字转语音('大于等于 0.5。')
+// 条件判断示例：使用随机数进行条件判断
+let 随机数 = Math.random()                    // 生成一个0到1之间的随机数
+if (随机数 < 0.5) {                           // 判断随机数是否小于0.5
+    pbottleRPA.日志输出('小于 0.5。', 随机数)  // 如果条件成立，输出相关信息到日志
+    pbottleRPA.文字转语音('小于 0.5')          // 同时通过语音播报结果
+} else {                                      // 如果随机数大于或等于0.5
+    pbottleRPA.日志输出('大于或等于 0.5。', 随机数) // 输出相关信息到日志
+    pbottleRPA.文字转语音('大于等于 0.5。')     // 通过语音播报结果
 }
-pbottleRPA.等待(3)
+pbottleRPA.等待(3)                            // 等待3秒钟，让用户有时间查看结果
 
-
-//语音播报
-pbottleRPA.文字转语音('流程结束！~')
-pbottleRPA.显示系统消息('小瓶RPA提示','流程结束！~')
+// 流程结束提示
+pbottleRPA.文字转语音('流程结束！~')           // 使用文字转语音功能播报流程结束信息
+pbottleRPA.显示系统消息('小瓶RPA提示','流程结束！~') // 显示系统级别的弹窗消息，提示用户流程已完成

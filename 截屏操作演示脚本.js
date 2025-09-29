@@ -1,48 +1,44 @@
 /**
  * 小瓶RPA演示demo，具体api请查看*流程开发文档*
  * 官网：https://rpa.pbottle.com/
- * 流程开发文档：https://gitee.com/pbottle/pbottle-rpa/wikis/pages
+ * 流程开发文档：https://rpa.pbottle.com/docs/
+ * 
+ * 功能说明：此脚本演示了RPA中的截屏操作功能，包括全屏截图和区域截图
+ * 通过这些示例，您可以学习如何在RPA流程中捕获屏幕图像并保存
  */
 
+const pbottleRPA = require('./pbottleRPA')             // 引入小瓶RPA的核心库，获得对RPA功能的访问权限
 
-const pbottleRPA = require('./pbottleRPA')
+pbottleRPA.日志输出(pbottleRPA.获取格式化时间())        // 将当前格式化时间输出到日志文件中
+pbottleRPA.文字转语音('开始运行小瓶RPA截屏操作演示脚本。...  快捷键 ：Ctrl+shift+Q 可手动退出') // 使用文字转语音功能播报开始信息
+pbottleRPA.等待(12)                                    // 等待12秒钟，给用户时间准备
 
+let 分辨率 = pbottleRPA.获取屏幕分辨率()                // 获取当前电脑屏幕分辨率信息（宽w和高h）
+pbottleRPA.日志输出('当前电脑屏幕分辨率',分辨率)         // 将屏幕分辨率信息输出到日志文件中
+pbottleRPA.文字转语音(`当前电脑屏幕分辨率: ${分辨率.w} 乘以 ${分辨率.h}`) // 语音播报当前屏幕分辨率
+pbottleRPA.等待(6)                                     // 等待6秒钟
 
-pbottleRPA.日志输出(pbottleRPA.获取格式化时间())
-pbottleRPA.文字转语音('开始运行小瓶RPA截屏操作演示脚本。...  快捷键 ：Ctrl+shift+Q 可手动退出')
-//延迟5秒
-pbottleRPA.等待(12)
+pbottleRPA.文字转语音('正在截屏（全屏）...')            // 语音播报即将执行的操作
+pbottleRPA.等待(3)                                     // 等待3秒钟
 
+// 执行全屏截图并保存到指定文件
+pbottleRPA.屏幕截图('./小瓶RPA截图测试.png')            // 对整个屏幕进行截图，并保存为PNG格式图片文件
+pbottleRPA.文字转语音('图片保存在：当前目录')            // 语音播报图片保存位置
+pbottleRPA.日志输出('图片保存在：当前目录')              // 将图片保存位置信息输出到日志文件中
+pbottleRPA.等待(3)                                     // 等待3秒钟
 
+// 执行全屏截图但不指定保存路径（使用默认路径）
+pbottleRPA.屏幕截图();                                 // 对整个屏幕进行截图，使用系统默认保存路径
 
-let 分辨率 = pbottleRPA.获取屏幕分辨率()
-pbottleRPA.日志输出('当前电脑屏幕分辨率',分辨率)
-pbottleRPA.文字转语音(`当前电脑屏幕分辨率: ${分辨率.w} 乘以 ${分辨率.h}`)
-pbottleRPA.等待(6)
+pbottleRPA.文字转语音('正在截屏（区域）...')            // 语音播报即将执行的操作
+// 执行区域截图（指定屏幕区域范围）
+let 结果 = pbottleRPA.屏幕截图('',分辨率.w/4,分辨率.h/4,分辨率.w/2,分辨率.h/2) // 对屏幕指定区域进行截图，参数依次为：保存路径、起始X坐标、起始Y坐标、宽度、高度
+pbottleRPA.日志输出('截屏结果：',结果)                  // 将截屏操作的结果输出到日志文件中
+pbottleRPA.等待(3)                                     // 等待3秒钟
 
+pbottleRPA.文字转语音('图片保存在：我的电脑 我的图片...') // 语音播报图片保存位置
+pbottleRPA.日志输出('图片保存在:我的电脑 我的图片')      // 将图片保存位置信息输出到日志文件中
+pbottleRPA.等待(5)                                     // 等待5秒钟
 
-pbottleRPA.文字转语音('正在截屏（全屏）...')
-pbottleRPA.等待(3)
-
-
-pbottleRPA.屏幕截图('./小瓶RPA截图测试.png')
-pbottleRPA.文字转语音('图片保存在：当前目录')
-pbottleRPA.日志输出('图片保存在：当前目录')
-pbottleRPA.等待(3)
-
-
-pbottleRPA.屏幕截图();
-
-pbottleRPA.文字转语音('正在截屏（区域）...')
-let 结果 = pbottleRPA.屏幕截图('',分辨率.w/4,分辨率.h/4,分辨率.w/2,分辨率.h/2)
-pbottleRPA.日志输出('截屏结果：',结果)
-pbottleRPA.等待(3)
-
-
-pbottleRPA.文字转语音('图片保存在：我的电脑 我的图片...')
-pbottleRPA.日志输出('图片保存在:我的电脑 我的图片')
-pbottleRPA.等待(5)
-
-
-pbottleRPA.文字转语音('演示结束')
-pbottleRPA.日志输出("准备结束脚本");
+pbottleRPA.文字转语音('演示结束')                       // 语音播报演示结束信息
+pbottleRPA.日志输出("准备结束脚本");                   // 将脚本即将结束的信息输出到日志文件中

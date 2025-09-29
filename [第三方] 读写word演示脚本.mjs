@@ -1,7 +1,7 @@
 /**
  * 小瓶RPA演示demo，具体api请查看*流程开发文档*
  * 官网：https://rpa.pbottle.com/
- * 流程开发文档：https://gitee.com/pbottle/pbottle-rpa/wikis/pages
+ * 流程开发文档：https://rpa.pbottle.com/docs/
  */
 
 import pbottleRPA from "./pbottleRPA.js";  //必须含 .js 后缀
