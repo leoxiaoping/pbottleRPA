@@ -1811,6 +1811,33 @@ function waitFileDisappear(dirPath,keyWords='',intervalFun=()=>{},timeOut = 30){
 exports.waitFileDisappear =  waitFileDisappear;
 exports.等待文件消失 =  waitFileDisappear;
 
+
+
+/**
+ * 等待输入 V2026.0.0 新增
+ * @param {string} inputPrompt 输入提示词
+ * @param {number} timeOut 可选，等待超时时间 单位秒 默认600秒
+ * @returns {string}  输入内容  默认返回空字符串
+ */
+function waitInput(inputPrompt='输入提示词',timeOut = 600) { 
+    console.log('waitInput 等待用户输入：',inputPrompt);
+    inputPrompt = encodeURIComponent(inputPrompt)
+    let url = `${CppUrl}?action=waitInput&inputPrompt=${inputPrompt}`
+    let res = getHtml(url)
+    for (let index = 0; index < timeOut; index++) { 
+        sleep(1000)
+        let rs = getHtml(`${CppUrl}?action=waitInputResult`)
+        if (hasData(rs)) {
+            showMsg('用户输入了：',rs)
+            return rs;
+        }else {
+            continue;
+        }
+    }
+}
+exports.waitInput =  waitInput;
+exports.等待输入 =  waitInput;
+
 /**
  *  小瓶RPA 硬件键鼠模拟接口
  *  注意：
