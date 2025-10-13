@@ -10,5 +10,6 @@ test.mjs
 package-lock.json
 node_modules/
 docs/.vitepress/cache
+docs/.vitepress/dist
 package-lock.json
 package-lock.json

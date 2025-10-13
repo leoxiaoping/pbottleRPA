@@ -7,8 +7,8 @@ export default defineConfig({
     description: "小瓶RPA，专业用户的专业RPA软件。轻量级简单全能的RPA软件，显著降本增效 & 工作100%准确 & 非侵入式集成。同时支持浏览器web应用和客户端应用的操作流程自动化。同时支持 Js 和 Python 两种脚本制作流程。",
     lang: 'zh-Hans',
     lastUpdated: true,
-    base: '/pbottleRPA/html/',
-    outDir: './html',
+    base: '/docs/',
+    // outDir: './html',
     sitemap: {
         hostname: 'https://rpa.pbottle.com/docs/'
     },
