@@ -26,7 +26,7 @@ import urllib.parse
 # 当前脚本的路径
 jsPath = os.getcwd()
 CppUrl = 'http://127.0.0.1:49888/'
-print("基座服务地址：（Python）",CppUrl)
+print("基座服务地址：（Python）",CppUrl,"Python版本为beta阶段，请斟酌使用到生产环境")
 defaultDelay = 1000;  #默认值一秒
 
 
