@@ -1526,7 +1526,7 @@ var browserCMD_offset = function(selector){
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
     let res = getHtml(url)
-    return JSON.parse(res).
+    return JSON.parse(res)
 }
 exports.browserCMD_offset = browserCMD_offset;
 exports.browserCMD.offset = browserCMD_offset;
