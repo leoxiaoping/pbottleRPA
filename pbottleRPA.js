@@ -1517,7 +1517,7 @@ exports.browserCMD.hide = browserCMD_hide;
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展   2024.0 以上版本生效
  * 获取元素定位，相对浏览器文档左上角   参考 jQuery offset() 方法 
  * @param {string} selector   元素选择器
- * @returns {string}  返回 json:{"top":100,"left":100}
+ * @returns {{left:number,top:number}}  返回 json:{"left":100,"top":100} 位置位元素的左上角顶点坐标
  */
 var browserCMD_offset = function(selector){
 
@@ -1526,7 +1526,7 @@ var browserCMD_offset = function(selector){
     let [...args] = arguments;
     let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
     let res = getHtml(url)
-    return res
+    return JSON.parse(res).
 }
 exports.browserCMD_offset = browserCMD_offset;
 exports.browserCMD.offset = browserCMD_offset;

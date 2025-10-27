@@ -82,8 +82,7 @@ pbottleRPA.wait(3)                            // 等待3秒钟
 // 搜索操作演示
 pbottleRPA.tts('输入搜索词 点击搜索按钮 ')     // 语音播报即将执行的操作
 // 在搜索框中输入搜索词"小瓶RPA"
-ret = pbottleRPA.browserCMD_val('#kw','小瓶RPA')
-console.log('返回点击操作结果 valSet',ret);    // 输出输入操作结果
+pbottleRPA.paste('小瓶RPA官网')   // 输出输入操作结果
 
 // 点击搜索按钮
 ret = pbottleRPA.browserCMD_click('#su')      // 点击百度搜索按钮
@@ -120,8 +119,8 @@ console.log('网站logo图片地址',ret);           // 输出Logo图片地址
 pbottleRPA.wait()                             // 等待默认时间
 
 // 获取元素位置信息演示
-ret = pbottleRPA.browserCMD_offset('img:first') // 获取第一个img元素的位置信息
-console.log('位置',ret);                      // 输出元素位置信息
+let ret2 = pbottleRPA.browserCMD_offset('div.result:contains(小瓶RPA)') // 获取第一个img元素的位置信息
+console.log('搜索结果的位置',ret2);                  // 输出元素位置信息
 pbottleRPA.wait()                             // 等待默认时间
 
 // 演示完成提示
