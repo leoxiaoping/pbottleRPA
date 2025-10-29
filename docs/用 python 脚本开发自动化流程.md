@@ -6,7 +6,13 @@ Python 的设计具有很强的可读性，相比其他语言经常使用英文�
 
 小瓶RPA自动流程脚本的开发只用到了最基础的python部分，建议有任何编程基础的用户直接开始开发您的流程，而不必要先深入学习python。
 
-**⚠ Python 版本目前处于beta版本，不建议新手团队在开发环境使用。**
+
+## Beta 版本状态说明
+
+Beta 版本相对于 JavaScript 版本，部分接口和 demo 示例存在延迟更新，用到的时候需要实施团队有自主补齐的 python 开发能力。
+
+Beta 仅限于 python 脚本层，小瓶 RPA 基础软件模块（基座平台） 和 JavaScript 一致 ，保持最新版本状态。
+
 
 
 ## python 起步教程
@@ -19,6 +25,7 @@ Python 的设计具有很强的可读性，相比其他语言经常使用英文�
 推荐 VSCode 
 
 下载： https://code.visualstudio.com/
+
 
 ## 推荐版本
 
