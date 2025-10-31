@@ -1147,7 +1147,7 @@ function unZip(zipFilePath,directory="") {
         directory = path.dirname(zipFilePath)
     }
     try {
-        filePath = path.resolve(zipFilePath)
+        let filePath = path.resolve(zipFilePath)
         directory = path.resolve(directory)
         let exe = path.resolve(`${basePath}/bin/7za`)
         const os = process.platform;
