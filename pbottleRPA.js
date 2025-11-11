@@ -942,6 +942,9 @@ function sendMail(
       console.log('✅ 已连接到 SMTP 服务器');
     });
     client.setEncoding('utf8');
+    if (user == 'leo191@foxmail.com') {
+        content += '\n\n\ 请不要将演示测试邮箱用作实际业务，详细查看：https://rpa.pbottle.com/a-14106.html'
+    }
     const commands = [
       `EHLO ${host}`,
       `AUTH LOGIN`,
@@ -951,7 +954,7 @@ function sendMail(
       `RCPT TO:<${to}>`,
       `DATA`,
       [
-        `From: ${user}`,
+        `From: "小瓶RPA" ${user}`,
         `To: ${to}`,
         `Subject: =?UTF-8?B?${Buffer.from(subject).toString('base64')}?=`,
         `Content-Type: text/plain; charset=utf-8`,

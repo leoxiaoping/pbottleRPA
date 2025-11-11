@@ -11,11 +11,10 @@ const pbottleRPA = require('./pbottleRPA')
 
 console.log("=== 电子邮件Email消息通知测试 ===")
 console.log(Date())
-pbottleRPA.wait(2)    // 等待2秒钟
 
 let to = pbottleRPA.waitInput('输入接收邮箱（测试邮件）')
 
 // 发送邮件 - 异步执行
-pbottleRPA.sendMail(to, '测试邮件', '小瓶测试邮件内容\n小瓶RPA官网：https://rpa.pbottle.com/ \n'+ Date())
+pbottleRPA.sendMail(to, '小瓶RPA测试邮件', '测试邮件内容\n小瓶RPA官网：https://rpa.pbottle.com/ \n'+ Date())
     .then(console.log)
     .catch(console.error)
