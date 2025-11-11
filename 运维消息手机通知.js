@@ -15,7 +15,8 @@ console.log(Date());                          // 在控制台输出当前日期�
 pbottleRPA.tts('准备运行手机消息通知脚本')      // 使用文字转语音功能播报即将执行的操作
 pbottleRPA.wait(5)                            // 等待5秒钟，给用户时间准备
 
-pbottleRPA.tts('方式一：采用webhook 方式  企业微信、钉钉都支持') // 语音播报第一种通知方式
+pbottleRPA.tts('采用webhook 方式  企业微信、钉钉都支持') // 语音播报第一种通知方式
+pbottleRPA.log("采用webhook 方式  企业微信、钉钉都支持")
 pbottleRPA.wait(5)                            // 等待5秒钟
 
 // webhook方式发送消息，企业微信、钉钉都支持此方式
@@ -31,15 +32,8 @@ let msgJson = {                               // 定义要发送的消息内容�
 let apiUrl = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=67bc3b43-85d1-4e0b-b7a2-d8c22d415a80'; // 企业微信机器人的Webhook地址
 
 // 使用POST请求发送JSON格式消息到指定API地址
-pbottleRPA.postJson(apiUrl,msgJson);         
-
-pbottleRPA.tts('方式二：个人微信通知，需要关注小瓶科技公众号') // 语音播报第二种通知方式
-pbottleRPA.wait(5)                            // 等待5秒钟
-
-// 微信消息测试，几乎零延迟，100%到达率   
-// 详情： https://www.pbottle.com/a-12586.html
-// 通过微信公众号向指定用户发送消息
-pbottleRPA.wxMessage('小瓶RPA机器人消息',"主人，我的任务已经完成了,随时等您的吩咐",'key599a9e4136010'); 
-// 参数说明：标题、消息内容、用户标识
+const rs = pbottleRPA.postJson(apiUrl,msgJson);
+console.log('服务器返回结果：',rs);
 
 pbottleRPA.tts("运行结束")                    // 语音播报运行结束信息
+pbottleRPA.log("运行结束")
