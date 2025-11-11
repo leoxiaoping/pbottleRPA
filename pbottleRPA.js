@@ -10,25 +10,26 @@
 const path = require("node:path");
 const fs = require("node:fs");
 const os = require('os');
+const tls = require('node:tls');
 const childProcess = require('node:child_process');
 
 /**
  * 当前脚本的路径，结尾无/  如 'D:/pbottleRPAdemo'
  */
-const jsPath = path.resolve('./');  
+const jsPath = path.resolve('./');
 const CppUrl = `http://127.0.0.1:49888/`
 let basePath = process.env.RPAbaseDir; //基座路径
 let homePath = process.env.RPAhomeDir;
 let curlCommand = 'curl';  //优先使用系统的，如果系统不存在curl命令，使用小瓶RPA自带的
 
-console.log("基座服务地址：（NodeJS）",CppUrl);
+console.log("基座服务地址：（NodeJS）", CppUrl);
 exports.jsPath = jsPath
 exports.basePath = basePath
 exports.__dirname = jsPath
 exports.目录路径 = jsPath
 
 //node:fs
-exports.fs = fs  
+exports.fs = fs
 //node:path
 exports.path = path
 
@@ -38,7 +39,7 @@ let defaultDelay = 1000;  //默认值一秒
  * 设置为 0  可以用 sleep() 手动管理操作延时
  * @param {number} millisecond   毫秒单位的数字，系统默认 1000 毫秒 即1秒
  */
-let setDefaultDelay = (millisecond)=>{
+let setDefaultDelay = (millisecond) => {
     defaultDelay = millisecond
 }
 exports.setDefaultDelay = setDefaultDelay
@@ -51,7 +52,7 @@ exports.设置默认操作延时 = setDefaultDelay
  * 发出系统警告声音
  * @returns 
  */
- let beep = ()=>{
+let beep = () => {
     let url = `${CppUrl}?action=beep`
     // console.log(url)
     let res = getHtml(url)
@@ -73,7 +74,7 @@ exports.日志输出 = console.log
  * @param {string} content  内容
  * @returns 
  */
-let showMsg = (title,content)=>{
+let showMsg = (title, content) => {
     title = encodeURIComponent(title)
     content = encodeURIComponent(content)
     let url = `${CppUrl}?action=showMsg&title=${title}&content=${content}`
@@ -90,13 +91,13 @@ exports.显示系统消息 = showMsg
  * @param {string} processName 进程名称，如：'WINWORD.EXE' 任务管理器 ‘进程名称’ 栏目 。注意不是 名称，如不显示，右键勾选显示这一栏目即可
  * @param {boolean} force 是否强制，相当于模拟任务管理器的结束任务操作。默认普通关闭，可能跟随保存确认框
  */
-let kill = (processName,force=false)=>{
+let kill = (processName, force = false) => {
     let forceCMD = ''
     if (force) {
         forceCMD = '/F'
     }
     try {
-        childProcess.execSync(`taskkill ${forceCMD} /IM ${processName}`,{ stdio: 'ignore',encoding: 'utf8' })
+        childProcess.execSync(`taskkill ${forceCMD} /IM ${processName}`, { stdio: 'ignore', encoding: 'utf8' })
     } catch (error) {
         console.error(`关闭进程（${processName}）失败，可能软件未运行`);
         return;
@@ -118,7 +119,7 @@ exports.关闭软件 = kill
  * @param {number} msec  显示持续时间 单位毫秒
  * @returns 
  */
-let showRect = (fromX=0,fromY=0,width=500,height=500,color='red',msec=500)=>{
+let showRect = (fromX = 0, fromY = 0, width = 500, height = 500, color = 'red', msec = 500) => {
     fromX = Math.round(fromX)
     fromY = Math.round(fromY)
     width = Math.round(width)
@@ -138,7 +139,7 @@ exports.显示标记框 = showRect
  * 强制退出当前脚本
  * @param {string} msg 退出时候输出的信息
  */
- let exit = (msg='')=>{
+let exit = (msg = '') => {
     if (msg) {
         console.log(msg)
     }
@@ -155,19 +156,19 @@ exports.退出流程 = exit
  * @param {number} milliseconds  毫秒
  * @returns 
  */
- let sleep = (milliseconds)=>{
+let sleep = (milliseconds) => {
     // childProcess.execSync(` node -e "setTimeout(() => console.log('sleep ${milliseconds} 结束'), ${milliseconds})" `, { stdio: ['ignore', 'ignore', 'ignore'], encoding: 'utf8' })
-    if(milliseconds<1){
+    if (milliseconds < 1) {
         // console.log('milliseconds input error');
         return;
     }
     milliseconds = Math.floor(milliseconds) //毫秒取整
-    if (milliseconds>=120000) {
+    if (milliseconds >= 120000) {
         console.log('警告：一次等待上限时长两分钟内');
     }
 
     milliseconds -= 20  //减小毫秒误差，接口请求导致，大小受电脑运行速度影响
-    if (milliseconds<1) {
+    if (milliseconds < 1) {
         milliseconds = 1
     }
     let url = `${CppUrl}?action=httpSleep&milliseconds=${milliseconds}`
@@ -184,20 +185,20 @@ exports.睡眠毫秒 = sleep
  * 注意：一次等待超过100s, 会有日志提示
  * @param {number} seconds  秒,  缺省值为 1 秒。支持小数。
  */
-let wait = (seconds = 1)=>{
-    if(seconds<=0  || !isNumeric(seconds)){
+let wait = (seconds = 1) => {
+    if (seconds <= 0 || !isNumeric(seconds)) {
         console.log('pbottleRPA.wait：seconds input error');
         return;
     }
-    if (seconds>100) {  //100秒
-        let quotient = Math.floor(seconds/100) 
+    if (seconds > 100) {  //100秒
+        let quotient = Math.floor(seconds / 100)
         for (let i = 0; i < quotient; i++) { //每100秒
-            sleep(100*1000)
+            sleep(100 * 1000)
             console.log(`提示：已等待100s...`);
         }
         seconds = seconds % 100;
-    }else{
-        sleep(seconds*1000)
+    } else {
+        sleep(seconds * 1000)
     }
 }
 exports.wait = wait
@@ -210,9 +211,9 @@ exports.等待 = wait
  * @param {number} interval  像素间隔时间，越大移动越慢  毫秒单位，默认：0
  * @returns 
  */
-let moveMouseSmooth = (x,y,interval=0)=>{
-    x=Math.round(x)
-    y=Math.round(y)
+let moveMouseSmooth = (x, y, interval = 0) => {
+    x = Math.round(x)
+    y = Math.round(y)
     let url = `${CppUrl}?action=moveMouse&x=${x}&y=${y}&interval=${interval}`
     // console.log(url)
     let res = getHtml(url)
@@ -229,9 +230,9 @@ exports.鼠标移动 = moveMouseSmooth
  * @param {number} x 横坐标
  * @param {number} y 纵坐标
  */
-let moveAndClick = (x,y)=>{
+let moveAndClick = (x, y) => {
     // call local functions directly instead of using `this` which may not refer to module exports
-    moveMouseSmooth(x,y)
+    moveMouseSmooth(x, y)
     mouseClick()
 }
 exports.moveAndClick = moveAndClick
@@ -244,7 +245,7 @@ exports.鼠标移动并点击 = moveAndClick
  * @param {number} time 点按时间 单位毫秒  可选
  * @returns 
  */
-let mouseClick = (leftRight = 'left',time=30)=>{
+let mouseClick = (leftRight = 'left', time = 30) => {
 
     let url = `${CppUrl}?action=mouseLeftClick&time=${time}`
     if (leftRight == 'right') {
@@ -264,7 +265,7 @@ exports.鼠标点击 = mouseClick
  * 双击鼠标  默认左键
  * @returns 
  */
- let mouseDoubleClick = ()=>{
+let mouseDoubleClick = () => {
 
     let url = `${CppUrl}?action=mouseDoubleClick`
 
@@ -283,7 +284,7 @@ exports.鼠标双击 = mouseDoubleClick
  * @param {number} data 滚动的量  默认为-720   向下滚动720度
  * @returns 
  */
-let mouseWheel = (data = -720)=>{
+let mouseWheel = (data = -720) => {
     let url = `${CppUrl}?action=mouseWheel&data=${data}`
     // console.log(url)
     let res = getHtml(url)
@@ -300,9 +301,9 @@ exports.鼠标滚轮 = mouseWheel
  * @param {number} y 
  * @returns 
  */
-let mouseLeftDragTo = (x,y)=>{
-    x=Math.round(x)
-    y=Math.round(y)
+let mouseLeftDragTo = (x, y) => {
+    x = Math.round(x)
+    y = Math.round(y)
     let url = `${CppUrl}?action=mouseLeftDragTo&x=${x}&y=${y}`
     // console.log(url)
     let res = getHtml(url)
@@ -319,9 +320,9 @@ exports.鼠标左键拖动 = mouseLeftDragTo
  * @param {number} y 
  * @returns 
  */
-let mouseRightDragTo = (x,y)=>{
-    x=Math.round(x)
-    y=Math.round(y)
+let mouseRightDragTo = (x, y) => {
+    x = Math.round(x)
+    y = Math.round(y)
     let url = `${CppUrl}?action=mouseRightDragTo&x=${x}&y=${y}`
     // console.log(url)
     let res = getHtml(url)
@@ -339,7 +340,7 @@ exports.鼠标右键拖动 = mouseRightDragTo
  * @param {number} y 
  * @returns 返回颜色值 
  */
-let getScreenColor = (x,y)=>{
+let getScreenColor = (x, y) => {
     let url = `${CppUrl}?action=getScreenColor&x=${x}&y=${y}`
     // console.log(url)
     let res = getHtml(url)
@@ -359,20 +360,20 @@ exports.获取屏幕颜色 = getScreenColor
  * @param {number} h  可选 截图长度
  * @returns 
  */
-let screenShot = (savePath='',x=0,y=0,w=-1,h=-1)=>{
+let screenShot = (savePath = '', x = 0, y = 0, w = -1, h = -1) => {
 
     if (savePath) { //整理路径
         savePath = path.resolve(savePath)
         savePath = encodeURIComponent(savePath)
     }
-    
-    x=parseInt(x)
-    y=parseInt(y)
-    w=parseInt(w)
-    h=parseInt(h)
 
-    if (x!=0 || y!=0 || w!=-1 || h!=-1) {
-        showRect(x,y,w,h);
+    x = parseInt(x)
+    y = parseInt(y)
+    w = parseInt(w)
+    h = parseInt(h)
+
+    if (x != 0 || y != 0 || w != -1 || h != -1) {
+        showRect(x, y, w, h);
     }
 
     let url = `${CppUrl}?action=screenShot&savePath=${savePath}&x=${x}&y=${y}&w=${w}&h=${h}`
@@ -514,7 +515,7 @@ function keycode(name) {
  * @param {string} "up" 或 "down"  默认按下down。up松开按键
  * @returns 
  */
-let keyToggle = (key,upDown='down')=>{
+let keyToggle = (key, upDown = 'down') => {
     let upDown_n = 0;
     if (upDown == 'up') {
         upDown_n = 2;
@@ -539,7 +540,7 @@ exports.键盘基础触发 = keyToggle
  * @param {string} "up" 或 "down"  默认按下down。up松开按键
  * @returns 
  */
-let mouseKeyToggle = (key='left',upDown='down')=>{
+let mouseKeyToggle = (key = 'left', upDown = 'down') => {
     let upDown_n = 0;
     if (upDown == 'up') {
         upDown_n = 2;
@@ -569,29 +570,29 @@ exports.鼠标基础触发 = mouseKeyToggle
  * 按一下键盘   支持组合按键 加号连接 如：  keyTap('ctrl + a')
  * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
  */
-let keyTap = (key)=>{
+let keyTap = (key) => {
 
     if (key.includes('+')) {
         let subkeys = new Array();
         subkeys = key.split('+')
-        subkeys = subkeys.map((value)=>{
+        subkeys = subkeys.map((value) => {
             return value.trim()
         })
         for (let index = 0; index < subkeys.length; index++) {
             const element = subkeys[index];
             // keyToggle(element,"up")  //净化复位
-            keyToggle(element,"down")
+            keyToggle(element, "down")
         }
-        
+
         subkeys = subkeys.reverse()
         for (let index = 0; index < subkeys.length; index++) {
             const element = subkeys[index];
-            keyToggle(element,"up")
+            keyToggle(element, "up")
         }
-    }else{
+    } else {
         // keyToggle(key,"up")  //净化复位
-        keyToggle(key,"down")
-        keyToggle(key,"up")
+        keyToggle(key, "down")
+        keyToggle(key, "up")
     }
 
     sleep(defaultDelay);
@@ -610,14 +611,14 @@ exports.键盘按键 = keyTap
  * @param {number} height=-1 可选，搜索高度
  * @returns {{x:number,y:number}|false} 返回找到的结果json 格式：{x,y} 相对于左上角原点
  */
-var findScreen = (tpPath,miniSimilarity=0.85,fromX=0,fromY=0,width=-1,height=-1) =>{
+var findScreen = (tpPath, miniSimilarity = 0.85, fromX = 0, fromY = 0, width = -1, height = -1) => {
 
-    if (fromX<0 || fromY<0) {
+    if (fromX < 0 || fromY < 0) {
         exit(`错误：找图起始点不能为负，x:${fromX} y:${fromY} `);
     }
 
-    if (fromX!=0 || fromY!=0 || width!=-1 || height!=-1) {
-        showRect(fromX,fromY,width,height);
+    if (fromX != 0 || fromY != 0 || width != -1 || height != -1) {
+        showRect(fromX, fromY, width, height);
     }
 
     tpPath = path.resolve(tpPath)
@@ -634,11 +635,11 @@ var findScreen = (tpPath,miniSimilarity=0.85,fromX=0,fromY=0,width=-1,height=-1)
         console.log(jsonRes.error);
         return false;
     }
-    if (jsonRes.value<miniSimilarity) {
+    if (jsonRes.value < miniSimilarity) {
         return false;
     }
 
-    showRect(jsonRes.x-25,jsonRes.y-25,50,50,'green');
+    showRect(jsonRes.x - 25, jsonRes.y - 25, 50, 50, 'green');
     return jsonRes;
 }
 exports.findScreen = findScreen
@@ -654,8 +655,8 @@ exports.寻找图像 = findScreen
  * @param {number} height=-1 可选，搜索高度
  * @returns {{x:number,y:number,text:string}}  返回json结果：{x,y,text} x,y坐标相对于左上角的原点
  */
-var findText = (inputTxt,fromX=0,fromY=0,width=-1,height=-1) =>{
-    let jsonDatas = aiOcr('screen',fromX,fromY,width,height);
+var findText = (inputTxt, fromX = 0, fromY = 0, width = -1, height = -1) => {
+    let jsonDatas = aiOcr('screen', fromX, fromY, width, height);
     let result = false;
     jsonDatas.forEach(element => {
         // console.log(element.text);
@@ -664,8 +665,8 @@ var findText = (inputTxt,fromX=0,fromY=0,width=-1,height=-1) =>{
             return;
         }
     });
-    if(result!==false){
-        showRect(result.x-25,result.y-25,50,50,'green');
+    if (result !== false) {
+        showRect(result.x - 25, result.y - 25, 50, 50, 'green');
     }
     return result;
 }
@@ -684,14 +685,14 @@ exports.寻找文字 = findText
  * @param {number} height 
  * @returns {[]} 所有查找到的轮廓信息，包含闭合区域的起始坐标，中点坐标，面积，id。 格式：[{ x: 250, y: 10, cx: 265.5, cy: 30.5, area: 2401, id: 42 },...]  xy相对于原点
  */
-var findContours = (minimumArea=1000,fromX=0,fromY=0,width=-1,height=-1) =>{
+var findContours = (minimumArea = 1000, fromX = 0, fromY = 0, width = -1, height = -1) => {
 
-    if (fromX<0 || fromY<0) {
+    if (fromX < 0 || fromY < 0) {
         exit(`错误：轮廓查找起始点不能为负，x:${fromX} y:${fromY} `);
     }
 
-    if (fromX!=0 || fromY!=0 || width!=-1 || height!=-1) {
-        showRect(fromX,fromY,width,height);
+    if (fromX != 0 || fromY != 0 || width != -1 || height != -1) {
+        showRect(fromX, fromY, width, height);
     }
 
     let url = `${CppUrl}?action=findContours&minimumArea=${minimumArea}&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}`
@@ -715,7 +716,7 @@ exports.寻找轮廓 = findContours
  * 当前位置 粘贴（输入）文字  
  * @param {string} txt  复制到电脑剪切板的文本
  */
-var paste = (txt)=>{
+var paste = (txt) => {
     copyText(txt)
     // sleep(200)
     keyTap('ctrl+v')
@@ -733,9 +734,9 @@ exports.粘贴输入 = paste
  * @param {'SIFT' | 'ORB' | 'SSIM'} checkType  对比算法  默认 'ORB'
  * @returns {{score:number, time:number}}  score相似度分数 0-1 ; time耗时秒
  */
-var imgSimilar=(path1,path2,checkType='ORB')=>{
-    path1 =  encodeURIComponent(path1)
-    path2 =  encodeURIComponent(path2)
+var imgSimilar = (path1, path2, checkType = 'ORB') => {
+    path1 = encodeURIComponent(path1)
+    path2 = encodeURIComponent(path2)
     let url = `${CppUrl}?action=imgSimilar&path1=${path1}&path2=${path2}&checkType=${checkType}`
     let res = getHtml(url)
     return JSON.parse(res);
@@ -750,8 +751,8 @@ exports.图片相似度对比 = imgSimilar
  * 模拟复制文字，相当于选择并复制文本内容  v2025.0以上生效
  * @param {string} txt 复制的文本内容
  */
-var copyText=(txt)=>{
-    txt =  encodeURIComponent(txt)
+var copyText = (txt) => {
+    txt = encodeURIComponent(txt)
     let url = `${CppUrl}?action=copyText&txt=${txt}`
     // console.log(url)
     let res = getHtml(url)
@@ -765,12 +766,12 @@ exports.复制文字 = copyText
  * 复制文件后，在微信发送窗口粘贴，即可发送文件 
  * @param {string} filepath  绝对路径
  */
-var copyFile = (filepath)=>{
+var copyFile = (filepath) => {
     filepath = path.resolve(filepath)
     if (!fs.existsSync(filepath)) {
-        console.log('copyFile警告:文件路径不存在',filepath);
+        console.log('copyFile警告:文件路径不存在', filepath);
     }
-    filepath = filepath.replace(/\\/g,'/')
+    filepath = filepath.replace(/\\/g, '/')
     filepath = encodeURIComponent(filepath)
     let url = `${CppUrl}?action=copyFile&path=${filepath}`
     // console.log(url)
@@ -787,7 +788,7 @@ exports.复制文件 = copyFile
  * ③html格式：浏览器或者钉钉复制富文本综合内容    '<html>'开头
  * @returns 结果文本
  */
-var getClipboard= ()=>{
+var getClipboard = () => {
     let url = `${CppUrl}?action=getClipboard`
     // console.log(url)
     let res = getHtml(url)
@@ -805,11 +806,11 @@ exports.获取剪切板内容 = getClipboard
  * @param {string} content  消息详细内容
  * @param {string} key  获取key详情方法：https://www.pbottle.com/a-12586.html
  */
-var wxMessage= (title,content,key)=>{
-    
-    let url =  `https://yun.pbottle.com/manage/yun/?msg=${encodeURIComponent(content)}&name=${encodeURIComponent(title)}&key=${key}`;
+var wxMessage = (title, content, key) => {
+
+    let url = `https://yun.pbottle.com/manage/yun/?msg=${encodeURIComponent(content)}&name=${encodeURIComponent(title)}&key=${key}`;
     let res = getHtml(url)
-    console.log('发送微信消息：',res );
+    console.log('发送微信消息：', res);
 
 }
 exports.wxMessage = wxMessage
@@ -824,12 +825,13 @@ exports.微信消息发送 = wxMessage
  * @param {string} method e.g. GET, POST, PUT, DELETE or HEAD
  * @returns {string}
  */
-var postJson= (url,msgJson,headersJson={},method='POST')=>{
+var postJson = (url, msgJson, headersJson = {}, method = 'POST') => {
 
     const jsonData = JSON.stringify(msgJson);
     const commandArgs = [
         '-X', method,
         '-H', 'Content-Type: application/json',
+        "--silent", "--show-error",
         '-d', jsonData,
         url
     ];
@@ -843,7 +845,7 @@ var postJson= (url,msgJson,headersJson={},method='POST')=>{
         console.error('执行 curl 命令时出错:', result.error.message);
         exit()
     }
-    if (result.status!== 0) {
+    if (result.status !== 0) {
         console.error('curl 命令执行失败:', result.stderr);
         exit()
     }
@@ -860,7 +862,7 @@ exports.提交json = postJson
  * @param {string} method e.g. GET, POST, PUT, DELETE or HEAD
  * @returns {string}
  */
-var postJsonFile= (url,msgJsonFile,headersJson={},method='POST')=>{
+var postJsonFile = (url, msgJsonFile, headersJson = {}, method = 'POST') => {
 
     msgJsonFile = path.resolve(msgJsonFile);
     const commandArgs = [
@@ -879,7 +881,7 @@ var postJsonFile= (url,msgJsonFile,headersJson={},method='POST')=>{
         console.error('执行 curl 命令时出错:', result.error.message);
         exit()
     }
-    if (result.status!== 0) {
+    if (result.status !== 0) {
         console.error('curl 命令执行失败:', result.stderr);
         exit()
     }
@@ -894,7 +896,7 @@ exports.提交json文件 = postJsonFile
  * @param {object} headersJson  请求头 Json对象 
  * @returns {string} 返回的文本
  */
-function getHtml(url,headersJson={}) {
+function getHtml(url, headersJson = {}) {
     let commandArgs = [url];
     if (Object.keys(headersJson).length !== 0) {
         for (const [key, value] of Object.entries(headersJson)) {
@@ -906,7 +908,7 @@ function getHtml(url,headersJson={}) {
         console.error('执行 curl 命令时出错:', result.error.message);
         exit()
     }
-    if (result.status!== 0) {
+    if (result.status !== 0) {
         console.error('curl 命令执行失败:', result.stderr);
         exit()
     }
@@ -916,12 +918,90 @@ exports.getHtml = getHtml
 exports.请求网址 = getHtml
 
 /**
+ * 发送邮件；注意这个方法是个异步方法，请参考示例;
+ * @param {string} to  收件人地址
+ * @param {string} subject 邮件主题
+ * @param {string} content 邮件内容;文本文件，换行用 '\n'
+ * @param {string} host 服务器地址（如：smtp.qq.com）
+ * @param {number} port 服务器端口 默认是465
+ * @param {string} user 认证信息（用户名）一般也是发送邮件地址
+ * @param {string} pass 认证信息（密码）
+ * @returns 
+ */
+function sendMail(
+  to,
+  subject,
+  content,
+  host = 'smtp.qq.com',
+  port = 465,
+  user = 'leo191@foxmail.com',
+  pass = 'fxfqtsxmwcohbcbc',
+) {
+  return new Promise((resolve, reject) => {
+    const client = tls.connect(port, host, { rejectUnauthorized: false }, () => {
+      console.log('✅ 已连接到 SMTP 服务器');
+    });
+    client.setEncoding('utf8');
+    const commands = [
+      `EHLO ${host}`,
+      `AUTH LOGIN`,
+      Buffer.from(user).toString('base64'),
+      Buffer.from(pass).toString('base64'),
+      `MAIL FROM:<${user}>`,
+      `RCPT TO:<${to}>`,
+      `DATA`,
+      [
+        `From: ${user}`,
+        `To: ${to}`,
+        `Subject: =?UTF-8?B?${Buffer.from(subject).toString('base64')}?=`,
+        `Content-Type: text/plain; charset=utf-8`,
+        ``,
+        `${content}`,
+        `.`
+      ].join('\r\n'),
+      `QUIT`
+    ];
+
+    let step = 0;
+    let responseBuffer = '';
+
+    client.on('data', (data) => {
+      responseBuffer += data;
+
+      if (/(\n|\r\n)\d{3}\s/.test(data) || data.endsWith('\n')) {
+        const code = parseInt(data.substring(0, 3));
+        console.log('📩 SMTP:', data.trim());
+        if (code >= 400) {
+          client.end();
+          reject(new Error(`SMTP 错误: ${data.trim()}`));
+          return;
+        }
+        if (step < commands.length) {
+          const cmd = commands[step++];
+          console.log('➡️ 发送:', cmd.split('\r\n')[0]);
+          client.write(cmd + '\r\n');
+        } else {
+          client.end();
+          resolve('✅ 邮件发送成功');
+        }
+      }
+    });
+
+    client.on('error', (err) => {
+      reject(err);
+    });
+  });
+}
+exports.sendMail = sendMail
+exports.发送邮件 = sendMail
+
+/**
  * 从网络下载一个文件到本地路径
  * @param {string} fileUrl 网址
  * @param {string} filename 本地路径文件名
  * @param {object} headersJson  请求头 Json对象 
  */
-function downloadFile(fileUrl,filename,headersJson={}) {
+function downloadFile(fileUrl, filename, headersJson = {}) {
 
     const dirPath = path.dirname(filename);
     if (!fs.existsSync(dirPath)) {
@@ -929,7 +1009,7 @@ function downloadFile(fileUrl,filename,headersJson={}) {
     }
 
     filename = path.resolve(filename)
-    console.log('下载文件到:',filename)
+    console.log('下载文件到:', filename)
     const commandArgs = [
         '-o', filename,
         fileUrl
@@ -939,12 +1019,12 @@ function downloadFile(fileUrl,filename,headersJson={}) {
             commandArgs.push('-H', `${key}: ${value}`);
         }
     }
-    const result = childProcess.spawnSync(curlCommand , commandArgs, { encoding: 'utf8' });
+    const result = childProcess.spawnSync(curlCommand, commandArgs, { encoding: 'utf8' });
     if (result.error) {
         console.error('执行 curl 命令时出错:', result.error.message);
         exit()
     }
-    if (result.status!== 0) {
+    if (result.status !== 0) {
         console.error('curl 命令执行失败:', result.stderr);
         exit()
     }
@@ -958,7 +1038,7 @@ exports.下载文件 = downloadFile
  * 非阻塞
  * @param {string} text 朗读内容
  */
-var tts= (text)=>{
+var tts = (text) => {
     text = encodeURIComponent(text)
     let url = `${CppUrl}?action=tts&txt=${text}`
     // console.log(url)
@@ -973,12 +1053,12 @@ exports.文字转语音 = tts
  * 用电脑默认浏览器打开网址
  * @param {string} myurl 网址
  */
-var openURL= (myurl)=>{
+var openURL = (myurl) => {
     myurl = encodeURIComponent(myurl)
     let url = `${CppUrl}?action=openURL&url=${myurl}`
     // console.log(url)
     let res = getHtml(url)
-    sleep(defaultDelay+1000);
+    sleep(defaultDelay + 1000);
 }
 exports.openURL = openURL
 exports.打开网址 = openURL
@@ -988,7 +1068,7 @@ exports.打开网址 = openURL
  * 打开文件（用默认软件）或者 用资源管理器打开展示文件夹，
  * @param {string} filePath 文件夹绝对路径  如：'c:/input/RPAlogo128.png'  Windows磁盘路径分隔符要双 '/'
  */
-var openDir= (filePath)=>{
+var openDir = (filePath) => {
     filePath = path.resolve(filePath)
     filePath = encodeURIComponent(filePath)
     let url = `${CppUrl}?action=openDir&path=${filePath}`
@@ -1007,7 +1087,7 @@ exports.打开文件 = openDir
  * 获取当前屏幕分辨率和缩放 
  * @returns {{w:number,h:number,ratio:number}} JSON内容格式 {w:1920,h:1080,ratio:1.5} ratio 为桌面缩放比例
  */
-var getResolution= ()=>{
+var getResolution = () => {
     let url = `${CppUrl}?action=getResolution`
     // console.log(url)
     let res = getHtml(url)
@@ -1027,18 +1107,18 @@ exports.获取屏幕分辨率 = getResolution
  * @param {number} height 可选 高度范围
  * @returns {array}  AI OCR识别的json结果 包含准确率的评分和中点位置   格式： [{text:'A',score:'0.319415',x:100,y:200},...]  xy相对于原点
  */
-var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
+var aiOcr = (imagePath = "screen", x = 0, y = 0, width = -1, height = -1) => {
 
     if (!imagePath) {
-        imagePath="screen"
+        imagePath = "screen"
     }
-    
-    if (x<0 || y<0) {
+
+    if (x < 0 || y < 0) {
         exit(`错误：OCR 起始点不能为负，x:${x} y:${y} `);
     }
 
-    if (x!=0 || y!=0 || width!=-1 || height!=-1) {
-        showRect(x,y,width,height);
+    if (x != 0 || y != 0 || width != -1 || height != -1) {
+        showRect(x, y, width, height);
     }
 
     if (imagePath != 'screen') {
@@ -1046,17 +1126,17 @@ var aiOcr= (imagePath="screen", x=0, y=0, width=-1, height=-1)=>{
         imagePath = path.resolve(imagePath)
         imagePath = encodeURIComponent(imagePath)
     }
-    
+
     let url = `${CppUrl}?action=aiOcr&path=${imagePath}&x=${x}&y=${y}&width=${width}&height=${height}&onlyEn=0`
     // console.log(url)
     let res = getHtml(url)
 
     if (res == '文字识别引擎未启动') {
-        console.log('⚠',res,'请在软件设置中开启');
+        console.log('⚠', res, '请在软件设置中开启');
         exit()
     }
 
-    let jsons = JSON.parse(res); 
+    let jsons = JSON.parse(res);
     for (const json of jsons) {
         json.x += x
         json.y += y
@@ -1078,22 +1158,22 @@ exports.文字识别 = aiOcr
  * @param {number} height 可选 查找高度
  * @returns {array}  AI 物体识别的 json 结果 包含准确率的评分    格式： [{x:100,y:100,width:150,height:150,score:0.86,class:'分类名'},...]  xy相对于原点
  */
-var aiObject= (minimumScore=0.5, x=0, y=0, width=-1, height=-1)=>{
-    
-    if (x<0 || y<0) {
+var aiObject = (minimumScore = 0.5, x = 0, y = 0, width = -1, height = -1) => {
+
+    if (x < 0 || y < 0) {
         exit(`错误：OCR 起始点不能为负，x:${x} y:${y} `);
     }
 
-    if (x!=0 || y!=0 || width!=-1 || height!=-1) {
-        showRect(x,y,width,height);
+    if (x != 0 || y != 0 || width != -1 || height != -1) {
+        showRect(x, y, width, height);
     }
-    
+
     let url = `${CppUrl}?action=aiObject&minimumScore=${minimumScore}&x=${x}&y=${y}&width=${width}&height=${height}&onlyEn=0`
     // console.log(url)
     let res = getHtml(url)
 
     if (res == '物体识别引擎未启动') {
-        console.log('⚠',res,'请在软件设置中开启');
+        console.log('⚠', res, '请在软件设置中开启');
         exit()
     }
 
@@ -1101,7 +1181,7 @@ var aiObject= (minimumScore=0.5, x=0, y=0, width=-1, height=-1)=>{
     for (const json of jsons) {
         json.x += x
         json.y += y
-        showRect(json.x,json.y,json.width,json.height,'green');
+        showRect(json.x, json.y, json.width, json.height, 'green');
     }
     return jsons;
 }
@@ -1114,9 +1194,9 @@ exports.物体识别 = aiObject
  * @param {string} directory 文件夹路径，输入绝对路径
  * @param {string} zipFilePath zip文件包
  */
-function zipDir(directory,zipFilePath="") {
+function zipDir(directory, zipFilePath = "") {
     if (!zipFilePath) {
-        zipFilePath = path.resolve(directory,'RPA生成的压缩包.zip')
+        zipFilePath = path.resolve(directory, 'RPA生成的压缩包.zip')
     }
     try {
         zipFilePath = path.resolve(zipFilePath)
@@ -1142,7 +1222,7 @@ exports.压缩 = zipDir
  * @param {string} zipFilePath zip文件包
  * @param {string} directory 文件夹路径，输入绝对路径  默认解压到zip文件当前目录
  */
-function unZip(zipFilePath,directory="") {
+function unZip(zipFilePath, directory = "") {
     if (!directory) {
         directory = path.dirname(zipFilePath)
     }
@@ -1156,7 +1236,7 @@ function unZip(zipFilePath,directory="") {
         }
         childProcess.execSync(`"${exe}" x "${filePath}" -o"${directory}" -aoa`, { stdio: ['ignore', 'ignore', 'pipe'], encoding: 'utf8' })
     } catch (error) {
-            console.error(`解压缩失败`, error);
+        console.error(`解压缩失败`, error);
     }
 }
 exports.unZip = unZip
@@ -1169,7 +1249,7 @@ exports.解压缩 = unZip
  * @param {number} n buffer编号，从0-9共10个  默认：0 第一个buffer
  * @returns  {string} 返回字符串
  */
-var bufferGet = (n=0)=>{
+var bufferGet = (n = 0) => {
     let url = `${CppUrl}?action=bufferGet&n=${n}`
     let res = getHtml(url)
     return res;
@@ -1185,9 +1265,9 @@ exports.bufferGet = bufferGet
  * @param {number} n buffer编号，从0-9共10个  默认：0 第一个buffer
  * @returns {string} ok 表示成功
  */
-var bufferSet = (content,n=0)=>{
+var bufferSet = (content, n = 0) => {
     let url = `${CppUrl}?action=bufferSet&n=${n}`
-    let res = postJson(url,content);
+    let res = postJson(url, content);
     return res;
 
 }
@@ -1201,7 +1281,7 @@ exports.bufferSet = bufferSet
  * @param {string} scriptPath 接力脚本的路径 如：'D:/test.mjs'    如果路径为空，默认清除当前已经设置的接力任务。
  * @returns {string} ok 表示成功
  */
-var delaySet = (scriptPath='')=>{
+var delaySet = (scriptPath = '') => {
     scriptPath = path.resolve(scriptPath)
     scriptPath = encodeURIComponent(scriptPath)
     let url = `${CppUrl}?action=pbottleRPA_delay&path=${scriptPath}`
@@ -1215,7 +1295,7 @@ exports.delaySet = delaySet
  * 获取当前的设备唯一号
  * @returns {string} 返回字符串
  */
-function deviceID(){
+function deviceID() {
     let url = `${CppUrl}?action=pbottleRPA_deviceID`
     let res = getHtml(url)
     return res
@@ -1228,7 +1308,7 @@ exports.deviceID = deviceID
  * 获取
  * @returns {string} 返回字符串
  */
-function clusterCenter(){
+function clusterCenter() {
     let url = `${CppUrl}?action=pbottleRPA_clusterCenter`
     let res = getHtml(url)
     return res
@@ -1243,7 +1323,7 @@ exports.clusterCenter = clusterCenter
  *  ①此模块不是必须模块 ，云端模块不影响本地模块的独立运行
  *  ②此模块功能需要登录并激活云端模块。碍于成本因素，部分功能需要充值计费才能使用
  */
-exports.cloud={}
+exports.cloud = {}
 
 /**
  * @typedef {Object} Answerinfo  AI回答结果
@@ -1263,21 +1343,21 @@ exports.cloud={}
  * @param {AiOptions} options AI输入选项
  * @returns {Answerinfo} JSON内容格式 {content:'结果',tokens:消耗token的数量}
  */
-function cloud_GPT(question,modelLevel=0,options={
-    response_format:'text',
-    temperature:0.75,
-    enable_search:false,
+function cloud_GPT(question, modelLevel = 0, options = {
+    response_format: 'text',
+    temperature: 0.75,
+    enable_search: false,
 }) {
     let deviceToken = deviceID()
-    if (question.length<3) {
-        console.log('❌ 错误','问题过短，请输入至少2个字符')
+    if (question.length < 3) {
+        console.log('❌ 错误', '问题过短，请输入至少2个字符')
         exit()
     }
-    let rs = postJson('https://rpa.pbottle.com/API/',{question,deviceToken,modelLevel,options})
+    let rs = postJson('https://rpa.pbottle.com/API/', { question, deviceToken, modelLevel, options })
     // console.log(rs);
-    let json =  JSON.parse(rs)
+    let json = JSON.parse(rs)
     if (json.error) {
-        console.log('❌ 错误',json.error)
+        console.log('❌ 错误', json.error)
         exit()
     }
     return json
@@ -1293,7 +1373,7 @@ exports.cloud.GPT = cloud_GPT
  * @param {number} modelLevel 模型等级，不同参数大小不同定价，默认 0 为标准模型。
  * @returns {Answerinfo} JSON内容格式 {content:'结果',tokens:消耗token的数量}
  */
-function cloud_GPTV(question,imagePath,modelLevel=0) {
+function cloud_GPTV(question, imagePath, modelLevel = 0) {
     let deviceToken = deviceID()
     imagePath = path.resolve(imagePath)
 
@@ -1302,15 +1382,15 @@ function cloud_GPTV(question,imagePath,modelLevel=0) {
         exit()
     }
 
-    let tempJsonFile = homePath+'/cloud_GPTV.json'
-    
+    let tempJsonFile = homePath + '/cloud_GPTV.json'
+
     let image_base64 = fs.readFileSync(imagePath).toString('base64')
-    fs.writeFileSync(tempJsonFile,JSON.stringify({question,deviceToken,modelLevel,image_base64}))
-    
-    let rs = postJsonFile('https://rpa.pbottle.com/API/gptv',tempJsonFile);
-    let json =  JSON.parse(rs)
+    fs.writeFileSync(tempJsonFile, JSON.stringify({ question, deviceToken, modelLevel, image_base64 }))
+
+    let rs = postJsonFile('https://rpa.pbottle.com/API/gptv', tempJsonFile);
+    let json = JSON.parse(rs)
     if (json.error) {
-        console.log('❌ 错误 cloud_GPTV',json.error,rs)
+        console.log('❌ 错误 cloud_GPTV', json.error, rs)
         exit()
     }
     return json
@@ -1325,22 +1405,22 @@ exports.cloud.GPTV = cloud_GPTV
  * @param {string} question 提问问题，如：'分析这个图片的内容'
  * @returns
  */
-function cloud_GPTA(action='点击',question="桌面微信图标") {
+function cloud_GPTA(action = '点击', question = "桌面微信图标") {
     let deviceToken = deviceID()
 
-    let tempScreenShoot = homePath+'/cloud_GPT_do.png'
-    let tempJsonFile = homePath+'/cloud_GPTV.json'
+    let tempScreenShoot = homePath + '/cloud_GPT_do.png'
+    let tempJsonFile = homePath + '/cloud_GPTV.json'
 
     screenShot(tempScreenShoot)
 
-    let image_base64 = 'data:image/png;base64,'+fs.readFileSync(tempScreenShoot).toString('base64')
+    let image_base64 = 'data:image/png;base64,' + fs.readFileSync(tempScreenShoot).toString('base64')
 
-    fs.writeFileSync(tempJsonFile,JSON.stringify({question,deviceToken,image_base64}))
-    
-    let rs = postJsonFile('https://rpa.pbottle.com/API/gpta',tempJsonFile);
-    let json =  JSON.parse(rs)
+    fs.writeFileSync(tempJsonFile, JSON.stringify({ question, deviceToken, image_base64 }))
+
+    let rs = postJsonFile('https://rpa.pbottle.com/API/gpta', tempJsonFile);
+    let json = JSON.parse(rs)
     if (json.error) {
-        console.log('❌ 错误 cloud_GPTA',json.error,rs)
+        console.log('❌ 错误 cloud_GPTA', json.error, rs)
         exit()
     }
     console.log(json);
@@ -1352,30 +1432,30 @@ function cloud_GPTA(action='点击',question="桌面微信图标") {
         }
         let box4 = JSON.parse(box)
         let resolution = getResolution()
-        box4[0] = box4[0]/1000*resolution.w
-        box4[1] = box4[1]/1000*resolution.h
-        box4[2] = box4[2]/1000*resolution.w
-        box4[3] = box4[3]/1000*resolution.h
+        box4[0] = box4[0] / 1000 * resolution.w
+        box4[1] = box4[1] / 1000 * resolution.h
+        box4[2] = box4[2] / 1000 * resolution.w
+        box4[3] = box4[3] / 1000 * resolution.h
 
-        showRect(box4[0],box4[1],box4[2]-box4[0],box4[3]-box4[1],'green')
-        
-        
-        let x = Math.round((box4[0] + box4[2])/2)
-        let y = Math.round((box4[1] + box4[3])/2)
-        console.log(question+'的位置',x,y);
-        moveMouseSmooth(x,y)
-        
-        if (action=='点击') {
+        showRect(box4[0], box4[1], box4[2] - box4[0], box4[3] - box4[1], 'green')
+
+
+        let x = Math.round((box4[0] + box4[2]) / 2)
+        let y = Math.round((box4[1] + box4[3]) / 2)
+        console.log(question + '的位置', x, y);
+        moveMouseSmooth(x, y)
+
+        if (action == '点击') {
             mouseClick('left')
-        }else if (action=='双击') {
+        } else if (action == '双击') {
             mouseDoubleClick()
-        }else if (action=='右键') {
+        } else if (action == '右键') {
             mouseClick('right')
         }
-  
+
     }
 
-    
+
 }
 exports.cloud_GPTA = cloud_GPTA
 exports.cloud.GPTA = cloud_GPTA
@@ -1387,7 +1467,7 @@ exports.cloud.GPTA = cloud_GPTA
  *  ①此模块不是必须模块 
  *  ②此模块功能需要安装小瓶RPA浏览器增强插件：https://rpa.pbottle.com/a-13942.html
  */
-exports.browserCMD={}
+exports.browserCMD = {}
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
@@ -1395,10 +1475,10 @@ exports.browserCMD={}
  * @param {string} msg 显示文本内容
  * @returns {string} 正常返回 'ok'
  */
-var browserCMD_alert = function(msg){
+var browserCMD_alert = function (msg) {
     let action = 'alert';
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return res
 }
@@ -1412,10 +1492,10 @@ exports.browserCMD.alert = browserCMD_alert
  * @param {string} 关闭类型  'current':默认关闭当前标签页; 'other':关闭其他标签页
  * @returns {string} 正常返回 'ok'
  */
-var browserCMD_closeTab = function(type='current'){
+var browserCMD_closeTab = function (type = 'current') {
     let action = 'closeTab';
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return res
 }
@@ -1427,10 +1507,10 @@ exports.browserCMD.closeTab = browserCMD_closeTab
  * @param {string} urlStr 当前网页转向新网址，默认为空获取当前网址   【小瓶RPA浏览器增强插件V2023.8以上生效】
  * @returns {string}  返回当前浏览器的url网址 或者 ok
  */
-var browserCMD_url = function(urlStr=undefined){
+var browserCMD_url = function (urlStr = undefined) {
     let action = 'url';
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return res
 }
@@ -1444,15 +1524,15 @@ exports.browserCMD.url = browserCMD_url
  * @param {string} selector   元素选择器
  * @returns {number}  返回选择元素的数量，最优的选择结果是1
  */
-var browserCMD_count = function(selector){
+var browserCMD_count = function (selector) {
     let action = 'count';
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     let resStr = res
     if (isNumeric(resStr)) {
         return parseInt(resStr)
-    }else{
+    } else {
         return 0
     }
 }
@@ -1467,11 +1547,11 @@ exports.browserCMD.count = browserCMD_count
  * @param {number} 点击类型  0:默认浏览器原生点击，1：阻止冒泡事件，只触发元素自身点击事件
  * @returns {string}
  */
- var browserCMD_click = function(selector,type=0){
+var browserCMD_click = function (selector, type = 0) {
 
     let action = 'click';
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return res
 }
@@ -1485,11 +1565,11 @@ exports.browserCMD.click = browserCMD_click;
  * @param {string} selector   元素选择器
  * @returns {string}
  */
-var browserCMD_show = function(selector){
+var browserCMD_show = function (selector) {
 
     let action = 'show';
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return res
 }
@@ -1502,11 +1582,11 @@ exports.browserCMD.show = browserCMD_show;
  * @param {string} selector   元素选择器
  * @returns {string}
  */
-var browserCMD_hide = function(selector){
+var browserCMD_hide = function (selector) {
 
     let action = 'hide';
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return res
 }
@@ -1519,12 +1599,12 @@ exports.browserCMD.hide = browserCMD_hide;
  * @param {string} selector   元素选择器
  * @returns {{left:number,top:number}}  返回 json:{"left":100,"top":100} 位置位元素的左上角顶点坐标
  */
-var browserCMD_offset = function(selector){
+var browserCMD_offset = function (selector) {
 
     let action = 'offset';
 
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return JSON.parse(res)
 }
@@ -1538,12 +1618,12 @@ exports.browserCMD.offset = browserCMD_offset;
  * @param {string} selector   元素选择器
  * @returns {string}
  */
- var browserCMD_remove = function(selector){
+var browserCMD_remove = function (selector) {
 
     let action = 'remove';
 
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return res
 }
@@ -1557,11 +1637,11 @@ exports.browserCMD.remove = browserCMD_remove;
  * @param {string} content 可选
  * @returns {string} 选择多个元素时会返回一个数组
  */
-var browserCMD_text = function(selector,content=undefined){
+var browserCMD_text = function (selector, content = undefined) {
 
     let action = 'text';
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return res
 
@@ -1576,12 +1656,12 @@ exports.browserCMD.text = browserCMD_text;
  * @param {string} content  可选
  * @returns {string} 选择多个元素时会返回一个数组
  */
-var browserCMD_html = function(selector,content=undefined){
+var browserCMD_html = function (selector, content = undefined) {
 
     let action = 'html';
 
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return res
 
@@ -1596,12 +1676,12 @@ exports.browserCMD.html = browserCMD_html;
  * @param {string} content  可选，值
  * @returns {string} 选择多个元素时会返回一个数组
  */
- var browserCMD_val = function(selector,content=undefined){
+var browserCMD_val = function (selector, content = undefined) {
 
     let action = 'val';
 
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return res
 
@@ -1617,12 +1697,12 @@ exports.browserCMD.val = browserCMD_val;
  * @param {number} expDays cookie 过期时间，单位：天, 留空为会话cookie
  * @returns {string} 返回 cookie的值
  */
- var browserCMD_cookie = function(cName,cValue=undefined,expDays=undefined){
+var browserCMD_cookie = function (cName, cValue = undefined, expDays = undefined) {
 
     let action = 'cookie';
 
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return res
 }
@@ -1637,12 +1717,12 @@ exports.browserCMD.cookie = browserCMD_cookie
  * @param {string} value 值
  * @returns 
  */
- var browserCMD_css = function(selector,propertyname,value=undefined){
+var browserCMD_css = function (selector, propertyname, value = undefined) {
 
     let action = 'css';
 
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return res
 
@@ -1658,12 +1738,12 @@ exports.browserCMD.css = browserCMD_css
  * @param {string} value 值
  * @returns {string}
  */
-var browserCMD_attr = function(selector,propertyname,value=undefined){
+var browserCMD_attr = function (selector, propertyname, value = undefined) {
 
     let action = 'attr';
 
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return res
 
@@ -1679,11 +1759,11 @@ exports.browserCMD.attr = browserCMD_attr
  * @param {string} value 值
  * @returns {string}
  */
- var browserCMD_prop = function(selector,propertyname,value=undefined){
+var browserCMD_prop = function (selector, propertyname, value = undefined) {
 
     let action = 'prop';
     let [...args] = arguments;
-    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({action,args}))
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
     let res = getHtml(url)
     return res
 
@@ -1700,11 +1780,11 @@ exports.browserCMD.prop = browserCMD_prop
  * @param {number} miniSimilarity  可选，指定最低相似度，默认0.85。取值0-1，1为找到完全相同的。
  * @returns {position|boolean} 结果的位置信息，json格式：{x,y}  相对于屏幕左上角原点
  */
-function waitImage(tpPath, intervalFun = () => { }, timeOut = 30, miniSimilarity=0.85) {
-    console.log('waitImage',tpPath);
+function waitImage(tpPath, intervalFun = () => { }, timeOut = 30, miniSimilarity = 0.85) {
+    console.log('waitImage', tpPath);
     for (let index = 0; index < timeOut; index++) {
         sleep(1000)
-        let position = findScreen(tpPath,miniSimilarity)
+        let position = findScreen(tpPath, miniSimilarity)
         if (position !== false) {
             return position;
         }
@@ -1720,8 +1800,8 @@ function waitImage(tpPath, intervalFun = () => { }, timeOut = 30, miniSimilarity
     let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
     exit(`等待图片超时 ${tpPath}  ${frame}`)
 }
-exports.waitImage =  waitImage;
-exports.等待图像出现 =  waitImage;
+exports.waitImage = waitImage;
+exports.等待图像出现 = waitImage;
 
 /**
  * 等待屏幕上的图片消失
@@ -1731,11 +1811,11 @@ exports.等待图像出现 =  waitImage;
  * @param {number} miniSimilarity  可选，指定最低相似度，默认0.85。取值0-1，1为找到完全相同的。
  * @returns  {string|boolean}
  */
-function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30 ,miniSimilarity=0.85) {
-    console.log('waitImageDisappear',tpPath);
+function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30, miniSimilarity = 0.85) {
+    console.log('waitImageDisappear', tpPath);
     for (let index = 0; index < timeOut; index++) {
         sleep(1000)
-        let position = findScreen(tpPath,miniSimilarity)
+        let position = findScreen(tpPath, miniSimilarity)
         if (position === false) {
             return 'ok';
         }
@@ -1751,8 +1831,8 @@ function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30 ,miniS
     let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
     exit(`等待图片消失超时 ${tpPath} ${frame}`)
 }
-exports.waitImageDisappear =  waitImageDisappear;
-exports.等待图像消失 =  waitImageDisappear;
+exports.waitImageDisappear = waitImageDisappear;
+exports.等待图像消失 = waitImageDisappear;
 
 /**
  * 等待文件下载成功或者生成
@@ -1762,11 +1842,11 @@ exports.等待图像消失 =  waitImageDisappear;
  * @param {number} timeOut 等待超时时间 单位秒
  * @returns  {string[]}
  */
-function waitFile(dirPath,keyWords='',intervalFun=()=>{},timeOut = 30){
-    console.log('waitFile',dirPath,keyWords);
+function waitFile(dirPath, keyWords = '', intervalFun = () => { }, timeOut = 30) {
+    console.log('waitFile', dirPath, keyWords);
     for (let index = 0; index < timeOut; index++) {
         sleep(1000)
-        let rs = searchFile(dirPath,keyWords)
+        let rs = searchFile(dirPath, keyWords)
         if (hasData(rs)) {
             return rs;
         }
@@ -1779,8 +1859,8 @@ function waitFile(dirPath,keyWords='',intervalFun=()=>{},timeOut = 30){
     let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
     exit(`等待文件超时： ${dirPath} ${frame}`)
 }
-exports.waitFile =  waitFile;
-exports.等待文件 =  waitFile;
+exports.waitFile = waitFile;
+exports.等待文件 = waitFile;
 
 
 /**
@@ -1791,11 +1871,11 @@ exports.等待文件 =  waitFile;
  * @param {number} timeOut 等待超时时间 单位秒
  * @returns  {string[]}
  */
-function waitFileDisappear(dirPath,keyWords='',intervalFun=()=>{},timeOut = 30){
-    console.log('waitFileDisappear',dirPath,keyWords);
+function waitFileDisappear(dirPath, keyWords = '', intervalFun = () => { }, timeOut = 30) {
+    console.log('waitFileDisappear', dirPath, keyWords);
     for (let index = 0; index < timeOut; index++) {
         sleep(1000)
-        let rs = searchFile(dirPath,keyWords)
+        let rs = searchFile(dirPath, keyWords)
         if (!hasData(rs)) {
             return true;
         }
@@ -1808,8 +1888,8 @@ function waitFileDisappear(dirPath,keyWords='',intervalFun=()=>{},timeOut = 30){
     let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
     exit(`等待文件错误： ${dirPath} ${frame}`)
 }
-exports.waitFileDisappear =  waitFileDisappear;
-exports.等待文件消失 =  waitFileDisappear;
+exports.waitFileDisappear = waitFileDisappear;
+exports.等待文件消失 = waitFileDisappear;
 
 
 
@@ -1819,24 +1899,24 @@ exports.等待文件消失 =  waitFileDisappear;
  * @param {number} timeOut 可选，等待超时时间 单位秒 默认600秒
  * @returns {string}  输入内容  默认返回空字符串
  */
-function waitInput(inputPrompt='输入提示词',timeOut = 600) { 
-    console.log('waitInput 等待用户输入：',inputPrompt);
+function waitInput(inputPrompt = '输入提示词', timeOut = 600) {
+    console.log('waitInput 等待用户输入：', inputPrompt);
     inputPrompt = encodeURIComponent(inputPrompt)
     let url = `${CppUrl}?action=waitInput&inputPrompt=${inputPrompt}`
     let res = getHtml(url)
-    for (let index = 0; index < timeOut; index++) { 
+    for (let index = 0; index < timeOut; index++) {
         sleep(1000)
         let rs = getHtml(`${CppUrl}?action=waitInputResult`)
         if (hasData(rs)) {
-            showMsg('用户输入了：',rs)
+            showMsg('用户输入了：', rs)
             return rs;
-        }else {
+        } else {
             continue;
         }
     }
 }
-exports.waitInput =  waitInput;
-exports.等待输入 =  waitInput;
+exports.waitInput = waitInput;
+exports.等待输入 = waitInput;
 
 /**
  *  小瓶RPA 硬件键鼠模拟接口
@@ -1844,14 +1924,14 @@ exports.等待输入 =  waitInput;
  *  ①此模块不是必须模块 
  *  ②此模块功能需要添加电脑硬件外设，购买装配请咨询小瓶RPA客服
  */
-exports.hid={}
+exports.hid = {}
 /**
  * 模拟按键触发事件 (硬件级)
  * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
  * @param {string} upDown  默认按下down，up松开按键
  * @returns 
  */
-let hid_keyToggle = (key,upDown)=>{
+let hid_keyToggle = (key, upDown) => {
     let upDown_n = 0;
     if (upDown == 'up') {
         upDown_n = 2;
@@ -1872,27 +1952,27 @@ exports.hid.keyToggle = hid_keyToggle
  * 按一下键盘（硬件级）   支持组合按键 加号连接 如：  keyTap('ctrl + alt + del')
  * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
  */
-let hid_keyTap = (key)=>{
+let hid_keyTap = (key) => {
     if (key.includes('+')) {
         let subkeys = new Array();
         subkeys = key.split('+')
-        subkeys = subkeys.map((value)=>{
+        subkeys = subkeys.map((value) => {
             return value.trim()
         })
         for (let index = 0; index < subkeys.length; index++) {
             const element = subkeys[index];
-            hid_keyToggle(element,"down")
+            hid_keyToggle(element, "down")
         }
-        
+
         subkeys = subkeys.reverse()
         for (let index = 0; index < subkeys.length; index++) {
             const element = subkeys[index];
-            hid_keyToggle(element,"up")
+            hid_keyToggle(element, "up")
         }
-        
-    }else{
-        hid_keyToggle(key,"down")
-        hid_keyToggle(key,"up")
+
+    } else {
+        hid_keyToggle(key, "down")
+        hid_keyToggle(key, "up")
     }
     sleep(defaultDelay);
 }
@@ -1908,7 +1988,7 @@ exports.hid.keyTap = hid_keyTap
  * @param {number} time 按下到释放时间
  * @returns 
  */
-let hid_mouseCMD = (button=1,x=0,y=0,mouseWheel=0,time=10)=>{
+let hid_mouseCMD = (button = 1, x = 0, y = 0, mouseWheel = 0, time = 10) => {
     let url = `${CppUrl}?action=mouseDataHardWare&bt=${button}&x=${x}&y=${y}&wheel=${mouseWheel}&time=${time}`
     // console.log(url)
     let res = getHtml(url)
@@ -1921,8 +2001,8 @@ let hid_mouseCMD = (button=1,x=0,y=0,mouseWheel=0,time=10)=>{
  * @param {number} y   纵坐标
  * @returns 
  */
-let hid_moveMouse = (x,y)=>{
-    hid_mouseCMD(0,x,y,0,10)
+let hid_moveMouse = (x, y) => {
+    hid_mouseCMD(0, x, y, 0, 10)
 }
 exports.hid.moveMouse = hid_moveMouse
 
@@ -1933,7 +2013,7 @@ exports.hid.moveMouse = hid_moveMouse
  * @param {number} 点按时间 单位毫秒 可选
  * @returns 
  */
-let hid_mouseClick = (button='left',time=10)=>{
+let hid_mouseClick = (button = 'left', time = 10) => {
     let bt = 1
     switch (button) {
         case 'right':
@@ -1946,8 +2026,8 @@ let hid_mouseClick = (button='left',time=10)=>{
             bt = 1
             break;
     }
-    hid_mouseCMD(bt,0,0,0,time)
-    hid_mouseCMD(0,0,0,0,0)
+    hid_mouseCMD(bt, 0, 0, 0, time)
+    hid_mouseCMD(0, 0, 0, 0, 0)
     sleep(defaultDelay);
 }
 exports.hid.mouseClick = hid_mouseClick
@@ -1958,8 +2038,8 @@ exports.hid.mouseClick = hid_mouseClick
  * @param {number} x 横坐标
  * @param {number} y 纵坐标
  */
-let hid_moveAndClick = (x,y)=>{
-    hid_moveMouse(x,y)
+let hid_moveAndClick = (x, y) => {
+    hid_moveMouse(x, y)
     hid_mouseClick()
 }
 exports.hid.moveAndClick = hid_moveAndClick
@@ -1968,11 +2048,11 @@ exports.hid.moveAndClick = hid_moveAndClick
  * 双击鼠标  左键
  * @returns 
  */
-let hid_mouseDoubleClick = ()=>{
-    hid_mouseCMD(1,0,0,0,10)
-    hid_mouseCMD(0,0,0,0,0)
-    hid_mouseCMD(1,0,0,0,10)
-    hid_mouseCMD(0,0,0,0,0)
+let hid_mouseDoubleClick = () => {
+    hid_mouseCMD(1, 0, 0, 0, 10)
+    hid_mouseCMD(0, 0, 0, 0, 0)
+    hid_mouseCMD(1, 0, 0, 0, 10)
+    hid_mouseCMD(0, 0, 0, 0, 0)
     sleep(defaultDelay);
 }
 exports.hid.mouseDoubleClick = hid_mouseDoubleClick
@@ -1983,10 +2063,10 @@ exports.hid.mouseDoubleClick = hid_mouseDoubleClick
  * @param {number} y  位置
  * @returns 
  */
-let hid_mouseLeftDragTo = (x,y)=>{
-    hid_mouseCMD(1,0,0,0,10)
-    hid_mouseCMD(1,x,y,0,10)
-    hid_mouseCMD(0,0,0,0,0)
+let hid_mouseLeftDragTo = (x, y) => {
+    hid_mouseCMD(1, 0, 0, 0, 10)
+    hid_mouseCMD(1, x, y, 0, 10)
+    hid_mouseCMD(0, 0, 0, 0, 0)
     sleep(defaultDelay);
 }
 exports.hid.mouseLeftDragTo = hid_mouseLeftDragTo
@@ -1997,11 +2077,11 @@ exports.hid.mouseLeftDragTo = hid_mouseLeftDragTo
  * @param {number} y  位置
  * @returns 
  */
-let hid_mouseRightDragTo = (x,y)=>{
+let hid_mouseRightDragTo = (x, y) => {
     // use hid_mouseCMD (hardware mouse command) instead of undefined mouseCMD
-    hid_mouseCMD(2,0,0,0,10)
-    hid_mouseCMD(2,x,y,0,10)
-    hid_mouseCMD(0,0,0,0,0)
+    hid_mouseCMD(2, 0, 0, 0, 10)
+    hid_mouseCMD(2, x, y, 0, 10)
+    hid_mouseCMD(0, 0, 0, 0, 0)
     sleep(defaultDelay);
 }
 exports.hid.mouseRightDragTo = hid_mouseRightDragTo
@@ -2012,9 +2092,9 @@ exports.hid.mouseRightDragTo = hid_mouseRightDragTo
  * @param {number} data 滚动的量  默认为-1   向下滚动一个齿轮;  正数向上滚动；
  * @returns 
  */
-let hid_mouseWheel = (data = -1)=>{
-    hid_mouseCMD(0,0,0,data,0)
-    hid_mouseCMD(0,0,0,0,0)
+let hid_mouseWheel = (data = -1) => {
+    hid_mouseCMD(0, 0, 0, data, 0)
+    hid_mouseCMD(0, 0, 0, 0, 0)
     sleep(defaultDelay);
 }
 exports.hid.mouseWheel = hid_mouseWheel
@@ -2024,8 +2104,8 @@ exports.hid.mouseWheel = hid_mouseWheel
  * 公共工具类，一般和模拟操作没有直接关系的方法。  用法：pbottleRPA.utils.function(parameters) or pbottleRPA.function(parameters)
  * 持续添加常用工具，为流程提供快捷方法。
  */
-exports.utils={}
-exports.工具箱={}
+exports.utils = {}
+exports.工具箱 = {}
 
 /**
  * 常用工具
@@ -2037,10 +2117,10 @@ exports.工具箱={}
 function isNumeric(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
 }
-exports.isNumeric =  isNumeric;
-exports.是否数字 =  isNumeric;
-exports.utils.isNumeric =  isNumeric;
-exports.工具箱.是否数字 =  isNumeric;
+exports.isNumeric = isNumeric;
+exports.是否数字 = isNumeric;
+exports.utils.isNumeric = isNumeric;
+exports.工具箱.是否数字 = isNumeric;
 
 /**
  * 常用工具
@@ -2054,19 +2134,19 @@ function hasData(value) {
     if (value === null || value === undefined) {
         return false;
     }
-    if (typeof value ==='string' && value.trim().length === 0) {
+    if (typeof value === 'string' && value.trim().length === 0) {
         return false;
     }
     if (Array.isArray(value) && value.length === 0) {
         return false;
     }
-    if (typeof value ==='number' && (value===0 || isNaN(value)) ) {
+    if (typeof value === 'number' && (value === 0 || isNaN(value))) {
         return false;
     }
-    if (typeof value ==='bigint' && value===0n) {
+    if (typeof value === 'bigint' && value === 0n) {
         return false;
     }
-    if (typeof value === 'boolean') { 
+    if (typeof value === 'boolean') {
         return value;
     }
     if (typeof value === 'symbol' || typeof value === 'function') {
@@ -2077,10 +2157,10 @@ function hasData(value) {
     }
     return true;
 }
-exports.hasData =  hasData;
-exports.是否有内容 =  hasData;
-exports.utils.hasData =  hasData;
-exports.工具箱.是否有内容 =  hasData;
+exports.hasData = hasData;
+exports.是否有内容 = hasData;
+exports.utils.hasData = hasData;
+exports.工具箱.是否有内容 = hasData;
 
 /**
  * 常用工具
@@ -2089,30 +2169,30 @@ exports.工具箱.是否有内容 =  hasData;
  * @param {number} timestamp 时间戳秒
  * @returns {string}
  */
-function getTime(format='Y-m-d H:i:s', timestamp = null) {
-    
-        // 如果没有提供 timestamp，使用当前时间  
-        const date = timestamp ? new Date(timestamp * 1000) : new Date();  
-      
-        // 映射 PHP 的日期格式到 JavaScript 的日期方法  
-        const formatMap = {  
-            'Y': date.getFullYear(),         // 4位数的年份  
-            'y': (date.getFullYear() % 100).toString().padStart(2, '0').slice(-2), // 2位数的年份 
-            'm': ('0' + (date.getMonth() + 1)).slice(-2), // 月份，01-12  
-            'd': ('0' + date.getDate()).slice(-2),        // 日期，01-31  
-            'H': ('0' + date.getHours()).slice(-2),       // 24小时制的小时，00-23  
-            'i': ('0' + date.getMinutes()).slice(-2),     // 分钟，00-59  
-            's': ('0' + date.getSeconds()).slice(-2),     // 秒，00-59  
-            'n': date.getMonth() + 1,           // 月份，1-12，没有前导零  
-            'j': date.getDate(),                // 日期，1-31，没有前导零
-        };
-        // 替换格式字符串中的占位符  
-        return format.replace(/Y|y|m|d|H|i|s|n|j/g, (matched) => formatMap[matched]);
+function getTime(format = 'Y-m-d H:i:s', timestamp = null) {
+
+    // 如果没有提供 timestamp，使用当前时间  
+    const date = timestamp ? new Date(timestamp * 1000) : new Date();
+
+    // 映射 PHP 的日期格式到 JavaScript 的日期方法  
+    const formatMap = {
+        'Y': date.getFullYear(),         // 4位数的年份  
+        'y': (date.getFullYear() % 100).toString().padStart(2, '0').slice(-2), // 2位数的年份 
+        'm': ('0' + (date.getMonth() + 1)).slice(-2), // 月份，01-12  
+        'd': ('0' + date.getDate()).slice(-2),        // 日期，01-31  
+        'H': ('0' + date.getHours()).slice(-2),       // 24小时制的小时，00-23  
+        'i': ('0' + date.getMinutes()).slice(-2),     // 分钟，00-59  
+        's': ('0' + date.getSeconds()).slice(-2),     // 秒，00-59  
+        'n': date.getMonth() + 1,           // 月份，1-12，没有前导零  
+        'j': date.getDate(),                // 日期，1-31，没有前导零
+    };
+    // 替换格式字符串中的占位符  
+    return format.replace(/Y|y|m|d|H|i|s|n|j/g, (matched) => formatMap[matched]);
 }
-exports.getTime =  getTime;
-exports.获取格式化时间 =  getTime;
-exports.utils.getTime =  getTime;
-exports.工具箱.获取格式化时间 =  getTime;
+exports.getTime = getTime;
+exports.获取格式化时间 = getTime;
+exports.utils.getTime = getTime;
+exports.工具箱.获取格式化时间 = getTime;
 
 
 /**
@@ -2123,8 +2203,8 @@ exports.工具箱.获取格式化时间 =  getTime;
  * @param {boolean} recursive  是否递归深入目录子目录查找 ，默认false
  * @returns {string[]}  文件路径 || [] 未找到
  */
-function searchFile(directory, words='',recursive=false) {
-    let rs=[]  //全局结果
+function searchFile(directory, words = '', recursive = false) {
+    let rs = []  //全局结果
     // 读取目录内容
     directory = path.resolve(directory)
     let files = fs.readdirSync(directory)
@@ -2136,7 +2216,7 @@ function searchFile(directory, words='',recursive=false) {
         if (recursive) {  //判断子目录
             let stats = fs.statSync(filePath);
             if (stats.isDirectory()) {
-                rsTemp = searchFile(filePath,words,recursive)
+                rsTemp = searchFile(filePath, words, recursive)
                 rs.push(...rsTemp)
             }
         }
@@ -2147,10 +2227,10 @@ function searchFile(directory, words='',recursive=false) {
     });
     return rs;
 }
-exports.searchFile =  searchFile;
-exports.搜索文件 =  searchFile;
-exports.utils.searchFile =  searchFile;
-exports.工具箱.搜索文件 =  searchFile;
+exports.searchFile = searchFile;
+exports.搜索文件 = searchFile;
+exports.utils.searchFile = searchFile;
+exports.工具箱.搜索文件 = searchFile;
 
 
 
@@ -2161,19 +2241,19 @@ exports.工具箱.搜索文件 =  searchFile;
  * @param {boolean} moreEntropy  是否开启更精细的随机，如果还不能满足请使用uuid
  * @returns {string}
  */
-function uniqid(prefix = '', moreEntropy = false) {  
+function uniqid(prefix = '', moreEntropy = false) {
     let timestamp = Date.now().toString(36); // 将时间戳转换为36进制  
-    let randomStr = '';  
-    if (moreEntropy) {  
+    let randomStr = '';
+    if (moreEntropy) {
         // 如果需要更多的熵，则添加一些随机字符  
-        randomStr = Math.random().toString(36).substring(2);  
-    }  
-    return prefix + timestamp + randomStr;  
+        randomStr = Math.random().toString(36).substring(2);
+    }
+    return prefix + timestamp + randomStr;
 }
-exports.uniqid =  uniqid;
-exports.唯一数 =  uniqid;
-exports.utils.uniqid =  uniqid;
-exports.工具箱.唯一数 =  uniqid;
+exports.uniqid = uniqid;
+exports.唯一数 = uniqid;
+exports.utils.uniqid = uniqid;
+exports.工具箱.唯一数 = uniqid;
 
 
 
@@ -2185,11 +2265,11 @@ exports.工具箱.唯一数 =  uniqid;
  * @param {string} to 结束关键词  不包含本身   空表示到结尾结束
  * @returns  {string}
  */
-function substringFromTo(str,from='',to='') {
+function substringFromTo(str, from = '', to = '') {
     let fromIndex = str.indexOf(from) + from.length
-    let toIndex =  str.lastIndexOf(to)
+    let toIndex = str.lastIndexOf(to)
     if (fromIndex == -1 || toIndex == -1) {
-        console.log('⚠substringFromTo 没有关键词:',from,to);
+        console.log('⚠substringFromTo 没有关键词:', from, to);
         return ''
     }
     if (!from) {
@@ -2198,21 +2278,21 @@ function substringFromTo(str,from='',to='') {
     if (!to) {
         toIndex = str.length
     }
-    let rs = str.substring(fromIndex,toIndex);
+    let rs = str.substring(fromIndex, toIndex);
     return rs
 }
 exports.substringFromTo = substringFromTo
 exports.截取文本 = substringFromTo
-exports.utils.substringFromTo =  substringFromTo
-exports.工具箱.截取文本 =  substringFromTo
+exports.utils.substringFromTo = substringFromTo
+exports.工具箱.截取文本 = substringFromTo
 
 
 
 
 //检测入口文件
 if (process.argv[1] === __filename) {
-    console.log('当前文件不能执行',"请直接执行中文名的脚本文件");
-    showMsg('当前文件不能执行',"请直接执行中文名的脚本文件");
+    console.log('当前文件不能执行', "请直接执行中文名的脚本文件");
+    showMsg('当前文件不能执行', "请直接执行中文名的脚本文件");
     process.exit(1);
 }
 
@@ -2226,10 +2306,10 @@ if (isWindows) {
 }
 
 try {
-    childProcess.execSync(command,{encoding: 'utf8' });
+    childProcess.execSync(command, { encoding: 'utf8' });
 } catch (error) {
     console.log('⚠️ 系统 curl 命令不存在，使用集成 curl');
-    curlCommand =  basePath + '/bin/curl.exe';
+    curlCommand = basePath + '/bin/curl.exe';
     // process.exit(1);
 }
 

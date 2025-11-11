@@ -1,5 +1,5 @@
 企业版demo示例演示运行步骤：
 
-①访问 https://gitee.com/pbottle/pbottle-rpa（或者：https://github.com/leoxiaoping/pbottleRPA）
+① 访问 https://gitee.com/pbottle/pbottle-rpa（或者：https://github.com/leoxiaoping/pbottleRPA）
 
-②打开以 [企业版] 开头的示例脚本，一键复制到demo示例目录运行即可
+② 打开以 [企业版] 开头的示例脚本，一键复制到demo示例目录运行即可
