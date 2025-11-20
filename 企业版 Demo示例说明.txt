@@ -3,3 +3,14 @@
 ① 访问 https://gitee.com/pbottle/pbottle-rpa（或者：https://github.com/leoxiaoping/pbottleRPA）
 
 ② 打开以 [企业版] 开头的示例脚本，一键复制到demo示例目录运行即可
+
+
+
+企业版demo演示列表：
+[企业版]外部控制能力.js
+[企业版]HID硬件级键盘鼠标演示.js
+[企业版]屏幕物体查找Ai演示.js
+[企业版]接力执行脚本.js
+[企业版]集群控制中心示例.js
+[企业版]集群控制中心日志回传.js
+[企业版]集群控制中心流程升级.js
