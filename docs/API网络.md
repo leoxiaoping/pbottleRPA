@@ -66,7 +66,7 @@
   @param {object} headersJson  请求头 Json对象 
 
 
-## wxMessage 微信消息发送
+## wxMessage 微信消息发送（过期废止）
 
 通知到手机
 
@@ -77,3 +77,17 @@
 @param {string} content 消息详细内容
 
 @param {string} key 获取key详情方法：https://www.pbottle.com/a-12586.html
+
+## sendMail 发送邮件
+
+ * 发送邮件；注意这个方法是个异步方法，请参考示例;
+ * @param {string} to  收件人地址
+ * @param {string} subject 邮件主题
+ * @param {string} content 邮件内容;文本文件，换行用 '\n'
+ * @param {string} host 服务器地址（如：smtp.qq.com）
+ * @param {number} port 服务器端口 默认是465
+ * @param {string} user 认证信息（用户名）一般也是发送邮件地址
+ * @param {string} pass 认证信息（密码）
+ * @returns 
+
+示例：发送Email电子邮件.js

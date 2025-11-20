@@ -95,6 +95,7 @@ export default defineConfig({
                     { text: '办公文档', link: '/API办公文档' },
                     { text: '外部控制', link: '/API外部控制' },
                     { text: '键鼠硬模拟 hid', link: '/API键鼠硬模拟' },
+                    { text: '其他功能模块', link: '/其他功能模块' },
 
                 ]
             },
@@ -106,6 +107,7 @@ export default defineConfig({
                     { text: '验证码自动化', link: '/验证码自动化' },
                     { text: '老旧低配电脑', link: '/老旧低配电脑' },
                     { text: '桌面快捷方式', link: '/桌面快捷方式' },
+                    { text: 'HTTP静态服务', link: '/HTTP静态服务' },
                     { text: '无尽模式', link: '/无尽模式' },
                     { text: '硬件级键鼠模拟', link: '/硬件键鼠模拟' },
                     { text: '集群控制中心 🔥', link: '/集群控制中心' },
