@@ -842,11 +842,11 @@ var postJson = (url, msgJson, headersJson = {}, method = 'POST') => {
     }
     const result = childProcess.spawnSync(curlCommand, commandArgs, { encoding: 'utf8' });
     if (result.error) {
-        console.error('执行 curl 命令时出错:', result.error.message);
+        console.error('postJson 执行 curl 命令时出错:', result.error.message);
         exit()
     }
     if (result.status !== 0) {
-        console.error('curl 命令执行失败:', result.stderr);
+        console.error('postJson curl 命令执行失败:', result.stderr);
         exit()
     }
     return result.stdout;
@@ -878,11 +878,11 @@ var postJsonFile = (url, msgJsonFile, headersJson = {}, method = 'POST') => {
     }
     const result = childProcess.spawnSync(curlCommand, commandArgs, { encoding: 'utf8' });
     if (result.error) {
-        console.error('执行 curl 命令时出错:', result.error.message);
+        console.error('postJsonFile 执行 curl 命令时出错:', result.error.message);
         exit()
     }
     if (result.status !== 0) {
-        console.error('curl 命令执行失败:', result.stderr);
+        console.error('postJsonFile curl 命令执行失败:', result.stderr);
         exit()
     }
     return result.stdout;
@@ -894,10 +894,11 @@ exports.提交json文件 = postJsonFile
  * 普通请求网址，获取返回的html文本
  * @param {string} url 网络地址 get方法
  * @param {object} headersJson  请求头 Json对象 
+ * @param {string} method  请求方法 ：GET, POST, PUT, DELETE or HEAD 
  * @returns {string} 返回的文本
  */
-function getHtml(url, headersJson = {}) {
-    let commandArgs = [url];
+function getHtml(url, headersJson = {}, method = 'GET') {
+    let commandArgs = ['-X', method, url];
     if (Object.keys(headersJson).length !== 0) {
         for (const [key, value] of Object.entries(headersJson)) {
             commandArgs.push('-H', `${key}: ${value}`);
@@ -905,11 +906,11 @@ function getHtml(url, headersJson = {}) {
     }
     const result = childProcess.spawnSync(curlCommand, commandArgs, { encoding: 'utf8' });
     if (result.error) {
-        console.error('执行 curl 命令时出错:', result.error.message);
+        console.error('getHtml 执行 curl 命令时出错:', result.error.message);
         exit()
     }
     if (result.status !== 0) {
-        console.error('curl 命令执行失败:', result.stderr);
+        console.error('getHtml curl 命令执行失败:', result.stderr);
         exit()
     }
     return result.stdout;
@@ -929,71 +930,71 @@ exports.请求网址 = getHtml
  * @returns 
  */
 function sendMail(
-  to,
-  subject,
-  content,
-  host = 'smtp.qq.com',
-  port = 465,
-  user = 'leo191@foxmail.com',
-  pass = 'fxfqtsxmwcohbcbc',
+    to,
+    subject,
+    content,
+    host = 'smtp.qq.com',
+    port = 465,
+    user = 'leo191@foxmail.com',
+    pass = 'fxfqtsxmwcohbcbc',
 ) {
-  return new Promise((resolve, reject) => {
-    const client = tls.connect(port, host, { rejectUnauthorized: false }, () => {
-      console.log('✅ 已连接到 SMTP 服务器');
-    });
-    client.setEncoding('utf8');
-    if (user == 'leo191@foxmail.com') {
-        content += '\n\n\ 请不要将演示测试邮箱用作实际业务，详细查看：https://rpa.pbottle.com/a-14106.html'
-    }
-    const commands = [
-      `EHLO ${host}`,
-      `AUTH LOGIN`,
-      Buffer.from(user).toString('base64'),
-      Buffer.from(pass).toString('base64'),
-      `MAIL FROM:<${user}>`,
-      `RCPT TO:<${to}>`,
-      `DATA`,
-      [
-        `From: "小瓶RPA" ${user}`,
-        `To: ${to}`,
-        `Subject: =?UTF-8?B?${Buffer.from(subject).toString('base64')}?=`,
-        `Content-Type: text/plain; charset=utf-8`,
-        ``,
-        `${content}`,
-        `.`
-      ].join('\r\n'),
-      `QUIT`
-    ];
-
-    let step = 0;
-    let responseBuffer = '';
-
-    client.on('data', (data) => {
-      responseBuffer += data;
-
-      if (/(\n|\r\n)\d{3}\s/.test(data) || data.endsWith('\n')) {
-        const code = parseInt(data.substring(0, 3));
-        console.log('📩 SMTP:', data.trim());
-        if (code >= 400) {
-          client.end();
-          reject(new Error(`SMTP 错误: ${data.trim()}`));
-          return;
+    return new Promise((resolve, reject) => {
+        const client = tls.connect(port, host, { rejectUnauthorized: false }, () => {
+            console.log('✅ 已连接到 SMTP 服务器');
+        });
+        client.setEncoding('utf8');
+        if (user == 'leo191@foxmail.com') {
+            content += '\n\n\ 请不要将演示测试邮箱用作实际业务，详细查看：https://rpa.pbottle.com/a-14106.html'
         }
-        if (step < commands.length) {
-          const cmd = commands[step++];
-          console.log('➡️ 发送:', cmd.split('\r\n')[0]);
-          client.write(cmd + '\r\n');
-        } else {
-          client.end();
-          resolve('✅ 邮件发送成功');
-        }
-      }
-    });
+        const commands = [
+            `EHLO ${host}`,
+            `AUTH LOGIN`,
+            Buffer.from(user).toString('base64'),
+            Buffer.from(pass).toString('base64'),
+            `MAIL FROM:<${user}>`,
+            `RCPT TO:<${to}>`,
+            `DATA`,
+            [
+                `From: "小瓶RPA" ${user}`,
+                `To: ${to}`,
+                `Subject: =?UTF-8?B?${Buffer.from(subject).toString('base64')}?=`,
+                `Content-Type: text/plain; charset=utf-8`,
+                ``,
+                `${content}`,
+                `.`
+            ].join('\r\n'),
+            `QUIT`
+        ];
 
-    client.on('error', (err) => {
-      reject(err);
+        let step = 0;
+        let responseBuffer = '';
+
+        client.on('data', (data) => {
+            responseBuffer += data;
+
+            if (/(\n|\r\n)\d{3}\s/.test(data) || data.endsWith('\n')) {
+                const code = parseInt(data.substring(0, 3));
+                console.log('📩 SMTP:', data.trim());
+                if (code >= 400) {
+                    client.end();
+                    reject(new Error(`SMTP 错误: ${data.trim()}`));
+                    return;
+                }
+                if (step < commands.length) {
+                    const cmd = commands[step++];
+                    console.log('➡️ 发送:', cmd.split('\r\n')[0]);
+                    client.write(cmd + '\r\n');
+                } else {
+                    client.end();
+                    resolve('✅ 邮件发送成功');
+                }
+            }
+        });
+
+        client.on('error', (err) => {
+            reject(err);
+        });
     });
-  });
 }
 exports.sendMail = sendMail
 exports.发送邮件 = sendMail
@@ -1024,11 +1025,11 @@ function downloadFile(fileUrl, filename, headersJson = {}) {
     }
     const result = childProcess.spawnSync(curlCommand, commandArgs, { encoding: 'utf8' });
     if (result.error) {
-        console.error('执行 curl 命令时出错:', result.error.message);
+        console.error('downloadFile 执行 curl 命令时出错:', result.error.message);
         exit()
     }
     if (result.status !== 0) {
-        console.error('curl 命令执行失败:', result.stderr);
+        console.error('downloadFile curl 命令执行失败:', result.stderr);
         exit()
     }
     return result.stdout;
@@ -1505,6 +1506,53 @@ var browserCMD_closeTab = function (type = 'current') {
 exports.browserCMD_closeTab = browserCMD_closeTab
 exports.browserCMD.closeTab = browserCMD_closeTab
 
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * fetch请求网址，返回响应结果  https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch
+ * 默认 20 秒超时
+ * @param {string} fetch_url 网址
+ * @param {object} options 请求参数
+ * @returns {string} 响应结果
+ */
+var browserCMD_fetch = function (fetch_url, options = {}) {
+    let action = 'fetch';
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
+    let res = getHtml(url)
+    return res
+}
+exports.browserCMD_fetch = browserCMD_fetch
+exports.browserCMD.fetch = browserCMD_fetch
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 等待页面加载完成，返回页面网址
+ * 默认 20 秒超时
+ * @param {number} timeout 超时时间，单位秒
+ * @returns {string}  返回当前浏览器的url网址 或者错误退出
+ */
+var browserCMD_waitPageReady = function (timeout = 20) {
+
+    let url = `${CppUrl}?action=setWebReadyPage&URL=`
+    getHtml(url);
+
+    url = `${CppUrl}?action=getWebReadyPage`
+    for (let index = 0; index < timeout; index++) {
+        let res = getHtml(url)
+        // console.log("结果：",res);
+        if (res) {
+            // console.log(res);
+            return res
+        }else{
+            sleep(1000);
+        }
+    }
+    exit('❌ waitPageReady 错误', '等待页面加载超时')
+}
+exports.browserCMD_waitPageReady = browserCMD_waitPageReady
+exports.browserCMD.waitPageReady = browserCMD_waitPageReady
+
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * @param {string} urlStr 当前网页转向新网址，默认为空获取当前网址   【小瓶RPA浏览器增强插件V2023.8以上生效】
@@ -1560,6 +1608,24 @@ var browserCMD_click = function (selector, type = 0) {
 }
 exports.browserCMD_click = browserCMD_click;
 exports.browserCMD.click = browserCMD_click;
+
+/**
+ * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+ * 模拟双击   参考 jQuery dblclick() 方法，改为浏览器 native 的 click() 并自动获取焦点
+ * @param {string} selector   元素选择器。如果选择多个元素，只触发第一个元素的click事件
+ * @param {number} 点击类型  0:默认浏览器原生点击，1：阻止冒泡事件，只触发元素自身点击事件
+ * @returns {string}
+ */
+var browserCMD_dblclick = function (key, type = 0) {
+
+    let action = 'dblclick';
+    let [...args] = arguments;
+    let url = `${CppUrl}?action=webInject&jscode=` + encodeURIComponent(JSON.stringify({ action, args }))
+    let res = getHtml(url)
+    return res
+}
+exports.browserCMD_dblclick = browserCMD_dblclick;
+exports.browserCMD.dblclick = browserCMD_dblclick;
 
 
 /**
