@@ -9,13 +9,13 @@
 
 以豆包编程助手为例
 
-https://www.doubao.com/chat/coding
+https://www.doubao.com/
 
 
 
 ## 引入小瓶RPA开源库
 
-- 点击
+- 点击底部编程-》引入开源仓库
 
 ![引入小瓶RPA仓库](public/Snipaste_2025-03-19_15-42-35.png)
 
