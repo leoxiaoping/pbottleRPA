@@ -4,11 +4,23 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
     title: "小瓶 RPA 官方文档",
-    description: "小瓶RPA，专业用户的专业RPA软件。轻量级简单全能的RPA软件，显著降本增效 & 工作100%准确 & 非侵入式集成。同时支持浏览器web应用和客户端应用的操作流程自动化。同时支持 Js 和 Python 两种脚本制作流程。",
+    description: "小瓶RPA，专业用户的专业RPA软件。轻量级简单全能的RPA软件，浏览器自动化增强，显著降本增效 & 工作100%准确 & 非侵入式集成。同时支持浏览器web应用和客户端应用的操作流程自动化。同时支持 Js 和 Python 两种脚本制作流程。",
     lang: 'zh-Hans',
     lastUpdated: true,
     base: '/docs/',
     // outDir: './html',
+    locales: {
+        root: {
+            label: '中文',
+            lang: 'zh-Hans'
+        },
+        en: {
+            label: 'English',
+            lang: 'en', // 可选，将作为 `lang` 属性添加到 `html` 标签中
+            link: 'https://officetool.online/pbottle-rpa/docs' // 默认 /en/ -- 显示在导航栏翻译菜单上，可以是外部的
+        }
+    },
+
     sitemap: {
         hostname: 'https://rpa.pbottle.com/docs/'
     },
@@ -126,8 +138,15 @@ export default defineConfig({
         ],
 
         socialLinks: [
-            { icon: 'github', link: 'https://gitee.com/pbottle/pbottle-rpa' }
+            { icon: 'gitee', link: 'https://gitee.com/pbottle/pbottle-rpa' },
+            { icon: 'github', link: 'https://github.com/leoxiaoping/pbottleRPA' }
         ],
+
+
+        editLink: {
+            pattern: 'https://gitee.com/pbottle/pbottle-rpa/tree/master/docs/:path',
+            text: '编辑本页内容'
+        },
 
 
         footer: {

@@ -1513,7 +1513,7 @@ exports.browserCMD.closeTab = browserCMD_closeTab
 
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
- * fetch请求网址，返回响应结果  https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch
+ * fetch请求网址，从当前页面发起ajax请求并返回响应结果  https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch
  * 默认 20 秒超时
  * @param {string} fetch_url 网址
  * @param {object} options 请求参数
