@@ -22,8 +22,10 @@ pbottleRPA.showMsg('提示：','必须先安装浏览器增强插件')
 
 // 等待5秒钟给用户准备时间
 pbottleRPA.wait(5)
+
 // 打开小瓶RPA官网用于演示数据爬取
 pbottleRPA.openURL('https://rpa.pbottle.com/')
+pbottleRPA.browserCMD_waitPageReady('https://rpa.pbottle.com/');  // 等待页面加载完成
 
 // 判断页面是否成功打开，通过检查页面中包含"小瓶RPA"的元素数量
 let n_rpa = pbottleRPA.browserCMD_count('span:contains(小瓶RPA)')

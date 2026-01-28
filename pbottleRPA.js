@@ -1058,6 +1058,10 @@ exports.文字转语音 = tts
  * @param {string} myurl 网址
  */
 var openURL = (myurl) => {
+
+    let clearurl = `${CppUrl}?action=setWebReadyPage`
+    getHtml(clearurl)
+
     myurl = encodeURIComponent(myurl)
     let url = `${CppUrl}?action=openURL&url=${myurl}`
     // console.log(url)
@@ -1529,23 +1533,21 @@ exports.browserCMD.fetch = browserCMD_fetch
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 等待页面加载完成，返回页面网址
  * 默认 20 秒超时
+ * @param {string} readyURL  页面加载完成后的网址
  * @param {number} timeout 超时时间，单位秒
  * @returns {string}  返回当前浏览器的url网址 或者错误退出
  */
-var browserCMD_waitPageReady = function (timeout = 20) {
+var browserCMD_waitPageReady = function (readyURL,timeout = 20) {
 
-    let url = `${CppUrl}?action=setWebReadyPage&URL=`
-    getHtml(url);
-
-    url = `${CppUrl}?action=getWebReadyPage`
+    let url = `${CppUrl}?action=getWebReadyPage`
     for (let index = 0; index < timeout; index++) {
         let res = getHtml(url)
         // console.log("结果：",res);
-        if (res) {
-            // console.log(res);
+        if (res == readyURL) {
             return res
         }else{
             sleep(1000);
+            console.log(`等待页面加载完成...`);
         }
     }
     exit('❌ waitPageReady 错误', '等待页面加载超时')
@@ -1595,10 +1597,10 @@ exports.browserCMD.count = browserCMD_count
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 模拟点击   参考 jQuery click() 方法，改为浏览器 native 的 click() 并自动获取焦点
  * @param {string} selector   元素选择器。如果选择多个元素，只触发第一个元素的click事件
- * @param {number} 点击类型  0:默认浏览器原生点击，1：阻止冒泡事件，只触发元素自身点击事件
+ * @param {object} options 点击选项  可选  如：{ bubbles: false, ctrlKey: true} https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/MouseEvent
  * @returns {string}
  */
-var browserCMD_click = function (selector, type = 0) {
+var browserCMD_click = function (selector) {
 
     let action = 'click';
     let [...args] = arguments;
@@ -1613,10 +1615,10 @@ exports.browserCMD.click = browserCMD_click;
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 模拟双击   参考 jQuery dblclick() 方法，改为浏览器 native 的 click() 并自动获取焦点
  * @param {string} selector   元素选择器。如果选择多个元素，只触发第一个元素的click事件
- * @param {number} 点击类型  0:默认浏览器原生点击，1：阻止冒泡事件，只触发元素自身点击事件
+ * @param {object} options 点击选项  可选  如：{ bubbles: false,  ctrlKey: true} https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/MouseEvent
  * @returns {string}
  */
-var browserCMD_dblclick = function (key, type = 0) {
+var browserCMD_dblclick = function (key) {
 
     let action = 'dblclick';
     let [...args] = arguments;

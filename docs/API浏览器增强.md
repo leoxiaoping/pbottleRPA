@@ -87,12 +87,25 @@ browserCMD_click()
 
   @param {string} selector   元素选择器。如果选择多个元素，只触发第一个元素的click事件
 
-  @param {number} 点击类型  0:默认浏览器原生点击，1：阻止冒泡事件，只触发元素自身点击事件
+  @param {object} options 点击选项  可选  如：{ bubbles: false,  ctrlKey: true} https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/MouseEvent
 
   @returns {string}
 
 
-  ## closeTab 关闭标签页
+## dblclick 双击
+
+  浏览器增强命令  需要安装小瓶RPA的浏览器拓展  V2026.2 以上版本支持
+
+  模拟双击   参考 jQuery dblclick() 方法，改为浏览器 native 的 click() 并自动获取焦点
+
+  @param {string} selector   元素选择器。如果选择多个元素，只触发第一个元素的click事件
+
+  @param {object} options 点击选项  可选  如：{ bubbles: false,  ctrlKey: true} https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/MouseEvent
+
+  @returns {string}
+
+
+## closeTab 关闭标签页
 
 browserCMD_closeTab('current'|'other')  V2025.4 以上版本支持。
 
@@ -151,7 +164,7 @@ browserCMD_show()
 
 @param {string} selector 元素选择器
 
-@returns {} 返回 json:`{"top":100,"left":100}`
+@returns {} 返回 json:`{"top":100,"left":100}`  像素值为软件像素，非显示器硬件像素
 
 
 ## remove 移除元素
@@ -264,6 +277,34 @@ browserCMD_css()
 @param {*} 属性名
 
 @param {*} value
+
+## fetch 网络请求
+
+  浏览器增强命令  需要安装小瓶RPA的浏览器拓展  V2026.2 以上版本支持
+
+  fetch请求网址，返回响应结果  https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch
+
+  默认 20 秒超时
+
+  @param {string} fetch_url 网址
+
+  @param {object} options 请求参数
+
+  @returns {string} 响应结果
+
+## waitPageReady 监听页面加载完成
+
+  浏览器增强命令  需要安装小瓶RPA的浏览器拓展 V2026.2 以上版本支持
+
+  等待页面加载完成，返回页面网址
+
+  默认 20 秒超时
+
+  @param {string} readyURL  页面加载完成后的网址
+
+  @param {number} timeout 超时时间，单位秒
+
+  @returns {string}  返回当前浏览器的url网址 或者错误退出
 
 
 ## 批量采集获取网页内容
