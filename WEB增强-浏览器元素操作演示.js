@@ -109,7 +109,7 @@ for (let index = 0; index < 1; index++) {
 pbottleRPA.tts('打开网站')                    // 语音播报即将执行的操作
 // 点击第一个搜索结果链接
 pbottleRPA.browserCMD_click('div#content_left a:first')
-pbottleRPA.wait()                             // 等待默认时间
+pbottleRPA.wait(3)                             // 等待默认时间
 
 // 获取网站Logo路径演示
 pbottleRPA.tts('读取 logo 路径，显示到日志')  // 语音播报即将执行的操作
@@ -119,7 +119,7 @@ console.log('网站logo图片地址',ret);           // 输出Logo图片地址
 pbottleRPA.wait()                             // 等待默认时间
 
 // 获取元素位置信息演示
-let ret2 = pbottleRPA.browserCMD_offset('div.result:contains(小瓶RPA)') // 获取第一个img元素的位置信息
+let ret2 = pbottleRPA.browserCMD_offset('div:contains(小瓶RPA):first')
 console.log('搜索结果的位置',ret2);                  // 输出元素位置信息
 pbottleRPA.wait()                             // 等待默认时间
 
