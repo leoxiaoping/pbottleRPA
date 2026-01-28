@@ -107,7 +107,7 @@ export default defineConfig({
                     { text: '办公文档', link: '/API办公文档' },
                     { text: '外部控制', link: '/API外部控制' },
                     { text: '键鼠硬模拟 hid', link: '/API键鼠硬模拟' },
-                    { text: '其他功能模块', link: '/其他功能模块' },
+                    { text: '其他（数据库、Excel等）', link: '/其他功能模块' },
 
                 ]
             },
