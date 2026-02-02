@@ -108,7 +108,7 @@ for (let index = 0; index < 1; index++) {
 // 打开网站链接演示
 pbottleRPA.tts('打开网站')                    // 语音播报即将执行的操作
 // 点击第一个搜索结果链接
-pbottleRPA.browserCMD_click('div#content_left a:first')
+pbottleRPA.browserCMD_click('div#content_left a:contains(小瓶RPA)')
 pbottleRPA.wait(3)                             // 等待默认时间
 
 // 获取网站Logo路径演示

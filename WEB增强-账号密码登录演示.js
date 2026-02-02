@@ -50,7 +50,13 @@ pbottleRPA.browserCMD_val(`input[name='uname']`,'test')
 pbottleRPA.browserCMD_click(`input[name='pwd']`)
 // 在密码输入框中输入密码'123456'
 pbottleRPA.browserCMD_val(`input[name='pwd']`,'123456')
-pbottleRPA.wait()                             // 等待默认时间
+pbottleRPA.wait() 
+
+// 禁用登录按钮测试
+pbottleRPA.browserCMD_prop(`button:contains(登录帐号)`,'disabled',true);
+pbottleRPA.wait()
+
+pbottleRPA.browserCMD_prop(`button:contains(登录帐号)`,'disabled',false); // 确保登录按钮可用
 
 // 点击登录按钮
 pbottleRPA.browserCMD_click(`button:contains(登录帐号)`)
