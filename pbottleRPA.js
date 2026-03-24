@@ -338,7 +338,7 @@ exports.鼠标右键拖动 = mouseRightDragTo
  * 屏幕一个点取色
  * @param {number} x 
  * @param {number} y 
- * @returns 返回颜色值 
+ * @returns {string} 返回颜色值 如：'#000000'
  */
 let getScreenColor = (x, y) => {
     let url = `${CppUrl}?action=getScreenColor&x=${x}&y=${y}`
