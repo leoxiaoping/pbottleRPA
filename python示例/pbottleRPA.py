@@ -9,7 +9,7 @@ Nodejs 移植兼容版 beta
 js -> python 对照表：
 
 console.log ->  print  日志
-json ->  {}   json 字典 
+json ->  {}   json 字典
 `` ->  f""   字符串模板
 encodeURIComponent -> urlencode
 
@@ -20,755 +20,1112 @@ import json
 import sys
 import os
 import inspect
-import urllib.request #发送请求
+import urllib.request
 import urllib.parse
+import subprocess
+import base64
+import tempfile
+import smtplib
+import ssl
+import random
+from email.header import Header
+from email.mime.text import MIMEText
 
-# 当前脚本的路径
+# ========== 全局配置 ==========
 jsPath = os.getcwd()
-CppUrl = 'http://127.0.0.1:49888/'
-print("基座服务地址：（Python）",CppUrl,"Python版本为beta阶段，请斟酌使用到生产环境")
-defaultDelay = 1000;  #默认值一秒
+basePath = os.environ.get("RPAbaseDir", "")
+homePath = os.environ.get("RPAhomeDir", "")
+CppUrl = "http://127.0.0.1:49888/"
+defaultDelay = 1000
+
+print("基座服务地址：（Python）", CppUrl, "Python版本为beta阶段，请斟酌使用到生产环境")
 
 
-def urlencode(input):
-    """
-    js兼容版的 urlencode
-    """
-    rsString = urllib.parse.urlencode({'myrs':input})
-    return rsString.replace('myrs=','')
+# ========== 工具函数 ==========
+def urlencode(input_str):
+    """JS兼容的URL编码"""
+    return urllib.parse.quote(input_str, safe="")
 
+
+def isNumeric(value):
+    """判断是否为数字（含数字字符串）"""
+    try:
+        float(value)
+        return True
+    except (ValueError, TypeError):
+        return False
+
+
+def hasData(value):
+    """判断变量是否包含有效数据"""
+    if value is None:
+        return False
+    if isinstance(value, str) and value.strip() == "":
+        return False
+    if isinstance(value, (list, tuple, dict)) and len(value) == 0:
+        return False
+    if isinstance(value, (int, float)) and (value == 0 or value != value):  # NaN check
+        return False
+    if isinstance(value, bool):
+        return value
+    return True
+
+
+def getTime(format_str="Y-m-d H:i:s", timestamp=None):
+    """格式化时间"""
+    if timestamp:
+        date = time.localtime(timestamp)
+    else:
+        date = time.localtime()
+    mapping = {
+        "Y": date.tm_year,
+        "y": str(date.tm_year)[-2:],
+        "m": f"{date.tm_mon:02d}",
+        "d": f"{date.tm_mday:02d}",
+        "H": f"{date.tm_hour:02d}",
+        "i": f"{date.tm_min:02d}",
+        "s": f"{date.tm_sec:02d}",
+        "n": date.tm_mon,
+        "j": date.tm_mday,
+    }
+    result = format_str
+    for k, v in mapping.items():
+        result = result.replace(k, str(v))
+    return result
+
+
+def searchFile(directory, words="", recursive=False):
+    """根据关键字搜索文件"""
+    directory = os.path.abspath(directory)
+    result = []
+    words = words.lower()
+    try:
+        for root, dirs, files in os.walk(directory):
+            if not recursive and root != directory:
+                break
+            for f in files:
+                full_path = os.path.join(root, f)
+                if words in full_path.lower():
+                    result.append(full_path)
+    except Exception:
+        pass
+    return result
+
+
+def uniqid(prefix="", moreEntropy=False):
+    """生成唯一ID"""
+    timestamp = format(int(time.time() * 1000), "x")
+    rand = ""
+    if moreEntropy:
+        rand = format(random.randint(0, 0xFFFFFFFF), "x")
+    return prefix + timestamp + rand
+
+
+def substringFromTo(s, from_str="", to_str=""):
+    """截取字符串"""
+    start = s.find(from_str) + len(from_str) if from_str else 0
+    end = s.rfind(to_str) if to_str else len(s)
+    if (from_str and start == -1 + len(from_str)) or (to_str and end == -1):
+        print(f"⚠substringFromTo 没有关键词: {from_str} -> {to_str}")
+        return ""
+    return s[start:end]
+
+
+# ========== 基础操作 ==========
 def setDefaultDelay(millisecond):
-    """
-    #  * 设置RPA模拟操作的延时  包含鼠标、键盘、粘贴、打开网页操作
-    #  * 设置为 0  可以用 sleep() 手动管理操作延时
-    """
     global defaultDelay
-    defaultDelay=millisecond
+    defaultDelay = millisecond
 
 
 def sleep(milliseconds):
-    """
-    脚本暂停等待 毫秒单位
-    """
-    if(milliseconds<1):
+    if milliseconds < 1:
         return
-    time.sleep(milliseconds/1000)
+    time.sleep(milliseconds / 1000.0)
 
 
-def openURL(myurl):
-    """
-    #浏览器打开网址
-    """
-    myurl = urlencode(myurl)
-    url = f'{CppUrl}?action=openURL&url={myurl}'
-    urllib.request.urlopen(url)
-    sleep(defaultDelay+1000);
+def wait(seconds=1):
+    if seconds <= 0 or not isNumeric(seconds):
+        print("pbottleRPA.wait：seconds input error")
+        return
+    if seconds > 100:
+        quotient = int(seconds // 100)
+        for _ in range(quotient):
+            sleep(100 * 1000)
+            print("提示：已等待100s...")
+        seconds = seconds % 100
+    sleep(seconds * 1000)
 
 
 def beep():
-    """
-    #  * 发出系统警告声音
-    #  * @returns 
-    """
-    url = f'{CppUrl}?action=beep'
-    urllib.request.urlopen(url)
+    urllib.request.urlopen(f"{CppUrl}?action=beep")
 
 
-def copyText(txt):
-    """
-    * 模拟复制文字，相当于选择并复制文本内容  v2025.0以上生效
-    * @param {string} txt 复制的文本内容
-    """
-    txt =  urlencode(txt)
-    url = f'{CppUrl}?action=copyText&txt={txt}'
-    urllib.request.urlopen(url)
+def showMsg(title, content):
+    title = urlencode(title)
+    content = urlencode(content)
+    urllib.request.urlopen(f"{CppUrl}?action=showMsg&title={title}&content={content}")
 
 
-def paste(txt):
-    """
-    * 当前位置 粘贴（输入）文字  
-    * @param {string} text  复制到电脑剪切板的文本
-    """
-    copyText(txt)
-    sleep(200)
-    keyTap('ctrl+v')
-    sleep(defaultDelay);
+def showRect(fromX=0, fromY=0, width=500, height=500, color="red", msec=500):
+    fromX = int(round(fromX))
+    fromY = int(round(fromY))
+    width = int(round(width))
+    height = int(round(height))
+    color = urlencode(color)
+    urllib.request.urlopen(
+        f"{CppUrl}?action=showRect&fromX={fromX}&fromY={fromY}&width={width}&height={height}&color={color}&msec={msec}"
+    )
 
 
-def keyToggle(key,upDown='down'):
-    """
-    #  * 模拟按键触发事件
-    #  * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
-    #  * @param {string} upDown  默认按下down，up松开按键
-    """
-    key = key.strip()
-    replacement_dict = {
-        'backspace': 8,
-        'tab': 9,
-        'enter': 13,
-        'shift': 16,
-        'ctrl': 17,
-        'alt': 18,
-        'pause/break': 19,
-        'caps lock': 20,
-        'esc': 27,
-        'space': 32,
-        'page up': 33,
-        'page down': 34,
-        'end': 35,
-        'home': 36,
-        'left': 37,
-        'up': 38,
-        'right': 39,
-        'down': 40,
-        'insert': 45,
-        'delete': 46,
-        'command': 91,
-        'left command': 91,
-        'right command': 93,
-        'numpad *': 106,
-        'numpad +': 107,
-        'numpad -': 109,
-        'numpad .': 110,
-        'numpad /': 111,
-        'num lock': 144,
-        'scroll lock': 145,
-        'my computer': 182,
-        'my calculator': 183,
-        'windows': 91,
-        '⇧': 16,
-        '⌥': 18,
-        '⌃': 17,
-        '⌘': 91,
-        'ctl': 17,
-        'control': 17,
-        'option': 18,
-        'pause': 19,
-        'break': 19,
-        'caps': 20,
-        'return': 13,
-        'escape': 27,
-        'spc': 32,
-        'spacebar': 32,
-        'pgup': 33,
-        'pgdn': 34,
-        'ins': 45,
-        'del': 46,
-        'cmd': 91,
-        'f1': 112,
-        'f2': 113,
-        'f3': 114,
-        'f4': 115,
-        'f5': 116,
-        'f6': 117,
-        'f7': 118,
-        'f8': 119,
-        'f9': 120,
-        'f10': 121,
-        'f11': 122,
-        'f12': 123,
-    }
-
-    upDown_n = 0;
-    if upDown == 'up':
-        upDown_n = 2;
-
-    key_n = 0;
-    if len(key)==1:
-        key_n = ord(key.upper()) 
-    else:
-        for item_key, item_asc2 in replacement_dict.items():
-            if key == item_key:
-                key_n = item_asc2
-    if(key_n == 0):
-        print('输入键名不存在！',key)
-        return
-
-    url = f'{CppUrl}?action=keyToggle&key_n={key_n}&upDown_n={upDown_n}'
-    # print(url)
-    urllib.request.urlopen(url)
-
-
-def keyTap (key):
-    """
-    * 按一下键盘   支持组合按键 加号连接 如：  keyTap('ctrl + a')
-    * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
-    """
-    if '+' in key:
-        subkeys = [];
-        subkeys = key.split('+')
-        subkeys = [item.strip() for item in subkeys]
-
-        for element in subkeys:
-            keyToggle(element,"down")
-
-        subkeys.reverse()
-        for element in subkeys:
-            keyToggle(element,"up")
-                
-    else:
-        keyToggle(key,"down")
-        keyToggle(key,"up")
-    
-    sleep(defaultDelay);
-
-
-def tts(text):
-    """
-    * 从文本到语音(TextToSpeech)  语音播报
-    * 非阻塞
-    * @param {string} text 朗读内容
-    """
-    text = urlencode(text)
-    url = f'{CppUrl}?action=tts&txt={text}'
-    urllib.request.urlopen(url);
-    sleep(defaultDelay);
-
-
-
-def getResolution():
-    """
-    * 获取当前屏幕分辨率和缩放 
-    * @returns JSON内容格式 {w:1920,h:1080,ratio:1.5} ratio 为桌面缩放比例
-    """
-    url = f"{CppUrl}?action=getResolution"
-    response = urllib.request.urlopen(url)
-    return json.loads(response.read().decode("utf-8"))
-
-
-def exit(msg=''):
-    """
-    * 强制退出当前脚本
-    * @param {string} msg 退出时候输出的信息
-    """
-    if (msg):
+def exit(msg=""):
+    if msg:
         print(msg)
     beep()
-    sys.exit(0)
+    sys.exit(1)
 
 
-def delaySet (scriptPath=''):
-    """
-    * 设置接力执行的脚本
-    * 当前脚本结束后（无论正常结束还是错误退出），立刻启动的自动脚本。
-    * http外部设置方式（GET方法）：http://ip:49888/action=pbottleRPA_delay&path=MyPATH
-    * @param {string} scriptPath 接力脚本的路径 如：'D:/test.mjs'    如果路径为空，默认清除当前已经设置的接力任务。
-    * @returns {string} ok 表示成功
-    """
-    scriptPath = urlencode(scriptPath)
-    url = f'{CppUrl}?action=pbottleRPA_delay&path={scriptPath}'
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
+def kill(processName, force=False):
+    force_flag = "/F" if force else ""
+    try:
+        subprocess.run(
+            f"taskkill {force_flag} /IM {processName}",
+            shell=True,
+            check=True,
+            capture_output=True,
+        )
+        print(f"关闭进程成功：{processName}")
+    except subprocess.CalledProcessError:
+        print(f"关闭进程（{processName}）失败，可能软件未运行")
 
 
-
-def moveMouseSmooth(x,y):
-    """
-    * 移动鼠标到指定位置  起点为屏幕左上角
-    * @param {number} x   横坐标
-    * @param {number} y   纵坐标
-    """
-    x=round(x)
-    y=round(y)
-    url = f'{CppUrl}?action=moveMouse&x={x}&y={y}'
-    response = urllib.request.urlopen(url)
+def moveMouseSmooth(x, y, interval=0):
+    x = int(round(x))
+    y = int(round(y))
+    urllib.request.urlopen(f"{CppUrl}?action=moveMouse&x={x}&y={y}&interval={interval}")
     sleep(defaultDelay)
-moveMouse = moveMouseSmooth  #增加别名
 
 
-def moveAndClick (x,y):
-    """
-    * 移动鼠标到指定位置并点击
-    * @param {number} x 横坐标
-    * @param {number} y 纵坐标
-    """
-    moveMouse(x,y)
+moveMouse = moveMouseSmooth
+
+
+def moveAndClick(x, y):
+    moveMouseSmooth(x, y)
     mouseClick()
 
 
-def mouseClick(leftRight = 'left',time=30):
-    """
-    * 当前位置点击鼠标 默认左键  可选 'right'
-    * @param {string} leftRight    可选
-    * @param {number} time 点按时间 单位毫秒  可选
-    """
-    url = f"{CppUrl}?action=mouseLeftClick&time={time}"
-    if (leftRight == 'right') :
-        url = f"{CppUrl}?action=mouseRightClick&time={time}"
-    response = urllib.request.urlopen(url)
-    sleep(defaultDelay);
-
-
-def mouseDoubleClick():
-    """
-    * 双击鼠标  默认左键
-    """
-    url = f'{CppUrl}?action=mouseDoubleClick'
-    response = urllib.request.urlopen(url)
+def mouseClick(leftRight="left", time_ms=30):
+    action = "mouseLeftClick" if leftRight != "right" else "mouseRightClick"
+    urllib.request.urlopen(f"{CppUrl}?action={action}&time={time_ms}")
     sleep(defaultDelay)
 
 
-
-def mouseWheel(data = -720):
-    """
-    * 鼠标滚轮
-    * @param {number} data 滚动的量  默认为-720   向下滚动720度
-    * @returns 
-    """
-    url = f"{CppUrl}?action=mouseWheel&data={data}"
-    response = urllib.request.urlopen(url)
-    sleep(defaultDelay);
+def mouseDoubleClick():
+    urllib.request.urlopen(f"{CppUrl}?action=mouseDoubleClick")
+    sleep(defaultDelay)
 
 
-
-def mouseLeftDragTo(x,y):
-    """
-    * 鼠标左键拖到指定位置
-    * @param {number} x 
-    * @param {number} y 
-    """
-    url = f'{CppUrl}?action=mouseLeftDragTo&x={x}&y={y}'
-    response = urllib.request.urlopen(url)
-    sleep(defaultDelay);
+def mouseWheel(data=-720):
+    urllib.request.urlopen(f"{CppUrl}?action=mouseWheel&data={data}")
+    sleep(defaultDelay)
 
 
-def mouseRightDragTo(x,y):
-    """
-    * 鼠标右键拖到指定位置
-    * @param {number} x 
-    * @param {number} y 
-    * @returns 
-    """
-    url = f'{CppUrl}?action=mouseRightDragTo&x={x}&y={y}'
-    response = urllib.request.urlopen(url)
-    sleep(defaultDelay);
+def mouseLeftDragTo(x, y):
+    x = int(round(x))
+    y = int(round(y))
+    urllib.request.urlopen(f"{CppUrl}?action=mouseLeftDragTo&x={x}&y={y}")
+    sleep(defaultDelay)
 
 
-
-def showMsg(title,content):
-    """
-    * 系统原生消息提示
-    * @param {string} title  标题
-    * @param {string} content  内容
-    * @returns
-    """
-    title = urlencode(title)
-    content = urlencode(content)
-    url = f'{CppUrl}?action=showMsg&title={title}&content={content}'
-    response = urllib.request.urlopen(url)
+def mouseRightDragTo(x, y):
+    x = int(round(x))
+    y = int(round(y))
+    urllib.request.urlopen(f"{CppUrl}?action=mouseRightDragTo&x={x}&y={y}")
+    sleep(defaultDelay)
 
 
-
-def showRect(fromX=0,fromY=0,width=500,height=500,color='red',msec=500):
-    """
-    * 有效屏幕内显示一个彩色方框，直观提示流程操作范围和目标的当前的定位
-    * V2024.6以上版本有效
-    * @param {number} fromX  起始位置xy坐标，屏幕左上角为零点
-    * @param {number} fromY 
-    * @param {number} width  宽度
-    * @param {number} height 高度
-    * @param {string} color  颜色 红绿蓝黄4色可选：red|green|blue|yellow 
-    * @param {number} msec  显示持续时间 单位毫秒
-    * @returns 
-    """
-    color = urlencode(color)
-    fromX=int(fromX)
-    fromY=int(fromY)
-    width=int(width)
-    height=int(height)
-    url = f'{CppUrl}?action=showRect&fromX={fromX}&fromY={fromY}&width={width}&height={height}&color={color}&msec={msec}'
-    response = urllib.request.urlopen(url)
+def getScreenColor(x, y):
+    resp = urllib.request.urlopen(f"{CppUrl}?action=getScreenColor&x={x}&y={y}")
+    return json.loads(resp.read().decode())["rs"]
 
 
+def screenShot(savePath="", x=0, y=0, w=-1, h=-1):
+    if savePath:
+        savePath = os.path.abspath(savePath)
+        savePath = urlencode(savePath)
+    x, y, w, h = int(x), int(y), int(w), int(h)
+    if x != 0 or y != 0 or w != -1 or h != -1:
+        showRect(x, y, w, h)
+    resp = urllib.request.urlopen(
+        f"{CppUrl}?action=screenShot&savePath={savePath}&x={x}&y={y}&w={w}&h={h}"
+    )
+    return resp.read().decode()
 
-def screenShot(savePath='',x=0,y=0,w=-1,h=-1):
-    """
-    * 屏幕截图
-    * @param {string} savePath  保存路径默认 我的图片，图片格式为PNG；如果使用自定义路径请以 '.png' 结尾; 
-    * @param {number} x  截图开始位置
-    * @param {number} y 
-    * @param {number} w  可选 截图宽度
-    * @param {number} h  可选 截图长度
-    * @returns 
-    """
-    savePath = urlencode(savePath)
-    if x!=0 or y!=0 or w!=-1 or h!=-1 :
-        showRect(x,y,w,h);
 
-    x=int(x)
-    y=int(y)
-    w=int(w)
-    h=int(h)
-    url = f'{CppUrl}?action=screenShot&savePath={savePath}&x={x}&y={y}&w={w}&h={h}'
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")  #返回string
+def keycode(name):
+    """按键名称转键值"""
+    name = name.strip().lower()
+    mapping = {
+        "backspace": 8,
+        "tab": 9,
+        "enter": 13,
+        "shift": 16,
+        "ctrl": 17,
+        "alt": 18,
+        "pause/break": 19,
+        "caps lock": 20,
+        "esc": 27,
+        "space": 32,
+        "page up": 33,
+        "page down": 34,
+        "end": 35,
+        "home": 36,
+        "left": 37,
+        "up": 38,
+        "right": 39,
+        "down": 40,
+        "insert": 45,
+        "delete": 46,
+        "command": 91,
+        "left command": 91,
+        "right command": 93,
+        "numpad *": 106,
+        "numpad +": 107,
+        "numpad -": 109,
+        "numpad .": 110,
+        "numpad /": 111,
+        "num lock": 144,
+        "scroll lock": 145,
+        "my computer": 182,
+        "my calculator": 183,
+        "windows": 91,
+        "⇧": 16,
+        "⌥": 18,
+        "⌃": 17,
+        "⌘": 91,
+        "ctl": 17,
+        "control": 17,
+        "option": 18,
+        "pause": 19,
+        "break": 19,
+        "caps": 20,
+        "return": 13,
+        "escape": 27,
+        "spc": 32,
+        "spacebar": 32,
+        "pgup": 33,
+        "pgdn": 34,
+        "ins": 45,
+        "del": 46,
+        "cmd": 91,
+        "f1": 112,
+        "f2": 113,
+        "f3": 114,
+        "f4": 115,
+        "f5": 116,
+        "f6": 117,
+        "f7": 118,
+        "f8": 119,
+        "f9": 120,
+        "f10": 121,
+        "f11": 122,
+        "f12": 123,
+        ";": 186,
+        "=": 187,
+        ",": 188,
+        "-": 189,
+        ".": 190,
+        "/": 191,
+        "`": 192,
+        "[": 219,
+        "\\": 220,
+        "]": 221,
+        "'": 222,
+    }
+    if len(name) == 1:
+        return ord(name.upper())
+    return mapping.get(name, 0)
+
+
+def keyToggle(key, upDown="down"):
+    key_n = keycode(key)
+    if key_n == 0:
+        print(f"⚠ 按键 {key} 不存在！~")
+        return
+    upDown_n = 0 if upDown != "up" else 2
+    urllib.request.urlopen(
+        f"{CppUrl}?action=keyToggle&key_n={key_n}&upDown_n={upDown_n}"
+    )
+
+
+def keyTap(key):
+    if "+" in key:
+        parts = [p.strip() for p in key.split("+")]
+        for p in parts:
+            keyToggle(p, "down")
+        for p in reversed(parts):
+            keyToggle(p, "up")
+    else:
+        keyToggle(key, "down")
+        keyToggle(key, "up")
+    sleep(defaultDelay)
+
+
+def mouseKeyToggle(key="left", upDown="down"):
+    key_map = {"left": 0, "right": 1, "middle": 2}
+    key_n = key_map.get(key, 0)
+    upDown_n = 0 if upDown != "up" else 2
+    urllib.request.urlopen(
+        f"{CppUrl}?action=mouseKeyToggle&key_n={key_n}&upDown_n={upDown_n}"
+    )
+
+
+def findScreen(tpPath, miniSimilarity=0.85, fromX=0, fromY=0, width=-1, height=-1):
+    if fromX < 0 or fromY < 0:
+        exit(f"错误：找图起始点不能为负，x:{fromX} y:{fromY}")
+    if fromX != 0 or fromY != 0 or width != -1 or height != -1:
+        showRect(fromX, fromY, width, height)
+    tpPath = os.path.abspath(tpPath)
+    tpPath = urlencode(tpPath)
+    resp = urllib.request.urlopen(
+        f"{CppUrl}?action=findScreen&imgPath={tpPath}&fromX={fromX}&fromY={fromY}&width={width}&height={height}"
+    )
+    data = json.loads(resp.read().decode())
+    if "error" in data or data.get("value", 0) < miniSimilarity:
+        return False
+    showRect(data["x"] - 25, data["y"] - 25, 50, 50, "green")
+    return {"x": data["x"], "y": data["y"]}
+
+
+def findText(inputTxt, fromX=0, fromY=0, width=-1, height=-1):
+    ocr_res = aiOcr("screen", fromX, fromY, width, height)
+    for item in ocr_res:
+        if inputTxt in item["text"]:
+            showRect(item["x"] - 25, item["y"] - 25, 50, 50, "green")
+            return item
+    return False
+
+
+def findContours(minimumArea=1000, fromX=0, fromY=0, width=-1, height=-1):
+    if fromX < 0 or fromY < 0:
+        exit(f"错误：轮廓查找起始点不能为负，x:{fromX} y:{fromY}")
+    if fromX != 0 or fromY != 0 or width != -1 or height != -1:
+        showRect(fromX, fromY, width, height)
+    resp = urllib.request.urlopen(
+        f"{CppUrl}?action=findContours&minimumArea={minimumArea}&fromX={fromX}&fromY={fromY}&width={width}&height={height}"
+    )
+    contours = json.loads(resp.read().decode())
+    for c in contours:
+        c["x"] += fromX
+        c["y"] += fromY
+    return contours
+
+
+def imgSimilar(path1, path2, checkType="ORB"):
+    path1 = urlencode(os.path.abspath(path1))
+    path2 = urlencode(os.path.abspath(path2))
+    resp = urllib.request.urlopen(
+        f"{CppUrl}?action=imgSimilar&path1={path1}&path2={path2}&checkType={checkType}"
+    )
+    return json.loads(resp.read().decode())
+
+
+def paste(txt):
+    copyText(txt)
+    time.sleep(0.2)
+    keyTap("ctrl+v")
+    sleep(defaultDelay)
+
+
+def copyText(txt):
+    txt = urlencode(txt)
+    urllib.request.urlopen(f"{CppUrl}?action=copyText&txt={txt}")
+
+
+def copyFile(filepath):
+    filepath = os.path.abspath(filepath)
+    if not os.path.exists(filepath):
+        print(f"copyFile警告:文件路径不存在 {filepath}")
+    filepath = filepath.replace("\\", "/")
+    filepath = urlencode(filepath)
+    urllib.request.urlopen(f"{CppUrl}?action=copyFile&path={filepath}")
 
 
 def getClipboard():
-    """
-    * 获取当前电脑的剪切板内容，系统剪切板支持多种格式   版本 V2024.2 开始生效
-    * ①纯文本格式：普通复制  如'小瓶RPA'
-    * ②图片格式 base64形式：浏览器复制图片    'data:image/png;base64,' 开头
-    * ③html格式：浏览器或者钉钉复制富文本综合内容    '<html>'开头
-    * @returns 结果文本
-    """
-    url = f'{CppUrl}?action=getClipboard'
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
+    resp = urllib.request.urlopen(f"{CppUrl}?action=getClipboard")
+    return resp.read().decode()
 
 
-
-def wxMessage(title,content,key):
-    """
-    * 通知到手机
-    * 通过小瓶云发送微信通知 (微信到达率高，并且免费)
-    * @param {string} title 消息标题
-    * @param {string} content  消息详细内容
-    * @param {string} key  获取key详情方法：https://www.pbottle.com/a-12586.html
-    """
-    url =  f'https://yun.pbottle.com/manage/yun/?msg={urlencode(content)}&name={urlencode(title)}&key={key}';
-    response = urllib.request.urlopen(url)
-    print('发送微信消息：',response.read().decode("utf-8") );
+def wxMessage(title, content, key):
+    url = f"https://yun.pbottle.com/manage/yun/?msg={urlencode(content)}&name={urlencode(title)}&key={key}"
+    resp = urllib.request.urlopen(url)
+    print("发送微信消息：", resp.read().decode())
 
 
-
-
-def postJson(url,msgJson):
-    """
-    * 向指定API网址post一个json，最常用网络接口方式
-    * @param {string} url API网络地址 
-    * @param {object} msgJson Json对象  -- python 中为字典对象
-    * @returns 
-    """
-    # 将Python字典转换为JSON格式的字符串
-    json_data = json.dumps(msgJson).encode('utf-8')
-    # 创建请求对象
-    req = urllib.request.Request(url, data=json_data, headers={'Content-Type': 'application/json'}, method='POST')
-    # 发送POST请求
+def postJson(url, msgJson, headersJson=None, method="POST"):
+    if headersJson is None:
+        headersJson = {}
+    data = json.dumps(msgJson).encode("utf-8")
+    req = urllib.request.Request(
+        url,
+        data=data,
+        headers={"Content-Type": "application/json", **headersJson},
+        method=method,
+    )
     with urllib.request.urlopen(req) as f:
-        response = f.read().decode('utf-8')
-    return response
+        return f.read().decode()
 
 
-def cloud_GPT(question,modelLevel=0):
-    """
-    * 小瓶RPA整合的云端大语言对话模型
-    * @param {string} question 提问问题，如：'今天是xx日，你能给我写首诗吗？'
-    * @param {string} modelLevel 模型等级，不同参数大小不同定价，默认 0 为标准模型。0为低价模型；1为性价比模型；2为旗舰高智能模型；
-    * @returns {Answerinfo} JSON内容格式 {content:'结果',tokens:消耗token的数量}
-    """
-    deviceToken = deviceID()
-    rs = postJson('https://rpa.pbottle.com/API/',{"question":question,"deviceToken":deviceToken,"modelLevel":modelLevel})
-    # print(rs)
-    jsonRes = json.loads(rs)
-    return jsonRes
+def postJsonFile(url, msgJsonFile, headersJson=None, method="POST"):
+    if headersJson is None:
+        headersJson = {}
+    msgJsonFile = os.path.abspath(msgJsonFile)
+    with open(msgJsonFile, "rb") as f:
+        data = f.read()
+    req = urllib.request.Request(
+        url,
+        data=data,
+        headers={"Content-Type": "application/json", **headersJson},
+        method=method,
+    )
+    with urllib.request.urlopen(req) as f:
+        return f.read().decode()
 
 
+def getHtml(url, headersJson=None, method="GET"):
+    if headersJson is None:
+        headersJson = {}
+    req = urllib.request.Request(url, headers=headersJson, method=method)
+    with urllib.request.urlopen(req) as f:
+        return f.read().decode()
 
 
-log = print # 输出日志
-wait = time.sleep #等待，时间单位秒
+def downloadFile(fileUrl, filename, headersJson=None):
+    if headersJson is None:
+        headersJson = {}
+    filename = os.path.abspath(filename)
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    print("下载文件到:", filename)
+    req = urllib.request.Request(fileUrl, headers=headersJson)
+    with urllib.request.urlopen(req) as resp, open(filename, "wb") as out:
+        out.write(resp.read())
+
+
+def sendMail(
+    to,
+    subject,
+    content,
+    host="smtp.qq.com",
+    port=465,
+    user="leo191@foxmail.com",
+    passwd="fxfqtsxmwcohbcbc",
+):
+    if user == "leo191@foxmail.com":
+        content += "\n\n 请不要将演示测试邮箱用作实际业务，详细查看：https://rpa.pbottle.com/a-14106.html"
+    msg = MIMEText(content, "plain", "utf-8")
+    msg["From"] = f'"小瓶RPA" <{user}>'
+    msg["To"] = to
+    msg["Subject"] = Header(subject, "utf-8")
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(host, port, context=context) as server:
+        server.login(user, passwd)
+        server.sendmail(user, [to], msg.as_string())
+    return "✅ 邮件发送成功"
+
+
+def tts(text):
+    text = urlencode(text)
+    urllib.request.urlopen(f"{CppUrl}?action=tts&txt={text}")
+    sleep(defaultDelay)
+
+
+def openURL(myurl):
+    urllib.request.urlopen(f"{CppUrl}?action=setWebReadyPage")
+    myurl = urlencode(myurl)
+    urllib.request.urlopen(f"{CppUrl}?action=openURL&url={myurl}")
+    sleep(defaultDelay + 1000)
+
+
+def openDir(filePath):
+    filePath = os.path.abspath(filePath)
+    filePath = urlencode(filePath)
+    urllib.request.urlopen(f"{CppUrl}?action=openDir&path={filePath}")
+    sleep(defaultDelay)
+
+
+openfile = openDir
+
+
+def getResolution():
+    resp = urllib.request.urlopen(f"{CppUrl}?action=getResolution")
+    return json.loads(resp.read().decode())
+
+
+def aiOcr(imagePath="screen", x=0, y=0, width=-1, height=-1):
+    if not imagePath:
+        imagePath = "screen"
+    if x < 0 or y < 0:
+        exit(f"错误：OCR 起始点不能为负，x:{x} y:{y}")
+    if x != 0 or y != 0 or width != -1 or height != -1:
+        showRect(x, y, width, height)
+    if imagePath != "screen":
+        imagePath = os.path.abspath(imagePath)
+        imagePath = urlencode(imagePath)
+    resp = urllib.request.urlopen(
+        f"{CppUrl}?action=aiOcr&path={imagePath}&x={x}&y={y}&width={width}&height={height}&onlyEn=0"
+    )
+    res = resp.read().decode()
+    if res == "文字识别引擎未启动":
+        print("⚠ 文字识别引擎未启动，请在软件设置中开启")
+        exit()
+    items = json.loads(res)
+    for it in items:
+        it["x"] += x
+        it["y"] += y
+    return items
+
+
+def aiObject(minimumScore=0.5, x=0, y=0, width=-1, height=-1):
+    if x < 0 or y < 0:
+        exit(f"错误：物体识别起始点不能为负，x:{x} y:{y}")
+    if x != 0 or y != 0 or width != -1 or height != -1:
+        showRect(x, y, width, height)
+    resp = urllib.request.urlopen(
+        f"{CppUrl}?action=aiObject&minimumScore={minimumScore}&x={x}&y={y}&width={width}&height={height}&onlyEn=0"
+    )
+    res = resp.read().decode()
+    if res == "物体识别引擎未启动":
+        print("⚠ 物体识别引擎未启动，请在软件设置中开启")
+        exit()
+    items = json.loads(res)
+    for it in items:
+        it["x"] += x
+        it["y"] += y
+        showRect(it["x"], it["y"], it["width"], it["height"], "green")
+    return items
+
+
+def zipDir(directory, zipFilePath=""):
+    if not zipFilePath:
+        zipFilePath = os.path.join(directory, "RPA生成的压缩包.zip")
+    directory = os.path.abspath(directory)
+    zipFilePath = os.path.abspath(zipFilePath)
+    exe = os.path.join(basePath, "bin", "7za") if basePath else "7za"
+    if sys.platform == "win32":
+        exe = os.path.join(basePath, "bin", "7za.exe") if basePath else "7za"
+    try:
+        subprocess.run(
+            f'"{exe}" a "{zipFilePath}" "{directory}"',
+            shell=True,
+            check=True,
+            capture_output=True,
+        )
+    except subprocess.CalledProcessError as e:
+        if "Headers Error" not in e.stderr.decode():
+            print(f"压缩失败: {e}")
+
+
+def unZip(zipFilePath, directory=""):
+    if not directory:
+        directory = os.path.dirname(zipFilePath)
+    zipFilePath = os.path.abspath(zipFilePath)
+    directory = os.path.abspath(directory)
+    exe = os.path.join(basePath, "bin", "7za") if basePath else "7za"
+    if sys.platform == "win32":
+        exe = os.path.join(basePath, "bin", "7za.exe") if basePath else "7za"
+    try:
+        subprocess.run(
+            f'"{exe}" x "{zipFilePath}" -o"{directory}" -aoa',
+            shell=True,
+            check=True,
+            capture_output=True,
+        )
+    except subprocess.CalledProcessError as e:
+        print(f"解压缩失败: {e}")
+
+
+def bufferGet(n=0):
+    resp = urllib.request.urlopen(f"{CppUrl}?action=bufferGet&n={n}")
+    return resp.read().decode()
+
+
+def bufferSet(content, n=0):
+    return postJson(f"{CppUrl}?action=bufferSet&n={n}", content)
+
+
+def delaySet(scriptPath=""):
+    if scriptPath:
+        scriptPath = os.path.abspath(scriptPath)
+    scriptPath = urlencode(scriptPath)
+    resp = urllib.request.urlopen(f"{CppUrl}?action=pbottleRPA_delay&path={scriptPath}")
+    return resp.read().decode()
 
 
 def deviceID():
-    """
-    获取当前设备ID号
-    """
-    url = f'{CppUrl}?action=pbottleRPA_deviceID'
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
+    resp = urllib.request.urlopen(f"{CppUrl}?action=pbottleRPA_deviceID")
+    return resp.read().decode()
 
 
-def openDir(path):
-    """
-    * 用资源管理器打开展示文件夹
-    * @param {string} path 文件夹路径  如：'./input/RPAlogo128.png'  Windows磁盘路径分隔符要双 '\\'
-    """
-    path = urlencode(path)
-    url = f'{CppUrl}?action=openDir&path={path}'
-    response = urllib.request.urlopen(url)
-    sleep(defaultDelay);
+def clusterCenter():
+    resp = urllib.request.urlopen(f"{CppUrl}?action=pbottleRPA_clusterCenter")
+    return resp.read().decode()
 
 
+# ========== Cloud 模块 ==========
+class cloud:
+    @staticmethod
+    def GPT(question, modelLevel=0, options=None):
+        if options is None:
+            options = {
+                "response_format": "text",
+                "temperature": 0.75,
+                "enable_search": False,
+            }
+        if len(question) < 3:
+            exit("问题过短，请输入至少2个字符")
+        data = {
+            "question": question,
+            "deviceToken": deviceID(),
+            "modelLevel": modelLevel,
+            "options": options,
+        }
+        resp = postJson("https://rpa.pbottle.com/API/", data)
+        result = json.loads(resp)
+        if result.get("error"):
+            exit(f"错误: {result['error']}")
+        return result
 
-def getScreenColor(x,y):
-    """
-    * 屏幕一个点取色
-    * @param {number} x 
-    * @param {number} y 
-    * @returns 返回颜色值
-    """
-    url = f'{CppUrl}?action=getScreenColor&x={x}&y={y}'
-    response = urllib.request.urlopen(url)
-    jsonRes = json.loads(response.read().decode("utf-8"))
-    return jsonRes["rs"];
+    @staticmethod
+    def GPTV(question, imagePath, modelLevel=0):
+        imagePath = os.path.abspath(imagePath)
+        if not os.path.exists(imagePath):
+            exit("输入分析图片不存在：cloud_GPTV")
+        with open(imagePath, "rb") as f:
+            img_b64 = base64.b64encode(f.read()).decode()
+        temp_json = os.path.join(tempfile.gettempdir(), "cloud_GPTV.json")
+        with open(temp_json, "w") as f:
+            json.dump(
+                {
+                    "question": question,
+                    "deviceToken": deviceID(),
+                    "modelLevel": modelLevel,
+                    "image_base64": img_b64,
+                },
+                f,
+            )
+        resp = postJsonFile("https://rpa.pbottle.com/API/gptv", temp_json)
+        result = json.loads(resp)
+        if result.get("error"):
+            exit(f"错误 cloud_GPTV: {result['error']}")
+        return result
+
+    @staticmethod
+    def GPTA(action="点击", question="桌面微信图标"):
+        device_token = deviceID()
+        tmp_img = os.path.join(
+            homePath if homePath else tempfile.gettempdir(), "cloud_GPT_do.png"
+        )
+        tmp_json = os.path.join(
+            homePath if homePath else tempfile.gettempdir(), "cloud_GPTV.json"
+        )
+        screenShot(tmp_img)
+        with open(tmp_img, "rb") as f:
+            img_b64 = "data:image/png;base64," + base64.b64encode(f.read()).decode()
+        with open(tmp_json, "w") as f:
+            json.dump(
+                {
+                    "question": question,
+                    "deviceToken": device_token,
+                    "image_base64": img_b64,
+                },
+                f,
+            )
+        resp = postJsonFile("https://rpa.pbottle.com/API/gpta", tmp_json)
+        result = json.loads(resp)
+        if result.get("error"):
+            exit(f"错误 cloud_GPTA: {result['error']}")
+        print(result)
+        boxes = result["content"].split("\n")
+        resolution = getResolution()
+        for box_str in boxes:
+            if not box_str.strip():
+                continue
+            box = json.loads(box_str)
+            x1 = box[0] / 1000.0 * resolution["w"]
+            y1 = box[1] / 1000.0 * resolution["h"]
+            x2 = box[2] / 1000.0 * resolution["w"]
+            y2 = box[3] / 1000.0 * resolution["h"]
+            showRect(x1, y1, x2 - x1, y2 - y1, "green")
+            cx = int(round((x1 + x2) / 2))
+            cy = int(round((y1 + y2) / 2))
+            print(f"{question} 的位置: ({cx}, {cy})")
+            moveMouseSmooth(cx, cy)
+            if action == "点击":
+                mouseClick("left")
+            elif action == "双击":
+                mouseDoubleClick()
+            elif action == "右键":
+                mouseClick("right")
 
 
-def findScreen(tpPath,miniSimilarity=0.9,fromX=0,fromY=0,width=-1,height=-1):
-    """
-    * 屏幕查找图象定位
-    * @param {string} tpPath 搜索的小图片，建议png格式  相对路径
-    * @param {number} miniSimilarity 可选，指定最低相似度，默认0.9。取值0-1，1为找到完全相同的。
-    * @param {number} fromX=0 可选，查找开始的开始横坐标
-    * @param {number} fromY=0 可选，查找开始的开始纵坐标
-    * @param {number} width=-1 可选，搜索宽度
-    * @param {number} height=-1 可选，搜索高度
-    * @returns 返回找到的结果json 格式：{x,y}  python 为字典格式
-    """
+# ========== 浏览器增强模块 ==========
+class browserCMD:
+    @staticmethod
+    def alert(msg):
+        code = json.dumps({"action": "alert", "args": [msg]})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
 
-    if (fromX<0 or fromY<0) :
-        exit('错误：找图起始点不能为负，x:{fromX} y:{fromY}')
-    
-    if (fromX!=0 or fromY!=0 or width!=-1 or height!=-1) :
-        showRect(fromX,fromY,width,height);
+    @staticmethod
+    def closeTab(type="current"):
+        code = json.dumps({"action": "closeTab", "args": [type]})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
 
-    tpPath = jsPath+tpPath;
-    tpPath = urlencode(tpPath)
-    url = f'{CppUrl}?action=findScreen&imgPath={tpPath}&fromX={fromX}&fromY={fromY}&width={width}&height={height}'
+    @staticmethod
+    def fetch(fetch_url, options=None):
+        if options is None:
+            options = {}
+        code = json.dumps({"action": "fetch", "args": [fetch_url, options]})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
 
-    response = urllib.request.urlopen(url)
-    jsonRes = json.loads(response.read().decode("utf-8"))
+    @staticmethod
+    def waitPageReady(readyURL, timeout=20):
+        url = f"{CppUrl}?action=getWebReadyPage"
+        for _ in range(timeout):
+            res = getHtml(url)
+            if res == readyURL:
+                return res
+            sleep(1000)
+            print("等待页面加载完成...")
+        exit("❌ waitPageReady 错误: 等待页面加载超时")
 
-    if "error" in jsonRes:
-        return False
-    if (jsonRes["value"]<miniSimilarity) :
-        return False
-    showRect(jsonRes["x"]-25,jsonRes["y"]-25,50,50,'green')
-    return jsonRes
+    @staticmethod
+    def url(urlStr=None):
+        args = [urlStr] if urlStr is not None else []
+        code = json.dumps({"action": "url", "args": args})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
+
+    @staticmethod
+    def count(selector):
+        code = json.dumps({"action": "count", "args": [selector]})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return int(resp) if isNumeric(resp) else 0
+
+    @staticmethod
+    def dblclick(selector, options=None):
+        if options is None:
+            options = {}
+        code = json.dumps({"action": "dblclick", "args": [selector, options]})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
+
+    @staticmethod
+    def offset(selector):
+        code = json.dumps({"action": "offset", "args": [selector]})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return json.loads(resp)
+
+    @staticmethod
+    def click(selector, options=None):
+        if options is None:
+            options = {}
+        code = json.dumps({"action": "click", "args": [selector, options]})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
+
+    @staticmethod
+    def show(selector):
+        code = json.dumps({"action": "show", "args": [selector]})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
+
+    @staticmethod
+    def hide(selector):
+        code = json.dumps({"action": "hide", "args": [selector]})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
+
+    @staticmethod
+    def remove(selector):
+        code = json.dumps({"action": "remove", "args": [selector]})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
+
+    @staticmethod
+    def text(selector, content=None):
+        args = [selector] if content is None else [selector, content]
+        code = json.dumps({"action": "text", "args": args})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
+
+    @staticmethod
+    def html(selector, content=None):
+        args = [selector] if content is None else [selector, content]
+        code = json.dumps({"action": "html", "args": args})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
+
+    @staticmethod
+    def val(selector, content=None):
+        args = [selector] if content is None else [selector, content]
+        code = json.dumps({"action": "val", "args": args})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
+
+    @staticmethod
+    def cookie(cName, cValue=None, expDays=None):
+        args = [cName]
+        if cValue is not None:
+            args.append(cValue)
+        if expDays is not None:
+            args.append(expDays)
+        code = json.dumps({"action": "cookie", "args": args})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
+
+    @staticmethod
+    def css(selector, propertyname, value=None):
+        args = (
+            [selector, propertyname]
+            if value is None
+            else [selector, propertyname, value]
+        )
+        code = json.dumps({"action": "css", "args": args})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
+
+    @staticmethod
+    def attr(selector, propertyname, value=None):
+        args = (
+            [selector, propertyname]
+            if value is None
+            else [selector, propertyname, value]
+        )
+        code = json.dumps({"action": "attr", "args": args})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
+
+    @staticmethod
+    def prop(selector, propertyname, value=None):
+        args = (
+            [selector, propertyname]
+            if value is None
+            else [selector, propertyname, value]
+        )
+        code = json.dumps({"action": "prop", "args": args})
+        resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
+        return resp
 
 
+# ========== 硬件级 hid 模块 ==========
+class hid:
+    @staticmethod
+    def keyToggle(key, upDown="down"):
+        key_n = keycode(key)
+        if key_n == 0:
+            print(f"⚠ 按键 {key} 不存在！~")
+            return
+        upDown_n = 0 if upDown != "up" else 2
+        urllib.request.urlopen(
+            f"{CppUrl}?action=keyToggleHardWare&key_n={key_n}&upDown_n={upDown_n}"
+        )
 
-def waitImage(tpPath, intervalFun = None, timeOut = 30):
-    """
-    * 常用工具
-    * 等待屏幕上的图片出现
-    * @param {string} tpPath 图片模板路径
-    * @param {Function} intervalFun 检测间隔的操作，function格式
-    * @param {number} timeOut 等待超时时间 单位秒
-    * @returns 结果的位置信息，json格式：{x,y}
-    """
-    print('waitImage',tpPath)
-    for index in range(timeOut):
+    @staticmethod
+    def keyTap(key):
+        if "+" in key:
+            parts = [p.strip() for p in key.split("+")]
+            for p in parts:
+                hid.keyToggle(p, "down")
+            for p in reversed(parts):
+                hid.keyToggle(p, "up")
+        else:
+            hid.keyToggle(key, "down")
+            hid.keyToggle(key, "up")
+        sleep(defaultDelay)
+
+    @staticmethod
+    def _mouseCMD(button=1, x=0, y=0, wheel=0, time_ms=10):
+        urllib.request.urlopen(
+            f"{CppUrl}?action=mouseDataHardWare&bt={button}&x={x}&y={y}&wheel={wheel}&time={time_ms}"
+        )
+
+    @staticmethod
+    def moveMouse(x, y):
+        hid._mouseCMD(0, int(round(x)), int(round(y)), 0, 10)
+
+    @staticmethod
+    def mouseClick(button="left", time_ms=10):
+        bt = {"left": 1, "right": 2, "middle": 4}.get(button, 1)
+        hid._mouseCMD(bt, 0, 0, 0, time_ms)
+        hid._mouseCMD(0, 0, 0, 0, 0)
+        sleep(defaultDelay)
+
+    @staticmethod
+    def moveAndClick(x, y):
+        hid.moveMouse(x, y)
+        hid.mouseClick()
+
+    @staticmethod
+    def mouseDoubleClick():
+        hid.mouseClick("left", 10)
+        hid.mouseClick("left", 10)
+        sleep(defaultDelay)
+
+    @staticmethod
+    def mouseLeftDragTo(x, y):
+        hid._mouseCMD(1, 0, 0, 0, 10)
+        hid._mouseCMD(1, int(round(x)), int(round(y)), 0, 10)
+        hid._mouseCMD(0, 0, 0, 0, 0)
+        sleep(defaultDelay)
+
+    @staticmethod
+    def mouseRightDragTo(x, y):
+        hid._mouseCMD(2, 0, 0, 0, 10)
+        hid._mouseCMD(2, int(round(x)), int(round(y)), 0, 10)
+        hid._mouseCMD(0, 0, 0, 0, 0)
+        sleep(defaultDelay)
+
+    @staticmethod
+    def mouseWheel(data=-1):
+        hid._mouseCMD(0, 0, 0, data, 0)
+        hid._mouseCMD(0, 0, 0, 0, 0)
+        sleep(defaultDelay)
+
+
+# ========== 等待函数 ==========
+def waitImage(tpPath, intervalFun=None, timeOut=30, miniSimilarity=0.85):
+    print("waitImage", tpPath)
+    for _ in range(timeOut):
         sleep(1000)
-        position = findScreen(tpPath)
-        if (position != False) :
-            return position
-        if (intervalFun() == 'stopWait') :
-            print('stopWait from intervalFun');
+        pos = findScreen(tpPath, miniSimilarity)
+        if pos:
+            return pos
+        if intervalFun and intervalFun() == "stopWait":
+            print("stopWait from intervalFun")
             return False
-    #error
-    lineNumber = inspect.currentframe().f_back.f_lineno
-    exit(f'等待图片超时 ${tpPath} 位置（行）:{lineNumber}')
+    print("已经保存超时截图到：我的图片")
+    screenShot()
+    frame = inspect.currentframe().f_back
+    exit(f"等待图片超时 {tpPath} 位置（行）:{frame.f_lineno}")
 
 
-
-"""
-以下是浏览器增强插件接口 🌐
-以下是浏览器增强插件接口 🌐
-以下是浏览器增强插件接口 🌐
-"""
-
-def browserCMD_alert(msg):
-    """
-    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
-    * 警告框
-    * @param {string} msg 显示文本内容
-    * @returns  正常返回ok
-    """
-    action = 'alert'
-    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":[msg]}))
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
+def waitImageDisappear(tpPath, intervalFun=None, timeOut=30, miniSimilarity=0.85):
+    print("waitImageDisappear", tpPath)
+    for _ in range(timeOut):
+        sleep(1000)
+        pos = findScreen(tpPath, miniSimilarity)
+        if not pos:
+            return "ok"
+        if intervalFun and intervalFun() == "stopWait":
+            print("stopWait from intervalFun")
+            return False
+    print("已经保存超时截图到：我的图片")
+    screenShot()
+    frame = inspect.currentframe().f_back
+    exit(f"等待图片消失超时 {tpPath} 位置（行）:{frame.f_lineno}")
 
 
-
-def browserCMD_click(selector):
-    """
-    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
-    * 模拟点击   参考 jQuery click() 方法，改为浏览器 native 的 click() 并获取焦点
-    * @param {string} selector   元素选择器
-    * @returns 
-    """
-    action = 'click'
-    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":[selector]}))
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
-
-
-def browserCMD_show(selector):
-    """
-    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
-    * 显示   参考 jQuery show() 方法 
-    * @param {string} selector   元素选择器
-    * @returns 
-    """
-    action = 'show'
-    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":[selector]}))
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
+def waitFile(dirPath, keyWords="", intervalFun=None, timeOut=30):
+    print("waitFile", dirPath, keyWords)
+    for _ in range(timeOut):
+        sleep(1000)
+        files = searchFile(dirPath, keyWords)
+        if hasData(files):
+            return files
+        if intervalFun and intervalFun() == "stopWait":
+            print("stopWait from intervalFun")
+            return False
+    frame = inspect.currentframe().f_back
+    exit(f"等待文件超时：{dirPath} 位置（行）:{frame.f_lineno}")
 
 
-
-def browserCMD_hide(selector):
-    """
-    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
-    * 隐藏   参考 jQuery hide() 方法 
-    * @param {string} selector   元素选择器
-    * @returns 
-    """
-    action = 'hide'
-    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":[selector]}))
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
-
-
-def browserCMD_remove(selector):
-    """
-    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
-    * 移除元素   参考 jQuery remove() 方法 
-    * @param {string} selector   元素选择器
-    * @returns 
-    """
-    action = 'remove'
-    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":[selector]}))
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
+def waitFileDisappear(dirPath, keyWords="", intervalFun=None, timeOut=30):
+    print("waitFileDisappear", dirPath, keyWords)
+    for _ in range(timeOut):
+        sleep(1000)
+        files = searchFile(dirPath, keyWords)
+        if not hasData(files):
+            return True
+        if intervalFun and intervalFun() == "stopWait":
+            print("stopWait from intervalFun")
+            return False
+    frame = inspect.currentframe().f_back
+    exit(f"等待文件错误：{dirPath} 位置（行）:{frame.f_lineno}")
 
 
-
-def browserCMD_val(selector,content=None):
-    """
-    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
-    * 获取或设置值 input select等   参考 jQuery val() 方法
-    * @param {string} selector  元素选择器
-    * @param {string} content  可选，值
-    * @returns 选择多个元素时会返回一个数组
-    """
-    action = 'val'
-    args = [selector]
-    if content is not None:
-        args.append(content)
-    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":args}))
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
+def waitInput(inputPrompt="输入提示词", timeOut=600):
+    print("waitInput 等待用户输入：", inputPrompt)
+    inputPrompt = urlencode(inputPrompt)
+    getHtml(f"{CppUrl}?action=waitInput&inputPrompt={inputPrompt}")
+    for _ in range(timeOut):
+        sleep(1000)
+        res = getHtml(f"{CppUrl}?action=waitInputResult")
+        if hasData(res):
+            showMsg("用户输入了：", res)
+            return res
+    return ""
 
 
-def browserCMD_text(selector,content=None):
-    """
-    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
-    * 获取或者设置文本   参考 jQuery text() 方法
-    * @param {string} selector  元素选择器
-    * @param {string} content 可选
-    * @returns 选择多个元素时会返回一个数组
-    """
-    action = 'text'
-    args = [selector]
-    if content is not None:
-        args.append(content)
-    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":args}))
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
+# ========== 中文别名 ==========
+设置默认操作延时 = setDefaultDelay
+蜂鸣声 = beep
+显示系统消息 = showMsg
+关闭软件 = kill
+显示标记框 = showRect
+退出流程 = exit
+睡眠毫秒 = sleep
+等待 = wait
+鼠标移动 = moveMouseSmooth
+鼠标移动并点击 = moveAndClick
+鼠标点击 = mouseClick
+鼠标双击 = mouseDoubleClick
+鼠标滚轮 = mouseWheel
+鼠标左键拖动 = mouseLeftDragTo
+鼠标右键拖动 = mouseRightDragTo
+获取屏幕颜色 = getScreenColor
+屏幕截图 = screenShot
+键盘基础触发 = keyToggle
+鼠标基础触发 = mouseKeyToggle
+键盘按键 = keyTap
+寻找图像 = findScreen
+寻找文字 = findText
+寻找轮廓 = findContours
+粘贴输入 = paste
+图片相似度对比 = imgSimilar
+复制文字 = copyText
+复制文件 = copyFile
+获取剪切板内容 = getClipboard
+微信消息发送 = wxMessage
+提交json = postJson
+提交json文件 = postJsonFile
+请求网址 = getHtml
+发送邮件 = sendMail
+下载文件 = downloadFile
+文字转语音 = tts
+打开网址 = openURL
+打开目录 = openDir
+打开文件 = openfile
+获取屏幕分辨率 = getResolution
+文字识别 = aiOcr
+物体识别 = aiObject
+压缩 = zipDir
+解压缩 = unZip
+是否数字 = isNumeric
+是否有内容 = hasData
+获取格式化时间 = getTime
+搜索文件 = searchFile
+唯一数 = uniqid
+截取文本 = substringFromTo
+等待图像出现 = waitImage
+等待图像消失 = waitImageDisappear
+等待文件 = waitFile
+等待文件消失 = waitFileDisappear
+等待输入 = waitInput
 
-
-def browserCMD_html(selector,content=None):
-    """
-    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
-    * 获取或者设置html   参考 jQuery html() 方法
-    * @param {string} selector  元素选择器
-    * @param {string} content  可选
-    * @returns 选择多个元素时会返回一个数组
-    """
-    action = 'html'
-    args = [selector]
-    if content is not None:
-        args.append(content)
-    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":args}))
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
-
-
-def browserCMD_cookie(cName,cValue=None,expDays=None):
-    """
-    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
-    * 获取或设置当前站点的 cookie
-    * @param {string} cName  cookie 名称 
-    * @param {string} cValue cookie 值  留空为获取cookie的值
-    * @param {number} expDays cookie 过期时间，单位：天, 留空为会话cookie
-    * @returns  返回 cookie的值
-    """
-    action = 'cookie'
-    args = [cName]
-    if cValue is not None:
-        args.append(cValue)
-    if expDays is not None:
-        args.append(expDays)
-    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":args}))
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
-
-
-def browserCMD_css(selector,propertyname,value=None):
-    """
-    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
-    * 获取或设置css样式   参考 jQuery css() 方法
-    * @param {string} selector  元素选择器
-    * @param {string} propertyname 名
-    * @param {string} value 值
-    * @returns 
-    """
-    action = 'css'
-    args = [selector,propertyname]
-    if value is not None:
-        args.append(value)
-    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":args}))
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
-
-
-def browserCMD_attr(selector,propertyname,value=None):
-    """
-    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
-    * 获取或设置attr属性   参考 jQuery attr() 方法
-    * @param {string} selector 元素选择器
-    * @param {string} propertyname 属性名
-    * @param {string} value 值
-    * @returns 
-    """
-    action = 'attr'
-    args = [selector,propertyname]
-    if value is not None:
-        args.append(value)
-    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":args}))
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
-
-
-def browserCMD_prop(selector,propertyname,value=None):
-    """
-    * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
-    * 获取或设置prop属性   参考 jQuery prop() 方法
-    * @param {string} selector 元素选择器
-    * @param {string} propertyname 属性名
-    * @param {string} value 值
-    """
-    action = 'prop'
-    args = [selector,propertyname]
-    if value is not None:
-        args.append(value)
-    url = f"{CppUrl}?action=webInject&jscode=" + urlencode(json.dumps({"action":action,"args":args}))
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
-
-
-
-"""
-入口检测
-"""
-
-if __name__ == '__main__':
-    """
-    入口检测提示
-    """
-    print('当前文件不能执行',"请直接执行中文名的脚本文件");
-    showMsg('当前文件不能执行',"请直接执行中文名的脚本文件");
-    exit()
+# ========== 入口检测 ==========
+if __name__ == "__main__":
+    print("当前文件不能执行", "请直接执行中文名的脚本文件")
+    showMsg("当前文件不能执行", "请直接执行中文名的脚本文件")
+    sys.exit(1)
