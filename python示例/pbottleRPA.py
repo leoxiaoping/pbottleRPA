@@ -18,6 +18,8 @@ encodeURIComponent -> urlencode
 import time
 import json
 import sys
+import io
+import zipfile
 import os
 import inspect
 import urllib.request
@@ -33,11 +35,14 @@ from email.mime.text import MIMEText
 from email.utils import formataddr
 
 # ========== 全局配置 ==========
-jsPath = os.getcwd()
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
+pyPath = os.path.dirname(os.path.abspath(__file__))
 basePath = os.environ.get("RPAbaseDir", "")
 homePath = os.environ.get("RPAhomeDir", "")
 CppUrl = "http://127.0.0.1:49888/"
 defaultDelay = 1000
+
 
 print("基座服务地址：（Python）", CppUrl, "Python版本为beta阶段，请斟酌使用到生产环境")
 
@@ -871,7 +876,7 @@ def aiObject(minimumScore=0.5, x=0, y=0, width=-1, height=-1):
 
 def zipDir(directory, zipFilePath=""):
     """
-    压缩文件夹为ZIP文件（使用7za）
+    压缩文件夹为ZIP文件（使用Python标准库zipfile）
     @param directory: 要压缩的文件夹路径
     @param zipFilePath: 输出ZIP路径，默认在目录下生成
     """
@@ -879,19 +884,12 @@ def zipDir(directory, zipFilePath=""):
         zipFilePath = os.path.join(directory, "RPA生成的压缩包.zip")
     directory = os.path.abspath(directory)
     zipFilePath = os.path.abspath(zipFilePath)
-    exe = os.path.join(basePath, "bin", "7za") if basePath else "7za"
-    if sys.platform == "win32":
-        exe = os.path.join(basePath, "bin", "7za.exe") if basePath else "7za"
-    try:
-        subprocess.run(
-            f'"{exe}" a "{zipFilePath}" "{directory}"',
-            shell=True,
-            check=True,
-            capture_output=True,
-        )
-    except subprocess.CalledProcessError as e:
-        if "Headers Error" not in e.stderr.decode():
-            print(f"压缩失败: {e}")
+    with zipfile.ZipFile(zipFilePath, "w", zipfile.ZIP_DEFLATED) as zipf:
+        for root, dirs, files in os.walk(directory):
+            for file in files:
+                file_path = os.path.join(root, file)
+                arcname = os.path.relpath(file_path, directory)
+                zipf.write(file_path, arcname)
 
 
 def unZip(zipFilePath, directory=""):
@@ -904,18 +902,9 @@ def unZip(zipFilePath, directory=""):
         directory = os.path.dirname(zipFilePath)
     zipFilePath = os.path.abspath(zipFilePath)
     directory = os.path.abspath(directory)
-    exe = os.path.join(basePath, "bin", "7za") if basePath else "7za"
-    if sys.platform == "win32":
-        exe = os.path.join(basePath, "bin", "7za.exe") if basePath else "7za"
-    try:
-        subprocess.run(
-            f'"{exe}" x "{zipFilePath}" -o"{directory}" -aoa',
-            shell=True,
-            check=True,
-            capture_output=True,
-        )
-    except subprocess.CalledProcessError as e:
-        print(f"解压缩失败: {e}")
+    os.makedirs(directory, exist_ok=True)
+    with zipfile.ZipFile(zipFilePath, "r") as zipf:
+        zipf.extractall(directory)
 
 
 def bufferGet(n=0):

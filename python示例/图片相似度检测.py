@@ -19,7 +19,7 @@ pbottleRPA.setDefaultDelay(0)
 # 设置默认操作延时为0，手动管理所有操作延时
 
 dir = SCRIPT_DIR + "/input/"
-# 定义图片文件所在目录路径，__dirname表示当前脚本所在的目录
+# 定义图片文件所在目录路径
 path1 = dir + "RPAlogo128.png"
 # 定义第一张图片的完整路径
 path2 = dir + "RPAlogo128.png"
