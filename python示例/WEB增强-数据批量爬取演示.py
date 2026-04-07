@@ -31,7 +31,7 @@ pbottleRPA.keyTap('page down')
 
 
 #开始获取网页上的数据
-rs = pbottleRPA.browserCMD_text('a.list-group-item')
+rs = pbottleRPA.browserCMD.text('a.list-group-item')
 if rs == '20s超时':
     pbottleRPA.showMsg('出现错误：','必须先安装浏览器增强插件和联网')
     pbottleRPA.exit()

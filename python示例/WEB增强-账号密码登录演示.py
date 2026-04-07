@@ -24,31 +24,31 @@ pbottleRPA.showMsg('提示：','必须先安装浏览器增强插件')
 pbottleRPA.openURL('https://yun.pbottle.com/?from=rpademo')
 
 
-ret = pbottleRPA.browserCMD_alert('来自小瓶RPA的问候，手动点击确定开始，20秒超时')
+ret = pbottleRPA.browserCMD.alert('来自小瓶RPA的问候，手动点击确定开始，20秒超时')
 print('返回操作结果',ret);
 if (ret != 'ok'):
     print('没有检测到小瓶RPA浏览器插件',ret);
     pbottleRPA.exit(1)
 
 #点击登录按钮
-pbottleRPA.browserCMD_click("a[role='button']:contains(登录或注册)")
+pbottleRPA.browserCMD.click("a[role='button']:contains(登录或注册)")
 pbottleRPA.sleep(2000)
 
-pbottleRPA.browserCMD_click("a[role='button']:contains(用帐号密码登录)")
+pbottleRPA.browserCMD.click("a[role='button']:contains(用帐号密码登录)")
 pbottleRPA.sleep(1000)
 
 
 #输入账号密码
-pbottleRPA.browserCMD_click("input[name='uname']")
-pbottleRPA.browserCMD_val("input[name='uname']",'test')
+pbottleRPA.browserCMD.click("input[name='uname']")
+pbottleRPA.browserCMD.val("input[name='uname']",'test')
 
-pbottleRPA.browserCMD_click("input[name='pwd']")
-pbottleRPA.browserCMD_val("input[name='pwd']",'123456')
+pbottleRPA.browserCMD.click("input[name='pwd']")
+pbottleRPA.browserCMD.val("input[name='pwd']",'123456')
 pbottleRPA.sleep(1000)
 
 
 #登录按钮
-pbottleRPA.browserCMD_click("button:contains(登录帐号)")
+pbottleRPA.browserCMD.click("button:contains(登录帐号)")
 pbottleRPA.sleep(3000)
 
 pbottleRPA.keyTap('enter')

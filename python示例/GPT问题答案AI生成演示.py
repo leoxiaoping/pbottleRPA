@@ -19,7 +19,7 @@ for index,ask in enumerate(asks):
     print(f'问题 {index+1}：',ask);
     pbottleRPA.tts(ask)
 
-    rs = pbottleRPA.cloud_GPT(ask)
+    rs = pbottleRPA.cloud.GPT(ask)
     pbottleRPA.log('云端 AI 生成答案:',rs['content'])
     pbottleRPA.log('------------')
     pbottleRPA.log()
