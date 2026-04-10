@@ -21,8 +21,9 @@ pbottleRPA.日志输出('当前电脑屏幕分辨率',屏幕分辨率)
 
 
 if (屏幕分辨率.ratio !==1) {
-    pbottleRPA.文字转语音('错误：此demo只适配无缩放屏幕') 
-    pbottleRPA.日志输出('错误：此demo只适配无缩放屏幕');   
+    pbottleRPA.文字转语音('警告：此demo只适配无缩放屏幕')
+    pbottleRPA.显示系统消息('警告：此demo只适配无缩放屏幕')
+    pbottleRPA.日志输出('⚠ 警告：此demo只适配无缩放屏幕')
     pbottleRPA.等待(6)                          
     pbottleRPA.退出流程()                       
 }
