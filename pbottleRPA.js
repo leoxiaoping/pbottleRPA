@@ -603,7 +603,7 @@ exports.键盘按键 = keyTap
 
 /**
  * 屏幕查找图象定位
- * @param {string} tpPath 搜索的小图片，建议png格式  相对路径:./image/123.png
+ * @param {string|Array} tpPaths 搜索的小图片，建议png格式  相对路径:./image/123.png
  * @param {number} miniSimilarity 可选，指定最低相似度，默认0.85。取值0-1，1为找到完全相同的。
  * @param {number} fromX=0 可选，查找开始的开始横坐标
  * @param {number} fromY=0 可选，查找开始的开始纵坐标
@@ -611,7 +611,7 @@ exports.键盘按键 = keyTap
  * @param {number} height=-1 可选，搜索高度
  * @returns {{x:number,y:number}|false} 返回找到的结果json 格式：{x,y} 相对于左上角原点
  */
-var findScreen = (tpPath, miniSimilarity = 0.85, fromX = 0, fromY = 0, width = -1, height = -1) => {
+var findScreen = (tpPaths, miniSimilarity = 0.85, fromX = 0, fromY = 0, width = -1, height = -1) => {
 
     if (fromX < 0 || fromY < 0) {
         exit(`错误：找图起始点不能为负，x:${fromX} y:${fromY} `);
@@ -621,26 +621,34 @@ var findScreen = (tpPath, miniSimilarity = 0.85, fromX = 0, fromY = 0, width = -
         showRect(fromX, fromY, width, height);
     }
 
-    tpPath = path.resolve(tpPath)
-    tpPath = encodeURIComponent(tpPath)
-    let url = `${CppUrl}?action=findScreen&imgPath=${tpPath}&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}`
-    // console.log(url)
-    let res = getHtml(url)
+    tpPaths = Array.isArray(tpPaths) ? tpPaths : [tpPaths]
+    console.log(tpPaths);
+    
+    
+    for (let index = 0; index < tpPaths.length; index++) {
+        let tpPath = tpPaths[index];
+        tpPath = path.resolve(tpPath)
+        tpPath = encodeURIComponent(tpPath)
+        let url = `${CppUrl}?action=findScreen&imgPath=${tpPath}&fromX=${fromX}&fromY=${fromY}&width=${width}&height=${height}`
+        // console.log(url)
+        let res = getHtml(url)
 
-    // console.log(res.getBody('utf8'));
-    let jsonRes = JSON.parse(res);
-    // console.log(jsonRes);
+        // console.log(res.getBody('utf8'));
+        let jsonRes = JSON.parse(res);
 
-    if (jsonRes.error) {
-        console.log(jsonRes.error);
-        return false;
+        // console.log(tpPath);
+        // console.log(jsonRes);
+
+        if (jsonRes.error) {
+            console.log(jsonRes.error);
+            return false;
+        }
+        if (jsonRes.value >= miniSimilarity) {
+            showRect(jsonRes.x - 25, jsonRes.y - 25, 50, 50, 'green');
+            return jsonRes;
+        }
     }
-    if (jsonRes.value < miniSimilarity) {
-        return false;
-    }
-
-    showRect(jsonRes.x - 25, jsonRes.y - 25, 50, 50, 'green');
-    return jsonRes;
+    return false;
 }
 exports.findScreen = findScreen
 exports.寻找图像 = findScreen
@@ -1845,7 +1853,7 @@ exports.browserCMD.prop = browserCMD_prop
 
 /**
  * 等待屏幕上的图片出现
- * @param {string} tpPath 图片模板路径 相对路径：./image/123.png
+ * @param {string|Array} tpPath 图片模板路径 相对路径：./image/123.png  | 数组等待多个图片
  * @param {Function} intervalFun 检测间隔的操作，function格式
  * @param {number} timeOut 可选，等待超时时间 单位秒 默认30秒
  * @param {number} miniSimilarity  可选，指定最低相似度，默认0.85。取值0-1，1为找到完全相同的。

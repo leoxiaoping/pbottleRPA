@@ -36,7 +36,7 @@ pbottleRPA.日志输出('系统任务栏色：',颜色1);
 pbottleRPA.键盘按键('ctrl+alt+w')
 
 // 等待指定图像出现，超时时间为120秒，期间会循环提示用户打开微信界面
-let position =  pbottleRPA.等待图像出现('./input/pengYouQuanDianZan/0.png',()=>{
+let position =  pbottleRPA.等待图像出现(['./input/pengYouQuanDianZan/0.png','./input/pengYouQuanDianZan/01.png'],()=>{
     pbottleRPA.日志输出('等待中，请先打开电脑版微信界面');
 },120)
 
@@ -48,7 +48,7 @@ pbottleRPA.鼠标移动(1920/2,1080/2);
 let 计数器 = 0;
 function 重复() {
     pbottleRPA.日志输出('进入开始：')      
-    let 结果 =  pbottleRPA.寻找图像('./input/pengYouQuanDianZan/1.png',0.99,100,100)
+    let 结果 =  pbottleRPA.寻找图像(['./input/pengYouQuanDianZan/1.png','./input/pengYouQuanDianZan/11.png'],0.99,100,100)
     
     if (结果 === false) {
         pbottleRPA.日志输出('下一页')         
