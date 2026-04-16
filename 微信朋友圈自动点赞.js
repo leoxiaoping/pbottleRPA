@@ -42,7 +42,7 @@ let position =  pbottleRPA.等待图像出现(['./input/pengYouQuanDianZan/0.png
 
 // 打开微信朋友圈
 pbottleRPA.鼠标移动并点击(position.x,position.y);  
-pbottleRPA.鼠标移动(1920/2,1080/2);              
+pbottleRPA.鼠标移动(屏幕分辨率.w/2,屏幕分辨率.h/2);              
 
 
 let 计数器 = 0;

@@ -35,5 +35,7 @@ let apiUrl = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=67bc3b43-85d1
 const rs = pbottleRPA.postJson(apiUrl,msgJson);
 console.log('服务器返回结果：',rs);
 
+pbottleRPA.openURL("https://open.work.weixin.qq.com/help2/pc/14931#%E4%BA%94%E3%80%81%E7%BE%A4%E6%9C%BA%E5%99%A8%E4%BA%BAWebhook%E5%9C%B0%E5%9D%80");  // 打开小瓶RPA官网
+
 pbottleRPA.tts("运行结束")                    // 语音播报运行结束信息
 pbottleRPA.log("运行结束")
