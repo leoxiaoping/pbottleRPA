@@ -516,10 +516,10 @@ def mouseKeyToggle(key="left", upDown="down"):
     )
 
 
-def findScreen(tpPath, miniSimilarity=0.85, fromX=0, fromY=0, width=-1, height=-1):
+def findScreen(tpPaths, miniSimilarity=0.85, fromX=0, fromY=0, width=-1, height=-1):
     """
     屏幕查找图像定位
-    @param tpPath: 小图片路径（建议png）
+    @param tpPaths: 小图片路径（建议png），或图片路径列表
     @param miniSimilarity: 最低相似度，0-1，默认0.85
     @param fromX: 查找起始X
     @param fromY: 查找起始Y
@@ -531,16 +531,21 @@ def findScreen(tpPath, miniSimilarity=0.85, fromX=0, fromY=0, width=-1, height=-
         exit(f"错误：找图起始点不能为负，x:{fromX} y:{fromY}")
     if fromX != 0 or fromY != 0 or width != -1 or height != -1:
         showRect(fromX, fromY, width, height)
-    tpPath = os.path.abspath(tpPath)
-    tpPath = urlencode(tpPath)
-    resp = urllib.request.urlopen(
-        f"{CppUrl}?action=findScreen&imgPath={tpPath}&fromX={fromX}&fromY={fromY}&width={width}&height={height}"
-    )
-    data = json.loads(resp.read().decode())
-    if "error" in data or data.get("value", 0) < miniSimilarity:
-        return False
-    showRect(data["x"] - 25, data["y"] - 25, 50, 50, "green")
-    return {"x": data["x"], "y": data["y"]}
+    # 判断tpPaths是否为列表
+    if not isinstance(tpPaths, list):
+        tpPaths = [tpPaths]
+
+    for tpPath in tpPaths:
+        tpPath = os.path.abspath(tpPath)
+        tpPath = urlencode(tpPath)
+        resp = urllib.request.urlopen(
+            f"{CppUrl}?action=findScreen&imgPath={tpPath}&fromX={fromX}&fromY={fromY}&width={width}&height={height}"
+        )
+        data = json.loads(resp.read().decode())
+        if "error" not in data and data.get("value", 0) >= miniSimilarity:
+            showRect(data["x"] - 25, data["y"] - 25, 50, 50, "green")
+            return {"x": data["x"], "y": data["y"]}
+    return False
 
 
 def findText(inputTxt, fromX=0, fromY=0, width=-1, height=-1):
@@ -1399,7 +1404,7 @@ class hid:
 def waitImage(tpPath, intervalFun=None, timeOut=30, miniSimilarity=0.85):
     """
     等待屏幕上的图片出现（每1秒检测一次）
-    @param tpPath: 图片模板路径
+    @param tpPath: 图片模板路径 相对路径：./image/123.png  | 列表等待多个图片
     @param intervalFun: 每次检测间隔调用的函数，若返回 'stopWait' 则提前结束
     @param timeOut: 超时秒数
     @param miniSimilarity: 最低相似度
