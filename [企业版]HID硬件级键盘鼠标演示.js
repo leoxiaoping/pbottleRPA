@@ -33,7 +33,7 @@ pbottleRPA.showMsg('需要硬件外设','测试需要硬件外设')
 // 使用文字转语音功能播报提示信息
 pbottleRPA.tts('正在打开键盘测试网站，需要开启RPA硬件模拟功能')
 // 打开键盘测试网站用于演示硬件级输入
-pbottleRPA.openURL('https://key-test.com/cn/')
+pbottleRPA.openURL('https://www.keyboardtest.cn/')
 pbottleRPA.wait(3)                           // 等待3秒钟让网页加载完成
 // 使用HID接口模拟按下F11键，进入全屏模式
 pbottleRPA.hid.keyTap('f11')
@@ -96,3 +96,4 @@ pbottleRPA.hid.keyTap('ctrl + alt + del')
 pbottleRPA.wait(1)                           // 等待1秒钟
 // 使用HID接口模拟按下Esc键
 pbottleRPA.hid.keyTap('esc')
+pbottleRPA.showMsg('测试完成', 'HID 键盘模拟测试完成');

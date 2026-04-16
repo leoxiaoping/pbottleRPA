@@ -140,7 +140,7 @@ exports.显示标记框 = showRect
  * @param {...any} msg 退出时候输出的信息
  */
 let exit = (...args) => {
-    console.log(args)
+    console.log(...args)
     beep()
     process.exit(1)
 }
