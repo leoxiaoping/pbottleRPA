@@ -137,12 +137,10 @@ exports.显示标记框 = showRect
 
 /**
  * 强制退出当前脚本
- * @param {string} msg 退出时候输出的信息
+ * @param {...any} msg 退出时候输出的信息
  */
-let exit = (msg = '') => {
-    if (msg) {
-        console.log(msg)
-    }
+let exit = (...args) => {
+    console.log(args)
     beep()
     process.exit(1)
 }
@@ -614,7 +612,7 @@ exports.键盘按键 = keyTap
 var findScreen = (tpPaths, miniSimilarity = 0.85, fromX = 0, fromY = 0, width = -1, height = -1) => {
 
     if (fromX < 0 || fromY < 0) {
-        exit(`错误：找图起始点不能为负，x:${fromX} y:${fromY} `);
+        throw new Error(`错误：找图起始点不能为负，x:${fromX} y:${fromY} `);
     }
 
     if (fromX != 0 || fromY != 0 || width != -1 || height != -1) {
@@ -661,16 +659,16 @@ exports.寻找图像 = findScreen
  * @param {number} fromY=0 可选，查找开始的开始纵坐标
  * @param {number} width=-1 可选，搜索宽度
  * @param {number} height=-1 可选，搜索高度
- * @returns {{x:number,y:number,text:string}}  返回json结果：{x,y,text} x,y坐标相对于左上角的原点
+ * @returns {{x:number,y:number,text:string}|false}  返回json结果：{x,y,text} x,y坐标相对于屏幕左上角的原点
  */
 var findText = (inputTxt, fromX = 0, fromY = 0, width = -1, height = -1) => {
     let jsonDatas = aiOcr('screen', fromX, fromY, width, height);
-    let result = false;
+    // console.log(jsonDatas);
+    let result = false;  
     jsonDatas.forEach(element => {
         // console.log(element.text);
         if (element.text.includes(inputTxt)) {
             result = element
-            return;
         }
     });
     if (result !== false) {
@@ -680,6 +678,40 @@ var findText = (inputTxt, fromX = 0, fromY = 0, width = -1, height = -1) => {
 }
 exports.findText = findText
 exports.寻找文字 = findText
+
+/**
+ * 等待屏幕指定文字出现
+ * @param {string} inputTxt 搜索文字
+ * @param {number} fromX 可选，查找开始的开始横坐标
+ * @param {number} fromY 可选，查找开始的开始纵坐标
+ * @param {number} width 可选，搜索宽度
+ * @param {number} height 可选，搜索高度
+ * @param {function} intervalFun 回调函数，用于中途判断是否继续等待，返回值为stopWait时，停止等待
+ * @param {number} timeOut 超时时间，单位秒
+ * @returns 
+ */
+var waitText = (inputTxt, fromX = 0, fromY = 0, width = -1, height = -1,intervalFun = () => {}, timeOut = 20) => {
+    console.log('waiting Text：', inputTxt);
+    for (let index = 0; index < timeOut; index++) {
+        sleep(1000)
+        let position = findText(inputTxt, fromX, fromY, width, height)
+        if (position !== false) {
+            return position;
+        }
+        if (typeof intervalFun === 'function' && intervalFun() == 'stopWait') {
+            console.log('stopWait from intervalFun');
+            return false
+        }
+    }
+    //debug 保存当前屏幕
+    console.log('已经保存超时截图到：我的图片');
+    screenShot();
+    //error
+    throw new Error(`等待文字超时 ${inputTxt}`);
+}
+
+exports.waitText = waitText
+exports.等待文字 = waitText
 
 
 /**
@@ -696,7 +728,7 @@ exports.寻找文字 = findText
 var findContours = (minimumArea = 1000, fromX = 0, fromY = 0, width = -1, height = -1) => {
 
     if (fromX < 0 || fromY < 0) {
-        exit(`错误：轮廓查找起始点不能为负，x:${fromX} y:${fromY} `);
+        throw new Error(`错误：轮廓查找起始点不能为负，x:${fromX} y:${fromY} `);
     }
 
     if (fromX != 0 || fromY != 0 || width != -1 || height != -1) {
@@ -850,12 +882,10 @@ var postJson = (url, msgJson, headersJson = {}, method = 'POST') => {
     }
     const result = childProcess.spawnSync(curlCommand, commandArgs, { encoding: 'utf8' });
     if (result.error) {
-        console.error('postJson 执行 curl 命令时出错:', result.error.message);
-        exit()
+        throw new Error('postJson 执行 curl 命令时出错:' + result.error.message);
     }
     if (result.status !== 0) {
-        console.error('postJson curl 命令执行失败:', result.stderr);
-        exit()
+        throw new Error('postJson curl 命令执行失败: ' + result.stderr);
     }
     return result.stdout;
 }
@@ -886,12 +916,10 @@ var postJsonFile = (url, msgJsonFile, headersJson = {}, method = 'POST') => {
     }
     const result = childProcess.spawnSync(curlCommand, commandArgs, { encoding: 'utf8' });
     if (result.error) {
-        console.error('postJsonFile 执行 curl 命令时出错:', result.error.message);
-        exit()
+        throw new Error('postJsonFile 执行 curl 命令时出错: ' + result.error.message);
     }
     if (result.status !== 0) {
-        console.error('postJsonFile curl 命令执行失败:', result.stderr);
-        exit()
+        throw new Error('postJsonFile curl 命令执行失败:' + result.stderr);
     }
     return result.stdout;
 }
@@ -914,12 +942,10 @@ function getHtml(url, headersJson = {}, method = 'GET') {
     }
     const result = childProcess.spawnSync(curlCommand, commandArgs, { encoding: 'utf8' });
     if (result.error) {
-        console.error('getHtml 执行 curl 命令时出错:', result.error.message);
-        exit()
+        throw new Error('getHtml 执行 curl 命令时出错: ' + result.error.message);
     }
     if (result.status !== 0) {
-        console.error('getHtml curl 命令执行失败:', result.stderr);
-        exit()
+        throw new Error('getHtml curl 命令执行失败: ' + result.stderr);
     }
     return result.stdout;
 }
@@ -1033,12 +1059,10 @@ function downloadFile(fileUrl, filename, headersJson = {}) {
     }
     const result = childProcess.spawnSync(curlCommand, commandArgs, { encoding: 'utf8' });
     if (result.error) {
-        console.error('downloadFile 执行 curl 命令时出错:', result.error.message);
-        exit()
+        throw new Error('downloadFile 执行 curl 命令时出错' + result.error.message);
     }
     if (result.status !== 0) {
-        console.error('downloadFile curl 命令执行失败:', result.stderr);
-        exit()
+        throw new Error('downloadFile curl 命令执行失败' + result.stderr);
     }
     return result.stdout;
 }
@@ -1121,7 +1145,7 @@ exports.获取屏幕分辨率 = getResolution
  * @param {number} y 可选 查找起始点
  * @param {number} width  可选 宽度范围
  * @param {number} height 可选 高度范围
- * @returns {array}  AI OCR识别的json结果 包含准确率的评分和中点位置   格式： [{text:'A',score:'0.319415',x:100,y:200},...]  xy相对于原点
+ * @returns {{text:string,score:number,x:number,y:number}}  AI OCR识别的json结果 包含准确率的评分和中点位置   格式： [{text:'A',score:'0.319415',x:100,y:200},...]  xy相对于原点
  */
 var aiOcr = (imagePath = "screen", x = 0, y = 0, width = -1, height = -1) => {
 
@@ -1130,7 +1154,7 @@ var aiOcr = (imagePath = "screen", x = 0, y = 0, width = -1, height = -1) => {
     }
 
     if (x < 0 || y < 0) {
-        exit(`错误：OCR 起始点不能为负，x:${x} y:${y} `);
+        throw new Error(`错误：OCR 起始点不能为负，x:${x} y:${y} `);
     }
 
     if (x != 0 || y != 0 || width != -1 || height != -1) {
@@ -1177,7 +1201,7 @@ exports.文字识别 = aiOcr
 var aiObject = (minimumScore = 0.5, x = 0, y = 0, width = -1, height = -1) => {
 
     if (x < 0 || y < 0) {
-        exit(`错误：OCR 起始点不能为负，x:${x} y:${y} `);
+        throw new Error(`错误：OCR 起始点不能为负，x:${x} y:${y} `);
     }
 
     if (x != 0 || y != 0 || width != -1 || height != -1) {
@@ -1366,15 +1390,13 @@ function cloud_GPT(question, modelLevel = 0, options = {
 }) {
     let deviceToken = deviceID()
     if (question.length < 3) {
-        console.log('❌ 错误', '问题过短，请输入至少2个字符')
-        exit()
+        throw new Error('❌ 错误：问题过短，请输入至少2个字符')
     }
     let rs = postJson('https://rpa.pbottle.com/API/', { question, deviceToken, modelLevel, options })
     // console.log(rs);
     let json = JSON.parse(rs)
     if (json.error) {
-        console.log('❌ 错误', json.error)
-        exit()
+        throw new Error('❌ 错误：' + json.error)
     }
     return json
 }
@@ -1394,8 +1416,7 @@ function cloud_GPTV(question, imagePath, modelLevel = 0) {
     imagePath = path.resolve(imagePath)
 
     if (!fs.existsSync(imagePath)) {
-        console.log('❌ 输入分析图片不存在：cloud_GPTV')
-        exit()
+        throw new Error('❌输入分析图片不存在：cloud_GPTV')
     }
 
     let tempJsonFile = homePath + '/cloud_GPTV.json'
@@ -1407,7 +1428,7 @@ function cloud_GPTV(question, imagePath, modelLevel = 0) {
     let json = JSON.parse(rs)
     if (json.error) {
         console.log('❌ 错误 cloud_GPTV', json.error, rs)
-        exit()
+        throw new Error(json.error)
     }
     return json
 }
@@ -1437,7 +1458,7 @@ function cloud_GPTA(action = '点击', question = "桌面微信图标") {
     let json = JSON.parse(rs)
     if (json.error) {
         console.log('❌ 错误 cloud_GPTA', json.error, rs)
-        exit()
+        throw new Error(json.error)
     }
     console.log(json);
     let boxs = json.content.split('\n')
@@ -1558,7 +1579,7 @@ var browserCMD_waitPageReady = function (readyURL,timeout = 20) {
             console.log(`等待页面加载完成...`);
         }
     }
-    exit('❌ waitPageReady 错误', '等待页面加载超时')
+    throw new Error('waitPageReady 等待页面加载超时')
 }
 exports.browserCMD_waitPageReady = browserCMD_waitPageReady
 exports.browserCMD.waitPageReady = browserCMD_waitPageReady
@@ -1876,8 +1897,7 @@ function waitImage(tpPath, intervalFun = () => { }, timeOut = 30, miniSimilarity
     console.log('已经保存超时截图到：我的图片');
     screenShot();
     //error
-    let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
-    exit(`等待图片超时 ${tpPath}  ${frame}`)
+    throw new Error(`waitImage 等待图片超时 ${tpPath}`)
 }
 exports.waitImage = waitImage;
 exports.等待图像出现 = waitImage;
@@ -1907,8 +1927,7 @@ function waitImageDisappear(tpPath, intervalFun = () => { }, timeOut = 30, miniS
     console.log('已经保存超时截图到：我的图片');
     screenShot();
     //error
-    let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
-    exit(`等待图片消失超时 ${tpPath} ${frame}`)
+    throw new Error(`waitImageDisappear 等待图片消失超时 ${tpPath}`)
 }
 exports.waitImageDisappear = waitImageDisappear;
 exports.等待图像消失 = waitImageDisappear;
@@ -1935,8 +1954,7 @@ function waitFile(dirPath, keyWords = '', intervalFun = () => { }, timeOut = 30)
         }
     }
     //error
-    let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
-    exit(`等待文件超时： ${dirPath} ${frame}`)
+    throw new Error(`waitFile 等待文件超时： ${dirPath}`)
 }
 exports.waitFile = waitFile;
 exports.等待文件 = waitFile;
@@ -1965,7 +1983,7 @@ function waitFileDisappear(dirPath, keyWords = '', intervalFun = () => { }, time
     }
     //error
     let frame = new Error().stack.split("\n")[2]; // change to 3 for grandparent func
-    exit(`等待文件错误： ${dirPath} ${frame}`)
+    throw new Error(`waitFileDisappear 等待文件消失错误： ${dirPath} ${frame}`)
 }
 exports.waitFileDisappear = waitFileDisappear;
 exports.等待文件消失 = waitFileDisappear;

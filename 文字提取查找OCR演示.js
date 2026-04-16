@@ -28,7 +28,7 @@ pbottleRPA.wait(5);                            // 等待5秒钟
 console.log("查找并点击微信")                   // 在控制台输出操作信息
 pbottleRPA.tts("查找并点击微信")                // 语音播报即将执行的操作
 
-let position = pbottleRPA.findText('微信',10,10,1000,500) // 在屏幕区域(10,10,1000,500)内查找"微信"文字，返回位置信息
+let position = pbottleRPA.findText('微信',100,100,500,1080) // 在屏幕区域内查找"微信"文字，返回位置信息
 console.log('查找文字结果：',position);         // 在控制台输出查找到的文字位置信息
 
 
@@ -38,9 +38,15 @@ if (position) {                                // 如果找到了指定文字
     console.log("范围内没有找到文字：微信");      // 在控制台输出未找到的提示信息
 }
 
-console.log("准备结束脚本");                   // 在控制台输出脚本即将结束的信息
-pbottleRPA.tts("准备结束脚本");                // 语音播报脚本即将结束的信息
+
+pbottleRPA.wait(2)    
 
 
-pbottleRPA.showMsg('演示结束','请查看运行日志') // 显示系统消息框提示演示结束
-pbottleRPA.exit("结束")                        // 退出RPA脚本执行
+
+pbottleRPA.openURL("https://rpa.pbottle.com/")
+console.log("等待文字");                   // 在控制台输出脚本即将结束的信息
+pbottleRPA.tts("等待文字");                // 语音播报脚本即将结束的信息
+
+position = pbottleRPA.waitText('专业用户RPA软件',300,500)  // 等待微信应用加载
+console.log(position);
+pbottleRPA.moveMouse(position.x,position.y) // 移动鼠标到文字位置
