@@ -43,7 +43,7 @@ rs = pbottleRPA.waitImage(
 # 打开微信朋友圈
 pbottleRPA.moveMouseSmooth(rs["x"], rs["y"])
 pbottleRPA.mouseClick()
-pbottleRPA.moveMouseSmooth(1920 / 2, 1080 / 2)
+pbottleRPA.moveMouseSmooth(resolution["w"] / 2, resolution["h"] / 2)
 
 # 点赞计数
 n = 0

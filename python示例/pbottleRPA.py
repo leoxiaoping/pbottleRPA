@@ -35,8 +35,8 @@ from email.mime.text import MIMEText
 from email.utils import formataddr
 
 # ========== 全局配置 ==========
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", line_buffering=True)
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", line_buffering=True)
 pyPath = os.path.dirname(os.path.abspath(__file__))
 basePath = os.environ.get("RPAbaseDir", "")
 homePath = os.environ.get("RPAhomeDir", "")
@@ -191,17 +191,15 @@ def setDefaultDelay(millisecond):
 
 def sleep(milliseconds):
     """
-    脚本暂停等待（毫秒），一次等待上限2分钟
+    脚本暂停等待（毫秒），使用 Python 自带延时机制，一次等待上限 2 分钟
     @param milliseconds: 毫秒数
     """
     if milliseconds < 1:
         return
     if milliseconds >= 120000:
         print("警告：一次等待上限时长两分钟内")
-    milliseconds = int(milliseconds) - 20  # 减去接口请求误差
-    if milliseconds < 1:
-        milliseconds = 1
-    urllib.request.urlopen(f"{CppUrl}?action=httpSleep&milliseconds={milliseconds}")
+    seconds = milliseconds / 1000.0
+    time.sleep(seconds)
 
 
 def wait(seconds=1):
