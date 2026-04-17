@@ -18,26 +18,28 @@ pbottleRPA.wait(2)                            // 等待2秒钟
 console.log('开始演示');                      // 在控制台输出开始演示信息
 
 // 打开百度图片网站用于演示文件上传
-pbottleRPA.openURL('https://image.baidu.com/') 
+pbottleRPA.openURL('https://pic.sogou.com/') 
 pbottleRPA.wait()                             // 等待页面加载完成
 
 // 使用浏览器增强插件点击上传图标元素
 // 通过CSS选择器匹配class以"img-upload-icon_"开头的span元素
-pbottleRPA.browserCMD_click('span[class^="img-upload-icon_"]')
+pbottleRPA.browserCMD_click('#cameraIco')
+pbottleRPA.wait(2)
 
 // 查找页面中的"上传图片"文字位置
-let pos = pbottleRPA.findText('上传图片')      
+let pos = pbottleRPA.findText('本地上传')
+
+if(pos === false){
+    pbottleRPA.exit('未找到上传按钮');
+}
 // 移动鼠标到找到的位置并点击，打开文件选择对话框
 pbottleRPA.moveAndClick(pos.x,pos.y)          
 
-pbottleRPA.wait()                             // 等待对话框打开
+pbottleRPA.wait(2)                             // 等待对话框打开
 
 // 复制要上传的文件到剪切板
-pbottleRPA.copyFile(__dirname + '/input/RPAlogo128.png') 
-
-// 使用快捷键操作选择文件上传方式
-pbottleRPA.keyTap('shift+tab')                // 按下Shift+Tab组合键
-pbottleRPA.keyTap('ctrl+v')                   // 按下Ctrl+V组合键粘贴文件
+pbottleRPA.copyText(pbottleRPA.path.resolve('./input/RPAlogo128.png')) 
+pbottleRPA.keyTap('ctrl+v')                   // 按下Ctrl+V组合键粘贴文件路径
 
 pbottleRPA.wait()                             // 等待文件粘贴完成
 pbottleRPA.keyTap('enter')                    // 按下回车键确认文件选择
