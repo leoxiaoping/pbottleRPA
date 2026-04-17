@@ -4,7 +4,7 @@ https://gitee.com/pbottle/pbottle-rpa
 官网：https://rpa.pbottle.com/
 
 Nodejs 移植兼容版 beta
-注：目前尚未完全移植nodejs版本中所有API，正在持续更新中
+注：目前已完成 NodeJS 版本 API 同步
 
 js -> python 对照表：
 
@@ -35,16 +35,28 @@ from email.mime.text import MIMEText
 from email.utils import formataddr
 
 # ========== 全局配置 ==========
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", line_buffering=True)
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", line_buffering=True)
 pyPath = os.path.dirname(os.path.abspath(__file__))
 basePath = os.environ.get("RPAbaseDir", "")
 homePath = os.environ.get("RPAhomeDir", "")
 CppUrl = "http://127.0.0.1:49888/"
 defaultDelay = 1000
 
+print("基座服务地址：（Python）", CppUrl, "Python版本已同步NodeJS API")
 
-print("基座服务地址：（Python）", CppUrl, "Python版本为beta阶段，请斟酌使用到生产环境")
+
+# ========== 自定义异常 ==========
+class RPAError(Exception):
+    """RPA 操作异常基类"""
+
+    pass
+
+
+class TimeoutError(RPAError):
+    """等待超时异常"""
+
+    pass
 
 
 # ========== 工具函数 ==========
@@ -179,12 +191,15 @@ def setDefaultDelay(millisecond):
 
 def sleep(milliseconds):
     """
-    脚本暂停等待（毫秒），一次等待上限2分钟
+    脚本暂停等待（毫秒），使用 Python 自带延时机制，一次等待上限 2 分钟
     @param milliseconds: 毫秒数
     """
     if milliseconds < 1:
         return
-    time.sleep(milliseconds / 1000.0)
+    if milliseconds >= 120000:
+        print("警告：一次等待上限时长两分钟内")
+    seconds = milliseconds / 1000.0
+    time.sleep(seconds)
 
 
 def wait(seconds=1):
@@ -240,15 +255,24 @@ def showRect(fromX=0, fromY=0, width=500, height=500, color="red", msec=500):
     )
 
 
-def exit(msg=""):
+def exit_script(*args):
     """
     强制退出当前脚本
-    @param msg: 退出时输出的信息
+    @param *args: 退出时输出的信息
     """
-    if msg:
-        print(msg)
+    if args:
+        print(*args)
     beep()
     sys.exit(1)
+
+
+# 避免与内置 exit 冲突，同时保留原名
+def exit(*args):
+    """
+    强制退出当前脚本
+    @param *args: 退出时输出的信息
+    """
+    exit_script(*args)
 
 
 def kill(processName, force=False):
@@ -382,7 +406,7 @@ def screenShot(savePath="", x=0, y=0, w=-1, h=-1):
 
 def keycode(name):
     """
-    按键名称转虚拟键码
+    按键名称转虚拟键码（与 JS 版本完全对齐）
     @param name: 按键名称（参考 https://www.pbottle.com/a-13862.html）
     @return: 键码整数
     """
@@ -463,9 +487,43 @@ def keycode(name):
         "\\": 220,
         "]": 221,
         "'": 222,
+        "0": 48,
+        "1": 49,
+        "2": 50,
+        "3": 51,
+        "4": 52,
+        "5": 53,
+        "6": 54,
+        "7": 55,
+        "8": 56,
+        "9": 57,
+        "a": 65,
+        "b": 66,
+        "c": 67,
+        "d": 68,
+        "e": 69,
+        "f": 70,
+        "g": 71,
+        "h": 72,
+        "i": 73,
+        "j": 74,
+        "k": 75,
+        "l": 76,
+        "m": 77,
+        "n": 78,
+        "o": 79,
+        "p": 80,
+        "q": 81,
+        "r": 82,
+        "s": 83,
+        "t": 84,
+        "u": 85,
+        "v": 86,
+        "w": 87,
+        "x": 88,
+        "y": 89,
+        "z": 90,
     }
-    if len(name) == 1:
-        return ord(name.upper())
     return mapping.get(name, 0)
 
 
@@ -516,31 +574,35 @@ def mouseKeyToggle(key="left", upDown="down"):
     )
 
 
-def findScreen(tpPath, miniSimilarity=0.85, fromX=0, fromY=0, width=-1, height=-1):
+def findScreen(tpPaths, miniSimilarity=0.85, fromX=0, fromY=0, width=-1, height=-1):
     """
     屏幕查找图像定位
-    @param tpPath: 小图片路径（建议png）
+    @param tpPaths: 小图片路径（建议png），或图片路径列表
     @param miniSimilarity: 最低相似度，0-1，默认0.85
     @param fromX: 查找起始X
     @param fromY: 查找起始Y
     @param width: 搜索宽度，-1表示全屏
     @param height: 搜索高度，-1表示全屏
-    @return: 找到返回 {'x':int, 'y':int}，否则返回 False
+    @return: 找到返回 {'x':int, 'y':int, 'value':float}，否则返回 False
     """
     if fromX < 0 or fromY < 0:
-        exit(f"错误：找图起始点不能为负，x:{fromX} y:{fromY}")
+        raise ValueError(f"错误：找图起始点不能为负，x:{fromX} y:{fromY}")
     if fromX != 0 or fromY != 0 or width != -1 or height != -1:
         showRect(fromX, fromY, width, height)
-    tpPath = os.path.abspath(tpPath)
-    tpPath = urlencode(tpPath)
-    resp = urllib.request.urlopen(
-        f"{CppUrl}?action=findScreen&imgPath={tpPath}&fromX={fromX}&fromY={fromY}&width={width}&height={height}"
-    )
-    data = json.loads(resp.read().decode())
-    if "error" in data or data.get("value", 0) < miniSimilarity:
-        return False
-    showRect(data["x"] - 25, data["y"] - 25, 50, 50, "green")
-    return {"x": data["x"], "y": data["y"]}
+    if not isinstance(tpPaths, list):
+        tpPaths = [tpPaths]
+
+    for tpPath in tpPaths:
+        tpPath = os.path.abspath(tpPath)
+        tpPath = urlencode(tpPath)
+        resp = urllib.request.urlopen(
+            f"{CppUrl}?action=findScreen&imgPath={tpPath}&fromX={fromX}&fromY={fromY}&width={width}&height={height}"
+        )
+        data = json.loads(resp.read().decode())
+        if "error" not in data and data.get("value", 0) >= miniSimilarity:
+            showRect(data["x"] - 25, data["y"] - 25, 50, 50, "green")
+            return {"x": data["x"], "y": data["y"], "value": data["value"]}
+    return False
 
 
 def findText(inputTxt, fromX=0, fromY=0, width=-1, height=-1):
@@ -561,6 +623,32 @@ def findText(inputTxt, fromX=0, fromY=0, width=-1, height=-1):
     return False
 
 
+def waitText(
+    inputTxt, fromX=0, fromY=0, width=-1, height=-1, intervalFun=None, timeOut=20
+):
+    """
+    等待屏幕指定文字出现
+    @param inputTxt: 搜索文字
+    @param fromX,fromY,width,height: 搜索范围
+    @param intervalFun: 回调函数，返回 'stopWait' 时停止等待
+    @param timeOut: 超时秒数
+    @return: 找到返回位置字典，超时抛出 TimeoutError
+    """
+    print("waiting Text：", inputTxt)
+    for _ in range(timeOut):
+        sleep(1000)
+        pos = findText(inputTxt, fromX, fromY, width, height)
+        if pos:
+            return pos
+        if intervalFun and intervalFun() == "stopWait":
+            print("stopWait from intervalFun")
+            return False
+    print("已经保存超时截图到：我的图片")
+    screenShot()
+    frame = inspect.currentframe().f_back
+    raise TimeoutError(f"等待文字超时 {inputTxt} 位置（行）:{frame.f_lineno}")
+
+
 def findContours(minimumArea=1000, fromX=0, fromY=0, width=-1, height=-1):
     """
     查找屏幕上的轮廓（物体/窗口边缘）
@@ -572,7 +660,7 @@ def findContours(minimumArea=1000, fromX=0, fromY=0, width=-1, height=-1):
     @return: 轮廓列表，每个元素包含 x,y,cx,cy,area,id
     """
     if fromX < 0 or fromY < 0:
-        exit(f"错误：轮廓查找起始点不能为负，x:{fromX} y:{fromY}")
+        raise ValueError(f"错误：轮廓查找起始点不能为负，x:{fromX} y:{fromY}")
     if fromX != 0 or fromY != 0 or width != -1 or height != -1:
         showRect(fromX, fromY, width, height)
     resp = urllib.request.urlopen(
@@ -607,7 +695,6 @@ def paste(txt):
     @param txt: 要输入的文本
     """
     copyText(txt)
-    time.sleep(0.2)
     keyTap("ctrl+v")
     sleep(defaultDelay)
 
@@ -825,7 +912,7 @@ def aiOcr(imagePath="screen", x=0, y=0, width=-1, height=-1):
     if not imagePath:
         imagePath = "screen"
     if x < 0 or y < 0:
-        exit(f"错误：OCR 起始点不能为负，x:{x} y:{y}")
+        raise ValueError(f"错误：OCR 起始点不能为负，x:{x} y:{y}")
     if x != 0 or y != 0 or width != -1 or height != -1:
         showRect(x, y, width, height)
     if imagePath != "screen":
@@ -837,7 +924,7 @@ def aiOcr(imagePath="screen", x=0, y=0, width=-1, height=-1):
     res = resp.read().decode()
     if res == "文字识别引擎未启动":
         print("⚠ 文字识别引擎未启动，请在软件设置中开启")
-        exit()
+        exit_script()
     items = json.loads(res)
     for it in items:
         it["x"] += x
@@ -856,7 +943,7 @@ def aiObject(minimumScore=0.5, x=0, y=0, width=-1, height=-1):
     @return: 检测结果列表，每项含 x,y,width,height,score,class
     """
     if x < 0 or y < 0:
-        exit(f"错误：物体识别起始点不能为负，x:{x} y:{y}")
+        raise ValueError(f"错误：物体识别起始点不能为负，x:{x} y:{y}")
     if x != 0 or y != 0 or width != -1 or height != -1:
         showRect(x, y, width, height)
     resp = urllib.request.urlopen(
@@ -865,7 +952,7 @@ def aiObject(minimumScore=0.5, x=0, y=0, width=-1, height=-1):
     res = resp.read().decode()
     if res == "物体识别引擎未启动":
         print("⚠ 物体识别引擎未启动，请在软件设置中开启")
-        exit()
+        exit_script()
     items = json.loads(res)
     for it in items:
         it["x"] += x
@@ -976,7 +1063,7 @@ class cloud:
                 "enable_search": False,
             }
         if len(question) < 3:
-            exit("问题过短，请输入至少2个字符")
+            raise ValueError("问题过短，请输入至少2个字符")
         data = {
             "question": question,
             "deviceToken": deviceID(),
@@ -986,7 +1073,7 @@ class cloud:
         resp = postJson("https://rpa.pbottle.com/API/", data)
         result = json.loads(resp)
         if result.get("error"):
-            exit(f"错误: {result['error']}")
+            raise RPAError(f"错误: {result['error']}")
         return result
 
     @staticmethod
@@ -1000,7 +1087,7 @@ class cloud:
         """
         imagePath = os.path.abspath(imagePath)
         if not os.path.exists(imagePath):
-            exit("输入分析图片不存在：cloud_GPTV")
+            raise FileNotFoundError("输入分析图片不存在：cloud_GPTV")
         with open(imagePath, "rb") as f:
             img_b64 = base64.b64encode(f.read()).decode()
         temp_json = os.path.join(tempfile.gettempdir(), "cloud_GPTV.json")
@@ -1017,7 +1104,7 @@ class cloud:
         resp = postJsonFile("https://rpa.pbottle.com/API/gptv", temp_json)
         result = json.loads(resp)
         if result.get("error"):
-            exit(f"错误 cloud_GPTV: {result['error']}")
+            raise RPAError(f"错误 cloud_GPTV: {result['error']}")
         return result
 
     @staticmethod
@@ -1049,7 +1136,7 @@ class cloud:
         resp = postJsonFile("https://rpa.pbottle.com/API/gpta", tmp_json)
         result = json.loads(resp)
         if result.get("error"):
-            exit(f"错误 cloud_GPTA: {result['error']}")
+            raise RPAError(f"错误 cloud_GPTA: {result['error']}")
         print(result)
         boxes = result["content"].split("\n")
         resolution = getResolution()
@@ -1121,7 +1208,7 @@ class browserCMD:
                 return res
             sleep(1000)
             print("等待页面加载完成...")
-        exit("❌ waitPageReady 错误: 等待页面加载超时")
+        raise TimeoutError("waitPageReady 等待页面加载超时")
 
     @staticmethod
     def url(urlStr=None):
@@ -1399,11 +1486,11 @@ class hid:
 def waitImage(tpPath, intervalFun=None, timeOut=30, miniSimilarity=0.85):
     """
     等待屏幕上的图片出现（每1秒检测一次）
-    @param tpPath: 图片模板路径
+    @param tpPath: 图片模板路径 相对路径：./image/123.png  | 列表等待多个图片
     @param intervalFun: 每次检测间隔调用的函数，若返回 'stopWait' 则提前结束
     @param timeOut: 超时秒数
     @param miniSimilarity: 最低相似度
-    @return: 找到返回位置字典，超时则退出脚本
+    @return: 找到返回位置字典，超时抛出 TimeoutError
     """
     print("waitImage", tpPath)
     for _ in range(timeOut):
@@ -1417,7 +1504,7 @@ def waitImage(tpPath, intervalFun=None, timeOut=30, miniSimilarity=0.85):
     print("已经保存超时截图到：我的图片")
     screenShot()
     frame = inspect.currentframe().f_back
-    exit(f"等待图片超时 {tpPath} 位置（行）:{frame.f_lineno}")
+    raise TimeoutError(f"等待图片超时 {tpPath} 位置（行）:{frame.f_lineno}")
 
 
 def waitImageDisappear(tpPath, intervalFun=None, timeOut=30, miniSimilarity=0.85):
@@ -1427,7 +1514,7 @@ def waitImageDisappear(tpPath, intervalFun=None, timeOut=30, miniSimilarity=0.85
     @param intervalFun: 检测间隔回调
     @param timeOut: 超时秒数
     @param miniSimilarity: 相似度阈值
-    @return: 'ok' 表示消失，超时则退出
+    @return: 'ok' 表示消失，超时抛出 TimeoutError
     """
     print("waitImageDisappear", tpPath)
     for _ in range(timeOut):
@@ -1441,7 +1528,7 @@ def waitImageDisappear(tpPath, intervalFun=None, timeOut=30, miniSimilarity=0.85
     print("已经保存超时截图到：我的图片")
     screenShot()
     frame = inspect.currentframe().f_back
-    exit(f"等待图片消失超时 {tpPath} 位置（行）:{frame.f_lineno}")
+    raise TimeoutError(f"等待图片消失超时 {tpPath} 位置（行）:{frame.f_lineno}")
 
 
 def waitFile(dirPath, keyWords="", intervalFun=None, timeOut=30):
@@ -1451,7 +1538,7 @@ def waitFile(dirPath, keyWords="", intervalFun=None, timeOut=30):
     @param keyWords: 文件名包含的关键词
     @param intervalFun: 检测间隔回调
     @param timeOut: 超时秒数
-    @return: 文件路径列表
+    @return: 文件路径列表，超时抛出 TimeoutError
     """
     print("waitFile", dirPath, keyWords)
     for _ in range(timeOut):
@@ -1463,7 +1550,7 @@ def waitFile(dirPath, keyWords="", intervalFun=None, timeOut=30):
             print("stopWait from intervalFun")
             return False
     frame = inspect.currentframe().f_back
-    exit(f"等待文件超时：{dirPath} 位置（行）:{frame.f_lineno}")
+    raise TimeoutError(f"等待文件超时：{dirPath} 位置（行）:{frame.f_lineno}")
 
 
 def waitFileDisappear(dirPath, keyWords="", intervalFun=None, timeOut=30):
@@ -1473,7 +1560,7 @@ def waitFileDisappear(dirPath, keyWords="", intervalFun=None, timeOut=30):
     @param keyWords: 文件名关键词
     @param intervalFun: 检测间隔回调
     @param timeOut: 超时秒数
-    @return: True 表示消失
+    @return: True 表示消失，超时抛出 TimeoutError
     """
     print("waitFileDisappear", dirPath, keyWords)
     for _ in range(timeOut):
@@ -1485,7 +1572,7 @@ def waitFileDisappear(dirPath, keyWords="", intervalFun=None, timeOut=30):
             print("stopWait from intervalFun")
             return False
     frame = inspect.currentframe().f_back
-    exit(f"等待文件错误：{dirPath} 位置（行）:{frame.f_lineno}")
+    raise TimeoutError(f"等待文件消失错误：{dirPath} 位置（行）:{frame.f_lineno}")
 
 
 def waitInput(inputPrompt="输入提示词", timeOut=600):
@@ -1507,13 +1594,25 @@ def waitInput(inputPrompt="输入提示词", timeOut=600):
     return ""
 
 
+# ========== 工具箱（utils）命名空间 ==========
+class utils:
+    isNumeric = isNumeric
+    hasData = hasData
+    getTime = getTime
+    searchFile = searchFile
+    uniqid = uniqid
+    substringFromTo = substringFromTo
+
+
+工具箱 = utils
+
 # ========== 中文别名 ==========
 设置默认操作延时 = setDefaultDelay
 蜂鸣声 = beep
 显示系统消息 = showMsg
 关闭软件 = kill
 显示标记框 = showRect
-退出流程 = exit
+退出流程 = exit_script  # 使用退出函数别名
 睡眠毫秒 = sleep
 等待 = wait
 鼠标移动 = moveMouseSmooth
@@ -1530,6 +1629,7 @@ def waitInput(inputPrompt="输入提示词", timeOut=600):
 键盘按键 = keyTap
 寻找图像 = findScreen
 寻找文字 = findText
+等待文字 = waitText
 寻找轮廓 = findContours
 粘贴输入 = paste
 图片相似度对比 = imgSimilar
@@ -1563,6 +1663,9 @@ def waitInput(inputPrompt="输入提示词", timeOut=600):
 等待文件消失 = waitFileDisappear
 等待输入 = waitInput
 日志输出 = log = print
+目录路径 = pyPath
+文件系统 = os
+路径处理 = os.path
 
 # ========== 入口检测 ==========
 if __name__ == "__main__":

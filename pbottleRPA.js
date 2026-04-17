@@ -195,6 +195,7 @@ let wait = (seconds = 1) => {
             console.log(`提示：已等待100s...`);
         }
         seconds = seconds % 100;
+        sleep(seconds * 1000)
     } else {
         sleep(seconds * 1000)
     }
