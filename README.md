@@ -1,207 +1,205 @@
-#  小瓶RPA
+# Pbottle RPA
 
-专业用户的专业RPA+AI软件。
+Professional RPA+AI software for power users.
 
-### 介绍
-小瓶RPA，长难业务自动化流程专精。 轻量级简单全能的RPA软件，显著降本增效 & 工作100%准确 & 非侵入式集成。同时支持浏览器web应用和客户端应用的操作流程自动化。同时支持 Js 和 Python 两种脚本制作流程。
+### Introduction
+Pbottle RPA specializes in complex business process automation. A lightweight, versatile RPA software that significantly reduces costs, improves efficiency, ensures 100% work accuracy, and enables non-intrusive integration. It supports automation of both browser web applications and desktop client applications. Also supports both JavaScript and Python scripting.
 
- **如果好用或者帮到您，烦劳star一下。** 
+ **If this tool is useful to you, please give it a star.** 
 
-产品官网：[https://rpa.pbottle.com/](https://rpa.pbottle.com/)
+Product Website: [https://rpa.pbottle.com/](https://rpa.pbottle.com/)
 
-![小瓶RPA logo](input/RPAlogo128.png)
-
-
+![Pbottle RPA Logo](input/RPAlogo128.png)
 
 
-### 起步
+
+
+### Getting Started
 
 ```javascript
-pbottleRPA.打开网址('https://www.baidu.com/')
-pbottleRPA.粘贴输入('小瓶RPA官网')
-pbottleRPA.键盘按键('enter')
+pbottleRPA.openURL('https://www.baidu.com/')
+pbottleRPA.paste('pbottle RPA official website')
+pbottleRPA.keyTap('enter')
 ```
 
 
-### 文档入口 【新】
+### Documentation Portal 【New】
 
 [https://rpa.pbottle.com/docs/](https://rpa.pbottle.com/docs/)
 
 
-### 小瓶RPA优势
+### Pbottle RPA Advantages
 
-1. 自动化、AI、大模型能力可以快速落实到工作流程，并能精细化调整。
-2. 轻量级 + 开放接口能力，无缝整合现有工作系统，而非高成本替代。
-3. 纯视觉模拟驱动，可以兼容操作所有应用程序。
-4. 技术运维人员友好，主流脚本语言表达，高天花板。
+1. Automation, AI, and LLM capabilities can be quickly applied to workflows with fine-grained control.
+2. Lightweight + open API integration seamlessly integrates with existing work systems, rather than high-cost replacement.
+3. Pure visual simulation driving, compatible with all applications.
+4. Developer-friendly with mainstream scripting languages and high scalability.
 
 
-### 产品设计常见疑问
+### Product Design FAQ
 
-❓︎ 为什么小瓶没有图形拖拽的所谓'设计器'，用编写js脚本来替代？
+❓︎ Why doesn't Pbottle have a graphical drag-and-drop "designer" and instead uses JavaScript scripting?
 
-- 图形编程历史已久，上手门槛虽然更低，但同时天花板也更低，目前面对长难流程的开发管理往往不能满足和有更高综合成本。（有商业价值的自动化项目往往都是长难流程）
+- Graphical programming has been around for a while. While the learning curve is lower, the ceiling is also lower, often failing to meet the needs and incurring higher costs for complex business process development. (Business-value automation projects are usually complex.)
 
-- js脚本可以融入完整的 Nodejs（Python）生态，无缝引入万亿第三方功能包，同时可以使用 git 等代码工程管理工具和传统IT项目自然对接。
+- JavaScript scripts can integrate with the complete Node.js (Python) ecosystem, seamlessly introducing countless third-party packages, while also being able to use git and other code engineering management tools for natural integration with traditional IT projects.
 
-- V2023.3版本 新增加鼠标操作录制自动生成简单的脚本功能。
+- V2023.3 adds mouse operation recording with automatic script generation for simple tasks.
   
-- 🔥 AI 对话大模型 生成小瓶RPA流程脚本   [查看](https://rpa.pbottle.com/docs/AI%E7%94%9F%E6%88%90%E6%B5%81%E7%A8%8B%E8%84%9A%E6%9C%AC.html)
+- 🔥 AI Chat LLM to generate Pbottle RPA flow scripts   [View](https://rpa.pbottle.com/docs/AI%E7%94%9F%E6%88%90%E6%B5%81%E7%A8%8B%E8%84%9A%E6%9C%AC.html)
 
 
-❓︎ 为什么小瓶采用js作为脚本语言，可以用 python、java、c# 等吗？
+❓︎ Why does Pbottle use JavaScript as the scripting language? Can I use Python, Java, C#, etc.?
 
-- 可以，小瓶RPA内核和脚本层采用http通信接口，虽然官方的demo脚本层选用了js（同时兼容性支持Python），但有经验的其他语言开发者，可以随时通过最常规的http接口接入小瓶RPA。
+- Yes, Pbottle RPA's core and script layer use HTTP communication interfaces. Although the official demo scripts use JavaScript (with Python compatibility), experienced developers in other languages can access Pbottle RPA through standard HTTP interfaces at any time.
 
-- JS目前是前端的主流脚本，有大量的web经验的群众基础。同时JS的前端开放性，GPT等大模型AI工具更容易输出准确的结果。
-
-
-❓︎ 可以脱网或者内网使用小瓶RPA吗？
-
-- 企业版支持，个人版启动一次联网免费授权。
+- JavaScript is currently the mainstream scripting language for frontend development with a large user base. The openness of JavaScript also makes it easier for AI tools like GPT to generate accurate results.
 
 
+❓︎ Can I use Pbottle RPA offline or in an internal network?
 
-### 软件架构
-
-![小瓶RPA架构图](https://images.gitee.com/uploads/images/2021/1126/130823_ef4a3e3b_799608.png "小瓶RPA架构图")
-
-
-### 公司支持
-
-北京小瓶科技有限公司，对商业版客户提供技术支持和增值服务
-
-官网：[https://www.pbottle.com/](https://www.pbottle.com/)
+- Enterprise version supports offline use. Personal version requires internet connection for free authorization.
 
 
-### 使用须知
+### Software Architecture
 
-1. 允许个人永久免费使用本项目，包括用于个人学习、游戏娱乐、毕业设计、教学案例、公益事业和其他非商业用途；不包含个人的上班时的工作目的;
-
-2. 必须保留版权信息，请自觉遵守；
-
-3. 未经授权禁止将本软件、代码和其他资源以任何形式出售（包含收费项目捆绑的免费部分）；
+![Pbottle RPA Architecture](https://images.gitee.com/uploads/images/2021/1126/130823_ef4a3e3b_799608.png "Pbottle RPA Architecture")
 
 
-# 安装教程
+### Company Support
 
-### 步骤
+Beijing Xiaopeng Technology Co., Ltd., providing technical support and value-added services for commercial version customers.
 
-1.  下载exe运行基座绿色版  pbottleRPA.zip  [基座exe程序绿色版](https://rpa.pbottle.com/)
-2.  安装 NodeJS 脚本引擎 .msi,并安装 [下载网站](https://rpa.pbottle.com/a-13943.html)   安装后请重启基座
-3.  下载 [测试脚本](https://gitee.com/pbottle/pbottle-rpa/repository/archive/master.zip)，运行基座选择demo脚本即可开始运行
-
-### 常见问题
-
-1. 如果系统提示 缺少vcruntime140XX.dll   微软官网下载安装即可：[https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140)  （新版本已兼容）
-
- 1. exe启动目录的路径不能含中文，直接复制到其他目录，或者文件夹copy到磁盘根目录即可  （新版本已兼容）
-
- 1. 服务端口（49888）监听不成功问题， 排查请看：[https://rpa.pbottle.com/a-13924.html](https://rpa.pbottle.com/a-13924.html)
-
- 1. 软件不再支持32位老旧版操作系统
+Website: [https://www.pbottle.com/](https://www.pbottle.com/)
 
 
-### 电脑要求
+### Terms of Use
 
-新！V2023版本进一步提高了AI算法库对电脑的兼容性，请下载最新版本。
+1. Personal permanent free use of this project is allowed, including for personal learning, gaming, graduation projects, teaching examples, public welfare, and other non-commercial purposes; does not include work-related purposes during working hours;
 
-win7系统注意事项：https://rpa.pbottle.com/a-13941.html
+2. Copyright information must be retained, please comply voluntarily;
 
-
-### 手机应用RPA
-
-1. 手机应用可以采用 Android 模拟器方案 或者 真机投屏交互方案。得益于小瓶RPA采用纯图像识别的驱动方式，完全兼容各种手机应用模拟器 和 手机厂商的镜像投屏
-可以使用除了web增强插件外的任意api接口能力
-
-1. 模拟器方案：
-经过我们测试的推荐： 蓝叠
-已经有问题的：雷电模拟器，剪切板同步延迟，输入有问题
-
-1. 真机投屏交互方案：
-vivo办公套件
-华为智慧互联
+3. Unauthorized sale of this software, code, and other resources in any form is prohibited (including free parts bundled with paid projects);
 
 
-### Web应用浏览器增强
+# Installation Guide
 
-web增强可以使小瓶RPA脚本直接操作浏览器Dom元素，更方便快捷
+### Steps
 
-同时支持使用Dom选择器选择元素并返回结果
+1. Download and run the portable exe base  pbottleRPA.zip  [Base exe portable version](https://rpa.pbottle.com/)
+2. Install NodeJS script engine .msi, and install [Download link](https://rpa.pbottle.com/a-13943.html)   Please restart the base after installation
+3. Download [Test scripts](https://gitee.com/pbottle/pbottle-rpa/repository/archive/master.zip), run the base and select a demo script to start
 
- _注意：此功能需要安装小瓶RPA浏览器插件，版本需求：V2023.5以后支持_ 
+### Common Issues
 
-插件安装下载地址：[https://rpa.pbottle.com/a-13942.html](https://rpa.pbottle.com/a-13942.html)
+1. If the system prompts missing vcruntime140XX.dll   Download and install from Microsoft official website: [https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-140)  (New version is compatible)
 
+1. The exe startup directory path cannot contain Chinese characters. Copy to another directory or copy the folder to the disk root directory. (New version is compatible)
 
-### Demo示例
+1. Service port (49888) monitoring failure, troubleshooting: [https://rpa.pbottle.com/a-13924.html](https://rpa.pbottle.com/a-13924.html)
 
-自带Demo示例：（中文标题为demo示例脚本 后续会添加更多）
-
-
-注意：
-
-1. 【web增强】需要先安装小瓶RPA浏览器插件
-2. 【第三方】需要先双击  _第三方模块安装.bat_  安装所需模块。
+1. Software no longer supports 32-bit legacy operating systems
 
 
-### 全局热键
+### Computer Requirements
+
+New! V2023 version further improves AI algorithm library compatibility. Please download the latest version.
+
+Win7 system notes: https://rpa.pbottle.com/a-13941.html
+
+
+### Mobile App RPA
+
+1. Mobile apps can use Android emulator solution or real device screen mirroring. Thanks to Pbottle RPA's pure image recognition driving method, it is fully compatible with various mobile app emulators and phone manufacturers' screen mirroring.
+You can use any API interface capability except the web enhancement plugin.
+
+1. Emulator solution:
+Recommended after testing:  BlueStacks
+Known issues: LDPlayer, clipboard sync delay, input problems
+
+1. Real device screen mirroring solution:
+vivo Suite
+Huawei Smart Connectivity
+
+
+### Web Application Browser Enhancement
+
+Web enhancement allows Pbottle RPA scripts to directly manipulate browser DOM elements, making it more convenient and efficient.
+
+Also supports using DOM selectors to select elements and return results.
+
+ _Note: This feature requires installing the Pbottle RPA browser plugin, version requirement: V2023.5 and later_ 
+
+Plugin download: [https://rpa.pbottle.com/a-13942.html](https://rpa.pbottle.com/a-13942.html)
+
+
+### Demo Examples
+
+Built-in Demo examples: (Chinese titles are demo scripts, more will be added later)
+
+
+Notes:
+
+1. 【Web Enhancement】 requires installing Pbottle RPA browser plugin first
+2. 【Third-party】 requires double-clicking  _Third-party Module Installation.bat_  to install required modules.
+
+
+### Global Hotkeys
 
 
  **Ctrl + Shift + Q** 
 
-- 停止当前的脚本运行   结束当前的鼠标操作录制
+- Stop current script execution   End current mouse operation recording
 
  **Ctrl + Shift + R** 
 
-- 重新启动当前的脚本运行
+- Restart current script execution
 
 
 
-# AI 模型的使用
+# AI Model Usage
 
-### 本地模型
-1. OCR文字识别  示例： [文字提取查找OCR演示.js](文字提取查找OCR演示.js)
-2. 对象识别模型  示例：[GPT图像解析示例](GPT图像解析示例.js)
+### Local Models
+1. OCR text recognition  Example: [文字提取查找OCR演示.js](文字提取查找OCR演示.js)
+2. Object recognition model  Example: [GPT图像解析示例](GPT图像解析示例.js)
    
-### 云端大模型
-1. 大语言模型  示例： [文字提取查找OCR演示.js](文字提取查找OCR演示.js)
-2. 对象识别模型 示例： [GPT图像解析示例.js](GPT图像解析示例.js)
+### Cloud Large Models
+1. Large language model  Example: [文字提取查找OCR演示.js](文字提取查找OCR演示.js)
+2. Object recognition model Example: [GPT图像解析示例.js](GPT图像解析示例.js)
 
 
 
-# 开发流程脚本
+# Developing Flow Scripts
 
-### RPA脚本开发文档
+### RPA Script Development Documentation
 
-文档入口：
+Documentation portal:
 
 [https://rpa.pbottle.com/docs/](https://rpa.pbottle.com/docs/)
 
-### 支持脚本语言
+### Supported Scripting Languages
 
 1. NodeJS
-2. Python（Beta）
+2. Python (Beta)
 
-### 其它参考
+### Other References
 
-1. 键盘表  [https://rpa.pbottle.com/a-13862.html](https://rpa.pbottle.com/a-13862.html)
-2. 挂机定时任务  [https://rpa.pbottle.com/a-13868.html](https://rpa.pbottle.com/a-13868.html)
-3. 免费手机通知 [https://rpa.pbottle.com/a-12586.html](https://rpa.pbottle.com/a-12586.html)
+1. Keyboard reference  [https://rpa.pbottle.com/a-13862.html](https://rpa.pbottle.com/a-13862.html)
+2. Scheduled tasks  [https://rpa.pbottle.com/a-13868.html](https://rpa.pbottle.com/a-13868.html)
+3. Free mobile notification [https://rpa.pbottle.com/a-12586.html](https://rpa.pbottle.com/a-12586.html)
 
-### 技术交流微信群
+### Technical Discussion WeChat Group
 
-喜欢群聊的可以微信扫码加入（永不过期）：
+Feel free to join the group chat via WeChat QR code (never expires):
 
-![小瓶RPA技术交流群二维码](input/discuss.jpg)
+![Pbottle RPA Technical Discussion Group QR Code](input/discuss.jpg)
 
-### 官方RPA增值服务
+### Official RPA Value-Added Services
 
- [联系我们](https://rpa.pbottle.com/value-added.php) 
+ [Contact Us](https://rpa.pbottle.com/value-added.php) 
 
-### 小瓶RPA招聘
+### Pbottle RPA Recruitment
 
-英雄不问出处，各路英才简历投递方式：
+Talent is valued regardless of background, send your resume:
 
-打开小瓶RPA官网，浏览器console控制台查看。
-
+Open Pbottle RPA official website, view in browser console.
