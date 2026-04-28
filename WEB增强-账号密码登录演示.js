@@ -1,68 +1,69 @@
 /**
- * 小瓶RPA演示demo，具体api请查看*流程开发文档*
- * 官网：https://rpa.pbottle.com/
- * 流程开发文档：https://rpa.pbottle.com/docs/
+ * PBottle RPA demo – please refer to the *process development documentation* for API details.
+ * Official website: https://rpa.pbottle.com/
+ * Process development documentation: https://rpa.pbottle.com/docs/
  * 
- * 功能说明：此脚本演示了使用Web增强功能实现网站自动登录
- * 需要安装小瓶RPA浏览器插件来操作网页元素，实现完整的登录流程自动化
+ * Feature description: This script demonstrates automatic website login using Web Enhanced functions.
+ * The PBottle RPA browser extension is required to operate web elements and automate the complete login flow.
  */
 
-const pbottleRPA = require('./pbottleRPA')     // 引入小瓶RPA的核心库，获得对RPA功能的访问权限
+const pbottleRPA = require('./pbottleRPA')     // Import the core PBottle RPA library to access RPA functionality
 
-console.log(Date());                          // 在控制台输出当前日期时间
+console.log(Date());                            // Output the current date and time to the console
 
-console.log("=== ※※※※※※※※※ ===");
-console.log("=== 需要安装 小瓶RPA 浏览器插件 ==="); // 提示用户需要安装浏览器插件
-console.log("=== ※※※※※※※※※ ===");
+console.log("=== NOTE ===");
+console.log("=== The PBottle RPA browser extension must be installed ===");
+console.log("=== ===");
 
-// 使用文字转语音功能提示用户必须安装浏览器插件
-pbottleRPA.tts('必须安装小瓶RPA浏览器增强插件，手动点击确定继续')
-// 显示系统消息框再次提醒用户
-pbottleRPA.showMsg('提示：','必须先安装浏览器增强插件')
-// 打开指定网址用于演示登录操作
+// Use text-to-speech to inform the user that the browser extension is required
+pbottleRPA.tts('You must install the PBottle RPA browser enhancement extension. Click OK to continue.')
+// Show a system message box as an additional reminder
+pbottleRPA.showMsg('Tip:', 'You must install the browser enhancement extension first.')
+// Open the target URL for the login demonstration
 pbottleRPA.openURL('https://yun.pbottle.com/?from=rpademo')
 
-// 使用浏览器命令显示弹窗，等待用户手动确认（20秒超时）
-let ret = pbottleRPA.browserCMD_alert('来自小瓶RPA的问候，手动点击确定开始，20秒超时')
-console.log('返回操作结果',ret);              // 输出操作结果到控制台
+// Use a browser command to show an alert and wait for manual confirmation (20-second timeout)
+let ret = pbottleRPA.browserCMD_alert('Greetings from PBottle RPA. Click OK to start. 20-second timeout.')
+console.log('Operation result:', ret);          // Output the operation result to the console
 
-// 检查浏览器插件是否正常工作
+// Check whether the browser extension is working properly
 if (ret !== 'ok') {
-    console.log('没有检测到小瓶RPA浏览器插件',ret); // 如果未检测到插件，输出错误信息
-    process.exit(1)                           // 退出脚本
+    console.log('PBottle RPA browser extension not detected.', ret);
+    process.exit(1)                             // Exit the script
 }
 
-// 点击页面上的"登录或注册"链接
-pbottleRPA.browserCMD_click(`a[role='button']:contains(登录或注册)`)
-pbottleRPA.wait(2)                            // 等待2秒钟
+// Click the "Login or Register" link on the page
+pbottleRPA.browserCMD_click(`a[role='button']:contains(Login or Register)`)
+pbottleRPA.wait(2)                              // Wait 2 seconds
 
-// 点击"登录"按钮
-pbottleRPA.browserCMD_click(`a[role='button']:contains(登录)`)
-pbottleRPA.wait()                             // 等待默认时间
+// Click the "Login" button
+pbottleRPA.browserCMD_click(`a[role='button']:contains(Login)`)
+pbottleRPA.wait()                               // Wait for the default delay
 
-// 输入账号密码
-// 点击用户名输入框
+// Enter username and password
+// Click the username input field
 pbottleRPA.browserCMD_click(`input[name='uname']`)
-// 在用户名输入框中输入用户名'test'
-pbottleRPA.browserCMD_val(`input[name='uname']`,'test')
+// Enter the username 'test' into the username field
+pbottleRPA.browserCMD_val(`input[name='uname']`, 'test')
 
-// 点击密码输入框
+// Click the password input field
 pbottleRPA.browserCMD_click(`input[name='pwd']`)
-// 在密码输入框中输入密码'123456'
-pbottleRPA.browserCMD_val(`input[name='pwd']`,'123456')
-pbottleRPA.wait() 
-
-// 禁用登录按钮测试
-pbottleRPA.browserCMD_prop(`button:contains(登录帐号)`,'disabled',true);
+// Enter the password '123456' into the password field
+pbottleRPA.browserCMD_val(`input[name='pwd']`, '123456')
 pbottleRPA.wait()
 
-pbottleRPA.browserCMD_prop(`button:contains(登录帐号)`,'disabled',false); // 确保登录按钮可用
+// Disable the login button to test property setting
+pbottleRPA.browserCMD_prop(`button:contains(Login)`, 'disabled', true);
+pbottleRPA.wait()
 
-// 点击登录按钮
-pbottleRPA.browserCMD_click(`button:contains(登录帐号)`)
-pbottleRPA.wait(3)                            // 等待3秒钟
+// Re-enable the login button to ensure it is clickable
+pbottleRPA.browserCMD_prop(`button:contains(Login)`, 'disabled', false);
 
-// 模拟按下回车键确认登录
+// Click the login button
+pbottleRPA.browserCMD_click(`button:contains(Login)`)
+pbottleRPA.wait(3)                              // Wait 3 seconds
+
+// Simulate pressing the Enter key to confirm login
 pbottleRPA.keyTap('enter')
-// 使用文字转语音功能播报演示结束
-pbottleRPA.tts('演示结束')
+// Use text-to-speech to announce the end of the demo
+pbottleRPA.tts('Demo finished.')

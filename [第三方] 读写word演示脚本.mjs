@@ -1,32 +1,32 @@
 /**
- * 小瓶RPA演示demo，具体api请查看*流程开发文档*
- * 官网：https://rpa.pbottle.com/
- * 流程开发文档：https://rpa.pbottle.com/docs/
+ * PBottle RPA demo, please refer to the *process development documentation* for API details
+ * Official website: https://rpa.pbottle.com/
+ * Process development documentation: https://rpa.pbottle.com/docs/
  */
 
-import pbottleRPA from "./pbottleRPA.js";  //必须含 .js 后缀
+import pbottleRPA from "./pbottleRPA.js";  // must include .js extension
 import fs from 'node:fs'
 let mammoth
 let docx
 try {
-	mammoth = await import('mammoth')  // import mammoth  from "mammoth"
-    docx = await import('docx')   // import docx  from "docx"
+    mammoth = await import('mammoth')  // import mammoth from "mammoth"
+    docx = await import('docx')   // import docx from "docx"
 } catch {
-    pbottleRPA.showMsg('请先安装第三方模块','双击【第三方 模块安装.bat】')
-    pbottleRPA.tts('请先安装第三方模块' + '双击【第三方 模块安装.bat】')
-	pbottleRPA.exit('请先安装第三方模块' + '双击【第三方 模块安装.bat】')
+    pbottleRPA.showMsg('Please install third-party modules first', 'Double-click [Install modules.bat]')
+    pbottleRPA.tts('Please install third-party modules first. Double-click [Install modules.bat]')
+    pbottleRPA.exit('Please install third-party modules first. Double-click [Install modules.bat]')
 }
 
 
 
-console.log("=== word 后台读写测试 ===");
+console.log("=== Word Background Read/Write Test ===");
 console.log(Date());
-pbottleRPA.tts('word 后台读写测试')
+pbottleRPA.tts('Word Background Read/Write Test')
 pbottleRPA.wait(3)
-pbottleRPA.tts(`将后台生成 word 文件`)
+pbottleRPA.tts('Generating a Word document in the background')
 pbottleRPA.wait(5)
 
-//生成 word 文档  更多例子：https://gitee.com/mirrors_dolanmiu/docx/tree/master/demo
+// Generate a Word document. More examples: https://gitee.com/mirrors_dolanmiu/docx/tree/master/demo
 const doc = new docx.Document({
     sections: [
         {
@@ -35,7 +35,7 @@ const doc = new docx.Document({
                 new docx.Paragraph({
                     children: [
                         new docx.TextRun({
-                            text: "标题文字",
+                            text: "Title Text",
                             bold: true,
                             size: 40,
                         }),
@@ -44,7 +44,7 @@ const doc = new docx.Document({
                 new docx.Paragraph({
                     children: [
                         new docx.TextRun({
-                            text: "小瓶RPA官网：",
+                            text: "PBottle RPA official website: ",
                         }),
                         new docx.ExternalHyperlink({
                             children: [
@@ -63,16 +63,13 @@ const doc = new docx.Document({
 });
 
 let buffer = await docx.Packer.toBuffer(doc);
-fs.writeFileSync("word测试文档.docx", buffer);
+fs.writeFileSync("Word_test_document.docx", buffer);
 pbottleRPA.openDir(pbottleRPA.__dirname)
 
 
 
-//读取word文档
-pbottleRPA.tts(`将后台读取 word 文件 显示到日志`)
+// Read Word document
+pbottleRPA.tts('Reading the Word document in the background and displaying content in the log')
 pbottleRPA.wait(3)
-let rs = await mammoth.extractRawText({path:"./word测试文档.docx"})
-console.log('读取word文档内容：',rs.value);
-
-
-
+let rs = await mammoth.extractRawText({ path: "./Word_test_document.docx" })
+console.log('Word document content:', rs.value);

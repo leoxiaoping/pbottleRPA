@@ -1,18 +1,11 @@
 """
-小瓶RPA python版本（Beta）
-https://gitee.com/pbottle/pbottle-rpa
-官网：https://rpa.pbottle.com/
+PBottle RPA Standard Library API (Python Version)
+Homepage: https://rpa.pbottle.com/
+Repository: https://gitee.com/pbottle/pbottle-rpa
+Author: leo@pbottle.com
 
-Nodejs 移植兼容版 beta
-注：目前已完成 NodeJS 版本 API 同步
-
-js -> python 对照表：
-
-console.log ->  print  日志
-json ->  {}   json 字典
-`` ->  f""   字符串模板
-encodeURIComponent -> urlencode
-
+Node.js compatible port (Beta)
+Fully synchronized with the Node.js API
 """
 
 import time
@@ -34,41 +27,44 @@ from email.header import Header
 from email.mime.text import MIMEText
 from email.utils import formataddr
 
-# ========== 全局配置 ==========
+# ========== Global Configuration ==========
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", line_buffering=True)
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", line_buffering=True)
+
 pyPath = os.path.dirname(os.path.abspath(__file__))
 basePath = os.environ.get("RPAbaseDir", "")
 homePath = os.environ.get("RPAhomeDir", "")
 CppUrl = "http://127.0.0.1:49888/"
 defaultDelay = 1000
 
-print("基座服务地址：（Python）", CppUrl, "Python版本已同步NodeJS API")
+print(
+    "Base service address: (Python)", CppUrl, "Python version synced with Node.js API"
+)
 
 
-# ========== 自定义异常 ==========
+# ========== Custom Exceptions ==========
 class RPAError(Exception):
-    """RPA 操作异常基类"""
+    """RPA operation base exception"""
 
     pass
 
 
 class TimeoutError(RPAError):
-    """等待超时异常"""
+    """Wait timeout exception"""
 
     pass
 
 
-# ========== 工具函数 ==========
+# ========== Utility Functions ==========
 def urlencode(input_str):
-    """JS兼容的URL编码，等价于 encodeURIComponent"""
+    """JS-compatible URL encoding (equivalent to encodeURIComponent)"""
     return urllib.parse.quote(input_str, safe="")
 
 
 def isNumeric(value):
     """
-    判断是否为数字（包含数字字符串）
-    @param value: 任意类型变量
+    Check if a value is numeric (including numeric strings)
+    @param value: any variable
     @return: bool
     """
     try:
@@ -80,8 +76,8 @@ def isNumeric(value):
 
 def hasData(value):
     """
-    判断变量是否包含有效数据（非零数字、非空字符串/列表/字典/对象等）
-    @param value: 任意类型变量
+    Check if a variable contains meaningful data (non-zero number, non-empty string/list/dict/object, etc.)
+    @param value: any variable
     @return: bool
     """
     if value is None:
@@ -99,10 +95,10 @@ def hasData(value):
 
 def getTime(format_str="Y-m-d H:i:s", timestamp=None):
     """
-    格式化时间，支持 Y/y/m/d/H/i/s/n/j
-    @param format_str: 格式字符串，如 'Y-m-d H:i:s'
-    @param timestamp: 可选，Unix时间戳（秒）
-    @return: 格式化后的时间字符串
+    Format date/time (supports Y/y/m/d/H/i/s/n/j placeholders)
+    @param format_str: format string, e.g. 'Y-m-d H:i:s'
+    @param timestamp: optional Unix timestamp in seconds
+    @return: formatted time string
     """
     if timestamp:
         date = time.localtime(timestamp)
@@ -127,11 +123,11 @@ def getTime(format_str="Y-m-d H:i:s", timestamp=None):
 
 def searchFile(directory, words="", recursive=False):
     """
-    根据关键字搜索文件（递归可选）
-    @param directory: 目录绝对路径
-    @param words: 文件名包含的关键字（忽略大小写）
-    @param recursive: 是否递归子目录
-    @return: 匹配的文件路径列表
+    Search for files by keyword in a directory
+    @param directory: absolute directory path
+    @param words: keyword (case-insensitive)
+    @param recursive: whether to search subdirectories
+    @return: list of matching file paths
     """
     directory = os.path.abspath(directory)
     result = []
@@ -151,10 +147,10 @@ def searchFile(directory, words="", recursive=False):
 
 def uniqid(prefix="", moreEntropy=False):
     """
-    生成唯一ID（毫秒级）
-    @param prefix: 前缀字符串
-    @param moreEntropy: 是否增加随机熵
-    @return: 唯一ID字符串
+    Generate a unique ID (millisecond precision)
+    @param prefix: optional prefix
+    @param moreEntropy: add extra randomness
+    @return: unique ID string
     """
     timestamp = format(int(time.time() * 1000), "x")
     rand = ""
@@ -165,25 +161,25 @@ def uniqid(prefix="", moreEntropy=False):
 
 def substringFromTo(s, from_str="", to_str=""):
     """
-    根据起始关键词截取字符串（不包含关键词本身）
-    @param s: 原字符串
-    @param from_str: 开始关键词，空表示从头部开始
-    @param to_str: 结束关键词，空表示到结尾结束
-    @return: 截取后的子串
+    Extract substring between two markers (markers not included)
+    @param s: original string
+    @param from_str: start marker (empty = from beginning)
+    @param to_str: end marker (empty = to the end)
+    @return: extracted substring
     """
     start = s.find(from_str) + len(from_str) if from_str else 0
     end = s.rfind(to_str) if to_str else len(s)
     if (from_str and start == -1 + len(from_str)) or (to_str and end == -1):
-        print(f"⚠substringFromTo 没有关键词: {from_str} -> {to_str}")
+        print(f"⚠ substringFromTo: marker not found: {from_str} -> {to_str}")
         return ""
     return s[start:end]
 
 
-# ========== 基础操作 ==========
+# ========== Core Operations ==========
 def setDefaultDelay(millisecond):
     """
-    设置RPA模拟操作的全局延时（鼠标、键盘、粘贴、打开网页等）
-    @param millisecond: 毫秒数，默认1000
+    Set the global delay for simulation operations (mouse, keyboard, paste, open URL, etc.)
+    @param millisecond: delay in milliseconds, default 1000
     """
     global defaultDelay
     defaultDelay = millisecond
@@ -191,44 +187,45 @@ def setDefaultDelay(millisecond):
 
 def sleep(milliseconds):
     """
-    脚本暂停等待（毫秒），使用 Python 自带延时机制，一次等待上限 2 分钟
-    @param milliseconds: 毫秒数
+    Pause script execution (milliseconds) using native Python delay.
+    Maximum single wait is 2 minutes.
+    @param milliseconds: milliseconds
     """
     if milliseconds < 1:
         return
     if milliseconds >= 120000:
-        print("警告：一次等待上限时长两分钟内")
+        print("Warning: maximum wait is 2 minutes")
     seconds = milliseconds / 1000.0
     time.sleep(seconds)
 
 
 def wait(seconds=1):
     """
-    脚本暂停等待（秒），支持小数，超过100秒会自动分段等待
-    @param seconds: 秒数，默认1
+    Pause script execution (seconds). Supports fractions. Waits longer than 100s are split.
+    @param seconds: seconds, default 1
     """
     if seconds <= 0 or not isNumeric(seconds):
-        print("pbottleRPA.wait：seconds input error")
+        print("pbottleRPA.wait: seconds input error")
         return
     if seconds > 100:
         quotient = int(seconds // 100)
         for _ in range(quotient):
             sleep(100 * 1000)
-            print("提示：已等待100s...")
+            print("Tip: waited 100s...")
         seconds = seconds % 100
     sleep(seconds * 1000)
 
 
 def beep():
-    """发出系统警告声音"""
+    """Play system warning sound"""
     urllib.request.urlopen(f"{CppUrl}?action=beep")
 
 
 def showMsg(title, content):
     """
-    系统原生消息提示（右下角弹窗）
-    @param title: 标题
-    @param content: 内容
+    Show a system notification popup
+    @param title: title
+    @param content: content
     """
     title = urlencode(title)
     content = urlencode(content)
@@ -237,13 +234,13 @@ def showMsg(title, content):
 
 def showRect(fromX=0, fromY=0, width=500, height=500, color="red", msec=500):
     """
-    在屏幕上显示彩色方框（用于调试定位）
-    @param fromX: 起始X坐标
-    @param fromY: 起始Y坐标
-    @param width: 宽度
-    @param height: 高度
-    @param color: 颜色 red/green/blue/yellow
-    @param msec: 显示毫秒数
+    Draw a colored rectangle on screen (for debugging / highlighting)
+    @param fromX: top-left x
+    @param fromY: top-left y
+    @param width: width
+    @param height: height
+    @param color: red/green/blue/yellow
+    @param msec: display duration in milliseconds
     """
     fromX = int(round(fromX))
     fromY = int(round(fromY))
@@ -257,8 +254,8 @@ def showRect(fromX=0, fromY=0, width=500, height=500, color="red", msec=500):
 
 def exit_script(*args):
     """
-    强制退出当前脚本
-    @param *args: 退出时输出的信息
+    Force exit the current script
+    @param *args: optional exit messages
     """
     if args:
         print(*args)
@@ -266,20 +263,20 @@ def exit_script(*args):
     sys.exit(1)
 
 
-# 避免与内置 exit 冲突，同时保留原名
+# Alias to avoid conflict with built-in exit
 def exit(*args):
     """
-    强制退出当前脚本
-    @param *args: 退出时输出的信息
+    Force exit the current script
+    @param *args: optional exit messages
     """
     exit_script(*args)
 
 
 def kill(processName, force=False):
     """
-    关闭指定进程（Windows taskkill）
-    @param processName: 进程名称，如 'WINWORD.EXE'
-    @param force: 是否强制结束
+    Terminate a process (Windows taskkill)
+    @param processName: process name, e.g. 'WINWORD.EXE'
+    @param force: force termination
     """
     force_flag = "/F" if force else ""
     try:
@@ -289,17 +286,17 @@ def kill(processName, force=False):
             check=True,
             capture_output=True,
         )
-        print(f"关闭进程成功：{processName}")
+        print(f"Process killed: {processName}")
     except subprocess.CalledProcessError:
-        print(f"关闭进程（{processName}）失败，可能软件未运行")
+        print(f"Failed to kill process ({processName}), maybe not running")
 
 
 def moveMouseSmooth(x, y, interval=0):
     """
-    平滑移动鼠标到指定位置（屏幕左上角为原点）
-    @param x: 横坐标
-    @param y: 纵坐标
-    @param interval: 像素间隔时间（毫秒），越大移动越慢，默认0
+    Move mouse smoothly to absolute screen coordinates (top-left origin)
+    @param x: x coordinate
+    @param y: y coordinate
+    @param interval: per-pixel delay (ms), larger = slower movement, default 0
     """
     x = int(round(x))
     y = int(round(y))
@@ -307,15 +304,15 @@ def moveMouseSmooth(x, y, interval=0):
     sleep(defaultDelay)
 
 
-# 别名
+# Alias
 moveMouse = moveMouseSmooth
 
 
 def moveAndClick(x, y):
     """
-    移动鼠标到指定位置并点击左键
-    @param x: 横坐标
-    @param y: 纵坐标
+    Move mouse to position and left click
+    @param x: x coordinate
+    @param y: y coordinate
     """
     moveMouseSmooth(x, y)
     mouseClick()
@@ -323,9 +320,9 @@ def moveAndClick(x, y):
 
 def mouseClick(leftRight="left", time_ms=30):
     """
-    当前位置点击鼠标
-    @param leftRight: 'left' 或 'right'
-    @param time_ms: 点按时间（毫秒）
+    Click at current position
+    @param leftRight: 'left' or 'right'
+    @param time_ms: press duration in ms
     """
     action = "mouseLeftClick" if leftRight != "right" else "mouseRightClick"
     urllib.request.urlopen(f"{CppUrl}?action={action}&time={time_ms}")
@@ -333,15 +330,15 @@ def mouseClick(leftRight="left", time_ms=30):
 
 
 def mouseDoubleClick():
-    """双击鼠标左键"""
+    """Double-click left mouse button"""
     urllib.request.urlopen(f"{CppUrl}?action=mouseDoubleClick")
     sleep(defaultDelay)
 
 
 def mouseWheel(data=-720):
     """
-    鼠标滚轮
-    @param data: 滚动量，负数向下，正数向上，默认-720
+    Mouse wheel scroll
+    @param data: scroll amount, negative = down, positive = up, default -720
     """
     urllib.request.urlopen(f"{CppUrl}?action=mouseWheel&data={data}")
     sleep(defaultDelay)
@@ -349,9 +346,9 @@ def mouseWheel(data=-720):
 
 def mouseLeftDragTo(x, y):
     """
-    鼠标左键拖拽到指定位置
-    @param x: 目标X坐标
-    @param y: 目标Y坐标
+    Left-button drag to a position
+    @param x: target x coordinate
+    @param y: target y coordinate
     """
     x = int(round(x))
     y = int(round(y))
@@ -361,9 +358,9 @@ def mouseLeftDragTo(x, y):
 
 def mouseRightDragTo(x, y):
     """
-    鼠标右键拖拽到指定位置
-    @param x: 目标X坐标
-    @param y: 目标Y坐标
+    Right-button drag to a position
+    @param x: target x coordinate
+    @param y: target y coordinate
     """
     x = int(round(x))
     y = int(round(y))
@@ -373,10 +370,10 @@ def mouseRightDragTo(x, y):
 
 def getScreenColor(x, y):
     """
-    获取屏幕某点颜色
-    @param x: 横坐标
-    @param y: 纵坐标
-    @return: 颜色值，如 '#000000'
+    Get the color of a screen pixel
+    @param x: x coordinate
+    @param y: y coordinate
+    @return: color value, e.g. '#000000'
     """
     resp = urllib.request.urlopen(f"{CppUrl}?action=getScreenColor&x={x}&y={y}")
     return json.loads(resp.read().decode())["rs"]
@@ -384,13 +381,13 @@ def getScreenColor(x, y):
 
 def screenShot(savePath="", x=0, y=0, w=-1, h=-1):
     """
-    屏幕截图
-    @param savePath: 保存路径（应以.png结尾），默认保存到“我的图片”
-    @param x: 截图起始X
-    @param y: 截图起始Y
-    @param w: 宽度，-1表示全屏
-    @param h: 高度，-1表示全屏
-    @return: 返回结果字符串
+    Take a screenshot
+    @param savePath: save path (should end with .png), default saves to Pictures folder
+    @param x: start x
+    @param y: start y
+    @param w: width (-1 = full screen)
+    @param h: height (-1 = full screen)
+    @return: result string
     """
     if savePath:
         savePath = os.path.abspath(savePath)
@@ -406,9 +403,9 @@ def screenShot(savePath="", x=0, y=0, w=-1, h=-1):
 
 def keycode(name):
     """
-    按键名称转虚拟键码（与 JS 版本完全对齐）
-    @param name: 按键名称（参考 https://www.pbottle.com/a-13862.html）
-    @return: 键码整数
+    Convert key name to virtual key code (aligned with JS version)
+    @param name: key name (see https://www.pbottle.com/a-13862.html)
+    @return: integer key code
     """
     name = name.strip().lower()
     mapping = {
@@ -529,13 +526,13 @@ def keycode(name):
 
 def keyToggle(key, upDown="down"):
     """
-    模拟键盘按键基础事件（按下或松开）
-    @param key: 按键名称
-    @param upDown: 'down' 按下 / 'up' 松开
+    Simulate key down/up event
+    @param key: key name
+    @param upDown: 'down' for press, 'up' for release
     """
     key_n = keycode(key)
     if key_n == 0:
-        print(f"⚠ 按键 {key} 不存在！~")
+        print(f"⚠ Key {key} does not exist!")
         return
     upDown_n = 0 if upDown != "up" else 2
     urllib.request.urlopen(
@@ -545,8 +542,8 @@ def keyToggle(key, upDown="down"):
 
 def keyTap(key):
     """
-    模拟键盘按键（按下并松开），支持组合键，如 'ctrl+a'
-    @param key: 按键名称或组合键（加号连接）
+    Press a key (press and release). Supports combos like 'ctrl+a'
+    @param key: key name or combo (joined by '+')
     """
     if "+" in key:
         parts = [p.strip() for p in key.split("+")]
@@ -562,9 +559,9 @@ def keyTap(key):
 
 def mouseKeyToggle(key="left", upDown="down"):
     """
-    模拟鼠标按键基础事件
+    Simulate mouse button down/up event
     @param key: 'left' / 'right' / 'middle'
-    @param upDown: 'down' 按下 / 'up' 松开
+    @param upDown: 'down' for press, 'up' for release
     """
     key_map = {"left": 0, "right": 1, "middle": 2}
     key_n = key_map.get(key, 0)
@@ -576,17 +573,17 @@ def mouseKeyToggle(key="left", upDown="down"):
 
 def findScreen(tpPaths, miniSimilarity=0.85, fromX=0, fromY=0, width=-1, height=-1):
     """
-    屏幕查找图像定位
-    @param tpPaths: 小图片路径（建议png），或图片路径列表
-    @param miniSimilarity: 最低相似度，0-1，默认0.85
-    @param fromX: 查找起始X
-    @param fromY: 查找起始Y
-    @param width: 搜索宽度，-1表示全屏
-    @param height: 搜索高度，-1表示全屏
-    @return: 找到返回 {'x':int, 'y':int, 'value':float}，否则返回 False
+    Find an image on screen (template matching)
+    @param tpPaths: image template path(s), can be a string or a list (relative like ./image/123.png)
+    @param miniSimilarity: minimum similarity (0-1), default 0.85
+    @param fromX: search start x
+    @param fromY: search start y
+    @param width: search width (-1 = full screen)
+    @param height: search height (-1 = full screen)
+    @return: dict {'x': int, 'y': int, 'value': float} if found, otherwise False
     """
     if fromX < 0 or fromY < 0:
-        raise ValueError(f"错误：找图起始点不能为负，x:{fromX} y:{fromY}")
+        raise ValueError(f"Error: search start cannot be negative, x:{fromX} y:{fromY}")
     if fromX != 0 or fromY != 0 or width != -1 or height != -1:
         showRect(fromX, fromY, width, height)
     if not isinstance(tpPaths, list):
@@ -607,13 +604,13 @@ def findScreen(tpPaths, miniSimilarity=0.85, fromX=0, fromY=0, width=-1, height=
 
 def findText(inputTxt, fromX=0, fromY=0, width=-1, height=-1):
     """
-    查找屏幕上的文字（基于OCR）
-    @param inputTxt: 要查找的文字（部分匹配）
-    @param fromX: 查找起始X
-    @param fromY: 查找起始Y
-    @param width: 搜索宽度
-    @param height: 搜索高度
-    @return: 找到返回 {'text':str, 'x':int, 'y':int, 'score':float}，否则返回 False
+    Find text on screen (using OCR)
+    @param inputTxt: text to search (partial match)
+    @param fromX: start x
+    @param fromY: start y
+    @param width: search width
+    @param height: search height
+    @return: dict {'text': str, 'x': int, 'y': int, 'score': float} if found, else False
     """
     ocr_res = aiOcr("screen", fromX, fromY, width, height)
     for item in ocr_res:
@@ -627,14 +624,14 @@ def waitText(
     inputTxt, fromX=0, fromY=0, width=-1, height=-1, intervalFun=None, timeOut=20
 ):
     """
-    等待屏幕指定文字出现
-    @param inputTxt: 搜索文字
-    @param fromX,fromY,width,height: 搜索范围
-    @param intervalFun: 回调函数，返回 'stopWait' 时停止等待
-    @param timeOut: 超时秒数
-    @return: 找到返回位置字典，超时抛出 TimeoutError
+    Wait for a text to appear on screen
+    @param inputTxt: text to wait for
+    @param fromX, fromY, width, height: search region
+    @param intervalFun: callback, return 'stopWait' to abort
+    @param timeOut: timeout in seconds
+    @return: position dict, raises TimeoutError on timeout
     """
-    print("waiting Text：", inputTxt)
+    print("Waiting for text:", inputTxt)
     for _ in range(timeOut):
         sleep(1000)
         pos = findText(inputTxt, fromX, fromY, width, height)
@@ -643,24 +640,26 @@ def waitText(
         if intervalFun and intervalFun() == "stopWait":
             print("stopWait from intervalFun")
             return False
-    print("已经保存超时截图到：我的图片")
+    print("Timeout screenshot saved to Pictures")
     screenShot()
     frame = inspect.currentframe().f_back
-    raise TimeoutError(f"等待文字超时 {inputTxt} 位置（行）:{frame.f_lineno}")
+    raise TimeoutError(f"Wait text timeout: {inputTxt} at line {frame.f_lineno}")
 
 
 def findContours(minimumArea=1000, fromX=0, fromY=0, width=-1, height=-1):
     """
-    查找屏幕上的轮廓（物体/窗口边缘）
-    @param minimumArea: 最小面积，默认1000（约31x31像素）
-    @param fromX: 查找起始X
-    @param fromY: 查找起始Y
-    @param width: 搜索宽度
-    @param height: 搜索高度
-    @return: 轮廓列表，每个元素包含 x,y,cx,cy,area,id
+    Find contours (object/window edges) on screen
+    @param minimumArea: minimum area, default 1000 (approx 31x31 pixels)
+    @param fromX: start x
+    @param fromY: start y
+    @param width: search width
+    @param height: search height
+    @return: list of contour dicts with keys: x, y, cx, cy, area, id
     """
     if fromX < 0 or fromY < 0:
-        raise ValueError(f"错误：轮廓查找起始点不能为负，x:{fromX} y:{fromY}")
+        raise ValueError(
+            f"Error: contour search start cannot be negative, x:{fromX} y:{fromY}"
+        )
     if fromX != 0 or fromY != 0 or width != -1 or height != -1:
         showRect(fromX, fromY, width, height)
     resp = urllib.request.urlopen(
@@ -675,11 +674,11 @@ def findContours(minimumArea=1000, fromX=0, fromY=0, width=-1, height=-1):
 
 def imgSimilar(path1, path2, checkType="ORB"):
     """
-    图片相似度对比
-    @param path1: 图片1路径
-    @param path2: 图片2路径
-    @param checkType: 算法 'SIFT'/'ORB'/'SSIM'，默认 'ORB'
-    @return: {'score':float, 'time':float}
+    Compare two images for similarity
+    @param path1: first image path
+    @param path2: second image path
+    @param checkType: algorithm 'SIFT', 'ORB', or 'SSIM' (default 'ORB')
+    @return: dict {'score': float, 'time': float}
     """
     path1 = urlencode(os.path.abspath(path1))
     path2 = urlencode(os.path.abspath(path2))
@@ -691,8 +690,8 @@ def imgSimilar(path1, path2, checkType="ORB"):
 
 def paste(txt):
     """
-    在当前焦点位置粘贴输入文本（模拟 Ctrl+V）
-    @param txt: 要输入的文本
+    Paste text at current focus (simulates Ctrl+V)
+    @param txt: text to paste
     """
     copyText(txt)
     keyTap("ctrl+v")
@@ -701,8 +700,8 @@ def paste(txt):
 
 def copyText(txt):
     """
-    复制文本到剪贴板
-    @param txt: 文本内容
+    Copy text to clipboard
+    @param txt: text content
     """
     txt = urlencode(txt)
     urllib.request.urlopen(f"{CppUrl}?action=copyText&txt={txt}")
@@ -710,12 +709,12 @@ def copyText(txt):
 
 def copyFile(filepath):
     """
-    复制文件/文件夹到剪贴板，之后可在目标位置粘贴（如微信发送文件）
-    @param filepath: 绝对路径
+    Copy file/folder to clipboard (can then paste elsewhere, e.g. WeChat)
+    @param filepath: absolute path
     """
     filepath = os.path.abspath(filepath)
     if not os.path.exists(filepath):
-        print(f"copyFile警告:文件路径不存在 {filepath}")
+        print(f"copyFile warning: path does not exist {filepath}")
     filepath = filepath.replace("\\", "/")
     filepath = urlencode(filepath)
     urllib.request.urlopen(f"{CppUrl}?action=copyFile&path={filepath}")
@@ -723,8 +722,8 @@ def copyFile(filepath):
 
 def getClipboard():
     """
-    获取剪贴板内容（支持文本、图片base64、HTML）
-    @return: 剪贴板内容字符串
+    Get clipboard content (supports text, image base64, HTML)
+    @return: clipboard content string
     """
     resp = urllib.request.urlopen(f"{CppUrl}?action=getClipboard")
     return resp.read().decode()
@@ -732,24 +731,24 @@ def getClipboard():
 
 def wxMessage(title, content, key):
     """
-    通过小瓶云发送微信通知（免费）
-    @param title: 消息标题
-    @param content: 消息内容
-    @param key: 获取key详情 https://www.pbottle.com/a-12586.html
+    Send a WeChat notification via PBottle cloud (free)
+    @param title: message title
+    @param content: message content
+    @param key: get key at https://www.pbottle.com/a-12586.html
     """
     url = f"https://yun.pbottle.com/manage/yun/?msg={urlencode(content)}&name={urlencode(title)}&key={key}"
     resp = urllib.request.urlopen(url)
-    print("发送微信消息：", resp.read().decode())
+    print("WeChat message sent:", resp.read().decode())
 
 
 def postJson(url, msgJson, headersJson=None, method="POST"):
     """
-    向API发送JSON数据
-    @param url: API地址
-    @param msgJson: 要发送的字典对象
-    @param headersJson: 额外请求头字典
-    @param method: HTTP方法，默认POST
-    @return: 响应文本
+    Send JSON data to an API
+    @param url: API endpoint
+    @param msgJson: dict to send
+    @param headersJson: extra headers dict
+    @param method: HTTP method, default POST
+    @return: response text
     """
     if headersJson is None:
         headersJson = {}
@@ -766,12 +765,12 @@ def postJson(url, msgJson, headersJson=None, method="POST"):
 
 def postJsonFile(url, msgJsonFile, headersJson=None, method="POST"):
     """
-    从文件读取JSON并发送到API（适合大JSON）
-    @param url: API地址
-    @param msgJsonFile: JSON文件路径
-    @param headersJson: 额外请求头字典
-    @param method: HTTP方法
-    @return: 响应文本
+    Send a JSON file to an API (suitable for large payloads)
+    @param url: API endpoint
+    @param msgJsonFile: path to JSON file
+    @param headersJson: extra headers dict
+    @param method: HTTP method
+    @return: response text
     """
     if headersJson is None:
         headersJson = {}
@@ -790,11 +789,11 @@ def postJsonFile(url, msgJsonFile, headersJson=None, method="POST"):
 
 def getHtml(url, headersJson=None, method="GET"):
     """
-    普通HTTP请求，返回响应文本
-    @param url: 网址
-    @param headersJson: 请求头字典
-    @param method: HTTP方法
-    @return: 响应文本
+    Simple HTTP request returning response text
+    @param url: URL
+    @param headersJson: request headers dict
+    @param method: HTTP method
+    @return: response body string
     """
     if headersJson is None:
         headersJson = {}
@@ -805,16 +804,16 @@ def getHtml(url, headersJson=None, method="GET"):
 
 def downloadFile(fileUrl, filename, headersJson=None):
     """
-    下载文件到本地
-    @param fileUrl: 文件URL
-    @param filename: 本地保存路径
-    @param headersJson: 请求头字典
+    Download a file and save locally
+    @param fileUrl: file URL
+    @param filename: local save path
+    @param headersJson: request headers dict
     """
     if headersJson is None:
         headersJson = {}
     filename = os.path.abspath(filename)
     os.makedirs(os.path.dirname(filename), exist_ok=True)
-    print("下载文件到:", filename)
+    print("Download file to:", filename)
     req = urllib.request.Request(fileUrl, headers=headersJson)
     with urllib.request.urlopen(req) as resp, open(filename, "wb") as out:
         out.write(resp.read())
@@ -830,20 +829,20 @@ def sendMail(
     passwd="fxfqtsxmwcohbcbc",
 ):
     """
-    发送邮件（同步阻塞）
-    @param to: 收件人地址
-    @param subject: 主题
-    @param content: 正文（纯文本）
-    @param host: SMTP服务器
-    @param port: 端口
-    @param user: 用户名
-    @param passwd: 密码
-    @return: 成功提示字符串
+    Send an email (synchronous)
+    @param to: recipient email
+    @param subject: email subject
+    @param content: plain text body
+    @param host: SMTP server
+    @param port: SMTP port
+    @param user: authentication user
+    @param passwd: authentication password
+    @return: success message string
     """
     if user == "leo191@foxmail.com":
-        content += "\n\n 请不要将演示测试邮箱用作实际业务，详细查看：https://rpa.pbottle.com/a-14106.html"
+        content += "\n\n Please do not use the demo email for production; see https://rpa.pbottle.com/a-14106.html"
     msg = MIMEText(content, "plain", "utf-8")
-    msg["From"] = formataddr(("小瓶RPA", user))
+    msg["From"] = formataddr(("PBottle RPA", user))
     msg["To"] = formataddr(("", to)) if "@" in str(to) else to
     msg["Subject"] = Header(subject, "utf-8")
 
@@ -851,13 +850,13 @@ def sendMail(
     with smtplib.SMTP_SSL(host, port, context=context) as server:
         server.login(user, passwd)
         server.sendmail(user, [to], msg.as_string())
-    return "✅ 邮件发送成功"
+    return "✅ Email sent successfully"
 
 
 def tts(text):
     """
-    文字转语音播报（非阻塞）
-    @param text: 要朗读的文本
+    Text-to-speech (non-blocking)
+    @param text: text to speak
     """
     text = urlencode(text)
     urllib.request.urlopen(f"{CppUrl}?action=tts&txt={text}")
@@ -866,8 +865,8 @@ def tts(text):
 
 def openURL(myurl):
     """
-    用默认浏览器打开网址
-    @param myurl: 网址
+    Open a URL with the default browser
+    @param myurl: URL string
     """
     urllib.request.urlopen(f"{CppUrl}?action=setWebReadyPage")
     myurl = urlencode(myurl)
@@ -877,8 +876,8 @@ def openURL(myurl):
 
 def openDir(filePath):
     """
-    用资源管理器打开文件夹或默认程序打开文件
-    @param filePath: 绝对路径
+    Open a folder in Explorer or a file with its default program
+    @param filePath: absolute path
     """
     filePath = os.path.abspath(filePath)
     filePath = urlencode(filePath)
@@ -886,14 +885,13 @@ def openDir(filePath):
     sleep(defaultDelay)
 
 
-# 别名
 openfile = openDir
 
 
 def getResolution():
     """
-    获取屏幕分辨率及缩放比例
-    @return: {'w':int, 'h':int, 'ratio':float}
+    Get screen resolution and scaling factor
+    @return: dict {'w': int, 'h': int, 'ratio': float}
     """
     resp = urllib.request.urlopen(f"{CppUrl}?action=getResolution")
     return json.loads(resp.read().decode())
@@ -901,18 +899,18 @@ def getResolution():
 
 def aiOcr(imagePath="screen", x=0, y=0, width=-1, height=-1):
     """
-    AI文字识别（OCR），支持屏幕或图片文件
-    @param imagePath: 'screen' 或图片绝对路径
-    @param x: 起始X
-    @param y: 起始Y
-    @param width: 宽度
-    @param height: 高度
-    @return: 识别结果列表，每项含 text,score,x,y
+    AI OCR (text recognition). Supports screen capture or image file.
+    @param imagePath: 'screen' or absolute image path
+    @param x: start x
+    @param y: start y
+    @param width: region width
+    @param height: region height
+    @return: list of dicts with keys: text, score, x, y
     """
     if not imagePath:
         imagePath = "screen"
     if x < 0 or y < 0:
-        raise ValueError(f"错误：OCR 起始点不能为负，x:{x} y:{y}")
+        raise ValueError(f"Error: OCR start cannot be negative, x:{x} y:{y}")
     if x != 0 or y != 0 or width != -1 or height != -1:
         showRect(x, y, width, height)
     if imagePath != "screen":
@@ -922,8 +920,8 @@ def aiOcr(imagePath="screen", x=0, y=0, width=-1, height=-1):
         f"{CppUrl}?action=aiOcr&path={imagePath}&x={x}&y={y}&width={width}&height={height}&onlyEn=0"
     )
     res = resp.read().decode()
-    if res == "文字识别引擎未启动":
-        print("⚠ 文字识别引擎未启动，请在软件设置中开启")
+    if res == "文字识别引擎未启动":  # Keep original server message
+        print("⚠ OCR engine not started, please enable it in software settings")
         exit_script()
     items = json.loads(res)
     for it in items:
@@ -934,24 +932,28 @@ def aiOcr(imagePath="screen", x=0, y=0, width=-1, height=-1):
 
 def aiObject(minimumScore=0.5, x=0, y=0, width=-1, height=-1):
     """
-    AI物体识别（检测常见物体）
-    @param minimumScore: 置信度阈值，默认0.5
-    @param x: 起始X
-    @param y: 起始Y
-    @param width: 宽度
-    @param height: 高度
-    @return: 检测结果列表，每项含 x,y,width,height,score,class
+    AI object detection. Debug output saved to debug/Ai_ObjectDetect.png.
+    @param minimumScore: confidence threshold (0-1)
+    @param x: start x
+    @param y: start y
+    @param width: region width
+    @param height: region height
+    @return: list of dicts with keys: x, y, width, height, score, class
     """
     if x < 0 or y < 0:
-        raise ValueError(f"错误：物体识别起始点不能为负，x:{x} y:{y}")
+        raise ValueError(
+            f"Error: object detection start cannot be negative, x:{x} y:{y}"
+        )
     if x != 0 or y != 0 or width != -1 or height != -1:
         showRect(x, y, width, height)
     resp = urllib.request.urlopen(
         f"{CppUrl}?action=aiObject&minimumScore={minimumScore}&x={x}&y={y}&width={width}&height={height}&onlyEn=0"
     )
     res = resp.read().decode()
-    if res == "物体识别引擎未启动":
-        print("⚠ 物体识别引擎未启动，请在软件设置中开启")
+    if res == "物体识别引擎未启动":  # Keep original server message
+        print(
+            "⚠ Object detection engine not started, please enable it in software settings"
+        )
         exit_script()
     items = json.loads(res)
     for it in items:
@@ -963,12 +965,12 @@ def aiObject(minimumScore=0.5, x=0, y=0, width=-1, height=-1):
 
 def zipDir(directory, zipFilePath=""):
     """
-    压缩文件夹为ZIP文件（使用Python标准库zipfile）
-    @param directory: 要压缩的文件夹路径
-    @param zipFilePath: 输出ZIP路径，默认在目录下生成
+    Zip a folder using the Python standard library
+    @param directory: folder path
+    @param zipFilePath: output zip file path (defaults to 'RPA_ZipPackage.zip' inside the folder)
     """
     if not zipFilePath:
-        zipFilePath = os.path.join(directory, "RPA生成的压缩包.zip")
+        zipFilePath = os.path.join(directory, "RPA_ZipPackage.zip")
     directory = os.path.abspath(directory)
     zipFilePath = os.path.abspath(zipFilePath)
     with zipfile.ZipFile(zipFilePath, "w", zipfile.ZIP_DEFLATED) as zipf:
@@ -981,9 +983,9 @@ def zipDir(directory, zipFilePath=""):
 
 def unZip(zipFilePath, directory=""):
     """
-    解压ZIP文件到指定目录
-    @param zipFilePath: ZIP文件路径
-    @param directory: 解压目标目录，默认与ZIP同级
+    Unzip a file to a directory
+    @param zipFilePath: zip file path
+    @param directory: destination folder (defaults to same location as zip)
     """
     if not directory:
         directory = os.path.dirname(zipFilePath)
@@ -996,9 +998,9 @@ def unZip(zipFilePath, directory=""):
 
 def bufferGet(n=0):
     """
-    获取跨脚本共享缓冲区内容（0-9共10个）
-    @param n: 缓冲区编号
-    @return: 存储的字符串
+    Retrieve content from a cross‑script shared buffer (0‑9)
+    @param n: buffer index (0‑9)
+    @return: stored string
     """
     resp = urllib.request.urlopen(f"{CppUrl}?action=bufferGet&n={n}")
     return resp.read().decode()
@@ -1006,18 +1008,18 @@ def bufferGet(n=0):
 
 def bufferSet(content, n=0):
     """
-    设置跨脚本共享缓冲区内容
-    @param content: 要存储的内容（字符串）
-    @param n: 缓冲区编号
-    @return: 'ok' 表示成功
+    Store content in a cross‑script shared buffer
+    @param content: content string
+    @param n: buffer index (0‑9)
+    @return: 'ok' on success
     """
     return postJson(f"{CppUrl}?action=bufferSet&n={n}", content)
 
 
 def delaySet(scriptPath=""):
     """
-    设置当前脚本结束后自动接力的脚本
-    @param scriptPath: 接力脚本绝对路径，为空则清除接力任务
+    Set a script to run automatically after the current script ends (regardless of error)
+    @param scriptPath: absolute path to the follow‑up script; empty to clear
     @return: 'ok'
     """
     if scriptPath:
@@ -1029,8 +1031,8 @@ def delaySet(scriptPath=""):
 
 def deviceID():
     """
-    获取当前设备的唯一ID（用于云端接口）
-    @return: 设备ID字符串
+    Get the unique device ID (used for cloud services)
+    @return: device ID string
     """
     resp = urllib.request.urlopen(f"{CppUrl}?action=pbottleRPA_deviceID")
     return resp.read().decode()
@@ -1038,23 +1040,23 @@ def deviceID():
 
 def clusterCenter():
     """
-    获取集群中心信息（企业版功能）
-    @return: 字符串
+    Get cluster center information (Enterprise feature)
+    @return: string
     """
     resp = urllib.request.urlopen(f"{CppUrl}?action=pbottleRPA_clusterCenter")
     return resp.read().decode()
 
 
-# ========== Cloud 模块 ==========
+# ========== Cloud Module ==========
 class cloud:
     @staticmethod
     def GPT(question, modelLevel=0, options=None):
         """
-        云端大语言模型问答
-        @param question: 问题字符串
-        @param modelLevel: 0=低价模型,1=性价比,2=旗舰
-        @param options: 可选字典，如 {'response_format':'json_object', 'temperature':0.75, 'enable_search':False}
-        @return: {'content':str, 'tokens':int}
+        Cloud-based large language model Q&A
+        @param question: question string
+        @param modelLevel: 0 = budget model, 1 = balanced, 2 = flagship
+        @param options: optional dict, e.g. {'response_format': 'json_object', 'temperature': 0.75, 'enable_search': False}
+        @return: dict {'content': str, 'tokens': int}
         """
         if options is None:
             options = {
@@ -1063,7 +1065,7 @@ class cloud:
                 "enable_search": False,
             }
         if len(question) < 3:
-            raise ValueError("问题过短，请输入至少2个字符")
+            raise ValueError("Question too short (min 2 characters)")
         data = {
             "question": question,
             "deviceToken": deviceID(),
@@ -1073,21 +1075,21 @@ class cloud:
         resp = postJson("https://rpa.pbottle.com/API/", data)
         result = json.loads(resp)
         if result.get("error"):
-            raise RPAError(f"错误: {result['error']}")
+            raise RPAError(f"Error: {result['error']}")
         return result
 
     @staticmethod
     def GPTV(question, imagePath, modelLevel=0):
         """
-        云端图像分析大模型（图片+问题）
-        @param question: 关于图片的问题
-        @param imagePath: 图片本地路径
-        @param modelLevel: 模型等级
-        @return: {'content':str, 'tokens':int}
+        Cloud-based image analysis model (image + question)
+        @param question: question about the image
+        @param imagePath: local image path
+        @param modelLevel: model level
+        @return: dict {'content': str, 'tokens': int}
         """
         imagePath = os.path.abspath(imagePath)
         if not os.path.exists(imagePath):
-            raise FileNotFoundError("输入分析图片不存在：cloud_GPTV")
+            raise FileNotFoundError("Input image does not exist: cloud_GPTV")
         with open(imagePath, "rb") as f:
             img_b64 = base64.b64encode(f.read()).decode()
         temp_json = os.path.join(tempfile.gettempdir(), "cloud_GPTV.json")
@@ -1104,15 +1106,15 @@ class cloud:
         resp = postJsonFile("https://rpa.pbottle.com/API/gptv", temp_json)
         result = json.loads(resp)
         if result.get("error"):
-            raise RPAError(f"错误 cloud_GPTV: {result['error']}")
+            raise RPAError(f"Error cloud_GPTV: {result['error']}")
         return result
 
     @staticmethod
-    def GPTA(action="点击", question="桌面微信图标"):
+    def GPTA(action="click", question="Desktop WeChat icon"):
         """
-        云端屏幕分析并自动执行动作（点击/双击/右键）
-        @param action: '点击' / '双击' / '右键'
-        @param question: 要操作的目标描述，如“桌面微信图标”
+        Cloud-based screen analysis with automatic action (click, double_click, right_click).
+        @param action: 'click' | 'double_click' | 'right_click'
+        @param question: target description, e.g. 'Desktop WeChat icon'
         """
         device_token = deviceID()
         tmp_img = os.path.join(
@@ -1136,7 +1138,7 @@ class cloud:
         resp = postJsonFile("https://rpa.pbottle.com/API/gpta", tmp_json)
         result = json.loads(resp)
         if result.get("error"):
-            raise RPAError(f"错误 cloud_GPTA: {result['error']}")
+            raise RPAError(f"Error cloud_GPTA: {result['error']}")
         print(result)
         boxes = result["content"].split("\n")
         resolution = getResolution()
@@ -1151,21 +1153,21 @@ class cloud:
             showRect(x1, y1, x2 - x1, y2 - y1, "green")
             cx = int(round((x1 + x2) / 2))
             cy = int(round((y1 + y2) / 2))
-            print(f"{question} 的位置: ({cx}, {cy})")
+            print(f"{question} position: ({cx}, {cy})")
             moveMouseSmooth(cx, cy)
-            if action == "点击":
+            if action == "click":
                 mouseClick("left")
-            elif action == "双击":
+            elif action == "double_click":
                 mouseDoubleClick()
-            elif action == "右键":
+            elif action == "right_click":
                 mouseClick("right")
 
 
-# ========== 浏览器增强模块 ==========
+# ========== Browser Enhanced Module ==========
 class browserCMD:
     @staticmethod
     def alert(msg):
-        """浏览器弹出警告框"""
+        """Show an alert dialog in the browser"""
         code = json.dumps({"action": "alert", "args": [msg]})
         resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
         return resp
@@ -1173,8 +1175,8 @@ class browserCMD:
     @staticmethod
     def closeTab(type="current"):
         """
-        关闭浏览器标签页
-        @param type: 'current' 关闭当前页, 'other' 关闭其他页
+        Close browser tab(s)
+        @param type: 'current' (close current tab) or 'other' (close other tabs)
         """
         code = json.dumps({"action": "closeTab", "args": [type]})
         resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
@@ -1183,9 +1185,9 @@ class browserCMD:
     @staticmethod
     def fetch(fetch_url, options=None):
         """
-        从当前页面发起fetch请求
-        @param fetch_url: 目标URL
-        @param options: 请求选项字典
+        Perform a fetch request from the current page
+        @param fetch_url: target URL
+        @param options: request options dict
         """
         if options is None:
             options = {}
@@ -1196,10 +1198,10 @@ class browserCMD:
     @staticmethod
     def waitPageReady(readyURL, timeout=20):
         """
-        等待浏览器页面加载到指定URL
-        @param readyURL: 期望的URL（完全匹配）
-        @param timeout: 超时秒数
-        @return: 当前URL
+        Wait until the browser navigates to a specific URL
+        @param readyURL: expected URL (exact match)
+        @param timeout: timeout in seconds
+        @return: the current URL
         """
         url = f"{CppUrl}?action=getWebReadyPage"
         for _ in range(timeout):
@@ -1207,15 +1209,15 @@ class browserCMD:
             if res == readyURL:
                 return res
             sleep(1000)
-            print("等待页面加载完成...")
-        raise TimeoutError("waitPageReady 等待页面加载超时")
+            print("Waiting for page to load...")
+        raise TimeoutError("waitPageReady timeout")
 
     @staticmethod
     def url(urlStr=None):
         """
-        获取或设置当前页面URL
-        @param urlStr: 设置新URL时传入，不传则获取当前URL
-        @return: 当前URL字符串
+        Get or set the current page URL
+        @param urlStr: if provided, navigate to this URL; otherwise return current URL
+        @return: URL string
         """
         args = [urlStr] if urlStr is not None else []
         code = json.dumps({"action": "url", "args": args})
@@ -1225,9 +1227,9 @@ class browserCMD:
     @staticmethod
     def count(selector):
         """
-        统计符合选择器的元素数量
-        @param selector: CSS选择器
-        @return: 元素个数
+        Count elements matching a CSS selector
+        @param selector: CSS selector
+        @return: number of matching elements
         """
         code = json.dumps({"action": "count", "args": [selector]})
         resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
@@ -1236,9 +1238,9 @@ class browserCMD:
     @staticmethod
     def dblclick(selector, options=None):
         """
-        双击匹配的第一个元素
-        @param selector: CSS选择器
-        @param options: 鼠标事件选项
+        Double-click the first matched element
+        @param selector: CSS selector
+        @param options: mouse event options
         """
         if options is None:
             options = {}
@@ -1249,9 +1251,9 @@ class browserCMD:
     @staticmethod
     def offset(selector):
         """
-        获取元素相对于文档左上角的位置
-        @param selector: CSS选择器
-        @return: {'left':int, 'top':int}
+        Get the offset of the first matched element relative to the document
+        @param selector: CSS selector
+        @return: dict {'left': int, 'top': int}
         """
         code = json.dumps({"action": "offset", "args": [selector]})
         resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
@@ -1260,9 +1262,9 @@ class browserCMD:
     @staticmethod
     def click(selector, options=None):
         """
-        点击匹配的第一个元素
-        @param selector: CSS选择器
-        @param options: 鼠标事件选项
+        Click the first matched element
+        @param selector: CSS selector
+        @param options: mouse event options
         """
         if options is None:
             options = {}
@@ -1272,21 +1274,21 @@ class browserCMD:
 
     @staticmethod
     def show(selector):
-        """显示匹配的元素（修改display样式）"""
+        """Make matched elements visible (modify display style)"""
         code = json.dumps({"action": "show", "args": [selector]})
         resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
         return resp
 
     @staticmethod
     def hide(selector):
-        """隐藏匹配的元素"""
+        """Hide matched elements"""
         code = json.dumps({"action": "hide", "args": [selector]})
         resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
         return resp
 
     @staticmethod
     def remove(selector):
-        """从DOM中移除匹配的元素"""
+        """Remove matched elements from the DOM"""
         code = json.dumps({"action": "remove", "args": [selector]})
         resp = getHtml(f"{CppUrl}?action=webInject&jscode={urlencode(code)}")
         return resp
@@ -1294,10 +1296,9 @@ class browserCMD:
     @staticmethod
     def text(selector, content=None):
         """
-        获取或设置元素的纯文本内容
-        @param selector: CSS选择器
-        @param content: 设置文本时传入，不传则获取文本
-        @return: 文本内容（多个元素返回数组）
+        Get or set the text content of matched elements
+        @param selector: CSS selector
+        @param content: if provided, set text; otherwise return current text
         """
         args = [selector] if content is None else [selector, content]
         code = json.dumps({"action": "text", "args": args})
@@ -1307,9 +1308,9 @@ class browserCMD:
     @staticmethod
     def html(selector, content=None):
         """
-        获取或设置元素的HTML内容
-        @param selector: CSS选择器
-        @param content: 设置HTML时传入
+        Get or set the inner HTML of matched elements
+        @param selector: CSS selector
+        @param content: if provided, set HTML; otherwise return current HTML
         """
         args = [selector] if content is None else [selector, content]
         code = json.dumps({"action": "html", "args": args})
@@ -1319,9 +1320,9 @@ class browserCMD:
     @staticmethod
     def val(selector, content=None):
         """
-        获取或设置表单元素的值
-        @param selector: CSS选择器
-        @param content: 设置值时传入
+        Get or set the value of form elements
+        @param selector: CSS selector
+        @param content: if provided, set value; otherwise return current value
         """
         args = [selector] if content is None else [selector, content]
         code = json.dumps({"action": "val", "args": args})
@@ -1331,10 +1332,10 @@ class browserCMD:
     @staticmethod
     def cookie(cName, cValue=None, expDays=None):
         """
-        获取或设置cookie
-        @param cName: cookie名称
-        @param cValue: 设置时传入值，不传则获取
-        @param expDays: 过期天数，不传则为会话cookie
+        Get or set a cookie
+        @param cName: cookie name
+        @param cValue: if provided, set cookie value; otherwise return value
+        @param expDays: expiration in days, omit for session cookie
         """
         args = [cName]
         if cValue is not None:
@@ -1348,10 +1349,10 @@ class browserCMD:
     @staticmethod
     def css(selector, propertyname, value=None):
         """
-        获取或设置CSS样式
-        @param selector: CSS选择器
-        @param propertyname: 样式属性名
-        @param value: 设置时传入值
+        Get or set a CSS property
+        @param selector: CSS selector
+        @param propertyname: CSS property name
+        @param value: if provided, set value; otherwise return current value
         """
         args = (
             [selector, propertyname]
@@ -1365,10 +1366,10 @@ class browserCMD:
     @staticmethod
     def attr(selector, propertyname, value=None):
         """
-        获取或设置元素属性
-        @param selector: CSS选择器
-        @param propertyname: 属性名
-        @param value: 设置时传入值
+        Get or set an HTML attribute
+        @param selector: CSS selector
+        @param propertyname: attribute name
+        @param value: if provided, set attribute; otherwise return current value
         """
         args = (
             [selector, propertyname]
@@ -1382,10 +1383,10 @@ class browserCMD:
     @staticmethod
     def prop(selector, propertyname, value=None):
         """
-        获取或设置DOM属性（如checked, disabled）
-        @param selector: CSS选择器
-        @param propertyname: 属性名
-        @param value: 设置时传入值
+        Get or set a DOM property (e.g., checked, disabled)
+        @param selector: CSS selector
+        @param propertyname: property name
+        @param value: if provided, set property; otherwise return current value
         """
         args = (
             [selector, propertyname]
@@ -1397,14 +1398,14 @@ class browserCMD:
         return resp
 
 
-# ========== 硬件级 hid 模块 ==========
+# ========== Hardware HID Module ==========
 class hid:
     @staticmethod
     def keyToggle(key, upDown="down"):
-        """硬件级按键按下/松开"""
+        """Hardware-level key down/up event"""
         key_n = keycode(key)
         if key_n == 0:
-            print(f"⚠ 按键 {key} 不存在！~")
+            print(f"⚠ Key {key} does not exist!")
             return
         upDown_n = 0 if upDown != "up" else 2
         urllib.request.urlopen(
@@ -1413,7 +1414,7 @@ class hid:
 
     @staticmethod
     def keyTap(key):
-        """硬件级按键（按下并松开），支持组合键"""
+        """Hardware-level key press (press and release), supports combos"""
         if "+" in key:
             parts = [p.strip() for p in key.split("+")]
             for p in parts:
@@ -1427,19 +1428,19 @@ class hid:
 
     @staticmethod
     def _mouseCMD(button=1, x=0, y=0, wheel=0, time_ms=10):
-        """硬件级鼠标底层命令"""
+        """Low‑level hardware mouse command"""
         urllib.request.urlopen(
             f"{CppUrl}?action=mouseDataHardWare&bt={button}&x={x}&y={y}&wheel={wheel}&time={time_ms}"
         )
 
     @staticmethod
     def moveMouse(x, y):
-        """硬件级移动鼠标到绝对坐标"""
+        """Hardware-level move mouse to absolute position"""
         hid._mouseCMD(0, int(round(x)), int(round(y)), 0, 10)
 
     @staticmethod
     def mouseClick(button="left", time_ms=10):
-        """硬件级鼠标点击"""
+        """Hardware-level mouse click"""
         bt = {"left": 1, "right": 2, "middle": 4}.get(button, 1)
         hid._mouseCMD(bt, 0, 0, 0, time_ms)
         hid._mouseCMD(0, 0, 0, 0, 0)
@@ -1447,20 +1448,20 @@ class hid:
 
     @staticmethod
     def moveAndClick(x, y):
-        """硬件级移动并点击"""
+        """Hardware-level move and click"""
         hid.moveMouse(x, y)
         hid.mouseClick()
 
     @staticmethod
     def mouseDoubleClick():
-        """硬件级双击左键"""
+        """Hardware-level left double-click"""
         hid.mouseClick("left", 10)
         hid.mouseClick("left", 10)
         sleep(defaultDelay)
 
     @staticmethod
     def mouseLeftDragTo(x, y):
-        """硬件级左键拖拽"""
+        """Hardware-level left drag"""
         hid._mouseCMD(1, 0, 0, 0, 10)
         hid._mouseCMD(1, int(round(x)), int(round(y)), 0, 10)
         hid._mouseCMD(0, 0, 0, 0, 0)
@@ -1468,7 +1469,7 @@ class hid:
 
     @staticmethod
     def mouseRightDragTo(x, y):
-        """硬件级右键拖拽"""
+        """Hardware-level right drag"""
         hid._mouseCMD(2, 0, 0, 0, 10)
         hid._mouseCMD(2, int(round(x)), int(round(y)), 0, 10)
         hid._mouseCMD(0, 0, 0, 0, 0)
@@ -1476,21 +1477,21 @@ class hid:
 
     @staticmethod
     def mouseWheel(data=-1):
-        """硬件级滚轮，-1向下滚动一格"""
+        """Hardware-level wheel scroll, -1 = one notch down"""
         hid._mouseCMD(0, 0, 0, data, 0)
         hid._mouseCMD(0, 0, 0, 0, 0)
         sleep(defaultDelay)
 
 
-# ========== 等待函数 ==========
+# ========== Wait Functions ==========
 def waitImage(tpPath, intervalFun=None, timeOut=30, miniSimilarity=0.85):
     """
-    等待屏幕上的图片出现（每1秒检测一次）
-    @param tpPath: 图片模板路径 相对路径：./image/123.png  | 列表等待多个图片
-    @param intervalFun: 每次检测间隔调用的函数，若返回 'stopWait' 则提前结束
-    @param timeOut: 超时秒数
-    @param miniSimilarity: 最低相似度
-    @return: 找到返回位置字典，超时抛出 TimeoutError
+    Wait for an image to appear on screen (checks every second)
+    @param tpPath: image template path or list of paths
+    @param intervalFun: callback called each interval; return 'stopWait' to abort
+    @param timeOut: timeout in seconds
+    @param miniSimilarity: minimum similarity
+    @return: position dict or False, raises TimeoutError on timeout
     """
     print("waitImage", tpPath)
     for _ in range(timeOut):
@@ -1501,20 +1502,20 @@ def waitImage(tpPath, intervalFun=None, timeOut=30, miniSimilarity=0.85):
         if intervalFun and intervalFun() == "stopWait":
             print("stopWait from intervalFun")
             return False
-    print("已经保存超时截图到：我的图片")
+    print("Timeout screenshot saved to Pictures")
     screenShot()
     frame = inspect.currentframe().f_back
-    raise TimeoutError(f"等待图片超时 {tpPath} 位置（行）:{frame.f_lineno}")
+    raise TimeoutError(f"waitImage timeout: {tpPath} at line {frame.f_lineno}")
 
 
 def waitImageDisappear(tpPath, intervalFun=None, timeOut=30, miniSimilarity=0.85):
     """
-    等待屏幕上的图片消失
-    @param tpPath: 图片模板路径
-    @param intervalFun: 检测间隔回调
-    @param timeOut: 超时秒数
-    @param miniSimilarity: 相似度阈值
-    @return: 'ok' 表示消失，超时抛出 TimeoutError
+    Wait for an image to disappear from screen
+    @param tpPath: image template path
+    @param intervalFun: callback; return 'stopWait' to abort
+    @param timeOut: timeout in seconds
+    @param miniSimilarity: similarity threshold
+    @return: 'ok' if disappeared, else raises TimeoutError
     """
     print("waitImageDisappear", tpPath)
     for _ in range(timeOut):
@@ -1525,20 +1526,20 @@ def waitImageDisappear(tpPath, intervalFun=None, timeOut=30, miniSimilarity=0.85
         if intervalFun and intervalFun() == "stopWait":
             print("stopWait from intervalFun")
             return False
-    print("已经保存超时截图到：我的图片")
+    print("Timeout screenshot saved to Pictures")
     screenShot()
     frame = inspect.currentframe().f_back
-    raise TimeoutError(f"等待图片消失超时 {tpPath} 位置（行）:{frame.f_lineno}")
+    raise TimeoutError(f"waitImageDisappear timeout: {tpPath} at line {frame.f_lineno}")
 
 
 def waitFile(dirPath, keyWords="", intervalFun=None, timeOut=30):
     """
-    等待指定目录下出现包含关键词的文件
-    @param dirPath: 监控目录
-    @param keyWords: 文件名包含的关键词
-    @param intervalFun: 检测间隔回调
-    @param timeOut: 超时秒数
-    @return: 文件路径列表，超时抛出 TimeoutError
+    Wait for a file containing a keyword to appear in a directory
+    @param dirPath: directory to monitor
+    @param keyWords: filename substring (case‑insensitive)
+    @param intervalFun: callback; return 'stopWait' to abort
+    @param timeOut: timeout in seconds
+    @return: list of matching file paths, raises TimeoutError on timeout
     """
     print("waitFile", dirPath, keyWords)
     for _ in range(timeOut):
@@ -1550,17 +1551,17 @@ def waitFile(dirPath, keyWords="", intervalFun=None, timeOut=30):
             print("stopWait from intervalFun")
             return False
     frame = inspect.currentframe().f_back
-    raise TimeoutError(f"等待文件超时：{dirPath} 位置（行）:{frame.f_lineno}")
+    raise TimeoutError(f"waitFile timeout: {dirPath} at line {frame.f_lineno}")
 
 
 def waitFileDisappear(dirPath, keyWords="", intervalFun=None, timeOut=30):
     """
-    等待指定目录下包含关键词的文件消失
-    @param dirPath: 监控目录
-    @param keyWords: 文件名关键词
-    @param intervalFun: 检测间隔回调
-    @param timeOut: 超时秒数
-    @return: True 表示消失，超时抛出 TimeoutError
+    Wait for files containing a keyword to disappear from a directory
+    @param dirPath: directory to monitor
+    @param keyWords: filename substring
+    @param intervalFun: callback; return 'stopWait' to abort
+    @param timeOut: timeout in seconds
+    @return: True if disappeared, else raises TimeoutError
     """
     print("waitFileDisappear", dirPath, keyWords)
     for _ in range(timeOut):
@@ -1572,29 +1573,29 @@ def waitFileDisappear(dirPath, keyWords="", intervalFun=None, timeOut=30):
             print("stopWait from intervalFun")
             return False
     frame = inspect.currentframe().f_back
-    raise TimeoutError(f"等待文件消失错误：{dirPath} 位置（行）:{frame.f_lineno}")
+    raise TimeoutError(f"waitFileDisappear error: {dirPath} at line {frame.f_lineno}")
 
 
-def waitInput(inputPrompt="输入提示词", timeOut=600):
+def waitInput(inputPrompt="Input prompt", timeOut=600):
     """
-    等待用户输入（弹出输入框）
-    @param inputPrompt: 提示文字
-    @param timeOut: 超时秒数，默认600秒
-    @return: 用户输入的字符串，超时返回空字符串
+    Wait for user input (popup input box)
+    @param inputPrompt: prompt text
+    @param timeOut: timeout in seconds (default 600)
+    @return: user input string, or empty string on timeout
     """
-    print("waitInput 等待用户输入：", inputPrompt)
+    print("waitInput:", inputPrompt)
     inputPrompt = urlencode(inputPrompt)
     getHtml(f"{CppUrl}?action=waitInput&inputPrompt={inputPrompt}")
     for _ in range(timeOut):
         sleep(1000)
         res = getHtml(f"{CppUrl}?action=waitInputResult")
         if hasData(res):
-            showMsg("用户输入了：", res)
+            showMsg("User input:", res)
             return res
     return ""
 
 
-# ========== 工具箱（utils）命名空间 ==========
+# ========== Utilities Namespace ==========
 class utils:
     isNumeric = isNumeric
     hasData = hasData
@@ -1604,71 +1605,10 @@ class utils:
     substringFromTo = substringFromTo
 
 
-工具箱 = utils
-
-# ========== 中文别名 ==========
-设置默认操作延时 = setDefaultDelay
-蜂鸣声 = beep
-显示系统消息 = showMsg
-关闭软件 = kill
-显示标记框 = showRect
-退出流程 = exit_script  # 使用退出函数别名
-睡眠毫秒 = sleep
-等待 = wait
-鼠标移动 = moveMouseSmooth
-鼠标移动并点击 = moveAndClick
-鼠标点击 = mouseClick
-鼠标双击 = mouseDoubleClick
-鼠标滚轮 = mouseWheel
-鼠标左键拖动 = mouseLeftDragTo
-鼠标右键拖动 = mouseRightDragTo
-获取屏幕颜色 = getScreenColor
-屏幕截图 = screenShot
-键盘基础触发 = keyToggle
-鼠标基础触发 = mouseKeyToggle
-键盘按键 = keyTap
-寻找图像 = findScreen
-寻找文字 = findText
-等待文字 = waitText
-寻找轮廓 = findContours
-粘贴输入 = paste
-图片相似度对比 = imgSimilar
-复制文字 = copyText
-复制文件 = copyFile
-获取剪切板内容 = getClipboard
-微信消息发送 = wxMessage
-提交json = postJson
-提交json文件 = postJsonFile
-请求网址 = getHtml
-发送邮件 = sendMail
-下载文件 = downloadFile
-文字转语音 = tts
-打开网址 = openURL
-打开目录 = openDir
-打开文件 = openfile
-获取屏幕分辨率 = getResolution
-文字识别 = aiOcr
-物体识别 = aiObject
-压缩 = zipDir
-解压缩 = unZip
-是否数字 = isNumeric
-是否有内容 = hasData
-获取格式化时间 = getTime
-搜索文件 = searchFile
-唯一数 = uniqid
-截取文本 = substringFromTo
-等待图像出现 = waitImage
-等待图像消失 = waitImageDisappear
-等待文件 = waitFile
-等待文件消失 = waitFileDisappear
-等待输入 = waitInput
-日志输出 = log = print
-目录路径 = pyPath
-文件系统 = os
-路径处理 = os.path
-
-# ========== 入口检测 ==========
+# ========== Entry Check ==========
 if __name__ == "__main__":
-    print("当前文件不能执行", "请直接执行中文名的脚本文件")
-    showMsg("当前文件不能执行", "请直接执行中文名的脚本文件")
+    print(
+        "This file cannot be executed directly. Please run the script with a Chinese filename."
+    )
+    showMsg("Cannot execute directly", "Please run the script with a Chinese filename.")
     sys.exit(1)

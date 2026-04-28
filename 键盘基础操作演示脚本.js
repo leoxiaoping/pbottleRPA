@@ -1,74 +1,76 @@
 /**
- * 小瓶RPA演示demo，具体api请查看*流程开发文档*
- * 官网：https://rpa.pbottle.com/
- * 流程开发文档：https://rpa.pbottle.com/docs/
+ * Pbottle RPA Demo Script
+ * For detailed API documentation, please refer to the Process Development Documentation
+ * Official Website: https://rpa.pbottle.com/
+ * Process Development Documentation: https://rpa.pbottle.com/docs/
  * 
- * 功能说明：此脚本演示了RPA中的各种键盘操作，包括按键、组合键、页面导航等
- * 通过这些示例，您可以学习如何在RPA流程中精确控制键盘行为
+ * Function Description: This script demonstrates various keyboard operations in RPA, including key presses, 
+ * combination keys, page navigation, and more. Through these examples, you can learn how to precisely 
+ * control keyboard behavior in RPA processes.
  */
 
-const pbottleRPA = require('./pbottleRPA')    // 引入小瓶RPA的核心库，获得对RPA功能的访问权限
-console.log("=== 键盘操作测试 ===");          // 在控制台输出测试标题
-console.log(Date());                         // 在控制台输出当前日期时间
-pbottleRPA.setDefaultDelay(0);               // 设置默认操作延时为0，手动管理所有操作延时
+const pbottleRPA = require('./pbottleRPA')    // Import Pbottle RPA core library to access RPA functionality
+console.log("=== Keyboard Operations Test ===");          // Output test title to console
+console.log(Date());                         // Output current date and time to console
+pbottleRPA.setDefaultDelay(0);               // Set default operation delay to 0, manually manage all operation delays
 
-pbottleRPA.tts('开始运行小瓶RPA键盘操作演示脚本。...  快捷键 ：Ctrl+shift+Q 可手动退出') // 使用文字转语音功能播报开始信息
-pbottleRPA.wait(12)                          // 等待12秒钟，给用户时间准备
+pbottleRPA.tts('Starting Pbottle RPA keyboard operations demo script... Shortcut: Ctrl+Shift+Q to exit manually') // Use text-to-speech to announce start information
+pbottleRPA.wait(12)                          // Wait 12 seconds to give users time to prepare
 
-let resolution = pbottleRPA.getResolution()  // 获取当前电脑屏幕分辨率信息
-console.log('当前电脑屏幕分辨率', resolution)  // 在控制台输出屏幕分辨率信息
-pbottleRPA.tts(`当前电脑屏幕分辨率: ${resolution.w} 乘以 ${resolution.h}`) // 语音播报当前屏幕分辨率
-pbottleRPA.wait(6)                           // 等待6秒钟
+let resolution = pbottleRPA.getResolution()  // Get current computer screen resolution information
+console.log('Current screen resolution:', resolution)  // Output screen resolution information to console
+pbottleRPA.tts(`Current screen resolution: ${resolution.w} by ${resolution.h}`) // Voice announcement of current screen resolution
+pbottleRPA.wait(6)                           // Wait 6 seconds
 
-pbottleRPA.tts('准备打开网页浏览并用快捷键进入全屏，5秒后开始') // 语音播报即将执行的操作
-pbottleRPA.wait(10)                          // 等待10秒钟
+pbottleRPA.tts('Preparing to open webpage and use shortcut keys to enter fullscreen mode, starting in 5 seconds') // Voice announcement of upcoming operation
+pbottleRPA.wait(10)                          // Wait 10 seconds
 
-pbottleRPA.openURL('https://rpa.pbottle.com?from=demo') // 使用默认浏览器打开小瓶RPA官网
-pbottleRPA.wait(3)                           // 等待3秒钟让网页加载完成
-pbottleRPA.moveAndClick(50,500)              // 移动鼠标到指定坐标并点击，确保页面获得焦点
-pbottleRPA.tts('缩放页面')                    // 语音播报即将执行的操作
+pbottleRPA.openURL('https://rpa.pbottle.com?from=demo') // Open Pbottle RPA official website using default browser
+pbottleRPA.wait(3)                           // Wait 3 seconds for webpage to load
+pbottleRPA.moveAndClick(50, 500)              // Move mouse to specified coordinates and click to ensure page gets focus
+pbottleRPA.tts('Zooming page')                    // Voice announcement of upcoming operation
 
-// 使用组合键控制页面缩放
-pbottleRPA.keyTap('ctrl + -')                // 模拟按下Ctrl+-组合键，缩小页面
-pbottleRPA.keyTap('ctrl + -')                // 再次缩小页面
-pbottleRPA.keyTap('ctrl + -')                // 第三次缩小页面
-pbottleRPA.keyTap('ctrl + =')                // 模拟按下Ctrl+=组合键，放大页面
-pbottleRPA.keyTap('ctrl + =')                // 再次放大页面
-pbottleRPA.keyTap('ctrl + =')                // 第三次放大页面
+// Use combination keys to control page zoom
+pbottleRPA.keyTap('ctrl + -')                // Simulate pressing Ctrl+- combination key to zoom out page
+pbottleRPA.keyTap('ctrl + -')                // Zoom out page again
+pbottleRPA.keyTap('ctrl + -')                // Zoom out page third time
+pbottleRPA.keyTap('ctrl + =')                // Simulate pressing Ctrl+= combination key to zoom in page
+pbottleRPA.keyTap('ctrl + =')                // Zoom in page again
+pbottleRPA.keyTap('ctrl + =')                // Zoom in page third time
 
-pbottleRPA.wait(1)                           // 等待1秒钟
-pbottleRPA.keyTap('f11')                     // 模拟按下F11键，进入浏览器全屏模式
-pbottleRPA.wait(2)                           // 等待2秒钟
+pbottleRPA.wait(1)                           // Wait 1 second
+pbottleRPA.keyTap('f11')                     // Simulate pressing F11 key to enter browser fullscreen mode
+pbottleRPA.wait(2)                           // Wait 2 seconds
 
-pbottleRPA.tts('翻页查看')                    // 语音播报即将执行的操作
+pbottleRPA.tts('Scrolling through pages')                    // Voice announcement of upcoming operation
 
-// 使用Page Down键向下翻页浏览页面内容
-pbottleRPA.keyTap('page down')               // 模拟按下Page Down键，向下翻页
-pbottleRPA.wait()                            // 等待默认时间（使用默认延时）
-pbottleRPA.keyTap('page down')               // 再次向下翻页
-pbottleRPA.wait()                            // 等待默认时间
-pbottleRPA.keyTap('page down')               // 第三次向下翻页
-pbottleRPA.wait()                            // 等待默认时间
+// Use Page Down key to scroll down and browse page content
+pbottleRPA.keyTap('page down')               // Simulate pressing Page Down key to scroll down
+pbottleRPA.wait()                            // Wait for default time (using default delay)
+pbottleRPA.keyTap('page down')               // Scroll down again
+pbottleRPA.wait()                            // Wait for default time
+pbottleRPA.keyTap('page down')               // Scroll down third time
+pbottleRPA.wait()                            // Wait for default time
 
-pbottleRPA.tts('翻页回来')                    // 语音播报即将执行的操作
+pbottleRPA.tts('Scrolling back up')                    // Voice announcement of upcoming operation
 
-// 使用Page Up键向上翻页回到页面顶部
-pbottleRPA.keyTap('page up')                 // 模拟按下Page Up键，向上翻页
-pbottleRPA.wait()                            // 等待默认时间
-pbottleRPA.keyTap('page up')                 // 再次向上翻页
-pbottleRPA.wait()                            // 等待默认时间
-pbottleRPA.keyTap('page up')                 // 第三次向上翻页
-pbottleRPA.wait(2)                           // 等待2秒钟
+// Use Page Up key to scroll back to the top of the page
+pbottleRPA.keyTap('page up')                 // Simulate pressing Page Up key to scroll up
+pbottleRPA.wait()                            // Wait for default time
+pbottleRPA.keyTap('page up')                 // Scroll up again
+pbottleRPA.wait()                            // Wait for default time
+pbottleRPA.keyTap('page up')                 // Scroll up third time
+pbottleRPA.wait(2)                           // Wait 2 seconds
 
-pbottleRPA.tts('收藏我们吧，十分感谢')         // 语音播报即将执行的操作
-pbottleRPA.keyTap('ctrl + d')                // 模拟按下Ctrl+D组合键，打开浏览器收藏夹对话框
+pbottleRPA.tts('Please bookmark us, thank you very much')         // Voice announcement of upcoming operation
+pbottleRPA.keyTap('ctrl + d')                // Simulate pressing Ctrl+D combination key to open browser bookmark dialog
 
-pbottleRPA.wait(1)                           // 等待1秒钟
-pbottleRPA.keyTap('enter')                   // 模拟按下Enter键，确认收藏操作
-pbottleRPA.wait(2)                           // 等待2秒钟
+pbottleRPA.wait(1)                           // Wait 1 second
+pbottleRPA.keyTap('enter')                   // Simulate pressing Enter key to confirm bookmark operation
+pbottleRPA.wait(2)                           // Wait 2 seconds
 
-pbottleRPA.keyTap('f11')                     // 模拟按下F11键，退出浏览器全屏模式
-pbottleRPA.tts('演示结束')                    // 语音播报演示结束信息
-console.log("准备结束脚本");                 // 在控制台输出脚本即将结束的信息
+pbottleRPA.keyTap('f11')                     // Simulate pressing F11 key to exit browser fullscreen mode
+pbottleRPA.tts('Demo completed')                    // Voice announcement that demo is complete
+console.log("Preparing to end script");                 // Output script ending information to console
 
-pbottleRPA.exit("脚本结束",true)                   // 退出RPA脚本执行，并输出结束信息
+pbottleRPA.exit("Script ended", true)                   // Exit RPA script execution and output ending information

@@ -1,130 +1,132 @@
 /**
- * 小瓶RPA演示demo，具体api请查看*流程开发文档*
- * 官网：https://rpa.pbottle.com/
- * 流程开发文档：https://rpa.pbottle.com/docs/
+ * PBottle RPA demo – please refer to the *process development documentation* for API details.
+ * Official website: https://rpa.pbottle.com/
+ * Process development documentation: https://rpa.pbottle.com/docs/
  * 
- * 功能说明：此脚本演示了使用Web增强功能操作浏览器元素的各种方法
- * 包括网址跳转、文本获取、Cookie操作、CSS样式修改、元素值设置、点击操作等
- * 需要安装小瓶RPA浏览器插件来实现这些功能
+ * Feature description: This script demonstrates various methods for operating browser elements 
+ * using the Web Enhanced features, including URL navigation, text retrieval, cookie operations, 
+ * CSS style modification, element value setting, click operations, etc.
+ * The PBottle RPA browser extension must be installed to use these features.
  */
 
-const pbottleRPA = require('./pbottleRPA')     // 引入小瓶RPA的核心库，获得对RPA功能的访问权限
+const pbottleRPA = require('./pbottleRPA')     // Import the core PBottle RPA library to access RPA functionality
 
-console.log(Date());                          // 在控制台输出当前日期时间
+console.log(Date());                           // Output the current date and time to the console
 
-console.log("=== ※※※※※※※※※ ===");
-console.log("=== 需要安装 小瓶RPA 浏览器插件 ==="); // 提示用户需要安装浏览器插件
-console.log("=== ※※※※※※※※※ ===");
+console.log("=== NOTE ===");
+console.log("=== The PBottle RPA browser extension must be installed ===");
+console.log("=== ===");
 
-// 使用文字转语音功能提示用户必须安装浏览器插件
-pbottleRPA.tts('必须安装小瓶RPA浏览器增强插件，手动点击确定继续')
-// 显示系统消息框再次提醒用户
-pbottleRPA.showMsg('提示：','必须先安装浏览器增强插件')
-// 打开百度网站用于演示浏览器操作
+// Use text-to-speech to inform the user that the browser extension is required
+pbottleRPA.tts('You must install the PBottle RPA browser enhancement extension. Click OK to continue.')
+// Show a system message box as an additional reminder
+pbottleRPA.showMsg('Tip:', 'You must install the browser enhancement extension first.')
+// Open Baidu for demonstrating browser operations
 pbottleRPA.openURL('https://www.baidu.com/')
 
-// 定义变量用于接收浏览器命令的返回值
+// Variable to store the result of browser commands
 let ret = ""
-// 使用浏览器命令显示弹窗，等待用户手动确认（20秒超时）
-ret = pbottleRPA.browserCMD_alert('来自小瓶RPA的问候，手动点击确定开始，20秒超时')
-console.log('返回操作结果 alert',ret);        // 输出操作结果到控制台
+// Use a browser command to show an alert and wait for manual confirmation (20-second timeout)
+ret = pbottleRPA.browserCMD_alert('Greetings from PBottle RPA. Click OK to start. 20-second timeout.')
+console.log('Operation result (alert):', ret);   // Output the operation result to the console
 
-// 检查浏览器插件是否正常工作
+// Check whether the browser extension is working properly
 if (ret !== 'ok') {
-    console.log('没有检测到小瓶RPA浏览器插件',ret); // 如果未检测到插件，输出错误信息
-    process.exit(1)                           // 退出脚本
+    console.log('PBottle RPA browser extension not detected.', ret); // Output an error if the extension is not detected
+    process.exit(1)                              // Exit the script
 }
 
-pbottleRPA.wait(1)                            // 等待1秒钟
-pbottleRPA.tts("跳转新网址：")                 // 语音播报即将执行的操作
-// 使用浏览器命令跳转到新的网址
+pbottleRPA.wait(1)                                // Wait 1 second
+pbottleRPA.tts("Navigating to a new URL...")      // Announce the upcoming operation via TTS
+// Use a browser command to navigate to a new URL
 pbottleRPA.browserCMD_url('https://www.baidu.com/?from=pbottleRPA')
-pbottleRPA.wait(2)                            // 等待2秒钟
+pbottleRPA.wait(2)                                // Wait 2 seconds
 
-// 获取指定元素的文本内容（页面标题）
+// Retrieve the text content of a specific element (page title)
 ret = pbottleRPA.browserCMD_text('span.title-content-title')
-console.log('返回操作结果【一次多个】',ret);    // 输出获取到的文本内容
+console.log('Operation result [multiple elements]:', ret); // Output the retrieved text content
 
-// Cookie操作演示
-ret = pbottleRPA.browserCMD_cookie('BAIDUID') // 获取指定名称的Cookie值
-console.log('返回操作结果 cookieGet',ret);     // 输出获取到的Cookie值
-// 设置Cookie值
-ret = pbottleRPA.browserCMD_cookie('pbottleID',"good",3) 
-console.log('返回操作结果 cookieSet',ret);     // 输出设置Cookie的结果
+// Cookie operation demonstration
+ret = pbottleRPA.browserCMD_cookie('BAIDUID')      // Get the value of a cookie named 'BAIDUID'
+console.log('Operation result (cookie get):', ret); // Output the retrieved cookie value
+// Set a cookie
+ret = pbottleRPA.browserCMD_cookie('pbottleID', "good", 3) 
+console.log('Operation result (cookie set):', ret); // Output the result of setting the cookie
 
-// CSS样式操作演示 - 变换背景色
-pbottleRPA.tts('变换背景色')                  // 语音播报即将执行的操作
-// 设置body元素的背景色为蓝色
-ret = pbottleRPA.browserCMD_css('body',"background-color",'blue')
-console.log('返回操作结果 cssSet',ret);       // 输出设置结果
-// 获取body元素的背景色值
-ret = pbottleRPA.browserCMD_css('body',"background-color")
-console.log('返回操作结果【颜色值】',ret);      // 输出获取到的颜色值
-// 将body元素的背景色重新设置为白色
-ret = pbottleRPA.browserCMD_css('body',"background-color",'white')
-console.log('返回操作结果 cssSet',ret);       // 输出设置结果
+// CSS style operation demonstration – changing the background color
+pbottleRPA.tts('Change background color')           // Announce the upcoming operation
+// Set the background color of the body element to blue
+ret = pbottleRPA.browserCMD_css('body', "background-color", 'blue')
+console.log('Operation result (css set):', ret);    // Output the result
+// Get the background color value of the body element
+ret = pbottleRPA.browserCMD_css('body', "background-color")
+console.log('Operation result [color value]:', ret); // Output the retrieved color value
+// Reset the background color of the body element to white
+ret = pbottleRPA.browserCMD_css('body', "background-color", 'white')
+console.log('Operation result (css set):', ret);    // Output the result
 
-// 文本内容操作演示
-ret = pbottleRPA.browserCMD_text('title')     // 获取页面标题文本
-console.log('返回操作结果 textGet',ret);      // 输出获取到的标题文本
-pbottleRPA.tts('获取标题 ')                   // 语音播报操作内容
-pbottleRPA.wait(3)                            // 等待3秒钟
+// Text content operation demonstration
+ret = pbottleRPA.browserCMD_text('title')            // Get the page title text
+console.log('Operation result (text get):', ret);    // Output the retrieved title text
+pbottleRPA.tts('Getting title')                      // Announce the action using TTS
+pbottleRPA.wait(3)                                   // Wait 3 seconds
 
-// 设置页面标题演示
-pbottleRPA.tts('设置页面标题 ')               // 语音播报即将执行的操作
-// 设置新的页面标题，加上前缀"[小瓶RPA]-"
-ret = pbottleRPA.browserCMD_text('title','[小瓶RPA]-'+ret)
-console.log('返回操作结果 textSet',ret);      // 输出设置结果
-ret = pbottleRPA.browserCMD_text('title')     // 重新获取页面标题
-console.log('当前页面标题：',ret);             // 输出当前页面标题
-pbottleRPA.wait(3)                            // 等待3秒钟
+// Demonstrating setting the page title
+pbottleRPA.tts('Setting page title')                  // Announce the upcoming operation
+// Set the new page title with a prefix "[PBottle RPA]-"
+ret = pbottleRPA.browserCMD_text('title', '[PBottle RPA]-' + ret)
+console.log('Operation result (text set):', ret);     // Output the result
+ret = pbottleRPA.browserCMD_text('title')             // Retrieve the current page title again
+console.log('Current page title:', ret);               // Output the current page title
+pbottleRPA.wait(3)                                    // Wait 3 seconds
 
-// 搜索操作演示
-pbottleRPA.tts('输入搜索词 点击搜索按钮 ')     // 语音播报即将执行的操作
-// 在搜索框中输入搜索词"小瓶RPA"
-pbottleRPA.paste('小瓶RPA官网')   // 输出输入操作结果
+// Search operation demonstration
+pbottleRPA.tts('Entering search term and clicking the search button') // Announce the operation
+// Enter the search term "PBottle RPA Official Website" into the search box
+pbottleRPA.paste('PBottle RPA Official Website') 
+console.log('Paste operation completed.')
 
-// 点击搜索按钮
-ret = pbottleRPA.browserCMD_click('#su')      // 点击百度搜索按钮
-console.log('返回点击操作结果 click',ret);     // 输出点击操作结果
-pbottleRPA.wait(3)                            // 等待3秒钟
+// Click the search button
+ret = pbottleRPA.browserCMD_click('#su')              // Click Baidu's search button
+console.log('Operation result (click):', ret);        // Output the click result
+pbottleRPA.wait(3)                                    // Wait 3 seconds
 
-// 获取当前网址演示
-pbottleRPA.tts('获取当前网址：')              // 语音播报即将执行的操作
-ret = pbottleRPA.browserCMD_url()             // 获取当前页面URL
-console.log('获取当前网址：',ret);             // 输出当前网址
-pbottleRPA.wait(2)                            // 等待2秒钟
+// Demonstrate retrieving the current URL
+pbottleRPA.tts('Getting current URL')                 // Announce the operation
+ret = pbottleRPA.browserCMD_url()                     // Get the current page URL
+console.log('Current URL:', ret);                      // Output the current URL
+pbottleRPA.wait(2)                                    // Wait 2 seconds
 
-// 去广告操作演示
-pbottleRPA.tts('开始去广告')                  // 语音播报即将执行的操作
-// 循环执行去广告操作（示例中只执行1次）
+// Ad removal demonstration
+pbottleRPA.tts('Start removing ads')                  // Announce the operation
+// Loop to remove ad elements (only one iteration in this example)
 for (let index = 0; index < 1; index++) {
-    // 移除指定的广告元素
+    // Remove the specified ad element
     ret = pbottleRPA.browserCMD_remove('#content_left div:first')
-    console.log('返回点击操作结果 remove',ret); // 输出移除操作结果
-    pbottleRPA.wait(3)                        // 等待3秒钟
+    console.log('Operation result (remove):', ret);    // Output the remove operation result
+    pbottleRPA.wait(3)                                 // Wait 3 seconds
 }
 
-// 打开网站链接演示
-pbottleRPA.tts('打开网站')                    // 语音播报即将执行的操作
-// 点击第一个搜索结果链接
-pbottleRPA.browserCMD_click('div#content_left a:contains(小瓶RPA)')
-pbottleRPA.wait(3)                             // 等待默认时间
+// Demonstrate opening a website link
+pbottleRPA.tts('Open website')                         // Announce the operation
+// Click the first search result link containing "PBottle RPA"
+pbottleRPA.browserCMD_click('div#content_left a:contains(PBottle RPA)')
+pbottleRPA.wait(3)                                     // Wait 3 seconds
 
-// 获取网站Logo路径演示
-pbottleRPA.tts('读取 logo 路径，显示到日志')  // 语音播报即将执行的操作
-// 获取第一个img元素的src属性值（即图片地址）
-ret = pbottleRPA.browserCMD_attr('img:first','src')
-console.log('网站logo图片地址',ret);           // 输出Logo图片地址
-pbottleRPA.wait()                             // 等待默认时间
+// Demonstrate retrieving the website logo path
+pbottleRPA.tts('Reading logo path, displaying in log') // Announce the operation
+// Get the src attribute of the first img element (the image URL)
+ret = pbottleRPA.browserCMD_attr('img:first', 'src')
+console.log('Website logo image URL:', ret);           // Output the logo image URL
+pbottleRPA.wait()                                      // Wait for the default delay
 
-// 获取元素位置信息演示
-let ret2 = pbottleRPA.browserCMD_offset('div:contains(小瓶RPA):first')
-console.log('搜索结果的位置',ret2);                  // 输出元素位置信息
-pbottleRPA.wait()                             // 等待默认时间
+// Demonstrate getting the position of an element
+let ret2 = pbottleRPA.browserCMD_offset('div:contains(PBottle RPA):first')
+console.log('Position of search result:', ret2);       // Output the element position
+pbottleRPA.wait()                                      // Wait for the default delay
 
-// 演示完成提示
-pbottleRPA.tts('演示完成准备退出')             // 语音播报演示结束
-console.log("准备结束脚本");                  // 在控制台输出结束信息
-// 浏览器内显示演示结束的弹窗
-ret = pbottleRPA.browserCMD_alert('演示结束')
+// Demo completion notification
+pbottleRPA.tts('Demo completed, ready to exit.')       // Announce that the demo is finished
+console.log("Preparing to end the script.");            // Output an end-of-script message to the console
+// Show an alert inside the browser indicating that the demo has ended
+ret = pbottleRPA.browserCMD_alert('Demo finished.')
