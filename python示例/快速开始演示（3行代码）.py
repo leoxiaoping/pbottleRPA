@@ -1,13 +1,11 @@
 """
-
-小瓶RPA python版本（Beta）
+PBottle RPA Python version (Beta)
 https://gitee.com/pbottle/pbottle-rpa
-示例
-
+Example
 """
 
-import pbottleRPA  #引入小瓶RPA模块
+import pbottleRPA  # Import the PBottle RPA module
 
-pbottleRPA.openURL('https://www.baidu.com/') #用浏览器打开百度
-pbottleRPA.paste('小瓶RPA官网')  #输入搜索词
-pbottleRPA.keyTap('enter')  #确认搜索
+pbottleRPA.openURL("https://www.baidu.com/")  # Open Baidu with the browser
+pbottleRPA.paste("PBottle RPA official website")  # Enter the search term
+pbottleRPA.keyTap("enter")  # Confirm the search

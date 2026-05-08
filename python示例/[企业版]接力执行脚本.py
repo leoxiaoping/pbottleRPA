@@ -1,17 +1,17 @@
 """
 
-小瓶RPA python版本（Beta）
+PBottle RPA Python version (Beta)
 https://gitee.com/pbottle/pbottle-rpa
-示例
+Example
 
 """
 
-import pbottleRPA  #引入小瓶RPA模块
+import pbottleRPA  # Import the PBottle RPA module
 import time
 
 
-pbottleRPA.delaySet(__file__)  #自己接力自己
+pbottleRPA.delaySet(__file__)  # Chain to itself (relaunch itself after finishing)
 
-pbottleRPA.log('等待3秒')
+pbottleRPA.log('Waiting for 3 seconds')
 pbottleRPA.wait(3)
-pbottleRPA.log('完成')
+pbottleRPA.log('Done')

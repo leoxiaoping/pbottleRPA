@@ -1,62 +1,65 @@
 """
-小瓶RPA异步子流程模板
+PBottle RPA asynchronous sub‑process template
 
-功能说明：此脚本演示了RPA中如何使用子流程（同步/异步）
-通过这个示例，您可以学习如何在主流程中调用同步和异步子流程，并处理子流程的返回结果。
+Feature description: This script demonstrates how to use sub‑processes (sync/async) in RPA.
+Through this example, you can learn how to call synchronous and asynchronous sub‑processes
+from the main flow and handle their return values.
 """
 
-# 引入小瓶RPA的核心库
+# Import the core PBottle RPA library
 import pbottleRPA
 import subprocess
 import sys
 import os
 import importlib.util
 
-# ========== 全局变量 ==========
-global_processName = "小瓶RPA——XXXX流程模板"  # 流程名称
-global_startTime = pbottleRPA.getTime()       # 开始时间
+# ========== Global Variables ==========
+global_processName = "PBottle RPA — XXXX Process Template"  # Process name
+global_startTime = pbottleRPA.getTime()  # Start time
 
 
-def 同步子流程(脚本路径):
+def sync_subprocess(script_path):
     """
-    执行一个同步子流程脚本（阻塞等待完成）
-    @param 脚本路径: .py 文件的绝对/相对路径
+    Execute a synchronous sub‑process script (blocking)
+    @param script_path: absolute/relative path to a .py file
     """
-    print("启动同步子流程：", 脚本路径)
-    脚本路径 = os.path.abspath(脚本路径)
+    print("Launching synchronous sub‑process:", script_path)
+    script_path = os.path.abspath(script_path)
     result = subprocess.run(
-        [sys.executable, "-u", 脚本路径],
+        [sys.executable, "-u", script_path],
         capture_output=True,
         text=True,
         encoding="utf-8",
         errors="ignore",
     )
     if result.returncode == 0:
-        print(f"✅ 同步子流程完成: {脚本路径}")
+        print(f"✅ Synchronous sub‑process finished: {script_path}")
         if result.stdout.strip():
-            print("  子流程输出:", result.stdout.strip())
+            print("  Sub‑process output:", result.stdout.strip())
         return result.stdout
     else:
-        print(f"❌ 同步子流程失败 (exit code {result.returncode}): {脚本路径}")
+        print(
+            f"❌ Synchronous sub‑process failed (exit code {result.returncode}): {script_path}"
+        )
         if result.stderr.strip():
-            print("  错误信息:", result.stderr.strip())
+            print("  Error message:", result.stderr.strip())
         return None
 
 
-def 异步子流程(脚本路径, *args):
+def async_subprocess(script_path, *args):
     """
-    在新进程中执行子流程脚本（非阻塞），返回 subprocess 对象
-    注意：Python 标准库不直接支持 async/await 风格的跨进程调用，
-    这里用 subprocess + 线程模拟异步行为。
+    Run a sub‑process script in a new process (non‑blocking), returns a subprocess object.
+    Note: Python's standard library does not directly support async/await style cross‑process calls;
+    here we use subprocess + threading to simulate asynchronous behaviour.
 
-    @param 脚本路径: .py 文件路径
-    @param *args: 传递给子脚本的参数（通过命令行传入）
-    @return: subprocess.Popen 对象，可调用 .wait() 等待完成
+    @param script_path: .py file path
+    @param *args: arguments passed to the child script via the command line
+    @return: subprocess.Popen object, use .wait() to block until completion
     """
-    print("启动异步子流程：", 脚本路径)
-    脚本路径 = os.path.abspath(脚本路径)
+    print("Launching asynchronous sub‑process:", script_path)
+    script_path = os.path.abspath(script_path)
     proc = subprocess.Popen(
-        [sys.executable, "-u", 脚本路径] + list(args),
+        [sys.executable, "-u", script_path] + list(args),
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         encoding="utf-8",
@@ -65,82 +68,84 @@ def 异步子流程(脚本路径, *args):
     return proc
 
 
-def 动态导入子模块(模块路径):
+def dynamic_import_module(module_path):
     """
-    将另一个 .py 文件作为 Python 模块动态导入并调用其函数
-    （等价于 JS 的 require() 返回 module.exports）
+    Dynamically import another .py file as a Python module and return it
+    (equivalent to JS require() returning module.exports)
 
-    @param 模块路径: .py 文件路径
-    @return: 模块对象，可调用其中的函数
+    @param module_path: .py file path
+    @return: module object whose functions can be called
     """
-    模块路径 = os.path.abspath(模块路径)
-    模块名 = os.path.splitext(os.path.basename(模块路径))[0]
-    spec = importlib.util.spec_from_file_location(模块名, 模块路径)
+    module_path = os.path.abspath(module_path)
+    module_name = os.path.splitext(os.path.basename(module_path))[0]
+    spec = importlib.util.spec_from_file_location(module_name, module_path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
 
 
-# ========== 子函数定义 ==========
-def 子流程2(params):
-    """内联子流程函数，接收参数"""
-    print("子流程2开始", params)
-    # 在这里编写你的子流程逻辑...
-    print("子流程2结束")
+# ========== Sub‑function Definitions ==========
+def sub_process2(params):
+    """Inline sub‑process function that receives parameters"""
+    print("Sub‑process 2 started", params)
+    # Write your sub‑process logic here...
+    print("Sub‑process 2 ended")
     return True
 
 
-# ========== 主流程 ==========
+# ========== Main Flow ==========
 def main():
-    """主流程入口"""
+    """Main flow entry point"""
     try:
-        # 记录主流程开始信息
-        pbottleRPA.log("主流程开始 📍", global_startTime, global_processName)
+        # Log main flow start information
+        pbottleRPA.log("Main process started 📍", global_startTime, global_processName)
 
-        # ---- 方式1：直接调用内部子函数（同步） ----
-        print("--- 调用内联子流程 ---")
-        子流程2("输入参数2")
+        # ---- Method 1: Call an inline sub‑function directly (synchronous) ----
+        print("--- Calling inline sub‑process ---")
+        sub_process2("input parameter 2")
 
-        # ---- 方式2：同步调用外部 .py 脚本（阻塞） ----
-        # 等价于 JS 的 require('./xxx.js') 同步执行顶层代码
-        print("\n--- 启动同步子流程 ---")
+        # ---- Method 2: Synchronously invoke an external .py script (blocking) ----
+        # Equivalent to JS require('./xxx.js') executing top‑level code synchronously
+        print("\n--- Launching synchronous sub‑process ---")
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        同步子流程(current_dir + "/快速开始演示（3行代码）.py")
+        sync_subprocess(current_dir + "/QuickStart_demo_(3_lines).py")
 
-        # ---- 方式3：动态导入外部模块并调用其函数 ----
-        # 等价于 JS 的 let rs = require('./test.js')(url)
-        print("\n--- 启动动态导入子模块 ---")
+        # ---- Method 3: Dynamically import an external module and call its functions ----
+        # Equivalent to JS let rs = require('./test.js')(url)
+        print("\n--- Launching dynamic module import ---")
         try:
-            test_module = 动态导入子模块(current_dir + "/下载文件示例演示.py")
-            # 调用模块中的函数/变量（如果该模块有导出的话）
-            print("✅ 子模块加载成功:", dir(test_module))
+            test_module = dynamic_import_module(current_dir + "/download_file_demo.py")
+            # Call functions/variables in the module (if it exports any)
+            print("✅ Sub‑module loaded successfully:", dir(test_module))
         except Exception as e:
-            print(f"⚠ 子模块加载失败（可能该脚本不是模块化设计）: {e}")
+            print(
+                f"⚠ Sub‑module load failed (maybe the script is not designed as a module): {e}"
+            )
 
-        # ---- 方式4：异步子进程（非阻塞） ----
-        # 等价于 JS 的 await require('./test.js')() 但为非阻塞版本
-        print("\n--- 启动异步子流程（子进程）----")
-        proc = 异步子流程(current_dir + "/快速开始演示（3行代码）.py")
-        # 可以在这里做其他事情...
-        # 等待子流程完成
+        # ---- Method 4: Asynchronous sub‑process (non‑blocking) ----
+        # Equivalent to JS await require('./test.js')() but in non‑blocking form
+        print("\n--- Launching asynchronous sub‑process (child process) ---")
+        proc = async_subprocess(current_dir + "/QuickStart_demo_(3_lines).py")
+        # Do other things here...
+        # Wait for the child process to complete
         proc.wait()
         out, err = proc.communicate()
         if out and out.strip():
-            print("异步子流程输出:", out.strip())
+            print("Asynchronous sub‑process output:", out.strip())
 
-        # 主流程完成
-        pbottleRPA.log("主流程完成 ✅")
+        # Main process finished
+        pbottleRPA.log("Main process completed ✅")
         return True
 
     except Exception as e:
-        # 主流程错误捕获
-        print("❌ 未完成，错误", e)
-        print("准备发送消息给管理员 👉")
-        # 这里可以添加发送微信通知/邮件的逻辑：
-        # pbottleRPA.wxMessage("RPA流程异常", f"错误: {e}", "你的key")
+        # Main process error handling
+        print("❌ Not completed, error", e)
+        print("Preparing to send a message to the administrator 👉")
+        # You can add logic here to send a WeChat notification or email:
+        # pbottleRPA.wxMessage("RPA process exception", f"Error: {e}", "your_key")
         return False
 
 
-# ========== 入口 ==========
+# ========== Entry Point ==========
 if __name__ == "__main__":
     main()

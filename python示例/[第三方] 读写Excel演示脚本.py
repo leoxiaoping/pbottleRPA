@@ -1,7 +1,7 @@
 """
-小瓶RPA演示demo，具体api请查看*流程开发文档*
-官网：https://rpa.pbottle.com/
-流程开发文档：https://rpa.pbottle.com/docs/
+PBottle RPA demonstration demo. Please refer to the *process development documentation* for specific APIs.
+Official website: https://rpa.pbottle.com/
+Process development documentation: https://rpa.pbottle.com/docs/
 """
 
 import sys
@@ -10,76 +10,78 @@ import platform
 import json
 import time
 
-# 添加父目录到路径以导入pbottleRPA
+# Add parent directory to path to import pbottleRPA
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pbottleRPA as rpa
 
-# 尝试导入openpyxl库
+# Try to import openpyxl
 try:
     import openpyxl
     from openpyxl.styles import Font
 except ImportError:
-    rpa.showMsg("请先安装第三方模块", "运行: pip install openpyxl")
-    rpa.tts("请先安装第三方模块" + "运行: pip install openpyxl")
-    rpa.exit("请先安装第三方模块" + "运行: pip install openpyxl")
+    rpa.showMsg(
+        "Please install the third-party module first", "Run: pip install openpyxl"
+    )
+    rpa.tts("Please install the third-party module first. Run: pip install openpyxl")
+    rpa.exit("Please install the third-party module first. Run: pip install openpyxl")
 
 
 def excel_append(filename, line=None):
     """
-    Excel 文件追加一行数据
+    Append a row of data to an Excel file.
 
     Args:
-        filename (str): 文件绝对路径
-        line (list): 行数据
+        filename (str): Absolute file path
+        line (list): Row data
     """
     if line is None:
         line = []
-    print("excel追加行", filename, line)
+    print("Appending row to Excel", filename, line)
 
-    # 读取excel
+    # Read the Excel file
     workbook = openpyxl.load_workbook(filename)
     sheet = workbook.active
 
-    # excel 重新追加一行记录到已有的excel文件末尾
+    # Append a new row to the end of the existing sheet
     sheet.append(line)
 
-    # 保存
+    # Save
     workbook.save(filename)
 
 
-print("=== Excel 读写测试 ===")
+print("=== Excel Read/Write Test ===")
 print(rpa.getTime())
-rpa.tts("Excel 读写测试")
+rpa.tts("Excel Read/Write Test")
 rpa.wait(3)
-rpa.tts("将当前电脑配置信息生成EXCEL文件")
+rpa.tts("Generating an Excel file with current computer configuration information")
 rpa.wait(5)
 
-# 生成excel文档
+# Create an Excel workbook
 workbook = openpyxl.Workbook()
 sheet = workbook.active
 sheet.title = "pbottleRPA"
 
-# 添加表头
-sheet.append(["项", "值"])
+# Add header
+sheet.append(["Item", "Value"])
 
-# 设置第一行粗体
+# Make the first row bold
 for cell in sheet[1]:
     cell.font = Font(bold=True)
 
-# 设置列宽
+# Set column widths
 sheet.column_dimensions["A"].width = 30
 sheet.column_dimensions["B"].width = 60
 
-# 添加数据行
+# Add data rows
 sheet.append(
     [
-        "时间",
+        "Time",
         rpa.getTime(),
     ]
 )
 sheet.append(
     [
-        "显示器分辨率",
+        "Display Resolution",
         json.dumps(rpa.getResolution()),
     ]
 )
@@ -90,28 +92,29 @@ sheet.append(
     ]
 )
 
-# 保存文件
+# Save the file
 excel_path = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Excel测试表格.xlsx"
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "Excel_test_spreadsheet.xlsx",
 )
 workbook.save(excel_path)
-rpa.tts("已经生成EXCEL测试表格...请查看")
+rpa.tts("Excel test spreadsheet has been generated. Please check.")
 rpa.openDir(os.path.dirname(excel_path))
 
-# 追加一条数据
-excel_append(excel_path, ["项名", "重新追加值"])
+# Append a row of data
+excel_append(excel_path, ["Item name", "New appended value"])
 rpa.wait(5)
 
-# 读取excel
+# Read Excel
 workbook2 = openpyxl.load_workbook(excel_path)
 sheet2 = workbook2.active
 
-# 获取所有数据
+# Retrieve all data
 values = []
 for row in sheet2.iter_rows(values_only=True):
     values.append(row)
 print(values)
-rpa.tts("已经读取EXCEL测试表格到日志")
+rpa.tts("Excel test spreadsheet has been read and logged.")
 
 
 if __name__ == "__main__":

@@ -1,37 +1,38 @@
 """
 
-小瓶RPA python版本（Beta）
+PBottle RPA Python version (Beta)
 https://gitee.com/pbottle/pbottle-rpa
-示例
+Example
 
 """
 
-import pbottleRPA  #引入小瓶RPA模块
-import random 
+import pbottleRPA  # Import the PBottle RPA module
+import random
 
 
-
-#for 循环 重复操作 10 次 打开网页
+# for loop – repeat an operation 10 times, opening a web page each time
 for index in range(10):
-    number = index+1
-    print('第' +  str(number) + '次操作'); #输出到日志，文件日志永久保存
-    pbottleRPA.openURL('https://www.baidu.com/s?wd='+ str(number)) #操作：用默认浏览器打开网页
-    pbottleRPA.sleep(500) #等待500毫秒
+    number = index + 1
+    print("Operation #" + str(number))
+    # Output to log, permanently saved in the log file
+    pbottleRPA.openURL(
+        "https://www.baidu.com/s?wd=" + str(number)
+    )  # Action: open a URL with the default browser
+    pbottleRPA.sleep(500)  # Wait 500 milliseconds
 
 
-
-#判断
-number = random.random()  #生成一个 0-1 的随机数  用于判断
-if (number < 0.5) :       #用 if 判断数值是否小于 0.5
-    print('小于 0.5。', number)
-    pbottleRPA.tts('小于 0.5')
+# Conditional judgment
+number = random.random()  # Generate a random number between 0 and 1 for the condition
+if number < 0.5:  # Check if the number is less than 0.5
+    print("Less than 0.5.", number)
+    pbottleRPA.tts("Less than 0.5")
 else:
-    print('大于或等于 0.5。', number)
-    pbottleRPA.tts('大于等于 0.5。')
+    print("0.5 or greater.", number)
+    pbottleRPA.tts("0.5 or greater")
 
 
 pbottleRPA.wait(1)
 
-#语音播报
-pbottleRPA.tts('流程结束！~')
-pbottleRPA.showMsg('小瓶RPA提示','流程结束！~')
+# Text-to-speech
+pbottleRPA.tts("Flow completed! ~")
+pbottleRPA.showMsg("PBottle RPA Tip", "Flow completed! ~")

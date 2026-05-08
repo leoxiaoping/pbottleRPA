@@ -1,45 +1,71 @@
-""" 
-小瓶RPA演示demo，具体api请查看*流程开发文档*
-官网：https://rpa.pbottle.com/
-流程开发文档：https://rpa.pbottle.com/docs/
+"""
+PBottle RPA demo – please refer to the *process documentation* for specific APIs.
+Official website: https://rpa.pbottle.com/
+Process documentation: https://rpa.pbottle.com/docs/
 
-功能说明：此脚本演示了RPA中的OCR文字识别和查找功能
-通过这些示例，您可以学习如何使用AI技术识别屏幕上的文字内容并进行查找定位
- """
+Feature description: This script demonstrates the OCR text recognition and search features of RPA.
+Through these examples, you can learn how to use AI technology to recognize text on the screen and locate specific content.
+"""
 
 import time
-import pbottleRPA      # 引入小瓶RPA的核心库，获得对RPA功能的访问权限
+import pbottleRPA  # Import the core PBottle RPA library to access RPA functionality
 
-pbottleRPA.log("=== OCR 识别测试 ===");                   # 在控制台输出测试标题
-pbottleRPA.log('屏幕分辨率：',pbottleRPA.getResolution()) # 在控制台输出当前屏幕分辨率信息
+pbottleRPA.log("=== OCR Recognition Test ===")
+# Output test title to the console
+pbottleRPA.log(
+    "Screen resolution:", pbottleRPA.getResolution()
+)  # Output the current screen resolution
 
-pbottleRPA.tts('正在识别您的电脑屏幕左上角区域文字') # 使用文字转语音功能播报即将执行的操作
-pbottleRPA.wait(5)                             # 等待5秒钟
+pbottleRPA.tts(
+    "Recognizing text in the top‑left area of your screen"
+)  # Announce the upcoming operation via TTS
+pbottleRPA.wait(5)  # Wait 5 seconds
 
-start = time.time()                         # 记录OCR识别开始时间（用于计算耗时）
+start = (
+    time.time()
+)  # Record the start time of OCR recognition (for calculating elapsed time)
 
-pbottleRPA.log('屏幕orc结果：',pbottleRPA.aiOcr('screen',10,10,500,500)) # 对屏幕左上角区域(10,10,500,500)进行OCR文字识别，并输出结果到控制台
-end = time.time();                          # 记录OCR识别结束时间
-pbottleRPA.log('OCR耗时：（秒）',(end-start)/1000); # 计算并输出OCR识别耗时（转换为秒）
+pbottleRPA.log(
+    "Screen OCR result:", pbottleRPA.aiOcr("screen", 10, 10, 500, 500)
+)  # Perform OCR on the top‑left area (10,10,500,500) and output the result
+end = time.time()
+# Record the end time of OCR recognition
+pbottleRPA.log("OCR time: (seconds)", (end - start) / 1000)
+# Calculate and output the OCR duration (converted to seconds)
 
-pbottleRPA.tts("已经输出 JSON 格式到运行日志")  # 语音播报OCR结果已输出
-pbottleRPA.wait(5);                            # 等待5秒钟
-
-
-pbottleRPA.log("查找并点击微信")                   # 在控制台输出操作信息
-pbottleRPA.tts("查找并点击微信")                # 语音播报即将执行的操作
-
-position = pbottleRPA.findText('微信',10,10,1000,500) # 在屏幕区域(10,10,1000,500)内查找"微信"文字，返回位置信息
-pbottleRPA.log('查找文字结果：',position);         # 在控制台输出查找到的文字位置信息   
-
-if position:                               # 如果找到了指定文字
-    pbottleRPA.moveAndClick(position.x,position.y) # 移动鼠标到文字位置并点击
-else:                                        # 如果没有找到指定文字
-    pbottleRPA.log("范围内没有找到文字：微信");      # 在控制台输出未找到的提示信息
-
-pbottleRPA.log("准备结束脚本");                   # 在控制台输出脚本即将结束的信息
-pbottleRPA.tts("准备结束脚本");                # 语音播报脚本即将结束的信息
+pbottleRPA.tts(
+    "The result in JSON format has been output to the running log"
+)  # Announce that the OCR result has been output
+pbottleRPA.wait(5)
+# Wait 5 seconds
 
 
-pbottleRPA.showMsg('演示结束','请查看运行日志') # 显示系统消息框提示演示结束
-pbottleRPA.exit("结束")                        # 退出RPA脚本执行
+pbottleRPA.log(
+    "Search for and click WeChat"
+)  # Output the operation info to the console
+pbottleRPA.tts("Search for and click WeChat")  # Announce the upcoming operation
+
+position = pbottleRPA.findText(
+    "WeChat", 10, 10, 1000, 500
+)  # Search for the text "WeChat" within the screen area (10,10,1000,500), returning the position
+pbottleRPA.log("Text search result:", position)
+# Output the found text position to the console
+
+if position:  # If the specified text is found
+    pbottleRPA.moveAndClick(
+        position.x, position.y
+    )  # Move the mouse to the text position and click
+else:  # If the specified text is not found
+    pbottleRPA.log("Text 'WeChat' not found in the specified area.")
+    # Output a hint that the text was not found
+
+pbottleRPA.log("Preparing to end the script")
+# Output a message that the script is about to end
+pbottleRPA.tts("Preparing to end the script")
+# Announce via TTS that the script is about to end
+
+
+pbottleRPA.showMsg(
+    "Demo finished", "Please check the running log"
+)  # Show a system message box indicating the demo is over
+pbottleRPA.exit("End")  # Exit the RPA script execution

@@ -1,55 +1,56 @@
 """
-
-小瓶RPA python版本（Beta）
+PBottle RPA Python version (Beta)
 https://gitee.com/pbottle/pbottle-rpa
-示例
-
+Example
 """
 
-import pbottleRPA  #引入小瓶RPA模块
+import pbottleRPA  # Import the PBottle RPA module
 import time
 
-
-print("=== WEB增强插件-账号密码登录演示 ===")
+print("=== Web Enhancement Plugin - Account Password Login Demo ===")
 current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 print(current_time)
 
-print("=== ※※※※※※※※※ ===");
-print("=== 需要安装 小瓶RPA 浏览器插件 ===");
-print("=== ※※※※※※※※※ ===");
+print("=== NOTE ===")
+print("=== The PBottle RPA browser extension must be installed ===")
+print("=== ===")
 
 
-pbottleRPA.tts('必须安装小瓶RPA浏览器增强插件，手动点击确定继续')
-pbottleRPA.showMsg('提示：','必须先安装浏览器增强插件')
-pbottleRPA.openURL('https://yun.pbottle.com/?from=rpademo')
+pbottleRPA.tts(
+    "You must install the PBottle RPA browser enhancement extension. Click OK to continue."
+)
+pbottleRPA.showMsg("Tip:", "You must install the browser enhancement extension first.")
+pbottleRPA.openURL("https://yun.pbottle.com/?from=rpademo")
 
 
-ret = pbottleRPA.browserCMD.alert('来自小瓶RPA的问候，手动点击确定开始，20秒超时')
-print('返回操作结果',ret);
-if (ret != 'ok'):
-    print('没有检测到小瓶RPA浏览器插件',ret);
+ret = pbottleRPA.browserCMD.alert(
+    "Greetings from PBottle RPA. Click OK to start. 20-second timeout."
+)
+print("Operation result:", ret)
+if ret != "ok":
+    print("PBottle RPA browser extension not detected.", ret)
     pbottleRPA.exit(1)
 
-#点击登录按钮
-pbottleRPA.browserCMD.click("a[role='button']:contains(登录或注册)")
+# Click login/register button
+pbottleRPA.browserCMD.click("a[role='button']:contains(Login or Register)")
 pbottleRPA.sleep(2000)
 
-pbottleRPA.browserCMD.click("a[role='button']:contains(用帐号密码登录)")
+pbottleRPA.browserCMD.click("a[role='button']:contains(Login with account password)")
 pbottleRPA.sleep(1000)
 
 
-#输入账号密码
+# Enter username and password
 pbottleRPA.browserCMD.click("input[name='uname']")
-pbottleRPA.browserCMD.val("input[name='uname']",'test')
+pbottleRPA.browserCMD.val("input[name='uname']", "test")
 
 pbottleRPA.browserCMD.click("input[name='pwd']")
-pbottleRPA.browserCMD.val("input[name='pwd']",'123456')
+pbottleRPA.browserCMD.val("input[name='pwd']", "123456")
 pbottleRPA.sleep(1000)
 
 
-#登录按钮
-pbottleRPA.browserCMD.click("button:contains(登录帐号)")
+# Login button
+pbottleRPA.browserCMD.click("button:contains(Login)")
 pbottleRPA.sleep(3000)
 
-pbottleRPA.keyTap('enter')
-pbottleRPA.tts('演示结束')
+pbottleRPA.keyTap("enter")
+pbottleRPA.tts("Demo finished.")

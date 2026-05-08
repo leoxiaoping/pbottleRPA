@@ -1605,6 +1605,9 @@ class utils:
     substringFromTo = substringFromTo
 
 
+log = print
+
+
 # ========== Entry Check ==========
 if __name__ == "__main__":
     print(

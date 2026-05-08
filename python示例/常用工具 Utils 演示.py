@@ -1,90 +1,110 @@
 """
-小瓶RPA演示demo，具体api请查看*流程开发文档*
-官网：https://rpa.pbottle.com/
-流程开发文档：https://rpa.pbottle.com/docs/
+PBottle RPA demo. Please refer to the *process documentation* for specific APIs.
+Official website: https://rpa.pbottle.com/
+Process documentation: https://rpa.pbottle.com/docs/
 
-功能说明：此脚本演示了RPA中的常用工具函数（utils）
-通过这个示例，您可以学习如何使用pbottleRPA提供的各种实用工具函数
+Feature description: This script demonstrates the common utility functions (utils) in RPA.
+Through this example, you can learn how to use various practical utility functions provided by pbottleRPA.
 """
 
 import sys
 import os
 
-# 添加父目录到路径以导入pbottleRPA
+# Add parent directory to path to import pbottleRPA
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pbottleRPA
 
 
 def main():
-    print("=== 常用工具 pbottleRPA.utils ===")
+    print("=== Common Utilities: pbottleRPA.utils ===")
 
-    # 语音播报演示
-    pbottleRPA.tts("常用工具 utils 演示")
-    # 显示系统消息框提示用户
-    pbottleRPA.showMsg("小瓶RPA提示", "常用工具 utils 演示")
+    # TTS demonstration
+    pbottleRPA.tts("Common utilities demonstration")
+    # Show system message box to prompt the user
+    pbottleRPA.showMsg("PBottle RPA Tip", "Common utilities demonstration")
     pbottleRPA.wait(2)
 
-    # 标准格式时间演示
-    print("--- 时间格式化 getTime ---")
-    # 使用工具箱中的获取格式化时间函数获取当前时间
+    # Standard formatted time demonstration
+    print("--- Time formatting: getTime ---")
+    # Use the toolbox's getTime function to get the current time
     time_str = pbottleRPA.getTime()
-    print("标准格式时间:", time_str)
-    # 获取自定义格式的日期（年/月/日格式）
-    print("任意格式日期:", pbottleRPA.getTime("Y/m/d"))
+    print("Standard formatted time:", time_str)
+    # Get a custom formatted date (Year/Month/Day format)
+    print("Custom formatted date:", pbottleRPA.getTime("Y/m/d"))
     pbottleRPA.wait(1)
 
-    # 随机数生成演示
-    print("--- 随机数 uniqid ---")
-    # 生成默认格式的唯一ID（基于时间戳）
+    # Unique ID generation demonstration
+    print("--- Unique ID: uniqid ---")
+    # Generate a default unique ID (based on timestamp)
     print(pbottleRPA.uniqid())
-    # 生成带自定义前缀的唯一ID
+    # Generate a unique ID with a custom prefix
     print(pbottleRPA.uniqid("myPrefix_"))
-    # 生成带额外随机性的唯一ID
+    # Generate a unique ID with extra randomness
     print(pbottleRPA.uniqid("", True))
     pbottleRPA.wait(1)
 
-    # 数字字符串检测演示
-    print("--- 检测变量是否为数字化 isNumeric ---")
-    # 检测各种类型数据是否为数字
-    print("isNumeric(10):       ", pbottleRPA.isNumeric(10))         # 检测整数: True
-    print('isNumeric("10"):     ', pbottleRPA.isNumeric("10"))       # 检测数字字符串: True
-    print('isNumeric("10.5"):   ', pbottleRPA.isNumeric("10.5"))     # 检测小数字符串: True
-    print('isNumeric("abc"):    ', pbottleRPA.isNumeric("abc"))      # 检测非数字字符串: False
-    print("isNumeric(None):     ", pbottleRPA.isNumeric(None))        # 检测None: False (JS为null)
+    # Numeric string detection demonstration
+    print("--- Check if a variable is numeric: isNumeric ---")
+    # Test various data types to see if they are numeric
+    print("isNumeric(10):       ", pbottleRPA.isNumeric(10))  # Integer: True
+    print('isNumeric("10"):     ', pbottleRPA.isNumeric("10"))  # Numeric string: True
+    print('isNumeric("10.5"):   ', pbottleRPA.isNumeric("10.5"))  # Decimal string: True
+    print(
+        'isNumeric("abc"):    ', pbottleRPA.isNumeric("abc")
+    )  # Non-numeric string: False
+    print(
+        "isNumeric(None):     ", pbottleRPA.isNumeric(None)
+    )  # None: False (equivalent to JS null)
     pbottleRPA.wait(1)
 
-        # 变量是否包含数据检测演示
-    print("--- 变量是否包含数据测试 hasData ---")
-    # 检测各种类型数据是否包含有效数据
-    print("hasData(None):              ", pbottleRPA.hasData(None))           # None等价于JS的undefined: False
-    print("hasData([]):                ", pbottleRPA.hasData([]))             # 检测空列表: False
-    print("hasData({}):                ", pbottleRPA.hasData({}))             # 检测空字典: False (JS为空对象)
-    print("hasData(0):                 ", pbottleRPA.hasData(0))              # 检测数字0: False
-    print('hasData(""):                ', pbottleRPA.hasData(""))             # 检测空字符串: False
-    print('hasData("   "):             ', pbottleRPA.hasData("   "))          # 检测空格字符串: False
-    print("hasData(False):             ", pbottleRPA.hasData(False))          # 检测布尔值False: False
+    # hasData demonstration: check if a variable contains meaningful data
+    print("--- hasData: check if a variable contains data ---")
+    # Test various data types
+    print(
+        "hasData(None):              ", pbottleRPA.hasData(None)
+    )  # None (like JS undefined): False
+    print("hasData([]):                ", pbottleRPA.hasData([]))  # Empty list: False
+    print(
+        "hasData({}):                ", pbottleRPA.hasData({})
+    )  # Empty dict: False (JS empty object)
+    print("hasData(0):                 ", pbottleRPA.hasData(0))  # Number 0: False
+    print('hasData(""):                ', pbottleRPA.hasData(""))  # Empty string: False
+    print(
+        'hasData("   "):             ', pbottleRPA.hasData("   ")
+    )  # Whitespace string: False
+    print(
+        "hasData(False):             ", pbottleRPA.hasData(False)
+    )  # Boolean False: False
     print("---------------------------")
-    print("hasData(3.14):              ", pbottleRPA.hasData(3.14))           # 检测非零小数: True
-    print('hasData("小瓶RPA "):        ', pbottleRPA.hasData("小瓶RPA "))      # 检测非空字符串: True
-    print("hasData([12,5]):            ", pbottleRPA.hasData([12, 5]))        # 检测非空列表: True
-    print('hasData({"pbottle":666}):   ', pbottleRPA.hasData({"pbottle": 666}))  # 检测非空字典: True
+    print(
+        "hasData(3.14):              ", pbottleRPA.hasData(3.14)
+    )  # Non-zero decimal: True
+    print(
+        'hasData("PBottle RPA "):    ', pbottleRPA.hasData("PBottle RPA ")
+    )  # Non-empty string: True
+    print(
+        "hasData([12,5]):            ", pbottleRPA.hasData([12, 5])
+    )  # Non-empty list: True
+    print(
+        'hasData({"pbottle":666}):   ', pbottleRPA.hasData({"pbottle": 666})
+    )  # Non-empty dict: True
     pbottleRPA.wait(1)
 
-    # 文本截取演示
-    # 定义要处理的字符串
-    str_val = "小瓶RPA官网是 https://www.pbottle.com 输入浏览器即可访问官网"
-    print("--- 文本截取测试 ---", str_val)
-    # 从字符串中截取指定标记之间的内容（从"官网是"到"输入"之间的内容）
-    sub_str = pbottleRPA.substringFromTo(str_val, "官网是", "输入")
-    print("截取结果:", sub_str)
+    # Substring extraction demonstration
+    # Define the string to process
+    str_val = "The PBottle RPA official website is https://www.pbottle.com. Enter it in your browser to visit."
+    print("--- Substring extraction test ---", str_val)
+    # Extract content between two markers ("website is " and "Enter")
+    sub_str = pbottleRPA.substringFromTo(str_val, "website is ", "Enter")
+    print("Extracted substring:", sub_str)
     pbottleRPA.wait(1)
 
-    # 模拟资源管理器的文件搜索演示
-    print("--- 模拟资源管理器的文件搜索 searchFile ---")
-    # 在指定目录中搜索指定扩展名的文件
+    # Simulate file search in File Explorer: searchFile
+    print("--- Simulate file search: searchFile ---")
+    # Search for files with a specified extension in the project root directory, including subdirectories
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    rs = pbottleRPA.searchFile(base_dir, ".png", True)  # 在项目根目录搜索.png文件，包含子目录
-    print("当前目录搜索.png文件:", rs)
+    rs = pbottleRPA.searchFile(base_dir, ".png", True)
+    print("Search for .png files in the current directory:", rs)
 
 
 if __name__ == "__main__":

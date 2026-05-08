@@ -1,35 +1,36 @@
 """
-小瓶RPA演示demo，具体api请查看*流程开发文档*
-官网：https://rpa.pbottle.com/
-流程开发文档：https://rpa.pbottle.com/docs/
+PBottle RPA demo – please refer to the *process documentation* for specific APIs.
+Official website: https://rpa.pbottle.com/
+Process documentation: https://rpa.pbottle.com/docs/
 
-功能说明：此脚本演示了RPA中的文件下载功能
-通过自动触发文件下载并监测下载完成状态，实现完整的下载流程自动化
+Feature description: This script demonstrates the file download function in RPA.
+By automatically triggering a file download and monitoring its completion, it automates the entire download process.
 """
 
-import pbottleRPA  # 引入小瓶RPA的核心库，获得对RPA功能的访问权限
-import os  # 引入操作系统模块，用于获取系统信息
+import pbottleRPA  # Import the core PBottle RPA library to access RPA functionality
+import os  # Import the OS module to get system information
 
-# 获取系统默认下载路径（用户主目录下的Downloads文件夹）
-下载保存路径 = os.path.join(os.path.expanduser('~'), "Downloads")
-# 下载保存路径 = 'D:\\Users\\Leo\\Downloads'   # 可选：修改成自己电脑浏览器默认下载路径
-# 输出下载路径信息到日志，提醒用户根据实际情况修改
-pbottleRPA.日志输出("电脑浏览器默认下载路径，根据自己的情况修改", 下载保存路径)
-
-# 打开微信官网页面（准备下载微信安装包）
-pbottleRPA.打开网址("https://pc.weixin.qq.com/")
-# 直接打开微信Windows客户端安装包下载链接
-pbottleRPA.打开网址("https://dldir1v6.qq.com/weixin/Windows/WeChatSetup.exe")
-# 模拟按下回车键确认下载操作
-pbottleRPA.键盘按键("enter")
-
-# 等待指定文件下载完成，超时时间为120秒
-# 在等待期间会循环输出"正在下载..."提示信息
-# 替代方案：使用 lambda
-pbottleRPA.等待文件(
-    下载保存路径, "WeChatSetup.exe", lambda: pbottleRPA.日志输出("正在下载..."), 120
+# Get the system default download path (the Downloads folder under the user's home directory)
+download_path = os.path.join(os.path.expanduser("~"), "Downloads")
+# download_path = 'D:\\Users\\Leo\\Downloads'   # Optional: change to your own browser's default download path
+# Output the download path to the log, reminding the user to adjust if necessary
+pbottleRPA.log(
+    "Default browser download path, adjust according to your situation:", download_path
 )
-# 文件下载完成后输出成功信息到日志
-pbottleRPA.日志输出("文件已经下载成功")
-# 显示系统消息框提示用户下载已完成
-pbottleRPA.showMsg("监测下载完成", "文件已经下载成功")
+
+# Open the WeChat official website (preparing to download the WeChat installer)
+pbottleRPA.openURL("https://pc.weixin.qq.com/")
+# Directly open the download link for the WeChat Windows client installer
+pbottleRPA.openURL("https://dldir1v6.qq.com/weixin/Windows/WeChatSetup.exe")
+# Simulate pressing the Enter key to confirm the download
+pbottleRPA.keyTap("enter")
+
+# Wait for the specified file to finish downloading, with a timeout of 120 seconds
+# During the wait, it will repeatedly output "Downloading..." prompts
+pbottleRPA.waitFile(
+    download_path, "WeChatSetup.exe", lambda: pbottleRPA.log("Downloading..."), 120
+)
+# After the file download is complete, output a success message to the log
+pbottleRPA.log("File downloaded successfully")
+# Show a system message box to inform the user that the download is complete
+pbottleRPA.showMsg("Download monitoring complete", "File downloaded successfully")

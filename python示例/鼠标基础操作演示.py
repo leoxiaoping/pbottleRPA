@@ -1,91 +1,90 @@
 """
-
-小瓶RPA python版本（Beta）
+PBottle RPA Python version (Beta)
 https://gitee.com/pbottle/pbottle-rpa
-示例
-
+Example
 """
-import pbottleRPA  #引入小瓶RPA模块
+
+import pbottleRPA  # Import the PBottle RPA module
 import time
 
-print("=== 鼠标操作测试 ===")
+print("=== Mouse Operation Test ===")
 current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 print(current_time)
-pbottleRPA.setDefaultDelay(0)  #忽略自动按键间隔
+pbottleRPA.setDefaultDelay(0)  # Ignore automatic key interval
 
 
-pbottleRPA.tts('开始运行小瓶RPA鼠标操作演示脚本。...  快捷键 ：Ctrl+shift+Q 可手动退出')
-#延迟5秒
+pbottleRPA.tts(
+    "Starting the PBottle RPA mouse operation demo script... Shortcut: Ctrl+Shift+Q to manually exit"
+)
+# Delay 12 seconds
 pbottleRPA.sleep(1000 * 12)
 
 resolution = pbottleRPA.getResolution()
-print('当前电脑屏幕分辨率', resolution)
-pbottleRPA.keyTap('windows+d')
+print("Current screen resolution", resolution)
+pbottleRPA.keyTap("windows+d")
 
-pbottleRPA.tts(f'当前电脑屏幕分辨率: {resolution["w"]} 乘以 {resolution["h"]}')
+pbottleRPA.tts(f'Current screen resolution: {resolution["w"]} by {resolution["h"]}')
 pbottleRPA.sleep(1000 * 6)
 
 
-pbottleRPA.tts('移动指针到屏幕中点')
-pbottleRPA.moveMouseSmooth(resolution["w"]/2,resolution["h"]/2)
-pbottleRPA.sleep(1000*3)
+pbottleRPA.tts("Moving the pointer to the center of the screen")
+pbottleRPA.moveMouseSmooth(resolution["w"] / 2, resolution["h"] / 2)
+pbottleRPA.sleep(1000 * 3)
 
-pbottleRPA.tts('长按左键')
-pbottleRPA.mouseClick('left',1500);
-pbottleRPA.sleep(1000*2)
+pbottleRPA.tts("Long-pressing the left button")
+pbottleRPA.mouseClick("left", 1500)
+pbottleRPA.sleep(1000 * 2)
 
-pbottleRPA.tts('鼠标双击')
-pbottleRPA.moveMouseSmooth(38,38)
+pbottleRPA.tts("Mouse double-click")
+pbottleRPA.moveMouseSmooth(38, 38)
 pbottleRPA.mouseDoubleClick()
-pbottleRPA.sleep(1000*3)
+pbottleRPA.sleep(1000 * 3)
 
 
-pbottleRPA.tts('准备打开网页并滚动鼠标，5秒后开始')
-pbottleRPA.sleep(1000*10)
+pbottleRPA.tts(
+    "Preparing to open a web page and scroll the mouse. Starting in 5 seconds."
+)
+pbottleRPA.sleep(1000 * 10)
 
-#用浏览器打开网址
-pbottleRPA.openURL('https://rpa.pbottle.com?from=demo')
-pbottleRPA.sleep(1000*2)
-pbottleRPA.keyTap('f11')
-pbottleRPA.sleep(1000*1)
+# Open a URL with the browser
+pbottleRPA.openURL("https://rpa.pbottle.com?from=demo")
+pbottleRPA.sleep(1000 * 2)
+pbottleRPA.keyTap("f11")
+pbottleRPA.sleep(1000 * 1)
 
 
-pbottleRPA.tts('滚动鼠标')
+pbottleRPA.tts("Scrolling the mouse")
 pbottleRPA.mouseWheel()
-pbottleRPA.sleep(1000*4)
-pbottleRPA.tts('反向滚动鼠标')
+pbottleRPA.sleep(1000 * 4)
+pbottleRPA.tts("Scrolling the mouse in reverse")
 pbottleRPA.mouseWheel(360)
-pbottleRPA.sleep(1000*4)
+pbottleRPA.sleep(1000 * 4)
 
 
-
-pbottleRPA.tts('右键页面')
-pbottleRPA.moveMouseSmooth(100,100)
-pbottleRPA.mouseClick('right')
-pbottleRPA.sleep(1000*3)
-pbottleRPA.moveMouseSmooth(35,35)
-pbottleRPA.tts('左键单击')
+pbottleRPA.tts("Right-click on the page")
+pbottleRPA.moveMouseSmooth(100, 100)
+pbottleRPA.mouseClick("right")
+pbottleRPA.sleep(1000 * 3)
+pbottleRPA.moveMouseSmooth(35, 35)
+pbottleRPA.tts("Left-click")
 pbottleRPA.mouseClick()
-pbottleRPA.sleep(1000*3)
+pbottleRPA.sleep(1000 * 3)
 
 
+# Test mouse drag
+pbottleRPA.tts("Drag or selection")
+pbottleRPA.sleep(1000 * 4)
+pbottleRPA.moveMouseSmooth(1634, 143)
+pbottleRPA.mouseLeftDragTo(500, 500)
 
 
-#测试鼠标拖拽
-pbottleRPA.tts('拖拽或选区')
-pbottleRPA.sleep(1000*4)
-pbottleRPA.moveMouseSmooth(1634,143)
-pbottleRPA.mouseLeftDragTo(500,500)
-
-
-
-pbottleRPA.sleep(1000*5)
+pbottleRPA.sleep(1000 * 5)
 
 pbottleRPA.mouseClick()
-pbottleRPA.keyTap('f11')
-pbottleRPA.tts('演示结束')
-print("准备结束脚本");
-pbottleRPA.sleep(1000*3)
-#脚本强制退出
+pbottleRPA.keyTap("f11")
+pbottleRPA.tts("Demo finished")
+print("Preparing to end the script")
+pbottleRPA.sleep(1000 * 3)
+# Force exit the script
 pbottleRPA.exit()
-print("已经退出了，无效");
+print("Already exited, this line is unreachable")
