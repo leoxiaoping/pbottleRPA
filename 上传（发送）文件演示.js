@@ -1,48 +1,48 @@
 /**
- * 小瓶RPA演示demo，具体api请查看*流程开发文档*
- * 官网：https://rpa.pbottle.com/
- * 流程开发文档：https://rpa.pbottle.com/docs/
+ * PBottle RPA demo – please refer to the *process development documentation* for API details.
+ * Official website: https://rpa.pbottle.com/
+ * Process development documentation: https://rpa.pbottle.com/docs/
  * 
- * 功能说明：此脚本演示了RPA中的文件上传（发送）功能
- * 需要使用浏览器增强插件来操作网页元素，实现自动化的文件上传流程
+ * Feature description: This script demonstrates the file upload (send) function in RPA.
+ * It requires the browser enhancement extension to manipulate web elements for an automated file upload workflow.
  */
 
-const pbottleRPA = require('./pbottleRPA')     // 引入小瓶RPA的核心库，获得对RPA功能的访问权限
+const pbottleRPA = require('./pbottleRPA')     // Import the core PBottle RPA library to gain access to RPA functionality
 
-// 语音播报开始信息
-pbottleRPA.tts('上传发送文件演示')             // 使用文字转语音功能播报演示开始
-// 显示系统消息框提示用户需要浏览器增强插件
-pbottleRPA.showMsg('本演示需要浏览器增强插件','上传发送文件演示') 
-pbottleRPA.wait(2)                            // 等待2秒钟
+// Announce the start via speech
+pbottleRPA.tts('File upload demonstration')             // Use text-to-speech to announce the demo start
+// Show a system message box to remind the user that the browser extension is needed
+pbottleRPA.showMsg('This demo requires the browser enhancement extension', 'File upload demonstration')
+pbottleRPA.wait(2)                            // Wait 2 seconds
 
-console.log('开始演示');                      // 在控制台输出开始演示信息
+console.log('Starting demonstration');        // Output the start of the demo to the console
 
-// 打开百度图片网站用于演示文件上传
-pbottleRPA.openURL('https://pic.sogou.com/') 
-pbottleRPA.wait()                             // 等待页面加载完成
+// Open Sogou image search for the file upload demo
+pbottleRPA.openURL('https://pic.sogou.com/')
+pbottleRPA.wait()                             // Wait for the page to load
 
-// 使用浏览器增强插件点击上传图标元素
-// 通过CSS选择器匹配class以"img-upload-icon_"开头的span元素
+// Use the browser enhancement extension to click the upload icon element
+// Match the span element whose class starts with "img-upload-icon_" via CSS selector
 pbottleRPA.browserCMD_click('#cameraIco')
 pbottleRPA.wait(2)
 
-// 查找页面中的"上传图片"文字位置
-let pos = pbottleRPA.findText('本地上传')
+// Find the text "Local upload" on the page
+let pos = pbottleRPA.findText('Local upload')
 
-if(pos === false){
-    pbottleRPA.exit('未找到上传按钮');
+if (pos === false) {
+    pbottleRPA.exit('Upload button not found');
 }
-// 移动鼠标到找到的位置并点击，打开文件选择对话框
-pbottleRPA.moveAndClick(pos.x,pos.y)          
+// Move the mouse to the found position and click to open the file selection dialog
+pbottleRPA.moveAndClick(pos.x, pos.y)
 
-pbottleRPA.wait(2)                             // 等待对话框打开
+pbottleRPA.wait(2)                             // Wait for the dialog to open
 
-// 复制要上传的文件到剪切板
-pbottleRPA.copyText(pbottleRPA.path.resolve('./input/RPAlogo128.png')) 
-pbottleRPA.keyTap('ctrl+v')                   // 按下Ctrl+V组合键粘贴文件路径
+// Copy the file to be uploaded to the clipboard
+pbottleRPA.copyText(pbottleRPA.path.resolve('./input/RPAlogo128.png'))
+pbottleRPA.keyTap('ctrl+v')                   // Press Ctrl+V to paste the file path
 
-pbottleRPA.wait()                             // 等待文件粘贴完成
-pbottleRPA.keyTap('enter')                    // 按下回车键确认文件选择
+pbottleRPA.wait()                             // Wait for the file to be pasted
+pbottleRPA.keyTap('enter')                    // Press Enter to confirm the file selection
 
-// 确定上传操作
-pbottleRPA.keyTap('enter')                    // 再次按下回车键开始上传文件
+// Confirm the upload
+pbottleRPA.keyTap('enter')                    // Press Enter again to start the upload

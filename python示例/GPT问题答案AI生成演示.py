@@ -1,27 +1,25 @@
 """
-
-小瓶RPA python版本（Beta）
+PBottle RPA Python version (Beta)
 https://gitee.com/pbottle/pbottle-rpa
-示例
-
+Example
 """
 
-import pbottleRPA  #引入小瓶RPA模块
+import pbottleRPA  # Import the PBottle RPA module
 
 asks = [
-    '鲁迅为什么要打周树人？',
-    '给我随便作一首诗吧',
-    '你是谁？',
+    "Why did Lu Xun hit Zhou Shuren?",
+    "Please compose a poem for me",
+    "Who are you?",
 ]
 
-for index,ask in enumerate(asks):
-    
-    print(f'问题 {index+1}：',ask);
+for index, ask in enumerate(asks):
+
+    print(f"Question {index+1}:", ask)
     pbottleRPA.tts(ask)
 
     rs = pbottleRPA.cloud.GPT(ask)
-    pbottleRPA.log('云端 AI 生成答案:',rs['content'])
-    pbottleRPA.log('------------')
+    pbottleRPA.log("Cloud AI generated answer:", rs["content"])
+    pbottleRPA.log("------------")
     pbottleRPA.log()
 
 

@@ -1,24 +1,25 @@
 """
-小瓶RPA演示demo，具体api请查看*流程开发文档*
-官网：https://rpa.pbottle.com/
-流程开发文档：https://rpa.pbottle.com/docs/
+PBottle RPA demo. Please refer to the *process documentation* for specific APIs.
+Official website: https://rpa.pbottle.com/
+Process documentation: https://rpa.pbottle.com/docs/
 
-功能说明：此脚本演示了RPA中的电子邮件Email消息通知功能
-通过这个示例，您可以学习如何在自动化流程中集成电子邮件Email通知功能，实现远程监控和告警
+Feature description: This script demonstrates the email notification feature of RPA.
+Through this example, you can learn how to integrate email notifications into automation flows for remote monitoring and alerts.
 """
 
 import pbottleRPA
 
-pbottleRPA.log("=== 电子邮件Email消息通知测试 ===")
+pbottleRPA.log("=== Email Notification Test ===")
 pbottleRPA.log(pbottleRPA.getTime())
 
-to = pbottleRPA.waitInput("输入接收邮箱（测试邮件）")
+to = pbottleRPA.waitInput("Enter recipient email (test email)")
 
-# 发送邮件 - 异步执行
+# Send email - synchronous execution (returns result string)
 pbottleRPA.log(
     pbottleRPA.sendMail(
         to,
-        "小瓶RPA测试邮件",
-        "测试邮件内容\n小瓶RPA官网：https://rpa.pbottle.com/ \n" + pbottleRPA.getTime(),
+        "PBottle RPA Test Email",
+        "Test email content\nPBottle RPA official website: https://rpa.pbottle.com/ \n"
+        + pbottleRPA.getTime(),
     )
 )

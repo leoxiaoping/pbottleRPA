@@ -1,50 +1,54 @@
-""" 
-小瓶RPA演示demo，具体api请查看*流程开发文档*
-官网：https://rpa.pbottle.com/
-流程开发文档：https://rpa.pbottle.com/docs/
+"""
+PBottle RPA demo. Please refer to the *process documentation* for specific APIs.
+Official website: https://rpa.pbottle.com/
+Process documentation: https://rpa.pbottle.com/docs/
 
-功能说明：此脚本演示了RPA中的文件上传（发送）功能
-需要使用浏览器增强插件来操作网页元素，实现自动化的文件上传流程
- """
+Feature description: This script demonstrates the file upload (send) function in RPA.
+It requires the browser enhancement extension to manipulate web elements for an automated file upload workflow.
+"""
 
 import os
-import pbottleRPA     # 引入小瓶RPA的核心库，获得对RPA功能的访问权限
+import pbottleRPA  # Import the core PBottle RPA library to access RPA functionality
 
-# 获取当前脚本所在目录，用于构造文件路径
+# Get the directory of the current script for building file paths
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# 语音播报开始信息
-pbottleRPA.tts('上传发送文件演示')             # 使用文字转语音功能播报演示开始
-# 显示系统消息框提示用户需要浏览器增强插件
-pbottleRPA.showMsg('本演示需要浏览器增强插件','上传发送文件演示') 
-pbottleRPA.wait(2)                            # 等待2秒钟
+# Announce the start via speech
+pbottleRPA.tts(
+    "File upload demonstration"
+)  # Use text-to-speech to announce the demo start
+# Show a system message box to remind the user that the browser extension is needed
+pbottleRPA.showMsg(
+    "This demo requires the browser enhancement extension", "File upload demonstration"
+)
+pbottleRPA.wait(2)  # Wait 2 seconds
 
-pbottleRPA.log('开始演示')                       # 在控制台输出开始演示信息
+pbottleRPA.log("Starting demonstration")  # Output the start message to the console
 
-# 打开百度图片网站用于演示文件上传
-pbottleRPA.openURL('https://image.baidu.com/') 
-pbottleRPA.wait()                             # 等待页面加载完成
+# Open Baidu Images for the file upload demo
+pbottleRPA.openURL("https://image.baidu.com/")
+pbottleRPA.wait()  # Wait for the page to load
 
-# 使用浏览器增强插件点击上传图标元素
-# 通过CSS选择器匹配class以"img-upload-icon_"开头的span元素
+# Use the browser enhancement extension to click the upload icon element
+# Match a span element whose class starts with "img-upload-icon_" via CSS selector
 pbottleRPA.browserCMD.click('span[class^="img-upload-icon_"]')
 
-# 查找页面中的"上传图片"文字位置
-pos = pbottleRPA.findText('上传图片')      
-# 移动鼠标到找到的位置并点击，打开文件选择对话框
-pbottleRPA.moveAndClick(pos.x,pos.y)          
+# Find the text "Upload image" on the page
+pos = pbottleRPA.findText("Upload image")
+# Move the mouse to the found position and click to open the file selection dialog
+pbottleRPA.moveAndClick(pos.x, pos.y)
 
-pbottleRPA.wait()                             # 等待对话框打开
+pbottleRPA.wait()  # Wait for the dialog to open
 
-# 复制要上传的文件到剪切板
-pbottleRPA.copyFile(SCRIPT_DIR + '/input/RPAlogo128.png') 
+# Copy the file to be uploaded to the clipboard
+pbottleRPA.copyFile(SCRIPT_DIR + "/input/RPAlogo128.png")
 
-# 使用快捷键操作选择文件上传方式
-pbottleRPA.keyTap('shift+tab')                # 按下Shift+Tab组合键
-pbottleRPA.keyTap('ctrl+v')                   # 按下Ctrl+V组合键粘贴文件
+# Use shortcut keys to paste the file path
+pbottleRPA.keyTap("shift+tab")  # Press Shift+Tab
+pbottleRPA.keyTap("ctrl+v")  # Press Ctrl+V to paste the file
 
-pbottleRPA.wait()                             # 等待文件粘贴完成
-pbottleRPA.keyTap('enter')                    # 按下回车键确认文件选择
+pbottleRPA.wait()  # Wait for the file to be pasted
+pbottleRPA.keyTap("enter")  # Press Enter to confirm the file selection
 
-# 确定上传操作
-pbottleRPA.keyTap('enter')                    # 再次按下回车键开始上传文件
+# Confirm the upload
+pbottleRPA.keyTap("enter")  # Press Enter again to start the upload

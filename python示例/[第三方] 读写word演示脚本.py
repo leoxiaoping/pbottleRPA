@@ -1,84 +1,87 @@
 """
-小瓶 RPA 演示 demo，具体 api 请查看*流程开发文档*
-官网：https://rpa.pbottle.com/
-流程开发文档：https://rpa.pbottle.com/docs/
+PBottle RPA demo. Please refer to the *process documentation* for specific APIs.
+Official website: https://rpa.pbottle.com/
+Process documentation: https://rpa.pbottle.com/docs/
 """
 
 import sys
 import os
 import time
 
-# 添加父目录到路径以导入 pbottleRPA
+# Add parent directory to path to import pbottleRPA
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pbottleRPA as rpa
 
-# 尝试导入 python-docx 和 mammoth 库
+# Try to import python‑docx and mammoth
 try:
     from docx import Document
     from docx.shared import Pt
     from docx.enum.text import WD_ALIGN_PARAGRAPH
     import mammoth
 except ImportError:
-    rpa.showMsg("请先安装第三方模块", "运行：pip install python-docx mammoth")
-    rpa.tts("请先安装第三方模块" + "运行：pip install python-docx mammoth")
-    rpa.exit("请先安装第三方模块" + "运行：pip install python-docx mammoth")
+    rpa.showMsg(
+        "Please install third‑party modules", "Run: pip install python-docx mammoth"
+    )
+    rpa.tts("Please install third‑party modules. Run: pip install python-docx mammoth")
+    rpa.exit("Please install third‑party modules. Run: pip install python-docx mammoth")
 
 
-print("=== Word 后台读写测试 ===")
+print("=== Backend Word Read/Write Test ===")
 print(rpa.getTime())
-rpa.tts("Word 后台读写测试")
+rpa.tts("Backend Word Read/Write Test")
 rpa.wait(3)
-rpa.tts("将后台生成 Word 文件")
+rpa.tts("Generating a Word document in the background")
 rpa.wait(5)
 
-# 生成 Word 文档
+# Generate a Word document
 doc = Document()
 
-# 添加标题段落
-heading = doc.add_heading("标题文字", level=1)
+# Add a title paragraph
+heading = doc.add_heading("Title Text", level=1)
 heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
 run = heading.runs[0]
 run.bold = True
 run.font.size = Pt(20)
 
-# 添加普通段落
+# Add a normal paragraph
 p = doc.add_paragraph()
-run1 = p.add_run("小瓶 RPA 官网：")
+run1 = p.add_run("PBottle RPA official website: ")
 run1.font.size = Pt(12)
 
-# 添加链接样式的文本
+# Add a hyperlink‑style text
 hyperlink_run = p.add_run("https://rpa.pbottle.com")
 hyperlink_run.font.size = Pt(12)
 hyperlink_run.font.underline = True
 
-# 添加更多示例内容
+# Add more sample content
 doc.add_paragraph()
-doc.add_paragraph("这是一个 Python 版本的 Word 读写演示。")
-doc.add_paragraph("小瓶 RPA 支持多种自动化操作，包括：")
-doc.add_paragraph("• 鼠标键盘操作", style="List Bullet")
-doc.add_paragraph("• 图像识别", style="List Bullet")
-doc.add_paragraph("• AI 能力集成", style="List Bullet")
-doc.add_paragraph("• 文件操作", style="List Bullet")
+doc.add_paragraph("This is a Python‑based Word read/write demonstration.")
+doc.add_paragraph("PBottle RPA supports a variety of automation operations, including:")
+doc.add_paragraph("• Mouse and keyboard operations", style="List Bullet")
+doc.add_paragraph("• Image recognition", style="List Bullet")
+doc.add_paragraph("• AI capability integration", style="List Bullet")
+doc.add_paragraph("• File operations", style="List Bullet")
 
-# 保存文件
+# Save the file
 word_path = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Word测试文档.docx"
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "Word_test_document.docx",
 )
 doc.save(word_path)
 rpa.openDir(os.path.dirname(word_path))
-rpa.tts("已经生成 Word测试文档...请查看")
+rpa.tts("Word_test_document.docx has been generated. Please check.")
 rpa.wait(3)
 
-# 读取 Word 文档
-rpa.tts("将后台读取 Word 文件 显示到日志")
+# Read the Word document
+rpa.tts("Reading the Word document in the background and displaying content in the log")
 rpa.wait(3)
 
-# 使用 mammoth 读取文本内容
+# Use mammoth to extract text content
 with open(word_path, "rb") as f:
     result = mammoth.extract_raw_text(f)
-    print("读取 Word 文档内容：", result.value)
+    print("Word document content:", result.value)
 
-rpa.tts("已经读取 Word测试文档到日志")
+rpa.tts("Word test document has been read and logged.")
 rpa.wait(2)
 
 

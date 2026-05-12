@@ -1,107 +1,106 @@
 """
-
-小瓶RPA python版本（Beta）
+PBottle RPA Python version (Beta)
 https://gitee.com/pbottle/pbottle-rpa
-示例
-
+Example
 """
 
-import pbottleRPA  #引入小瓶RPA模块
+import pbottleRPA  # Import the PBottle RPA module
 import time
 
-
-print("=== WEB增强插件-浏览器元素操作演示 ===")
+print("=== Web Enhancement Plugin - Browser Element Operation Demo ===")
 current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 print(current_time)
 
-print("=== ※※※※※※※※※ ===")
-print("=== 需要安装 小瓶RPA 浏览器插件 ===")
-print("=== ※※※※※※※※※ ===")
+print("=== NOTE ===")
+print("=== The PBottle RPA browser extension must be installed ===")
+print("=== ===")
 
 
-pbottleRPA.tts('必须安装小瓶RPA浏览器增强插件，手动点击确定继续')
-pbottleRPA.showMsg('提示：','必须先安装浏览器增强插件')
-pbottleRPA.openURL('https://www.baidu.com')
+pbottleRPA.tts(
+    "You must install the PBottle RPA browser enhancement extension. Click OK to continue."
+)
+pbottleRPA.showMsg("Tip:", "You must install the browser enhancement extension first.")
+pbottleRPA.openURL("https://www.baidu.com")
 
 
-ret = pbottleRPA.browserCMD.alert('来自小瓶RPA的问候，手动点击确定开始，20秒超时')
-print('返回操作结果',ret)
-if (ret != 'ok'):
-    print('没有检测到小瓶RPA浏览器插件',ret)
+ret = pbottleRPA.browserCMD.alert(
+    "Greetings from PBottle RPA. Click OK to start. 20-second timeout."
+)
+print("Operation result:", ret)
+if ret != "ok":
+    print("PBottle RPA browser extension not detected.", ret)
     pbottleRPA.exit(1)
 
 
-#延迟1秒
-pbottleRPA.sleep(1000*1)
+# Wait 1 second
+pbottleRPA.sleep(1000 * 1)
 
 
-
-ret = pbottleRPA.browserCMD.text('span.title-content-title')
-print('返回操作结果【一次多个】',ret)
-
-
-ret = pbottleRPA.browserCMD.cookie('BAIDUID')
-print('返回操作结果 cookieGet',ret)
-ret = pbottleRPA.browserCMD.cookie('pbottleID',"good",3)
-print('返回操作结果 cookieSet',ret)
+ret = pbottleRPA.browserCMD.text("span.title-content-title")
+print("Operation result [multiple elements]:", ret)
 
 
-pbottleRPA.tts('变换背景色')
-ret = pbottleRPA.browserCMD.css('body',"background-color",'blue')
-print('返回操作结果 cssSet',ret)
-ret = pbottleRPA.browserCMD.css('body',"background-color")
-print('返回操作结果【颜色值】',ret)
-ret = pbottleRPA.browserCMD.css('body',"background-color",'white')
-print('返回操作结果 cssSet',ret)
+ret = pbottleRPA.browserCMD.cookie("BAIDUID")
+print("Operation result (cookie get):", ret)
+ret = pbottleRPA.browserCMD.cookie("pbottleID", "good", 3)
+print("Operation result (cookie set):", ret)
 
 
-ret = pbottleRPA.browserCMD.text('title')
-print('返回操作结果 textGet',ret)
-pbottleRPA.tts('获取标题 ')
-pbottleRPA.sleep(1000*3)
+pbottleRPA.tts("Change background color")
+ret = pbottleRPA.browserCMD.css("body", "background-color", "blue")
+print("Operation result (css set):", ret)
+ret = pbottleRPA.browserCMD.css("body", "background-color")
+print("Operation result [color value]:", ret)
+ret = pbottleRPA.browserCMD.css("body", "background-color", "white")
+print("Operation result (css set):", ret)
 
 
-pbottleRPA.tts('设置页面标题 ')
-ret = pbottleRPA.browserCMD.text('title','[小瓶RPA]-'+ret)
-print('返回操作结果 textSet',ret)
-ret = pbottleRPA.browserCMD.text('title')
-print('当前页面标题：',ret)
-pbottleRPA.sleep(1000*3)
+ret = pbottleRPA.browserCMD.text("title")
+print("Operation result (text get):", ret)
+pbottleRPA.tts("Getting title")
+pbottleRPA.sleep(1000 * 3)
 
 
-pbottleRPA.tts('输入搜索词 点击搜索按钮 ')
-ret = pbottleRPA.browserCMD.val('#kw','小瓶RPA')
-print('返回点击操作结果 valSet',ret)
+pbottleRPA.tts("Setting page title")
+ret = pbottleRPA.browserCMD.text("title", "[PBottle RPA]-" + ret)
+print("Operation result (text set):", ret)
+ret = pbottleRPA.browserCMD.text("title")
+print("Current page title:", ret)
+pbottleRPA.sleep(1000 * 3)
 
 
-ret = pbottleRPA.browserCMD.click('#su')
-print('返回点击操作结果 click',ret)
+pbottleRPA.tts("Enter search term and click the search button")
+ret = pbottleRPA.browserCMD.val("#kw", "PBottle RPA")
+print("Operation result (val set):", ret)
 
 
-pbottleRPA.sleep(1000*3)
+ret = pbottleRPA.browserCMD.click("#su")
+print("Operation result (click):", ret)
 
 
-pbottleRPA.tts('开始去广告')
-ret = pbottleRPA.browserCMD.remove('#content_left div:first')
-print('返回点击操作结果 remove',ret)
+pbottleRPA.sleep(1000 * 3)
+
+
+pbottleRPA.tts("Start removing ads")
+ret = pbottleRPA.browserCMD.remove("#content_left div:first")
+print("Operation result (remove):", ret)
 pbottleRPA.sleep(3000)
 
 
-
-pbottleRPA.tts('打开网站')
-pbottleRPA.browserCMD.click('div#content_left a:first')
+pbottleRPA.tts("Open website")
+pbottleRPA.browserCMD.click("div#content_left a:first")
 pbottleRPA.sleep(1500)
 
 
-pbottleRPA.tts('读取 logo 路径，显示到日志')
-ret = pbottleRPA.browserCMD.attr('img:first','src')
-print('网站logo图片地址',ret)
+pbottleRPA.tts("Read logo path, display in log")
+ret = pbottleRPA.browserCMD.attr("img:first", "src")
+print("Website logo image URL:", ret)
 pbottleRPA.sleep(1500)
 
 
-pbottleRPA.tts('演示完成准备退出')
-print("准备结束脚本")
-ret = pbottleRPA.browserCMD.alert('演示结束')
-#脚本强制退出
+pbottleRPA.tts("Demo completed, ready to exit")
+print("Preparing to end the script")
+ret = pbottleRPA.browserCMD.alert("Demo finished.")
+# Force exit script
 pbottleRPA.exit()
-print("已经退出了，无效")
+print("Already exited, this line is unreachable")

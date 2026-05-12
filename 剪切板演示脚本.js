@@ -1,40 +1,42 @@
 /**
- * 小瓶RPA演示demo，具体api请查看*流程开发文档*
- * 官网：https://rpa.pbottle.com/
- * 流程开发文档：https://rpa.pbottle.com/docs/
+ * Pbottle RPA Demo Script
+ * For detailed API documentation, please refer to the Process Development Documentation
+ * Official Website: https://rpa.pbottle.com/
+ * Process Development Documentation: https://rpa.pbottle.com/docs/
  * 
- * 功能说明：此脚本演示了RPA中的剪切板操作功能，包括复制文本、获取剪切板内容和复制文件
- * 通过这个示例，您可以学习如何在自动化流程中使用剪切板进行数据传递
+ * Function Description: This script demonstrates clipboard operations in RPA, including copying text, 
+ * getting clipboard content, and copying files. Through this example, you can learn how to use 
+ * the clipboard for data transfer in automation processes.
  */
 
-const pbottleRPA = require('./pbottleRPA')     // 引入小瓶RPA的核心库，获得对RPA功能的访问权限
+const pbottleRPA = require('./pbottleRPA')     // Import Pbottle RPA core library to access RPA functionality
 
-console.log("=== 剪切板测试 ===");                  // 在控制台输出测试标题
-console.log(Date());                          // 在控制台输出当前日期时间
+console.log("=== Clipboard Test ===");                  // Output test title to console
+console.log(Date());                          // Output current date and time to console
 
-pbottleRPA.tts('电脑剪切板演示')               // 使用文字转语音功能播报当前演示内容
-// 显示系统消息框，提示用户新版剪切板支持获取图片、网页格式内容
-pbottleRPA.showMsg('超级剪切板','新版剪切板已经支持获取图片、网页格式内容') 
-console.log('✅ 超级剪切板','新版剪切板已经支持获取图片、网页格式内容') // 在控制台输出相同信息
-pbottleRPA.wait(5)                            // 等待5秒钟，给用户时间阅读提示信息
+pbottleRPA.tts('Computer Clipboard Demonstration')               // Use text-to-speech to announce current demo content
+// Display system message box to inform users that the new clipboard supports images and web format content
+pbottleRPA.showMsg('Super Clipboard', 'The new clipboard now supports retrieving images and web format content')
+console.log('✅ Super Clipboard', 'The new clipboard now supports retrieving images and web format content') // Output same information to console
+pbottleRPA.wait(5)                            // Wait 5 seconds to give users time to read the information
 
-pbottleRPA.tts('已经复制文字，赶紧找个地方粘贴试试吧') // 语音播报已复制文字的提示信息
-console.log('已经复制文字，赶紧找个地方粘贴试试吧');   // 在控制台输出相同信息
+pbottleRPA.tts('Text has been copied, try pasting it somewhere') // Voice announcement that text has been copied
+console.log('Text has been copied, try pasting it somewhere');   // Output same information to console
 
-// 将指定文本内容复制到系统剪切板中
-pbottleRPA.paste("小瓶RPA官网：https://rpa.pbottle.com/") 
+// Copy specified text content to system clipboard
+pbottleRPA.paste("Pbottle RPA Official Website: https://rpa.pbottle.com/")
 
-pbottleRPA.wait(10)                           // 等待10秒钟，给用户时间进行粘贴测试
+pbottleRPA.wait(10)                           // Wait 10 seconds to give users time to test pasting
 
-// 从系统剪切板中获取当前文本内容
-let text = pbottleRPA.getClipboard();         
-console.log("获取当前剪切板文本：",text);        // 在控制台输出获取到的剪切板文本内容
+// Get current text content from system clipboard
+let text = pbottleRPA.getClipboard();
+console.log("Current clipboard text:", text);        // Output retrieved clipboard text content to console
 
-console.log("复制文件模拟操作：")               // 在控制台输出即将进行的操作说明
-// 复制文件到系统剪切板（模拟文件复制操作）
-pbottleRPA.copyFile(__dirname + '/input/RPAlogo128.png') // 将指定图片文件复制到剪切板
-let filepath = pbottleRPA.getClipboard();     // 获取剪切板中的文件路径信息
-console.log("剪切板文件路径：",filepath);       // 在控制台输出获取到的文件路径
+console.log("File copy simulation operation:");               // Output upcoming operation description to console
+// Copy file to system clipboard (simulate file copy operation)
+pbottleRPA.copyFile(__dirname + '/input/RPAlogo128.png') // Copy specified image file to clipboard
+let filepath = pbottleRPA.getClipboard();     // Get file path information from clipboard
+console.log("Clipboard file path:", filepath);       // Output retrieved file path to console
 
-pbottleRPA.tts('已经复制文件，赶紧桌面粘贴试试吧') // 语音播报已复制文件的提示信息
-console.log('已经复制文件，赶紧桌面粘贴试试吧');   // 在控制台输出相同信息
+pbottleRPA.tts('File has been copied, try pasting it on your desktop') // Voice announcement that file has been copied
+console.log('File has been copied, try pasting it on your desktop');   // Output same information to console

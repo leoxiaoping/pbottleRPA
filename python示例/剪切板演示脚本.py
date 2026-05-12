@@ -1,36 +1,42 @@
 """
 
-小瓶RPA python版本（Beta）
+PBottle RPA Python version (Beta)
 https://gitee.com/pbottle/pbottle-rpa
-示例
+Example
 
 """
 
-import pbottleRPA  #引入小瓶RPA模块
+import pbottleRPA  # Import the PBottle RPA module
 import time
 
-print("=== 剪切板演示脚本 ===")
+print("=== Clipboard Demo Script ===")
 current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 print(current_time)
 
 
-pbottleRPA.tts('电脑剪切板演示')
-pbottleRPA.showMsg('超级剪切板','新版剪切板已经支持获取图片、网页格式内容')
-print('✅ 超级剪切板','新版剪切板已经支持获取图片、网页格式内容')
-#延迟5秒
-pbottleRPA.sleep(1000*5)
+pbottleRPA.tts("Clipboard demonstration")
+pbottleRPA.showMsg(
+    "Super Clipboard",
+    "The new clipboard now supports retrieving image and web page formatted content",
+)
+print(
+    "✅ Super Clipboard",
+    "The new clipboard now supports retrieving image and web page formatted content",
+)
+# Delay 5 seconds
+pbottleRPA.sleep(1000 * 5)
 
-pbottleRPA.tts('已经将文字复制到您的剪切板，赶紧粘贴试试吧')
-print('已经将文字复制到您的剪切板，赶紧粘贴试试吧');
+pbottleRPA.tts("Text has been copied to your clipboard. Try pasting it now!")
+print("Text has been copied to your clipboard. Try pasting it now!")
 
-pbottleRPA.paste("小瓶RPA官网：https://rpa.pbottle.com/")
-
-
-pbottleRPA.sleep(1000*5) #延迟5秒
-text = pbottleRPA.getClipboard();
-print("获取当前剪切板文本：",text);
+pbottleRPA.paste("PBottle RPA official website: https://rpa.pbottle.com/")
 
 
-print("准备结束脚本");
-#脚本强制退出
-pbottleRPA.exit();
+pbottleRPA.sleep(1000 * 5)  # Delay 5 seconds
+text = pbottleRPA.getClipboard()
+print("Current clipboard text:", text)
+
+
+print("Preparing to end the script")
+# Force exit the script
+pbottleRPA.exit()

@@ -1,35 +1,38 @@
 """
-小瓶RPA演示demo，具体api请查看*流程开发文档*
-官网：https://rpa.pbottle.com/
-流程开发文档：https://rpa.pbottle.com/docs/
+PBottle RPA demo – please refer to the *process documentation* for specific APIs.
+Official website: https://rpa.pbottle.com/
+Process documentation: https://rpa.pbottle.com/docs/
 
-功能说明：此脚本演示了RPA中的图片相似度检测功能
-通过这个示例，您可以学习如何比较两张图片的相似度，这在自动化测试和图像验证场景中非常有用
+Feature description: This script demonstrates the image similarity detection feature of RPA.
+Through this example, you can learn how to compare the similarity of two images,
+which is very useful in automated testing and image verification scenarios.
 """
 
 import os
 import json
-import pbottleRPA  # 引入小瓶RPA的核心库，获得对RPA功能的访问权限
+import pbottleRPA  # Import the core PBottle RPA library to access RPA functionality
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-pbottleRPA.log("=== 图片相似度检测 ===")  # 在控制台输出测试标题
-pbottleRPA.log(pbottleRPA.getTime())  # 在控制台输出当前日期时间
+pbottleRPA.log("=== Image Similarity Detection ===")  # Output test title to the console
+pbottleRPA.log(pbottleRPA.getTime())  # Output the current date and time to the console
 pbottleRPA.setDefaultDelay(0)
-# 设置默认操作延时为0，手动管理所有操作延时
+# Set the default operation delay to 0 to manage all delays manually
 
-dir = SCRIPT_DIR + "/input/"
-# 定义图片文件所在目录路径
-path1 = dir + "RPAlogo128.png"
-# 定义第一张图片的完整路径
-path2 = dir + "RPAlogo128.png"
-# 定义第二张图片的完整路径（这里是同一张图片）
+dir_path = (
+    SCRIPT_DIR + "/input/"
+)  # Define the directory path where the image files are located
+path1 = dir_path + "RPAlogo128.png"  # Define the full path of the first image
+path2 = (
+    dir_path + "RPAlogo128.png"
+)  # Define the full path of the second image (same image in this case)
 
-# 使用imgSimilar函数比较两张图片的相似度
-rs = pbottleRPA.imgSimilar(path1, path2)
-# 调用图片相似度检测API，传入两张图片的路径进行比较
-pbottleRPA.log("图片相似度检测结果：", rs)
-# 在控制台输出图片相似度检测结果，值越接近1表示越相似
+# Use the imgSimilar function to compare the similarity of two images
+rs = pbottleRPA.imgSimilar(
+    path1, path2
+)  # Call the image similarity detection API, passing in the paths of both images
+pbottleRPA.log("Image similarity detection result:", rs)
+# Output the image similarity result to the console; a value closer to 1 indicates higher similarity
 
-pbottleRPA.showMsg("图片相似度检测结果：", json.dumps(rs))
-# 系统消息提示
+pbottleRPA.showMsg("Image similarity detection result:", json.dumps(rs))
+# Show a system message box with the result

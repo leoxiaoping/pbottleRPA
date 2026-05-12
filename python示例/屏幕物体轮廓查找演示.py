@@ -1,45 +1,53 @@
 """
-小瓶RPA演示demo，具体api请查看*流程开发文档*
-官网：https://rpa.pbottle.com/
-流程开发文档：https://rpa.pbottle.com/docs/
+PBottle RPA demo. Please refer to the *process documentation* for specific APIs.
+Official website: https://rpa.pbottle.com/
+Process documentation: https://rpa.pbottle.com/docs/
 
-功能说明：此脚本演示了RPA中的屏幕物体轮廓查找功能
-通过这个示例，您可以学习如何使用AI视觉识别技术查找屏幕上的物体轮廓
+Feature description: This script demonstrates the screen object contour finding function in RPA.
+Through this example, you can learn how to use AI visual recognition technology to find object contours on the screen.
 """
 
 import time
-import pbottleRPA  # 引入小瓶RPA的核心库，获得对RPA功能的访问权限
+import pbottleRPA  # Import the core PBottle RPA library to access RPA functionality
 
-pbottleRPA.log("=== 测试 ===")
-# 在控制台输出测试标题
-pbottleRPA.log("屏幕分辨率：", pbottleRPA.getResolution())  # 输出当前屏幕分辨率信息
-
-pbottleRPA.wait(3)  # 等待3秒钟
-
-start = time.time()  # 记录开始时间，用于计算处理耗时
-
-# 使用findContours函数查找屏幕指定区域内的物体轮廓
-# 参数1：区域宽度(2000像素)
-# 参数2：区域高度(500像素)
-# 参数3：最小轮廓面积阈值(200像素)
-pbottleRPA.log("屏幕物体轮廓查找结果：", pbottleRPA.findContours(2000, 500, 200))
-
-end = time.time()  # 记录结束时间
+pbottleRPA.log("=== Test ===")
+# Output test title to the console
 pbottleRPA.log(
-    "查找耗时：（秒）", (end - start) / 1000
-)  # 计算并输出查找耗时（转换为秒）
+    "Screen resolution:", pbottleRPA.getResolution()
+)  # Output current screen resolution
 
-pbottleRPA.tts("已经输出 JSON 格式到运行日志")  # 使用文字转语音功能播报结果已输出到日志
+pbottleRPA.wait(3)  # Wait 3 seconds
+
+start = time.time()  # Record the start time to calculate processing duration
+
+# Use findContours to find object contours within a specified area of the screen
+# Param 1: area width (2000 pixels)
+# Param 2: area height (500 pixels)
+# Param 3: minimum contour area threshold (200 pixels)
+pbottleRPA.log(
+    "Screen object contour finding result:", pbottleRPA.findContours(2000, 500, 200)
+)
+
+end = time.time()  # Record the end time
+pbottleRPA.log(
+    "Search time: (seconds)", (end - start) / 1000
+)  # Calculate and output the search duration (converted to seconds)
+
+pbottleRPA.tts(
+    "The result in JSON format has been output to the running log"
+)  # Use TTS to announce that the result has been output
 pbottleRPA.wait(3)
-# 等待3秒钟
+# Wait 3 seconds
 
-pbottleRPA.tts("已生成调试参考图片到RPA根目录 debug目录")  # 语音播报调试图片生成位置
+pbottleRPA.tts(
+    "A debug reference image has been generated in the 'debug' folder under the RPA root directory"
+)  # Announce the debug image location
 pbottleRPA.wait(3)
-# 等待3秒钟
+# Wait 3 seconds
 
-pbottleRPA.log("准备结束脚本")
-# 在控制台输出脚本即将结束的信息
-pbottleRPA.tts("准备结束脚本")
-# 使用文字转语音功能播报脚本即将结束
+pbottleRPA.log("Preparing to end the script")
+# Output a message to the console that the script is about to end
+pbottleRPA.tts("Preparing to end the script")
+# Announce via TTS that the script is about to end
 
-pbottleRPA.exit("结束")  # 退出RPA脚本执行并输出结束信息
+pbottleRPA.exit("End")  # Exit the RPA script and output the end message

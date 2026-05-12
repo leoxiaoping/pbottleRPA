@@ -1,17 +1,16 @@
 """
-小瓶RPA演示demo，具体api请查看*流程开发文档*
-官网：https://rpa.pbottle.com/
-流程开发文档：https://rpa.pbottle.com/docs/
+PBottle RPA demo – please refer to the *process documentation* for specific APIs.
+Official website: https://rpa.pbottle.com/
+Process documentation: https://rpa.pbottle.com/docs/
 
-功能说明：这是一个最基础的小瓶RPA JavaScript脚本示例，展示小瓶RPA动态输入内容的方法
-小瓶RPA基座 V2026.0.0 以上版本可用
+Feature description: A minimal PBottle RPA Python example that demonstrates dynamic input.
+Requires PBottle RPA base version V2026.0.0 or above.
 """
 
-import pbottleRPA  # 引入小瓶RPA的核心库，获得对RPA功能的访问权限
+import pbottleRPA  # Import the core PBottle RPA library to access RPA functionality
 
+content1 = pbottleRPA.waitInput("Please enter the first number:")
+content2 = pbottleRPA.waitInput("Please enter the second number:")
 
-content1 = pbottleRPA.waitInput("请输入第一个数字：")
-content2 = pbottleRPA.waitInput("请输入第二个数字：")
-
-pbottleRPA.log("输入的数字是：", content1, content2)
-pbottleRPA.log("输入完成 ✅️, 相加等于：", float(content1) + float(content2))
+pbottleRPA.log("The numbers entered are:", content1, content2)
+pbottleRPA.log("Input complete ✅️, sum equals:", float(content1) + float(content2))

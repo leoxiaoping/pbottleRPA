@@ -1,52 +1,51 @@
 /**
- * 小瓶RPA演示demo，具体api请查看*流程开发文档*
- * 官网：https://rpa.pbottle.com/
- * 流程开发文档：https://rpa.pbottle.com/docs/
+ * PBottle RPA demo – please refer to the *process development documentation* for API details.
+ * Official website: https://rpa.pbottle.com/
+ * Process development documentation: https://rpa.pbottle.com/docs/
  * 
- * 功能说明：此脚本演示了RPA中的OCR文字识别和查找功能
- * 通过这些示例，您可以学习如何使用AI技术识别屏幕上的文字内容并进行查找定位
+ * Feature description: This script demonstrates the OCR text recognition and search features of RPA.
+ * Through these examples, you can learn how to use AI technology to recognize text on the screen and locate specific content.
  */
 
-const pbottleRPA = require('./pbottleRPA')      // 引入小瓶RPA的核心库，获得对RPA功能的访问权限
+const pbottleRPA = require('./pbottleRPA')     // Import the core PBottle RPA library to access RPA functionality
 
-console.log("=== OCR 识别测试 ===");                   // 在控制台输出测试标题
-console.log('屏幕分辨率：',pbottleRPA.getResolution()) // 在控制台输出当前屏幕分辨率信息
+console.log("=== OCR Recognition Test ===");    // Output test title to the console
+console.log('Screen resolution:', pbottleRPA.getResolution()) // Output the current screen resolution to the console
 
-pbottleRPA.tts('正在识别您的电脑屏幕左上角区域文字') // 使用文字转语音功能播报即将执行的操作
-pbottleRPA.wait(5)                             // 等待5秒钟
+pbottleRPA.tts('Recognizing text in the top‑left area of your screen') // Announce the upcoming operation via text-to-speech
+pbottleRPA.wait(5)                             // Wait 5 seconds
 
-let start = Date.now()                         // 记录OCR识别开始时间（用于计算耗时）
+let start = Date.now()                         // Record the start time of OCR recognition (to calculate elapsed time)
 
-console.log('屏幕orc结果：',pbottleRPA.aiOcr('screen',10,10,500,500)) // 对屏幕左上角区域(10,10,500,500)进行OCR文字识别，并输出结果到控制台
-let end = Date.now();                          // 记录OCR识别结束时间
-console.log('OCR耗时：（秒）',(end-start)/1000); // 计算并输出OCR识别耗时（转换为秒）
+console.log('Screen OCR result:', pbottleRPA.aiOcr('screen', 10, 10, 500, 500)) // Perform OCR on the top‑left area of the screen (10,10,500,500) and output the result
+let end = Date.now();                          // Record the end time of OCR recognition
+console.log('OCR time: (seconds)', (end - start) / 1000); // Calculate and output the OCR duration in seconds
 
-pbottleRPA.tts("已经输出 JSON 格式到运行日志")  // 语音播报OCR结果已输出
-pbottleRPA.wait(5);                            // 等待5秒钟
-
-
-console.log("查找并点击微信")                   // 在控制台输出操作信息
-pbottleRPA.tts("查找并点击微信")                // 语音播报即将执行的操作
-
-let position = pbottleRPA.findText('微信',100,100,500,1080) // 在屏幕区域内查找"微信"文字，返回位置信息
-console.log('查找文字结果：',position);         // 在控制台输出查找到的文字位置信息
+pbottleRPA.tts("The result in JSON format has been output to the running log") // Announce that the OCR result has been output
+pbottleRPA.wait(5);                            // Wait 5 seconds
 
 
-if (position) {                                // 如果找到了指定文字
-    pbottleRPA.moveAndClick(position.x,position.y) // 移动鼠标到文字位置并点击
-}else{                                         // 如果没有找到指定文字
-    console.log("范围内没有找到文字：微信");      // 在控制台输出未找到的提示信息
+console.log("Searching for and clicking WeChat") // Output the operation info to the console
+pbottleRPA.tts("Searching for and clicking WeChat") // Announce the upcoming operation
+
+let position = pbottleRPA.findText('WeChat', 100, 100, 500, 1080) // Search for the text "WeChat" within the screen area, returning the position
+console.log('Text search result:', position);  // Output the found text position to the console
+
+
+if (position) {                                // If the specified text is found
+    pbottleRPA.moveAndClick(position.x, position.y) // Move the mouse to the text position and click
+} else {                                       // If the specified text is not found
+    console.log("Text 'WeChat' not found in the specified area."); // Output a hint that the text was not found
 }
 
 
-pbottleRPA.wait(2)    
-
+pbottleRPA.wait(2)
 
 
 pbottleRPA.openURL("https://rpa.pbottle.com/")
-console.log("等待文字");                   // 在控制台输出脚本即将结束的信息
-pbottleRPA.tts("等待文字");                // 语音播报脚本即将结束的信息
+console.log("Waiting for text");               // Output a message indicating the script is waiting for text
+pbottleRPA.tts("Waiting for text");            // Announce via TTS that the script is waiting for text
 
-position = pbottleRPA.waitText('专业用户RPA软件',300,500)  // 等待微信应用加载
+position = pbottleRPA.waitText('Professional RPA Software', 300, 500)  // Wait for the text to appear
 console.log(position);
-pbottleRPA.moveMouse(position.x,position.y) // 移动鼠标到文字位置
+pbottleRPA.moveMouse(position.x, position.y) // Move the mouse to the text position

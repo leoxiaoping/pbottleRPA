@@ -1,46 +1,51 @@
 """
-
-小瓶RPA python版本（Beta）
+PBottle RPA Python version (Beta)
 https://gitee.com/pbottle/pbottle-rpa
-示例
-
+Example
 """
 
-import pbottleRPA  #引入小瓶RPA模块
+import pbottleRPA  # Import the PBottle RPA module
 import time
 
-print("=== 截屏操作演示脚本 ===")
+print("=== Screenshot Demo Script ===")
 current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 print(current_time)
-pbottleRPA.setDefaultDelay(0)  #忽略自动按键间隔
+pbottleRPA.setDefaultDelay(0)  # Ignore automatic key interval
 
 
-pbottleRPA.tts('开始运行小瓶RPA截屏操作演示脚本。...  快捷键 ：Ctrl+shift+Q 可手动退出')
-#延迟5秒
+pbottleRPA.tts(
+    "Starting the PBottle RPA screenshot demo script... Shortcut: Ctrl+Shift+Q to manually exit"
+)
+# Delay 5 seconds
 pbottleRPA.sleep(1000 * 12)
 
 resolution = pbottleRPA.getResolution()
-print('当前电脑屏幕分辨率', resolution)
+print("Current screen resolution", resolution)
 
-pbottleRPA.tts(f'当前电脑屏幕分辨率: {resolution["w"]} 乘以 {resolution["h"]}')
+pbottleRPA.tts(f'Current screen resolution: {resolution["w"]} by {resolution["h"]}')
 pbottleRPA.sleep(1000 * 6)
 
 
-pbottleRPA.tts('正在截屏（全屏）...')
-pbottleRPA.sleep(1000*3)
-pbottleRPA.screenShot();
+pbottleRPA.tts("Taking screenshot (full screen)...")
+pbottleRPA.sleep(1000 * 3)
+pbottleRPA.screenShot()
 
 
-pbottleRPA.tts('正在截屏（区域）...')
-rs = pbottleRPA.screenShot('',resolution["w"]/4,resolution["h"]/4,resolution["w"]/2,resolution["h"]/2);
-print('截屏结果：',rs)
-pbottleRPA.sleep(1000*3)
+pbottleRPA.tts("Taking screenshot (region)...")
+rs = pbottleRPA.screenShot(
+    "",
+    resolution["w"] / 4,
+    resolution["h"] / 4,
+    resolution["w"] / 2,
+    resolution["h"] / 2,
+)
+print("Screenshot result:", rs)
+pbottleRPA.sleep(1000 * 3)
 
 
-pbottleRPA.tts('图片保存在我的电脑 我的图片...')
-pbottleRPA.sleep(1000*5)
+pbottleRPA.tts("Image saved to My Pictures folder...")
+pbottleRPA.sleep(1000 * 5)
 
 
-
-pbottleRPA.tts('演示结束')
-print("准备结束脚本")
+pbottleRPA.tts("Demo finished")
+print("Preparing to end the script")

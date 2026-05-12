@@ -1,42 +1,46 @@
 """
-小瓶RPA演示demo，具体api请查看*流程开发文档*
-官网：https://rpa.pbottle.com/
-流程开发文档：https://rpa.pbottle.com/docs/
+PBottle RPA demo – please refer to the *process documentation* for specific APIs.
+Official website: https://rpa.pbottle.com/
+Process documentation: https://rpa.pbottle.com/docs/
 
-功能说明：此脚本演示了RPA中的压缩和解压缩功能
-通过这个示例，您可以学习如何在自动化流程中处理文件压缩和解压操作
+Feature description: This script demonstrates the compression and decompression features of RPA.
+Through this example, you can learn how to handle file compression and extraction in an automation workflow.
 """
 
-import pbottleRPA  # 引入小瓶RPA的核心库，获得对RPA功能的访问权限
-import os  # 引入Python标准库os模块，用于检测文件是否存在和获取路径
+import pbottleRPA  # Import the core PBottle RPA library to access RPA functionality
+import os  # Import the Python standard library os module to check file existence and paths
 
-# 获取当前脚本所在目录
+# Get the directory of the current script
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-pbottleRPA.log("压缩文件测试")  # 在日志中输出当前操作说明
+pbottleRPA.log(
+    "Compression test"
+)  # Output the current operation description to the log
 
-# 使用zipDir函数将指定目录压缩为ZIP文件
-# 参数1：要压缩的源目录路径（input目录）
-# 参数2：压缩后生成的ZIP文件路径和名称
-pbottleRPA.zipDir(current_dir + "/input", current_dir + "/目标压缩包.zip")
-pbottleRPA.wait(2)  # 等待2秒钟确保压缩完成
+# Use the zipDir function to compress a specified directory into a ZIP file
+# Param 1: source directory path to compress (the input directory)
+# Param 2: path and name of the resulting ZIP file
+pbottleRPA.zipDir(current_dir + "/input", current_dir + "/target_archive.zip")
+pbottleRPA.wait(2)  # Wait 2 seconds to ensure the compression completes
 
-pbottleRPA.log("监测压缩结果")
-# 在控制台输出检测压缩结果的信息
+pbottleRPA.log("Checking compression result")
+# Output info about checking the compression result to the console
 
-# 检查压缩后的ZIP文件是否存在
-if not os.path.exists(current_dir + "/目标压缩包.zip"):
-    pbottleRPA.exit("未检测到，退出！~")  # 如果文件不存在，则退出脚本并输出提示信息
+# Check if the compressed ZIP file exists
+if not os.path.exists(current_dir + "/target_archive.zip"):
+    pbottleRPA.exit(
+        "Not detected, exiting! ~"
+    )  # If the file does not exist, exit the script with a message
 
-pbottleRPA.log("解压文件测试")  # 在控制台输出解压测试的信息
+pbottleRPA.log("Decompression test")  # Output decompression test info to the console
 
-# 使用unZip函数解压ZIP文件到指定目录
-# 参数1：要解压的ZIP文件路径
-# 参数2：解压后的目标目录路径
-pbottleRPA.unZip(current_dir + "/目标压缩包.zip", current_dir + "/解压目录/")
+# Use the unZip function to extract a ZIP file to a specified directory
+# Param 1: path of the ZIP file to extract
+# Param 2: target directory for extraction
+pbottleRPA.unZip(current_dir + "/target_archive.zip", current_dir + "/extracted/")
 
-pbottleRPA.log("压缩测试完成：正在打开目录")
-# 在控制台输出测试完成信息
+pbottleRPA.log("Compression test complete: opening the directory")
+# Output test completion message to the console
 
-# 打开当前脚本所在目录，方便用户查看压缩和解压结果
+# Open the directory of the current script so the user can check the compression and extraction results
 pbottleRPA.openDir(current_dir)
