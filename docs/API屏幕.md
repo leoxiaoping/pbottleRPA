@@ -34,7 +34,9 @@
 
 屏幕查找图象定位
 
-@param {string} tpPath 搜索的小图片，建议png格式 相对路径
+@param {string|Array} tpPaths 搜索的小图片，建议png格式  相对路径:./image/123.png
+
+支持多个图片或关系 `['./image/123.png','./image/456.png']`
 
 @param {number} miniSimilarity 可选，指定最低相似度，默认0.9。取值0-1，1为找到完全相同的。
 

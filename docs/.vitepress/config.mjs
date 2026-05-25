@@ -124,6 +124,7 @@ export default defineConfig({
                     { text: '硬件级键鼠模拟', link: '/硬件键鼠模拟' },
                     { text: '集群控制中心 🔥', link: '/集群控制中心' },
                     { text: 'SaaS系统自动化能力', link: '/SaaS系统自动化任务' },
+                    { text: '小瓶OCR独立增强版 🔥', link: '/OCRplus' },
 
                 ]
             },
