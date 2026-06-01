@@ -1,65 +1,65 @@
 ---
 next:
-  text: 'Demo示例'
+  text: 'Demo Examples'
   link: 'Demo示例.html'
 ---
 
 
-# 开始使用小瓶RPA
+# Getting Started with PBottle RPA
 
-**小瓶RPA，专业用户的专业RPA+AI软件。**
+**PBottle RPA — Professional RPA+AI software for professional users.**
 
-长难业务自动化流程专精，轻量级简单全能的RPA软件，显著降本增效 & 工作100%准确 & 非侵入式集成。同时支持浏览器web应用和客户端应用的操作流程自动化。同时支持 Js 和 Python 两种脚本制作流程。
-
-
-下载官网：https://rpa.pbottle.com/
+Specializing in complex and lengthy business automation workflows, lightweight yet versatile RPA software that significantly reduces costs & improves efficiency, ensures 100% work accuracy, and offers non-intrusive integration. Supports automation for both browser-based web applications and desktop client applications. Supports scripting in both JavaScript and Python.
 
 
-![小瓶RPA logo](https://rpa.pbottle.com/TP/img/logo_rpa.png)
+Official website: https://rpa.pbottle.com/
+
+
+![PBottle RPA logo](https://rpa.pbottle.com/TP/img/logo_rpa.png)
 
 
 
-## 小瓶RPA专业版的优势
+## Advantages of PBottle RPA Professional Edition
 
-1. RPA自动化优势、AI优势和传统开发生态优势三位一体。🤖
-2. 超轻量级 + 开放接口能力，无缝整合现有工作系统，而非高成本替代。📗
-3. 纯视觉模拟驱动，可以兼容操作所有应用程序和所有操作系统。🖥️
-4. 系统硬件级操作模拟, 可以完成所有系统级高权限模拟操作。⌨️
+1. Three-in-one: RPA automation advantages, AI advantages, and traditional development ecosystem advantages. 🤖
+2. Ultra-lightweight + open API capabilities, seamlessly integrating with existing work systems rather than costly replacements. 📗
+3. Pure visual-simulation-driven, compatible with operating all applications across all operating systems. 🖥️
+4. System hardware-level operation simulation, capable of performing all high-privilege system-level operations. ⌨️
 
 
-## 自动流程入门示例
+## Getting Started Examples
 
 ```javascript
-const pbottleRPA = require('./pbottleRPA')  //引入小瓶RPA nodejs模块
+const pbottleRPA = require('./pbottleRPA')  // Import PBottle RPA Node.js module
 
-pbottleRPA.openURL('https://www.baidu.com/') // 用浏览器打开百度
-pbottleRPA.paste('小瓶RPA官网')  //输入搜索词
-pbottleRPA.keyTap('enter')  //确认搜索
+pbottleRPA.openURL('https://www.baidu.com/') // Open Baidu in browser
+pbottleRPA.paste('PBottle RPA official site')  // Enter search keywords
+pbottleRPA.keyTap('enter')  // Confirm search
 ```
 
 
 ```python
-import pbottleRPA  #引入小瓶RPA python模块
+import pbottleRPA  # Import PBottle RPA Python module
 
-pbottleRPA.openURL('https://www.baidu.com/') #用浏览器打开百度
-pbottleRPA.paste('小瓶RPA官网')  #输入搜索词
-pbottleRPA.keyTap('enter')  #确认搜索
+pbottleRPA.openURL('https://www.baidu.com/') # Open Baidu in browser
+pbottleRPA.paste('PBottle RPA official site')  # Enter search keywords
+pbottleRPA.keyTap('enter')  # Confirm search
 
 ```
 
 
-## 系统架构图
+## System Architecture Diagram
 
-![小瓶RPA架构图](https://www.pbottle.com/TP/img/rpa.png)
+![PBottle RPA Architecture Diagram](https://www.pbottle.com/TP/img/rpa.png)
 
-## 小瓶RPA基座界面 和 浏览器插件界面
+## PBottle RPA Base Interface & Browser Extension Interface
 
-![小瓶RPA软件截图](https://www.pbottle.com/static/upload/20250619/17503069137119.png)
-![小瓶RPA浏览器插件截图](https://www.pbottle.com/static/upload/20250416/17447934102282.png)
+![PBottle RPA Software Screenshot](https://www.pbottle.com/static/upload/20250619/17503069137119.png)
+![PBottle RPA Browser Extension Screenshot](https://www.pbottle.com/static/upload/20250416/17447934102282.png)
 
-## 软件授权温馨提示
+## Software Licensing Notice
 
-未经授权禁止出售小瓶RPA软件和其附加资源，详细参考：
+Unauthorized distribution of PBottle RPA software and its additional resources is prohibited. For details, please refer to:
 
-- [《小瓶RPA 用户协议》](https://rpa.pbottle.com/a-13944.html)  
-- [《小瓶RPA 软件授权对比》](https://rpa.pbottle.com/License.php)
+- [PBottle RPA User Agreement](https://rpa.pbottle.com/a-13944.html)  
+- [PBottle RPA License Comparison](https://rpa.pbottle.com/License.php)

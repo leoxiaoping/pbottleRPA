@@ -1,6 +1,6 @@
 /**
  *  PBottle RPA Standard Library API  NodeJS Version
- *  Official website: https://rpa.pbottle.com/
+ *  Official website: https://github.com/leoxiaoping/pbottleRPA/
  *  Author: leo@pbottle.com
  *  
  *  Welcome to convert this code into Python, Lua, C# and other languages
