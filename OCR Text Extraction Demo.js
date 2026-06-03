@@ -1,7 +1,7 @@
 /**
  * PBottle RPA demo – please refer to the *process development documentation* for API details.
- * Official website: https://rpa.pbottle.com/
- * Process development documentation: https://rpa.pbottle.com/docs/
+ * Official website: https://officetool.online/pbottle-rpa/
+ * Process development documentation: https://officetool.online/pbottle-rpa/docs/
  * 
  * Feature description: This script demonstrates the OCR text recognition and search features of RPA.
  * Through these examples, you can learn how to use AI technology to recognize text on the screen and locate specific content.

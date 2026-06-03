@@ -67,7 +67,7 @@ Notes:
 
 Documentation portal:
 
-[https://rpa.pbottle.com/docs/](https://rpa.pbottle.com/docs/)
+[https://officetool.online/pbottle-rpa/docs/](https://officetool.online/pbottle-rpa/docs/)
 
 ### Supported Scripting Languages
 

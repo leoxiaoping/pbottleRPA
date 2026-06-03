@@ -1,7 +1,7 @@
 """
 PBottle RPA demo – please refer to the *process documentation* for specific APIs.
-Official website: https://rpa.pbottle.com/
-Process documentation: https://rpa.pbottle.com/docs/
+Official website: https://officetool.online/pbottle-rpa/
+Process documentation: https://officetool.online/pbottle-rpa/docs/
 
 Feature description: A minimal PBottle RPA Python example that demonstrates dynamic input.
 Requires PBottle RPA base version V2026.0.0 or above.

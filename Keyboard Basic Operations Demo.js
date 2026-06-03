@@ -1,8 +1,8 @@
 /**
  * Pbottle RPA Demo Script
  * For detailed API documentation, please refer to the Process Development Documentation
- * Official Website: https://rpa.pbottle.com/
- * Process Development Documentation: https://rpa.pbottle.com/docs/
+ * Official website: https://officetool.online/pbottle-rpa/
+ * Process Development Documentation: https://officetool.online/pbottle-rpa/docs/
  * 
  * Function Description: This script demonstrates various keyboard operations in RPA, including key presses, 
  * combination keys, page navigation, and more. Through these examples, you can learn how to precisely 

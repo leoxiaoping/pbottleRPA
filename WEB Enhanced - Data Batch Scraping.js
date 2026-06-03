@@ -1,7 +1,7 @@
 /**
  * PBottle RPA demo – please refer to the *process development documentation* for API details.
- * Official website: https://rpa.pbottle.com/
- * Process development documentation: https://rpa.pbottle.com/docs/
+ * Official website: https://officetool.online/pbottle-rpa/
+ * Process development documentation: https://officetool.online/pbottle-rpa/docs/
  * 
  * Feature description: This script demonstrates batch web scraping using the Web Enhanced functions.
  * The PBottle RPA browser extension is required to operate web elements and automate data extraction.

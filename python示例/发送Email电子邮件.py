@@ -1,7 +1,7 @@
 """
 PBottle RPA demo. Please refer to the *process documentation* for specific APIs.
-Official website: https://rpa.pbottle.com/
-Process documentation: https://rpa.pbottle.com/docs/
+Official website: https://officetool.online/pbottle-rpa/
+Process documentation: https://officetool.online/pbottle-rpa/docs/
 
 Feature description: This script demonstrates the email notification feature of RPA.
 Through this example, you can learn how to integrate email notifications into automation flows for remote monitoring and alerts.
@@ -19,7 +19,7 @@ pbottleRPA.log(
     pbottleRPA.sendMail(
         to,
         "PBottle RPA Test Email",
-        "Test email content\nPBottle RPA official website: https://rpa.pbottle.com/ \n"
+        "Test email content\nPBottle RPA Official website: https://officetool.online/pbottle-rpa/ \n"
         + pbottleRPA.getTime(),
     )
 )

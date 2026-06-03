@@ -1,8 +1,8 @@
 /**
  * Pbottle RPA Demo Script
  * For detailed API documentation, please refer to the Process Development Documentation
- * Official Website: https://rpa.pbottle.com/
- * Process Development Documentation: https://rpa.pbottle.com/docs/
+ * Official website: https://officetool.online/pbottle-rpa/
+ * Process Development Documentation: https://officetool.online/pbottle-rpa/docs/
  * 
  * Function Description: This script demonstrates clipboard operations in RPA, including copying text, 
  * getting clipboard content, and copying files. Through this example, you can learn how to use 
@@ -24,7 +24,7 @@ pbottleRPA.tts('Text has been copied, try pasting it somewhere') // Voice announ
 console.log('Text has been copied, try pasting it somewhere');   // Output same information to console
 
 // Copy specified text content to system clipboard
-pbottleRPA.paste("Pbottle RPA Official Website: https://rpa.pbottle.com/")
+pbottleRPA.paste("Pbottle RPA Official website: https://officetool.online/pbottle-rpa/")
 
 pbottleRPA.wait(10)                           // Wait 10 seconds to give users time to test pasting
 

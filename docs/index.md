@@ -12,7 +12,7 @@ next:
 Specializing in complex and lengthy business automation workflows, lightweight yet versatile RPA software that significantly reduces costs & improves efficiency, ensures 100% work accuracy, and offers non-intrusive integration. Supports automation for both browser-based web applications and desktop client applications. Supports scripting in both JavaScript and Python.
 
 
-Official website: https://rpa.pbottle.com/
+Official website: https://officetool.online/pbottle-rpa/
 
 
 ![PBottle RPA logo](https://rpa.pbottle.com/TP/img/logo_rpa.png)

@@ -1,7 +1,7 @@
 """
 PBottle RPA demo. Please refer to the *process documentation* for specific APIs.
-Official website: https://rpa.pbottle.com/
-Process documentation: https://rpa.pbottle.com/docs/
+Official website: https://officetool.online/pbottle-rpa/
+Process documentation: https://officetool.online/pbottle-rpa/docs/
 
 Feature description: This script demonstrates the file upload (send) function in RPA.
 It requires the browser enhancement extension to manipulate web elements for an automated file upload workflow.

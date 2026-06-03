@@ -1,7 +1,7 @@
 """
 PBottle RPA demo. Please refer to the *process documentation* for specific APIs.
-Official website: https://rpa.pbottle.com/
-Process documentation: https://rpa.pbottle.com/docs/
+Official website: https://officetool.online/pbottle-rpa/
+Process documentation: https://officetool.online/pbottle-rpa/docs/
 
 Feature description: This script demonstrates the common utility functions (utils) in RPA.
 Through this example, you can learn how to use various practical utility functions provided by pbottleRPA.

@@ -1,7 +1,7 @@
 /**
  * PBottle RPA demo, please refer to the *process development documentation* for API details
- * Official website: https://rpa.pbottle.com/
- * Process development documentation: https://rpa.pbottle.com/docs/
+ * Official website: https://officetool.online/pbottle-rpa/
+ * Process development documentation: https://officetool.online/pbottle-rpa/docs/
  * 
  * Feature description: This script demonstrates the enterprise version's HID hardware-level keyboard and mouse operations.
  * Through hardware-level input simulation, it can bypass certain software-level restrictions and achieve more stable automation.

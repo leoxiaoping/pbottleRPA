@@ -17,12 +17,12 @@ export default defineConfig({
         en: {
             label: '中文',
             lang: 'zh-hans', // Optional, will be added as `lang` attribute to `html` tag
-            link: 'https://rpa.pbottle.com/docs/' // Default /en/ -- shown in the nav translation menu, can be external
+            link: 'https://officetool.online/pbottle-rpa/docs/' // Default /en/ -- shown in the nav translation menu, can be external
         }
     },
 
     sitemap: {
-        hostname: 'https://rpa.pbottle.com/docs/'
+        hostname: 'https://officetool.online/pbottle-rpa/docs/'
     },
     head: [
         ['link', { rel: 'shortcut icon', href: '/rpa.ico', type: 'image/x-icon' }],

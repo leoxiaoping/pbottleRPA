@@ -1,7 +1,7 @@
 """
 PBottle RPA demo. Please refer to the *process documentation* for specific APIs.
-Official website: https://rpa.pbottle.com/
-Process documentation: https://rpa.pbottle.com/docs/
+Official website: https://officetool.online/pbottle-rpa/
+Process documentation: https://officetool.online/pbottle-rpa/docs/
 
 Feature description: This script demonstrates the GPT image analysis feature in RPA, enabling you to ask the cloud AI questions about image content.
 Through this example, you can learn how to combine AI capabilities to analyze and understand image content.
