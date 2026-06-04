@@ -11,7 +11,7 @@
 
 产品官网：https://rpa.pbottle.com/
 
-英文官网：https://officetool.online/pbottle-rpa/
+英文国际版官网：https://officetool.online/pbottle-rpa/
 
 ![小瓶RPA logo](input/RPAlogo128.png)
 
