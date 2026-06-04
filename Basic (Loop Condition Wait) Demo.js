@@ -18,8 +18,8 @@ pbottleRPA.wait(3)                              // Pause execution for 3 seconds
 for (let index = 0; index < 10; index++) {      // Initialize counter, loop condition (run 10 times)
     let counter = index + 1                     // Counter variable showing the current iteration (starting from 1)
     pbottleRPA.log('Operation #' + counter);    // Output the current operation number to the log file
-    pbottleRPA.openURL('https://www.baidu.com/s?wd=' + counter) // Open a URL with the default browser, searching a different keyword each time
-    pbottleRPA.wait(0.5)                        // Wait 0.5 seconds after each operation to avoid overwhelming the system
+    pbottleRPA.openURL('https://www.google.com/search?q=' + counter) // Open a URL with the default browser, searching a different keyword each time
+    pbottleRPA.wait()                        // Wait 1 seconds after each operation to avoid overwhelming the system
 }
 
 // Conditional statement example: use a random number to demonstrate branching

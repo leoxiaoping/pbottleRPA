@@ -22,7 +22,7 @@ pbottleRPA.tts('You must install the PBottle RPA browser enhancement extension. 
 // Show a system message box as an additional reminder
 pbottleRPA.showMsg('Tip:', 'You must install the browser enhancement extension first.')
 // Open Baidu for demonstrating browser operations
-pbottleRPA.openURL('https://www.baidu.com/')
+pbottleRPA.openURL('https://www.google.com/')
 
 // Variable to store the result of browser commands
 let ret = ""
@@ -39,19 +39,16 @@ if (ret !== 'ok') {
 pbottleRPA.wait(1)                                // Wait 1 second
 pbottleRPA.tts("Navigating to a new URL...")      // Announce the upcoming operation via TTS
 // Use a browser command to navigate to a new URL
-pbottleRPA.browserCMD_url('https://www.baidu.com/?from=pbottleRPA')
+pbottleRPA.browserCMD_url('https://www.google.com/?from=pbottleRPA')
 pbottleRPA.wait(2)                                // Wait 2 seconds
 
-// Retrieve the text content of a specific element (page title)
-ret = pbottleRPA.browserCMD_text('span.title-content-title')
-console.log('Operation result [multiple elements]:', ret); // Output the retrieved text content
+// Set a cookie
+ret = pbottleRPA.browserCMD_cookie('pbottleRPA', "pbottleRPA is Fantastic!", 3) 
+console.log('Operation result (cookie set):', ret); // Output the result of setting the cookie
 
 // Cookie operation demonstration
-ret = pbottleRPA.browserCMD_cookie('BAIDUID')      // Get the value of a cookie named 'BAIDUID'
+ret = pbottleRPA.browserCMD_cookie('pbottleRPA')      // Get the value of a cookie 
 console.log('Operation result (cookie get):', ret); // Output the retrieved cookie value
-// Set a cookie
-ret = pbottleRPA.browserCMD_cookie('pbottleID', "good", 3) 
-console.log('Operation result (cookie set):', ret); // Output the result of setting the cookie
 
 // CSS style operation demonstration – changing the background color
 pbottleRPA.tts('Change background color')           // Announce the upcoming operation
@@ -83,12 +80,11 @@ pbottleRPA.wait(3)                                    // Wait 3 seconds
 // Search operation demonstration
 pbottleRPA.tts('Entering search term and clicking the search button') // Announce the operation
 // Enter the search term "PBottle RPA Official Website" into the search box
-pbottleRPA.paste('PBottle RPA Official Website') 
+pbottleRPA.paste('https://officetool.online/pbottle-rpa/') 
 console.log('Paste operation completed.')
 
 // Click the search button
-ret = pbottleRPA.browserCMD_click('#su')              // Click Baidu's search button
-console.log('Operation result (click):', ret);        // Output the click result
+pbottleRPA.keyTap('enter')
 pbottleRPA.wait(3)                                    // Wait 3 seconds
 
 // Demonstrate retrieving the current URL
@@ -99,18 +95,12 @@ pbottleRPA.wait(2)                                    // Wait 2 seconds
 
 // Ad removal demonstration
 pbottleRPA.tts('Start removing ads')                  // Announce the operation
-// Loop to remove ad elements (only one iteration in this example)
-for (let index = 0; index < 1; index++) {
-    // Remove the specified ad element
-    ret = pbottleRPA.browserCMD_remove('#content_left div:first')
-    console.log('Operation result (remove):', ret);    // Output the remove operation result
-    pbottleRPA.wait(3)                                 // Wait 3 seconds
-}
+pbottleRPA.browserCMD_remove('div#tads')
 
 // Demonstrate opening a website link
 pbottleRPA.tts('Open website')                         // Announce the operation
 // Click the first search result link containing "PBottle RPA"
-pbottleRPA.browserCMD_click('div#content_left a:contains(PBottle RPA)')
+pbottleRPA.browserCMD_click('div.MjjYud a:contains(RPA)')
 pbottleRPA.wait(3)                                     // Wait 3 seconds
 
 // Demonstrate retrieving the website logo path
@@ -121,7 +111,7 @@ console.log('Website logo image URL:', ret);           // Output the logo image 
 pbottleRPA.wait()                                      // Wait for the default delay
 
 // Demonstrate getting the position of an element
-let ret2 = pbottleRPA.browserCMD_offset('div:contains(PBottle RPA):first')
+let ret2 = pbottleRPA.browserCMD_offset('div:contains(RPA):first')
 console.log('Position of search result:', ret2);       // Output the element position
 pbottleRPA.wait()                                      // Wait for the default delay
 

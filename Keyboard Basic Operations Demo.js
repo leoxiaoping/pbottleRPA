@@ -25,7 +25,7 @@ pbottleRPA.wait(6)                           // Wait 6 seconds
 pbottleRPA.tts('Preparing to open webpage and use shortcut keys to enter fullscreen mode, starting in 5 seconds') // Voice announcement of upcoming operation
 pbottleRPA.wait(10)                          // Wait 10 seconds
 
-pbottleRPA.openURL('https://rpa.pbottle.com?from=demo') // Open Pbottle RPA official website using default browser
+pbottleRPA.openURL('https://officetool.online/pbottle-rpa/?from=demo') // Open Pbottle RPA official website using default browser
 pbottleRPA.wait(3)                           // Wait 3 seconds for webpage to load
 pbottleRPA.moveAndClick(50, 500)              // Move mouse to specified coordinates and click to ensure page gets focus
 pbottleRPA.tts('Zooming page')                    // Voice announcement of upcoming operation

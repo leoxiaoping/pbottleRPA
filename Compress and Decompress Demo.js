@@ -23,6 +23,8 @@ console.log('Checking compression result');   // Output info about checking the 
 // Check if the compressed ZIP file exists
 if (!fs.existsSync(pbottleRPA.__dirname + '/target_archive.zip')) {
     pbottleRPA.exit('Not detected, exiting!') // If the file does not exist, exit the script with a message
+}else{
+    pbottleRPA.log('Compression result detected：target_archive.zip')
 }
 
 console.log('Decompression test')             // Output info about the decompression test

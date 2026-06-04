@@ -24,16 +24,14 @@ pbottleRPA.showMsg('Tip:', 'You must install the browser enhancement extension f
 pbottleRPA.wait(5)
 
 // Open the PBottle RPA official website for demonstrating data scraping
-pbottleRPA.openURL('https://rpa.pbottle.com/')
-pbottleRPA.browserCMD_waitPageReady('https://rpa.pbottle.com/');  // Wait for the page to finish loading
+pbottleRPA.openURL('https://officetool.online/pbottle-rpa/')
+pbottleRPA.browserCMD_waitPageReady('https://officetool.online/pbottle-rpa/');  // Wait for the page to finish loading
 
 // Check whether the page opened successfully by counting elements containing "PBottle RPA"
-let n_rpa = pbottleRPA.browserCMD_count('span:contains(PBottle RPA)')
-console.log('Number of elements containing "PBottle RPA":', n_rpa);
+let n_rpa = pbottleRPA.browserCMD_count('div.list-group a:contains(pbottleRPA)')
+console.log('Number of elements containing "pbottleRPA":', n_rpa);
 // Simulate scrolling the page to load more content
 pbottleRPA.keyTap('page down')               // Scroll down one page
-pbottleRPA.keyTap('page down')               // Scroll down again
-pbottleRPA.keyTap('page down')               // Scroll down a third time
 
 // Start extracting data from the web page
 // Get the text content of all <a> tags with the class 'list-group-item' using a CSS selector
@@ -75,4 +73,4 @@ datas.forEach(element => {
 // Use text-to-speech to announce the end of the demo
 pbottleRPA.tts('Demo finished.')
 
-pbottleRPA.browserCMD.alert('Demo finished. Data has been output to the log in batches. Please check the console.');
+pbottleRPA.browserCMD.alert('Demo finished. Data has been output to the log in batches. Please check the live logs.');

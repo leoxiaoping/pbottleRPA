@@ -9,6 +9,6 @@
  */
 const pbottleRPA = require('./pbottleRPA')     // Import the core PBottle RPA library to access RPA functionality
 
-pbottleRPA.openURL('https://www.baidu.com/')
+pbottleRPA.openURL('https://www.google.com/')
 pbottleRPA.paste('PBottle RPA official website')
 pbottleRPA.keyTap('enter')

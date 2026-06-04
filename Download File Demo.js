@@ -18,7 +18,7 @@ let downloadPath = path.join(os.homedir(), 'Downloads')
 pbottleRPA.log('Default browser download path, adjust according to your situation:', downloadPath)
 
 // Open the WeChat official website (preparing to download the WeChat installer)
-pbottleRPA.openURL('https://pc.weixin.qq.com/')
+pbottleRPA.openURL('https://www.wechat.com/')
 // Directly open the download link for the WeChat Windows client installer
 pbottleRPA.openURL('https://dldir1v6.qq.com/weixin/Windows/WeChatSetup.exe')
 // Simulate pressing the Enter key to confirm the download

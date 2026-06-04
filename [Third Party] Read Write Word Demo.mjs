@@ -49,11 +49,11 @@ const doc = new docx.Document({
                         new docx.ExternalHyperlink({
                             children: [
                                 new docx.TextRun({
-                                    text: "https://rpa.pbottle.com",
+                                    text: "https://officetool.online/pbottle-rpa/",
                                     style: "Hyperlink",
                                 }),
                             ],
-                            link: "https://rpa.pbottle.com",
+                            link: "https://officetool.online/pbottle-rpa/",
                         }),
                     ],
                 }),

@@ -23,13 +23,14 @@ async function main() {
 
     console.log('Launching synchronous sub‑process');
     // Execute a synchronous sub‑process directly with require (script that contains only top‑level code)
-    require('./QuickStart_demo_(3_lines).js')   // The original Chinese filename is preserved; feel free to rename
+    require('./Quick Start Demo (3 Lines).js')   // The original Chinese filename is preserved; feel free to rename
 
     console.log('Launching asynchronous sub‑process: test.js');
     // Call an asynchronous sub‑process, wait for it to finish and get the return value
     // Use await to wait for the asynchronous operation to complete
-    let rs = await require('./test.js')('https://rpa.pbottle.com')   // Pass a parameter to the sub‑process
-    console.log('Sub‑process returned:', rs);  // Output the result from the sub‑process
+    
+    // let rs = await require('./test.js')('https://rpa.pbottle.com')   // Pass a parameter to the sub‑process
+    // console.log('Sub‑process returned:', rs);  // Output the result from the sub‑process
 
     // await process1() // error (commented‑out example)
     pbottleRPA.log("Main process completed ✅️")  // Log the completion of the main process
