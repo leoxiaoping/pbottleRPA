@@ -2,6 +2,8 @@
 
 Professional RPA+AI software for power users.
 
+[English] | [中文](https://gitee.com/pbottle/pbottle-rpa)
+
 ### Introduction
 Pbottle RPA specializes in complex business process automation. A lightweight, versatile RPA software that significantly reduces costs, improves efficiency, ensures 100% work accuracy, and enables non-intrusive integration. It supports automation of both browser web applications and desktop client applications. Also supports both JavaScript and Python scripting.
 
@@ -12,13 +14,11 @@ Product Official Website: https://officetool.online/pbottle-rpa/
 ![Pbottle RPA Logo](input/RPAlogo128.png)
 
 
-
-
 ### Getting Started
 
 ```javascript
 pbottleRPA.openURL('https://www.google.com/')
-pbottleRPA.paste('pbottleRPA')
+pbottleRPA.paste('Pbottle RPA')
 pbottleRPA.keyTap('enter')
 ```
 
@@ -67,7 +67,8 @@ Notes:
 
 Documentation portal:
 
-[https://officetool.online/pbottle-rpa/docs/](https://officetool.online/pbottle-rpa/docs/)
+https://officetool.online/pbottle-rpa/docs/
+
 
 ### Supported Scripting Languages
 
@@ -76,19 +77,14 @@ Documentation portal:
 
 ### Other References
 
-1. Keyboard reference  [https://rpa.pbottle.com/a-13862.html](https://rpa.pbottle.com/a-13862.html)
-2. Scheduled tasks  [https://rpa.pbottle.com/a-13868.html](https://rpa.pbottle.com/a-13868.html)
-3. Free mobile notification [https://rpa.pbottle.com/a-12586.html](https://rpa.pbottle.com/a-12586.html)
+1. Keyboard reference  https://officetool.online/a-321.html
+2. Scheduled tasks  https://officetool.online/a-314.html
 
-### Technical Discussion WeChat Group
 
-Feel free to join the group chat via WeChat QR code (never expires):
-
-![Pbottle RPA Technical Discussion Group QR Code](input/discuss.jpg)
 
 ### Official RPA Value-Added Services
 
- [Contact Us](https://rpa.pbottle.com/value-added.php) 
+ [Contact Us](https://officetool.online/a-319.html) 
 
 ### Pbottle RPA Recruitment
 
