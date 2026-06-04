@@ -2,15 +2,18 @@
 
 专业用户的专业RPA+AI软件。
 
+[English](https://github.com/leoxiaoping/pbottleRPA) | [中文]
+
 ### 介绍
 小瓶RPA，长难业务自动化流程专精。 轻量级简单全能的RPA软件，显著降本增效 & 工作100%准确 & 非侵入式集成。同时支持浏览器web应用和客户端应用的操作流程自动化。同时支持 Js 和 Python 两种脚本制作流程。
 
  **如果好用或者帮到您，烦劳star一下。** 
 
-产品官网：[https://rpa.pbottle.com/](https://rpa.pbottle.com/)
+产品官网：https://rpa.pbottle.com/
+
+英文官网：https://officetool.online/pbottle-rpa/
 
 ![小瓶RPA logo](input/RPAlogo128.png)
-
 
 
 
