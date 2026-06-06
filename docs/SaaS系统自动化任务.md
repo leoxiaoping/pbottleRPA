@@ -11,4 +11,4 @@ pbottleRPA can serve existing SaaS systems by providing an automated task servic
 
 ## Architecture Diagram
 
-![SaaS System Automation Tasks](https://www.pbottle.com/static/upload/20250716/1752649922436.png)
+![SaaS System Automation Tasks](public/saas.png)

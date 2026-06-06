@@ -7,7 +7,7 @@ export default defineConfig({
     description: "Pbottle RPA - Professional RPA software for professional users. Lightweight, simple, and versatile RPA software with enhanced browser automation, significantly reducing costs & improving efficiency with 100% accuracy & non-intrusive integration. Supports automation of both browser web applications and client applications, with both JS and Python scripting.",
     lang: 'en',
     lastUpdated: true,
-    base: '/docs/',
+    base: '/pbottle-rpa/docs/',
     // outDir: './html',
     locales: {
         root: {
