@@ -1,69 +1,69 @@
-# pbottleRPA.utils 工具箱
+# pbottleRPA.utils Toolbox
 
-提供基础常用便利工具
+Provides basic common utility tools.
 
-调用方式：
+Usage:
 pbottleRPA.utils.xxx()
 
-demo示例：
-常用工具 Utils 演示.js
+Demo example:
+Common Tools Utils Demo.js
 
-## 获取格式化时间 getTime
+## getTime Get Formatted Time
 
 utils.getTime()
 
 
-格式化的时间 getTime('Y-m-d H:i:s') 输出类似 "2023-09-17 14:30:45" 的日期时间字符串
+Formatted time: getTime('Y-m-d H:i:s') outputs a datetime string like "2023-09-17 14:30:45".
 
-@param {string} format 格式参考 https://www.runoob.com/php/php-date.html 仅支持 Y|y|m|d|H|i|s|n|j
+@param {string} format format reference: https://www.php.net/manual/en/function.date.php  only supports Y|y|m|d|H|i|s|n|j
 
-@param {number} timestamp 时间戳秒
+@param {number} timestamp timestamp in seconds
 
 @returns {string}
 
-##  唯一数 uniqid
+## uniqid Unique ID
 
 utils.uniqid()
 
-生成唯一符串 注意：默认只是毫秒级的
+Generate a unique string. Note: default is millisecond-level precision.
 
-@param {string} prefix 前缀
+@param {string} prefix prefix
 
-@param {boolean} moreEntropy 是否开启更精细的随机，如果还不能满足请使用uuid
+@param {boolean} moreEntropy whether to enable finer randomness, use uuid if this is not sufficient
 
 @returns {string}
 
 
-## 是否数字 isNumeric
+## isNumeric Check Numeric
 
 utils.isNumeric()
 
 
-判断是否为数字化变量（包含数字化的字符串）
+Check if a value is numeric (including numeric strings).
 
-@param {*} value 任意类型变量
+@param {*} value any type variable
 
 @returns {boolean}
 
-## 是否有内容 hasData
+## hasData Check Data
 
 utils.hasData()
 
-判断变量中是否有数据，直接if()可用。
-非零数字 或 非空字符串、数组、对象 返回 true，其他都返回 false
+Check if a variable has data, usable directly in if().
+Non-zero numbers or non-empty strings, arrays, objects return true, everything else returns false.
 
-@param {*} value 任意类型变量
+@param {*} value any type variable
 
 @returns {boolean}
 
-##  搜索文件 searchFile
+## searchFile Search Files
 
 utils.searchFile()
 
-根据关键字搜索定位具体文件
+Search and locate specific files by keyword.
 
-@param {string} directory 绝对路径
+@param {string} directory absolute path
 
-@param {string} words 文件名包含的关键字，过滤词，默认忽略大小写
+@param {string} words keywords to match in filename, filter term, case-insensitive by default
 
-@returns {string[]} 文件路径 || [] 未找到
+@returns {string[]} file paths || [] if not found

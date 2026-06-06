@@ -1,125 +1,124 @@
-# 系统相关
+# System Related
 
-## wait 等待
+## wait | Wait
 
-  脚本暂停等待操作响应 (秒)
-  注意：一次等待超过100s, 会有日志提示
-  @param {number} seconds  秒,  缺省值为 1 秒。支持小数。
+  Pause script and wait for operation response (seconds).
+  Note: waiting over 100s will log a reminder.
+  @param {number} seconds  seconds, default 1 second. Supports decimals.
 
-## setDefaultDelay 设置默认操作延时
+## setDefaultDelay | Set Default Operation Delay
 
-设置RPA模拟操作的延时 包含鼠标、键盘、粘贴、打开网页操作
-设置为 0 可以用 sleep() 手动管理操作延时
+Set the delay for RPA simulation operations. Includes mouse, keyboard, paste, and open URL actions.
+Set to 0 to manually manage operation delays with sleep().
 
-@param {*} millisecond 毫秒单位的数字
+@param {*} millisecond delay in milliseconds
 
 
-## jsPath 目录路径
+## jsPath | Directory Path
 
-变量名称：
-当前脚本的文件夹路径，不带最后斜杠
+Variable name:
+Current script's folder path, without trailing slash.
 
-别名：__dirname 方便在 .mjs 中使用
+Alias: __dirname for convenience in .mjs usage.
 
-## getBasePath 基座路径 
+## getBasePath | Base Path
 
-获取并设置基座平台的根目录路径 | V2025.0 以上版本启用
+Get and set the base platform root directory path. Enabled from V2025.0+.
 
 @returns {string}
 
-## showMsg 显示系统消息
+## showMsg | Display System Message
 
-@param {*} title 标题
-@param {*} content 内容
+@param {*} title title
+@param {*} content content
 
-本信息提示框为操作系统原生提示框
+This message dialog is a native operating system dialog.
 
-![提示框](https://foruda.gitee.com/images/1697684140653917645/45448f2b_799608.png)
+![Dialog](public/Snipaste_2026-06-06_13-53-02.png)
 
-系统设置
-
-![alt text](https://foruda.gitee.com/images/1717396769929524137/aa3a2e03_799608.png)
+💡 Turn on the notification toggle for pbottleRPA in System Settings.
 
 
-## showRect 显示标记框
 
-有效屏幕内显示一个彩色方框，直观提示流程操作范围和目标的当前的定位
-V2024.6以上版本有效
+## showRect | Display Marked Rectangle
 
-@param {number} fromX 起始位置xy坐标，屏幕左上角为零点
+Display a colored rectangle on the visible screen for intuitive visual feedback of the operation range and current target position.
+Effective for versions >= V2024.6.
+
+@param {number} fromX starting X coordinate, origin at top-left of screen
 
 @param {number} fromY
 
-@param {number} width 宽度
+@param {number} width width
 
-@param {number} height 高度
+@param {number} height height
 
-@param {string} color 颜色 红绿蓝黄4色可选：red|green|blue|yellow
+@param {string} color color: red|green|blue|yellow
 
-@param {number} msec 显示持续时间 单位毫秒
+@param {number} msec display duration in milliseconds
 
-示例脚本：朋友圈点赞，截屏，文字识别
+Example script: Moments Likes, Screenshot, Text Recognition
 
-##  openFile 打开文件
+## openFile | Open File
 
-用默认应用打开文件 如word、excel、pdf等
+Open a file with its default application, such as Word, Excel, PDF, etc.
 
-@param {*} path 文件路径
+@param {*} path file path
 
-## openDir 打开目录
+## openDir | Open Directory
 
-用资源管理器打开展示文件夹
+Show a folder in File Explorer.
 
-@param {*} path 文件夹路径
+@param {*} path folder path
 
-## kill 关闭软件
+## kill | Close Application
 
-（强行）关闭指定软件
+(Force) close a specified application.
 
-@param {string} processName 进程名称，如：'WINWORD.EXE' 任务管理器 ‘进程名称’ 栏目 。注意不是 名称，如不显示，右键勾选显示这一栏目即可
+@param {string} processName process name, e.g.: 'WINWORD.EXE' as shown in Task Manager 'Process Name' column. Note: not the display name; if not visible, right-click and enable this column.
 
-@param {boolean} force 是否强制，相当于模拟任务管理器的结束任务操作。默认普通关闭，可能跟随保存确认框
+@param {boolean} force whether to force close, equivalent to simulating Task Manager's End Task. Default is normal close, which may prompt a save confirmation dialog.
 
 ```javascript
-pbottleRPA.kill('WINWORD.EXE')  //关闭word
-pbottleRPA.kill('EXCEL.EXE')  //关闭word
-pbottleRPA.kill('msedge.exe')  //关闭edge浏览器
+pbottleRPA.kill('WINWORD.EXE')  // close Word
+pbottleRPA.kill('EXCEL.EXE')  // close Excel
+pbottleRPA.kill('msedge.exe')  // close Edge browser
 ```
 
 
-## copyText 复制文字 
+## copyText | Copy Text
 
-模拟复制文字，相当于选择并复制文本内容
+Simulate copying text, equivalent to selecting and copying text content.
 
-@param {string} txt 复制的文本内容
+@param {string} txt text content to copy
 
-## copyFile 复制文件
+## copyFile | Copy File
 
-模拟复制文件操作，支持文件路径和文件夹路径，复制后在目标文件夹ctrl+V 即可粘贴 V2024.7开始生效
+Simulate copy file operation, supports file paths and folder paths. After copying, Ctrl+V in target folder to paste. Effective from V2024.7.
 
-复制文件后，在微信发送窗口粘贴，即可发送文件
+After copying a file, you can paste it in WeChat send window to send the file.
 
-@param {string} filepath 绝对路径
+@param {string} filepath absolute path
 
-## exit 退出流程
+## exit | Exit Flow
 
-强制退出当前脚本
+Force exit the current script.
 
-@param {string} msg 退出时候输出的信息
+@param {string} msg message to output on exit
 
-## log 日志输出
+## log | Log Output
 
-@param {string} text 输出日志
+@param {string} text output log
 
 
-## waitFile 等待文件
+## waitFile | Wait for File
 
-等待文件下载成功或者生成
+Wait for a file to be downloaded or generated.
 
-@param {string} dirPath 监控文件夹目录 如：'c:/User/pbottle/download'
+@param {string} dirPath monitored directory, e.g.: 'c:/User/pbottle/download'
 
-@param {string} keyWords 过滤关键词 如：'.zip'
+@param {string} keyWords filter keywords, e.g.: '.zip'
 
-@param {function} intervalFun 检测间隔的操作，function格式
+@param {function} intervalFun operation to run between checks, function format
 
-@param {number} timeOut 等待超时时间 单位秒
+@param {number} timeOut wait timeout in seconds

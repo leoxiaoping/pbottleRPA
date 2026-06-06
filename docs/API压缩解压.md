@@ -1,21 +1,20 @@
-# 压缩解压缩
+# Compression & Decompression
 
-新版压缩解压接口支持 4GB 以上超大文件
+The new compression/decompression interface supports files larger than 4GB.
 
-## 压缩 zipDir
+## Compress | zipDir
 
-压缩文件夹内容成一个zip文件包 v2025.0 以后版本生效
+Compress folder contents into a zip file. Effective for versions >= v2025.0.
 
-@param {string} directory 文件夹路径，输入绝对路径
+@param {string} directory folder path, absolute path
 
-@param {string} zipFilePath zip文件包
+@param {string} zipFilePath zip file path
 
 
-##  解压缩 unZip
+## Decompress | unZip
 
-解压缩zip文件内容到指定文件夹内 v2025.0 以后版本生效
+Extract zip file contents to a specified folder. Effective for versions >= v2025.0.
 
-@param {string} zipFilePath zip文件包
+@param {string} zipFilePath zip file path
 
-@param {string} directory 文件夹路径，输入绝对路径 默认解压到zip文件当前目录
-
+@param {string} directory folder path, absolute path. Default extracts to the zip file's current directory.

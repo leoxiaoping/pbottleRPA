@@ -1,89 +1,79 @@
-# Q & A 常见问答
+# Q & A Frequently Asked Questions
 
-- 收集和探讨关于小瓶RPA的常见问题和官方答案。
-- 更多问题可以联系在线客服。
+- Collect and discuss common questions and official answers about pbottleRPA.
+- For more questions, contact online customer service.
 
-## 小瓶RPA 可以实现哪些流程的自动化，可以破解某个系统或软件吗？
+## What kind of flows can pbottleRPA automate? Can it crack a system or software?
 
-小瓶RPA不具有破解和越权操作能力，RPA可以代替并优化人类操作电脑并有高速处理数据能力。
+pbottleRPA does not have cracking or privilege escalation capabilities. RPA can replace and optimize human computer operations with high-speed data processing capabilities.
 
-一个能力边界的判断方式是：
+A way to judge the capability boundary:
 
-凡是你能手动操作的工作流程，小瓶RPA都能够把这个流程实现自动化。
+Anything you can do manually on a workflow, pbottleRPA can automate.
 
-如果你手动操作（包含使用工具软件）都无法做到的事情，大概率 小瓶RPA 也做不到。
-
-
-## 小瓶RPA的怎么使用？适用于哪个行业？
-
-小瓶RPA是通用行业的自动化平台软件，所有现有工作流程都可以快速实现自动化。
-
-小瓶RPA软件更像办公的ppt软件，你只安装了ppt是没有ppt文档的，没有实用价值的。流程脚本就好比制作ppt文档，好的ppt文档也不是每个人都会做的，根据用户的制作水平而定。
-
-小瓶RPA附带了一些供参考的基础demo示例脚本，用户可以从官网下载运行。
+If you can't do something manually (including using tools and software), pbottleRPA probably can't either.
 
 
+## How to use pbottleRPA? Which industries is it suitable for?
 
-## 可以多个流程同时运行吗？
+pbottleRPA is a general-purpose automation platform software for all industries. All existing workflows can be quickly automated.
 
-- RPA的流程中可以大致分为 模拟操作 和 数据处理 两种指令。数据处理可以并发同时执行，模拟操作部分由于电脑只能一套鼠标键盘可以操作，所以不能同时执行。
-- 一台电脑可以同时运行多个虚拟机，每个虚拟机可以同时运行一个自己的流程。
+pbottleRPA software is more like office PPT software. Just installing PPT doesn't give you PPT documents — it's not useful by itself. Flow scripts are like creating PPT documents. Not everyone can make good PPT documents; it depends on the user's skill level.
+
+pbottleRPA comes with some basic demo example scripts for reference. Users can download and run them from the official website.
 
 
 
-## 为什么小瓶没有支持拖拉拽的所谓 '设计器'，只能用脚本语言表达流程？
+## Can multiple flows run simultaneously?
 
-- 小瓶RPA的主要定位是，专业用户的专业RPA软件。对流程实施者有基础脚本能力要求，不适合没有任何脚本基础的人员直接使用。应用场景多为自动化项目、工作站RPA应用等。
+- RPA flows can be roughly divided into two types: simulation operations and data processing. Data processing can run concurrently. Simulation operations cannot run simultaneously because a computer has only one set of mouse and keyboard.
+- One computer can run multiple virtual machines, and each virtual machine can run its own flow simultaneously.
 
-- 图形化编程（设计器）曾经风靡一时，但在脚本语言越来越傻瓜化的今天，图形的语法表现力不足这一劣势越来越明显。目前面对长难流程的开发管理往往不能满足和有更高综合成本。（有商业价值的自动化项目往往都是长难流程）
+
+
+## Why doesn't pbottle have a drag-and-drop 'designer'? Why must flows be expressed in scripting language?
+
+- pbottleRPA's main positioning is a professional RPA software for professional users. It requires basic scripting skills from flow implementers and is not suitable for users without any scripting foundation directly. Application scenarios are mostly automation projects, workstation RPA applications, etc.
+
+- Graphical programming (designer) was once popular, but as scripting languages become easier to use, the disadvantage of graphical syntax expression has become increasingly apparent. Managing development of long and complex flows often fails to meet requirements and has higher overall costs. (Commercially valuable automation projects are often long and complex flows.)
   
-- js脚本可以融入完整的 Nodejs（Python）生态，无缝引入万亿第三方功能包，可以传统IT项目自然对接，对技术运维人员更友好。
+- JS scripts can integrate into the complete Node.js (Python) ecosystem, seamlessly introducing trillions of third-party packages, naturally connecting with traditional IT projects, and more friendly to technical operations personnel.
   
-- V2023.3版本 新增加鼠标操作录制自动生成简单的脚本功能。
+- V2023.3 added mouse operation recording functionality to automatically generate simple scripts.
 
-- 小瓶RPA可以用AI编程助手，实现流程脚本的自动化生成和编写。查看章节：`使用指南-》AI生成流程脚本`。声明：此方式目前正处于测试阶段。
+- pbottleRPA can use AI programming assistants to automate the generation and writing of flow scripts. 
 
+## Is pbottleRPA free?
 
-## 小瓶RPA 是否收费？
+- pbottleRPA Personal Edition: Permanently free!
 
-- 小瓶RPA个人版本：永久免费！
-
-- 小瓶RPA企业版本：一次性软件永久授权 + 流程实施（可选）。其中流程实施包含：流程制作 + 测试 + 稳定性优化。
+- pbottleRPA Enterprise Edition: One-time permanent software license + flow implementation (optional). Flow implementation includes: flow creation + testing + stability optimization.
   
-- 小瓶RPA云模块：各种 AI 大模型按照消耗云端 token 的量计费，自动从充值账号扣除，不使用不产生费用。
+- pbottleRPA Cloud Module: Various AI large models are billed based on cloud token consumption, automatically deducted from the recharged account. No usage, no cost.
 
-具体内容可咨询我们的销售顾问。
-
-
-## 可以脱网或者内网使用小瓶RPA吗？
-
-可以，需要企业版授权，个人用户需要联网获取免费授权。
-
-详见：https://rpa.pbottle.com/License.php
+For details, consult our sales consultant.
 
 
-## 小瓶RPA可以将我制作的流程脚本打包成一个exe程序，直接在客户电脑运行吗？
+## Can pbottleRPA be used offline or on an intranet?
 
-  小瓶RPA软件目前是个平台模式运行的软件，不支持其中一个流程导出为 exe 独立程序。
+Yes, requires an Enterprise Edition license. Personal users need to be online to obtain a free license.
 
-- **支持 OEM 定制化服务**，软件可以贴牌服务商公司的品牌logo，需要采购达量或者定制费。
-- **支持 流程脚本加密**，适合服务商不想扩散自己开发的流程脚本情况。
-- **支持 任务管理中心web版本**，可以让终端用户只通过浏览器批量管理自己的任务结果，无需接触具体任务流程。
 
-##  有了AI大模型，还需要小瓶RPA吗？
 
-  需要，目前AI从实用角度替代不了小瓶RPA。
+## With AI large models or AI agent, is pbottleRPA still needed?
 
-- 小瓶RPA是准确优先的，AI是智能优先。目前工作流程如果全部AI，你要配双倍人力去给它纠错，最后经济上得不偿失。
-- 目前小瓶RPA的自动化流程中，已经集成了多个AI本地模型，还有在线大模型AI模块，以便智能处理流程中的必要的环节。
+  Yes, currently AI cannot practically replace pbottleRPA.
 
-##  技术专员和流程实施的区别？
+- pbottleRPA prioritizes accuracy, AI prioritizes intelligence. If all workflows were handled by AI, you would need double the manpower to correct its errors, which would be economically unfeasible.
+- Currently, pbottleRPA automation flows have integrated multiple local AI models and online large model AI modules to intelligently handle necessary steps in the flow.
 
-- 流程实施服务是全包的服务，所有相关的开发、测试、优化和部署 都由我们来完成。
-- 技术专员服务属于技术支持，只提供项目中具体的技术点咨询顾问服务，整体的实施工作还是以甲方为主来完成。
+## What is the difference between a technical specialist and flow implementation?
 
-##  小瓶RPA应用和传统软件应用有什么区别？
+- Flow implementation service is all-inclusive. All related development, testing, optimization, and deployment are done by us.
+- Technical specialist service is technical support, only providing consulting services on specific technical points in the project. The overall implementation work is primarily done by the client.
 
-传统应用的所有功能模块都要自己开发，Rpa应用可以引用所有成品软件应用当做自己的功能模块。所以RPA应用也可以被叫做**软件的软件**。
+## What is the difference between pbottleRPA applications and traditional software applications?
 
-比如传统应用要增加一个通信功能模块，你就得自己开发，顶多可以找library库来提升开发质量和速度。RPA应用可以直接连接企业微信，不但有了发消息的功能，甚至把企业微信的用户生态都串联了过来。
+All functional modules in traditional applications must be developed from scratch. RPA applications can reference all off-the-shelf software applications as their own functional modules. Therefore, RPA applications can also be called **software of software**.
+
+For example, if a traditional application needs to add a communication module, you have to develop it yourself, at most you can use libraries to improve development quality and speed. RPA applications can directly connect to WeChat Work — not only do you get messaging features, but you also connect to WeChat Work's user ecosystem.

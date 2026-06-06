@@ -1,58 +1,58 @@
-# 鼠标操作模拟
+# Mouse Operation Simulation
 
 
-## moveMouse 鼠标移动
+## moveMouse | Mouse Move
 
-移动鼠标到指定位置并点击 起点为屏幕左上角
+Move the mouse to the specified position. Origin at top-left of screen.
 
-@param {number} x 横坐标
+@param {number} x horizontal coordinate
 
-@param {number} y 纵坐标
+@param {number} y vertical coordinate
 
-@param {number} interval 像素间隔时间，越大移动越慢 毫秒单位，默认：0
+@param {number} interval pixel interval time in ms, larger = slower movement, default: 0
 
-## moveAndClick 鼠标移动并点击
+## moveAndClick | Mouse Move and Click
 
-移动鼠标到指定位置并点击 起点为屏幕左上角
+Move mouse to the specified position and click. Origin at top-left of screen.
 
-@param {number} x 横坐标
+@param {number} x horizontal coordinate
 
-@param {number} y 纵坐标
-
-
-
-## mouseClick 鼠标点击
-
-当前位置点击鼠标 默认左键 可选 'right'
-
-@param {*} leftRight 可选
-
-@param {*} 点按时间 单位毫秒 可选
+@param {number} y vertical coordinate
 
 
-## mouseDoubleClick 鼠标双击
 
-双击鼠标 默认左键
+## mouseClick | Mouse Click
 
-## mouseWheel 鼠标滚轮
+Click mouse at current position. Default left button, optional 'right'.
 
-鼠标滚轮
+@param {*} leftRight optional
 
-@param {*} data 滚动的量 默认为-720 向下滚动720度
+@param {*} press duration in milliseconds  optional
 
 
-## mouseLeftDragTo 鼠标左键拖动
+## mouseDoubleClick | Mouse Double Click
 
-鼠标左键拖到指定位置
+Double-click mouse. Default left button.
+
+## mouseWheel | Mouse Scroll Wheel
+
+Mouse scroll wheel.
+
+@param {*} data scroll amount, default -720 (scroll down 720 degrees)
+
+
+## mouseLeftDragTo | Mouse Left Drag
+
+Left mouse button drag to specified position.
 
 @param {*} x
 
 @param {*} y
 
 
-## mouseRightDragTo 鼠标右键拖动
+## mouseRightDragTo | Mouse Right Drag
 
-鼠标右键拖到指定位置
+Right mouse button drag to specified position.
 
 @param {*} x
 

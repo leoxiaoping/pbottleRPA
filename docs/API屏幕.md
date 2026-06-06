@@ -1,99 +1,97 @@
-# 屏幕画面
+# Screen
 
+## getResolution | Get Screen Resolution
 
-## getResolution 获取屏幕分辨率
+Get the current screen resolution, ratio is the desktop scaling ratio.
 
-获取当前屏幕分辨率， ratio 为桌面缩放比例
+@returns JSON format `{ w:1920,h:1080,ratio:1.5 }`
 
-@returns JSON 内容格式  `{ w:1920,h:1080,ratio:1.5 }`
+## screenShot | Screenshot
 
-## screenShot 屏幕截图
+@param {*} savePath default save path: My Pictures, format is PNG; if using a custom path, end with '.png'
 
-@param {*} savePath 保存路径默认 我的图片，图片格式为PNG；如果使用自定义路径请以 '.png' 结尾;
-
-@param {*} x 截图开始位置
+@param {*} x screenshot start X
 
 @param {*} y
 
-@param {*} w 截图宽度
+@param {*} w screenshot width
 
-@param {*} h 截图长度
+@param {*} h screenshot height
 
 
-##  getScreenColor 获取屏幕颜色
+## getScreenColor | Get Screen Color
 
-屏幕一个点取色
+Get the color of a pixel on the screen.
 
 @param {*} x
 
 @param {*} y
 
-@returns 返回颜色值
+@returns color value
 
-## findScreen 寻找图像
+## findScreen | Find Image
 
-屏幕查找图象定位
+Search for an image on the screen and locate it.
 
-@param {string} tpPath 搜索的小图片，建议png格式 相对路径
+@param {string} tpPath the small image to search for, PNG format recommended, relative path
 
-@param {number} miniSimilarity 可选，指定最低相似度，默认0.9。取值0-1，1为找到完全相同的。
+@param {number} miniSimilarity optional, minimum similarity threshold, default 0.9. Range 0-1, 1 = exact match.
 
-@param {number} fromX=0 可选，查找开始的开始横坐标
+@param {number} fromX=0 optional, search start X coordinate
 
-@param {number} fromY=0 可选，查找开始的开始纵坐标
+@param {number} fromY=0 optional, search start Y coordinate
 
-@param {number} width=-1 可选，搜索宽度
+@param {number} width=-1 optional, search width
 
-@param {number} height=-1 可选，搜索高度
+@param {number} height=-1 optional, search height
 
-@returns 返回找到的结果json 格式：`{x,y}`
+@returns found result in JSON format: `{x,y}`
 
-##  waitImage 等待图像出现
+## waitImage | Wait for Image
 
-等待屏幕上的图片出现
+Wait for an image to appear on screen.
 
-@param {string} tpPath 图片模板路径 相对路径：./image/123.png
+@param {string} tpPath template image path, relative path: ./image/123.png
 
-@param {Function} intervalFun 检测间隔的操作，function格式
+@param {Function} intervalFun operation to run between checks, function format
 
-@param {number} timeOut 等待超时时间 单位秒
+@param {number} timeOut wait timeout in seconds
 
-@returns {position|boolean} 结果的位置信息，json格式：`{x,y}`
+@returns {position|boolean} position info in JSON format: `{x,y}`
 
-#### 调试
+#### Debug
 
-等待图片超时情况，小瓶RPA会立刻全屏截图并保存到  `电脑-》我的图片`  供后续判断排查。    
+If waiting for an image times out, pbottleRPA will immediately take a full-screen screenshot and save it to `Computer -> My Pictures` for subsequent investigation.
 
 
-## findContours 寻找轮廓
+## findContours | Find Contours
 
-@param {number} minimumArea 轮廓最小面积 默认过滤掉 10x10 以下的元素
+@param {number} minimumArea minimum contour area, default filters out elements below 10x10
 
-@param {number} fromX 开始坐标
+@param {number} fromX start coordinate
 
 @param {number} fromY
 
-@param {number} width 作用范围
+@param {number} width search range
 
 @param {number} height
 
-@returns {array} 所有查找到的轮廓信息，包含闭合区域的起始坐标，中点坐标，面积，id。 格式：`[{ x: 250, y: 10, cx: 265.5, cy: 30.5, area: 2401, id: 42 },...]`
+@returns {array} all found contour info, including start coordinate, center coordinate, area, id of each closed region. Format: `[{ x: 250, y: 10, cx: 265.5, cy: 30.5, area: 2401, id: 42 },...]`
 
-屏幕查找物体或者窗口轮廓
+Find objects or window contours on screen.
 
-## imgSimilar 图片相似度对比
+## imgSimilar | Image Similarity Comparison
 
-图片相似度对比  需要小瓶RPA客户端版本 > V2025.3
+Image similarity comparison. Requires pbottle RPA client version > V2025.3.
   
-@param {string} path1  图片1路径
+@param {string} path1  path to image 1
 
-@param {string} path2  图片2路径
+@param {string} path2  path to image 2
 
-@param 'SIFT' | 'ORB' | 'SSIM' checkType 对比算法  默认 'ORB'
+@param 'SIFT' | 'ORB' | 'SSIM' checkType comparison algorithm, default 'ORB'
 
-@returns {score:number, time:number}  score相似度分数 0-1 ; time耗时秒
+@returns {score:number, time:number}  score similarity score 0-1; time elapsed seconds
 
-#### 调试
+#### Debug
 
-软件 home 目录会生成 debug/findContours.png
-
+A debug/findContours.png file will be generated in the software home directory.

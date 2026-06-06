@@ -1,16 +1,14 @@
-# SaaS系统自动化任务
+# SaaS System Automation Tasks
 
-小瓶RPA可以为现有SaaS系统服务，升级提供自动化任务服务中心。
+pbottleRPA can serve existing SaaS systems by providing an automated task service center upgrade.
 
-## 优势
+## Advantages
 
-- SaaS 系统无缝平台升级改造
-- SaaS 品牌用户端保持
-- 本地批量集中执行，低成本
-- 扩充现有 SaaS 现有自动化任务能力
+- Seamless platform upgrade for SaaS systems
+- Maintain SaaS brand user experience
+- Local batch centralized execution, low cost
+- Expand existing SaaS automation task capabilities
 
-## 架构示意图
+## Architecture Diagram
 
-![SaaS系统自动化任务](https://www.pbottle.com/static/upload/20250716/1752649922436.png)
-
-
+![SaaS System Automation Tasks](https://www.pbottle.com/static/upload/20250716/1752649922436.png)

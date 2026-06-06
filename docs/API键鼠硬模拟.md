@@ -1,82 +1,82 @@
-# 键鼠硬模拟 API
+# Hardware Keyboard/Mouse Simulation API
 
-小瓶RPA硬件增强不是必选项，需要购买额外的硬件，建议只有需要系统级模拟操作时候才启用。
+The pbottleRPA hardware enhancement is optional and requires purchasing additional hardware. It is recommended to enable it only when system-level simulation operations are needed.
 
-开启硬件键盘鼠标模拟，不影响默认的软件键盘鼠标模拟。
+Enabling hardware keyboard/mouse simulation does not affect the default software keyboard/mouse simulation.
 
-功能起始版本：V2024.3
+Initial version: V2024.3
 
-本功能只对企业版开放 ，详细查看小瓶RPA软件授权：https://rpa.pbottle.com/License.php
+This feature is only available for the Enterprise Edition. See pbottleRPA software license for details: https://officetool.online/pbottle-rpa/
 
 
-## pbottle.hid.XXX 接口集
+## pbottle.hid.XXX Interface Set
 
-调用方式：pbottle.hid.XXX()
+Usage: pbottle.hid.XXX()
 
 
 ## hid.keyToggle
 
-* 模拟按键触发事件 (硬件级)
- * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
- * @param {string} upDown  默认按下down，up松开按键
+* Simulate key event (hardware level).
+ * @param {string} key  key name reference: https://officetool.online/a-321.html
+ * @param {string} upDown  default down (press), up releases the key
 
-## hid.keyTap 
+## hid.keyTap
 
-* 按一下键盘（硬件级）   支持组合按键 加号连接 如：  keyTap('ctrl + alt + del')
-* @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
+* Press a key (hardware level). Supports key combinations with plus sign, e.g.: keyTap('ctrl + alt + del').
+* @param {string} key  key name reference: https://officetool.online/a-321.html
 
 ## hid.mouseCMD
 
-* 基础鼠标命令  全部为零释放
- * @param {number} button 按键  1，2，4 代表鼠标的 左键，右键，中键。
- * @param {number} x 按键时候移动的位置，绝对位置  x=100：向右移动 100像素，负数向左
- * @param {number} y 按键时候移动的位置，拖拽相对位置  y=100：向下移动 100像素，负数向上
- * @param {number} mouseWheel 滚动齿轮数  正数向下，负数向下
- * @param {number} time 按下到释放时间
+* Basic mouse command. All zeros to release.
+ * @param {number} button button  1, 2, 4 representing left, right, middle mouse buttons respectively.
+ * @param {number} x movement position when button is pressed, absolute position  x=100: move right 100 pixels, negative = left
+ * @param {number} y movement position when button is pressed, relative drag position  y=100: move down 100 pixels, negative = up
+ * @param {number} mouseWheel scroll wheel ticks  positive = down, negative = up
+ * @param {number} time press-to-release duration
 
-## hid.moveMouse 
+## hid.moveMouse
 
- * 移动鼠标到指定位置  起点为屏幕左上角  屏幕绝对位置（硬件分辨率）
- * @param {number} x   横坐标
- * @param {number} y   纵坐标
+ * Move mouse to specified position. Origin at top-left of screen. Absolute screen position (hardware resolution).
+ * @param {number} x   horizontal coordinate
+ * @param {number} y   vertical coordinate
   
 ## hid.mouseClick
 
- * 当前位置点击鼠标 默认左键  
- * @param {string} 鼠标的按键选择 left right middle 可选  ，默认左键
- * @param {number} 点按时间 单位毫秒 可选
+ * Click mouse at current position. Default left button.
+ * @param {string} button choice: left right middle  optional, default left button
+ * @param {number} time press duration in milliseconds  optional
   
 ## hid.moveAndClick
 
- * 移动鼠标到指定位置并点击
- * @param {number} x 横坐标
- * @param {number} y 纵坐标
+ * Move mouse to specified position and click.
+ * @param {number} x horizontal coordinate
+ * @param {number} y vertical coordinate
 
-## hid.mouseDoubleClick 
+## hid.mouseDoubleClick
 
-双击鼠标  左键
-
-
-## hid.mouseLeftDragTo 
-
-* 鼠标左键拖到一段位置
- * @param {number} x  位置
- * @param {number} y  位置
-
-## hid.mouseRightDragTo 
-
- * 鼠标左键拖到一段位置
- * @param {number} x  位置
- * @param {number} y  位置
+Double click mouse. Left button.
 
 
-##  hid_mouseWheel 
+## hid.mouseLeftDragTo
 
-* 鼠标滚轮
-* @param {number} data 滚动的量  默认为-1   向下滚动一个齿轮;  正数向上滚动；
+* Left mouse button drag to a position.
+ * @param {number} x  position
+ * @param {number} y  position
+
+## hid.mouseRightDragTo
+
+* Right mouse button drag to a position.
+ * @param {number} x  position
+ * @param {number} y  position
+
+
+## hid_mouseWheel
+
+* Mouse scroll wheel.
+* @param {number} data scroll amount  default -1  scroll down one tick; positive = scroll up
 
 
 
-## 参考示例
+## Reference Demo
 
-HID硬件级键盘鼠标演示.js
+HID Hardware-Level Keyboard and Mouse Demo.js

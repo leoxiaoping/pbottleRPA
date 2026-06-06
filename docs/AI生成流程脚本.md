@@ -1,13 +1,12 @@
-# AI 对话大模型 生成小瓶RPA流程脚本
+# AI Dialogue Large Model Generates pbottleRPA Flow Scripts
 
-得益于小瓶RPA脚本层开源开放政策，小瓶RPA能够轻松用主流AI编程助手快速生成高质量流程脚本。
+Thanks to the open-source and open policy of the pbottleRPA script layer, pbottleRPA can easily leverage mainstream AI programming assistants to quickly generate high-quality flow scripts.
 
-此功能目前只做参考和测试用途。
+This feature is currently for reference and testing purposes only.
 
-## 小瓶RPA助手智能体
+## pbottleRPA Assistant Agent
 
-
-直接访问小瓶RPA助手智能体agent：（官方知识库已经更新）
+Directly access the pbottleRPA assistant agent: (official knowledge base has been updated)
 
 https://yuanqi.tencent.com/webim/#/chat/yoxhoN?appid=2021155473084382336
 
@@ -16,34 +15,33 @@ https://yuanqi.tencent.com/webim/#/chat/yoxhoN?appid=2021155473084382336
 ```
 
 
-## AI平台（beta）
+## AI Platform (beta)
 
-#### 打开AI平台
+#### Open AI Platform
 
-以豆包编程助手为例
+Using Doubao Programming Assistant as an example
 
 https://www.doubao.com/
 
 
 
-#### 引入小瓶RPA开源库
+#### Import pbottleRPA Open Source Library
 
-- 点击底部编程-》引入开源仓库
+- Click the bottom "Programming" -> "Import Open Source Repository"
 
-![引入小瓶RPA仓库](public/Snipaste_2025-03-19_15-42-35.png)
+![Import pbottleRPA Repository](public/Snipaste_2025-03-19_15-42-35.png)
 
-- 复制下面地址，输入并确认
+- Copy the address below, input and confirm
   
 ```
 https://github.com/leoxiaoping/pbottleRPA
 ```
 
 
-#### 开始对话
+#### Start a Conversation
 
-输入对话提问例子测试
+Enter a conversation question to test
 
 ```
-生成js流程脚本：打开多个网址并按 ctrl+d 收藏这些网址
+Generate a JS flow script: Open multiple URLs and bookmark them with ctrl+d
 ```
-

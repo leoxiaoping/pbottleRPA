@@ -1,23 +1,21 @@
-# 集成HTTP静态服务
+# Integrated HTTP Static Service
 
-小瓶RPA 集成了HTTP静态服务，可以快速集成静态页面，实现自动化测试、下载文件、H5页面展示等功能。
+pbottleRPA integrates an HTTP static service for quickly serving static pages, enabling features such as automated testing, file downloads, H5 page display, etc.
 
-⚠ 本功能V2026.1以上版本有效。
+⚠ This feature is effective from V2026.1+.
 
-## 静态文件本地目录
+## Static Files Local Directory
 
-小瓶RPA主菜单 设置-》打开数据目录
+pbottleRPA main menu: Settings -> Open Data Directory
 
-静态文件存放目录：
-`[数据目录]/static`
+Static file storage directory:
+`[Data Directory]/static`
 
-例如：`[数据目录]/static/test.html`
+Example: `[Data Directory]/static/test.html`
 
 
-## 访问网址
+## Access URL
 
 `http://127.0.0.1:49888/static/`
 
-例如：`http://127.0.0.1:49888/static/test.html`
-
-
+Example: `http://127.0.0.1:49888/static/test.html`

@@ -1,36 +1,36 @@
-# 用 python 脚本开发自动化流程（beta）
+# Developing Automation Flows with Python Scripts (beta)
 
-Python 是一个高层次的结合了解释性、编译性、互动性和面向对象的脚本语言。
+Python is a high-level scripting language that combines interpretability, compilability, interactivity, and object-oriented programming.
 
-Python 的设计具有很强的可读性，相比其他语言经常使用英文关键字，其他语言的一些标点符号，它具有比其他语言更有特色语法结构。
+Python's design is highly readable. Compared to other languages that frequently use English keywords and punctuation, Python has a more distinctive grammatical structure.
 
-小瓶RPA自动流程脚本的开发只用到了最基础的python部分，建议有任何编程基础的用户直接开始开发您的流程，而不必要先深入学习 Python。
-
-
-## Beta 版本状态说明
-
-- Python 和 JavaScript 脚本层都是开源的, 流程实施方可以自由修改。
-
-- Beta 版本相对于 JavaScript 版本，部分接口和 demo 示例存在延迟更新，用到的时候需要实施团队有自主补齐的 Python 开发能力。
-
-- Beta 仅限于 Python 脚本层，小瓶 RPA 基础软件模块（基座平台） 和 JavaScript 一致 ，保持最新版本状态，所以有 Python 能力的实施团队完全可以正常使用。
+pbottleRPA automation flow scripts only use the most basic parts of Python. Users with any programming experience are recommended to start developing their flows directly, without the need to study Python in depth first.
 
 
+## Beta Version Status Notes
 
-## python 起步教程
+- Both the Python and JavaScript script layers are open source, and implementation teams can freely modify them.
 
-如果您还没有任何脚本编写经验，可以参考网上的基础教程和demo来开发自己的流程，比如：https://www.runoob.com/python3/python3-tutorial.html
+- Compared to the JavaScript version, the Beta version has delayed updates for some APIs and demo examples. When needed, the implementation team should have the Python development capability to fill in the gaps independently.
 
-
-## 推荐编辑器
-
-推荐 VSCode 
-
-下载： https://code.visualstudio.com/
+- Beta is limited to the Python script layer. The pbottle RPA base software modules (base platform) are the same as JavaScript and stay up to date, so implementation teams with Python capabilities can use it normally.
 
 
-## 推荐版本
 
-推荐 python3.8 以上版本
+## Python Getting Started Tutorial
 
-下载： https://rpa.pbottle.com/a-14009.html
+If you have no prior scripting experience, refer to online basic tutorials and demos to develop your own flows, e.g.: https://www.runoob.com/python3/python3-tutorial.html
+
+
+## Recommended Editor
+
+VSCode is recommended
+
+Download: https://code.visualstudio.com/
+
+
+## Recommended Version
+
+Python 3.8 or higher is recommended
+
+Download: https://officetool.online/a-316.html

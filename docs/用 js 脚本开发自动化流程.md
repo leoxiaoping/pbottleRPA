@@ -1,56 +1,49 @@
-# 用 js 脚本开发自动化流程 
+# Developing Automation Flows with JS Scripts
 
-JavaScript 是互联网上最流行的脚本语言之一，所有网页中都有它的身影，由于是一种类C语言，有着广泛的用户基础并且 JavaScript 很容易学习。
+JavaScript is one of the most popular scripting languages on the internet, present in all web pages. As a C-like language, it has a broad user base and is easy to learn.
 
-小瓶RPA自动流程脚本的开发只用到了最基础的js部分，建议有任何编程基础的用户直接开始开发您的流程，而不必要先深入学习javascript。
-
-
-## JavaScript 起步教程
-
-如果您还没有任何脚本编写经验，可以参考网上的基础教程和demo来开发自己的流程，比如：https://www.runoob.com/js/js-intro.html
-
-参考 Demo 示例：基础（循环、判断、等待）演示.js
+pbottleRPA automation flow scripts only use the most basic parts of JavaScript. Users with any programming experience are recommended to start developing their flows directly, without the need to study JavaScript in depth first.
 
 
-## 推荐编辑器
+## Recommended Editor
 
-VSCode 
+VSCode
 
-下载：https://code.visualstudio.com/
+Download: https://code.visualstudio.com/
 
-## 推荐版本
+## Recommended Version
 
-nodeJS v18 以上
+nodeJS v18 or higher
 
-下载： https://rpa.pbottle.com/a-13943.html
+Download: https://officetool.online/a-316.html
 
 
 
-## VSCode 断点调试脚本
+## VSCode Breakpoint Debugging
 
-VSCode 提供原生对js脚本的断点调试功能动态实时观察变量数值，可设置暂停断点调试。
+VSCode provides native breakpoint debugging for JS scripts, allowing you to dynamically observe variable values in real-time and set breakpoints to pause execution.
 
-1. 选择左侧工具栏-》运行调试  
-2. 选择 nodejs
-3. 点击行号设置红色断点 并运行
+1. Select the left toolbar -> Run and Debug
+2. Select nodejs
+3. Click on the line number to set a red breakpoint and run
    
-   ![小瓶脚本调试](./public/Snipaste_2025-03-30_19-57-57.png)
+   ![pbottle script debugging](./public/Snipaste_2025-03-30_19-57-57.png)
 
 
-## 引入 NodeJS 三方功能模块
+## Importing NodeJS Third-Party Modules
 
-npm 第三方功能库：https://www.npmjs.com/
+npm third-party package library: https://www.npmjs.com/
 
-任何传统编程能够实现的功能模块，都能整合进入我们的小瓶RPA自动化流程。
+Any feature module that traditional programming can implement can be integrated into our pbottleRPA automation flows.
 
-比如：文件处理、数据库操作、邮件发送等等
+For example: file processing, database operations, email sending, etc.
 
-引入 nodejs mysql 数据库示例：
+Example of importing nodejs mysql database:
 
 ```javascript
-//引入小瓶RPA功能
+// Import pbottleRPA functionality
 const pbottleRPA = require('./pbottleRPA')
-//引入第三方mysql连接功能   事先执行命令：npm install mysql
+// Import third-party mysql connection functionality   Pre-execute command: npm install mysql
 const mysql      = require('mysql');
 
 var connection = mysql.createConnection({
@@ -64,7 +57,7 @@ connection.connect();
 connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
   if (error) throw error;
   console.log('The solution is: ', results[0].solution);
-  //使用小瓶RPA api接口
-  pbottleRPA.tts("mysql 获取数量为：" + results[0].solution)
+  // Use pbottleRPA API
+  pbottleRPA.tts("mysql result count: " + results[0].solution)
 });
 ```

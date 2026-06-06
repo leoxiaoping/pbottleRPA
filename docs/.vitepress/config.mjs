@@ -17,7 +17,7 @@ export default defineConfig({
         en: {
             label: '中文',
             lang: 'zh-hans', // Optional, will be added as `lang` attribute to `html` tag
-            link: 'https://officetool.online/pbottle-rpa/docs/' // Default /en/ -- shown in the nav translation menu, can be external
+            link: 'https://rpa.pbottle.com/docs/' // Default /en/ -- shown in the nav translation menu, can be external
         }
     },
 
@@ -27,22 +27,22 @@ export default defineConfig({
     head: [
         ['link', { rel: 'shortcut icon', href: '/rpa.ico', type: 'image/x-icon' }],
         ['meta', { name: 'keywords', content: 'Pbottle RPA, Professional RPA, Documentation, Process Documentation, Official Docs, RPA Docs, Robotic Process Automation Documentation' }],
-        ['script', { type: 'text/javascript' }, `
-        var _hmt = _hmt || [];
-          (function() {
-              var hm = document.createElement("script");
-              hm.src = "https://hm.baidu.com/hm.js?4f28c271b56a4be165f2b8200a58c47c";
-              var s = document.getElementsByTagName("script")[0];
-              s.parentNode.insertBefore(hm, s);
-          })();
-      `
+    //     ['script', { type: 'text/javascript' }, `
+    //     var _hmt = _hmt || [];
+    //       (function() {
+    //           var hm = document.createElement("script");
+    //           hm.src = "https://hm.baidu.com/hm.js?4f28c271b56a4be165f2b8200a58c47c";
+    //           var s = document.getElementsByTagName("script")[0];
+    //           s.parentNode.insertBefore(hm, s);
+    //       })();
+    //   `
+    //     ],
+        ['script', {
+            async:'async',
+            crossorigin:"anonymous",
+            src:"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8054907953581959",
+          }
         ],
-        // ['script', {
-        //     async:'async',
-        //     crossorigin:"anonymous",
-        //     src:"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8054907953581959",
-        //   }
-        // ],
     ],
 
     themeConfig: {
@@ -68,20 +68,20 @@ export default defineConfig({
                 text: 'User Guide',
                 items: [
                     { text: 'Getting Started', link: '/index' },
-                    { text: 'Demo', link: '/Demo示例' },
-                    { text: 'Video Tutorials', link: '/视频教程' },
+                    { text: 'Demos 🔥', link: '/Demo示例' },
+                    // { text: 'Video Tutorials', link: '/视频教程' },
                     { text: 'JS Script Development', link: '/用 js 脚本开发自动化流程' },
                     { text: 'Python Script Development', link: '/用 python 脚本开发自动化流程' },
-                    { text: 'Chinese API', link: '/中文调用' },
-                    { text: 'AI Script Generation 🔥', link: '/AI生成流程脚本' },
-                    { text: 'Run Logs', link: '/流程运行日志' },
+                    // { text: 'Chinese API', link: '/中文调用' },
+                    // { text: 'AI Script Generation 🔥', link: '/AI生成流程脚本' },
+                    { text: 'Flow Running Logs', link: '/流程运行日志' },
                     { text: 'Scheduled Start', link: '/定时启动' },
                     { text: 'Auto-start on Boot', link: '/开机启动' },
                     { text: 'Process Recording', link: '/流程录制' },
                     { text: 'Hotkeys & Shortcuts', link: '/热键和快捷方式' },
                     { text: 'Mobile Automation', link: '/手机应用的自动化' },
                     { text: 'Windows 7 OS', link: '/win7操作系统' },
-                    { text: 'Xinchuang OS 🔥', link: '/信创操作系统' },
+                    // { text: 'Xinchuang OS 🔥', link: '/信创操作系统' },
                     { text: 'Q&A', link: '/‌Q&A' },
                 ]
             },
@@ -126,13 +126,13 @@ export default defineConfig({
                 ]
             },
 
-            {
-                text: 'Other Services',
-                items: [
-                    { text: 'ERP System', link: '/业务管理系统' },
-                    { text: 'Custom Software Development', link: '/专用自动化独立软件' },
-                ]
-            }
+            // {
+            //     text: 'Other Services',
+            //     items: [
+            //         { text: 'ERP System', link: '/业务管理系统' },
+            //         { text: 'Custom Software Development', link: '/专用自动化独立软件' },
+            //     ]
+            // }
         ],
 
         socialLinks: [

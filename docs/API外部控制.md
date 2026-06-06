@@ -1,126 +1,126 @@
-# 外部控制
+# External Control
 
-除了实现软件操作自动化外，外部控制功能够实现小瓶RPA自身操作的自动化。
+In addition to automating software operations, the external control feature enables automation of pbottleRPA itself.
 
-外部控制提供一系列控制小瓶RPA本身的 **http 接口** ，可以由 第三方系统 或者 RPA集群控制器 发出。
+External control provides a series of **HTTP interfaces** to control pbottleRPA itself, which can be issued by third-party systems or RPA cluster controllers.
 
-外部控制功能只对企业版开放 ，详细查看小瓶RPA软件授权：https://rpa.pbottle.com/License.php
+External control features are only available for the Enterprise Edition. See pbottleRPA software license for details: https://officetool.online/pbottle-rpa/
 
-## 外部启动流程
+## External Start Flow
 
-从外部控制启动小瓶RPA开始某项自定义的任务
+Start a custom task in pbottleRPA from an external controller.
 
-用法：
-http://ip:49888/?action=pbottleRPA_run&path=流程脚本路径
+Usage:
+http://ip:49888/?action=pbottleRPA_run&path=ScriptPath
 
-- 成功启动任务返回：ok
-- 上一个任务还未结束：isRunning
+- Successful task start returns: ok
+- Previous task not yet finished: isRunning
 
 
-## 外部停止流程
+## External Stop Flow
 
-从外部控制停止小瓶RPA正在运行的任务
+Stop a running task in pbottleRPA from an external controller.
 
-用法：
+Usage:
 
 http://ip:49888/?action=pbottleRPA_stop
 
 
-## 当前运行状态
+## Current Running Status
 
-从外部控制查询小瓶RPA正在运行的状态
+Query the running status of pbottleRPA from an external controller.
 
-用法：
+Usage:
 
 http://ip:49888/?action=pbottleRPA_state
 
-- 未运行状态返回：ready
-- 正在运行状态返回：isRunning
+- Idle status returns: ready
+- Running status returns: isRunning
 
 
-## 外部控制buffer存取
+## External Control Buffer Access
 
-buffer 是小瓶RPA的跨脚本的全局状态变量的存取管理机制。
+Buffer is the cross-script global state variable storage and access management mechanism of pbottleRPA.
 
-#### bufferSet 命令
+#### bufferSet Command
 
-设置buffer存储内容
+Set buffer stored content.
 
-此buffer可以跨脚本存取，RPA重启时才重置，存取多线程下安全
+This buffer can be accessed across scripts, only resets on RPA restart, thread-safe for read/write.
 
-@param {*} n buffer编号，从0-9共10个 默认：0 第一个buffer
+@param {*} n buffer index, 0-9 (10 total)  default: 0 first buffer
 
-@returns ok 表示成功
+@returns "ok" indicates success
 
-（POST方法）：http://ip:49888/action=bufferSet&n=0 ，content设置到Post的body中，通常为json的字符串
+(POST method): http://ip:49888/action=bufferSet&n=0, content set in POST body, typically a JSON string.
 
-#### bufferGet 命令
+#### bufferGet Command
 
-获取buffer存储内容
+Get buffer stored content.
 
-此buffer可以跨脚本存取，RPA重启时才重置，存取多线程下安全
+This buffer can be accessed across scripts, only resets on RPA restart, thread-safe for read/write.
 
-http外部获取方式：http://ip:49888/action=bufferGet&n=0
+External HTTP access: http://ip:49888/action=bufferGet&n=0
 
-@param {*} n buffer编号，从0-9共10个 默认：0 第一个buffer
+@param {*} n buffer index, 0-9 (10 total)  default: 0 first buffer
 
-@returns 字符串
+@returns string
 
 http://ip:49888/action=bufferGet&n=0
 
 
-## 外部设置定时任务
+## External Set Scheduled Task
 
-从外部控制修改小瓶RPA的计划任务（定时器）
+Modify pbottleRPA scheduled tasks (timers) from an external controller.
 
-用法：
+Usage:
 
 http://ip:49888/?action=pbottleRPA_plan&plan=* *
 
-定时器规则参考： https://www.pbottle.com/a-13868.html
+Timer rule reference: https://www.pbottle.com/a-13868.html
 
 
-## 外部获取设备唯一号
+## External Get Device Unique ID
 
-外部获取当前设备RPA唯一号
+Get the current device RPA unique ID from an external controller.
 
-用法：
+Usage:
 http://ip:49888/?action=pbottleRPA_deviceID
 
-多用于商业加密脚本的分发控制和验证
+Often used for distribution control and verification of commercial encrypted scripts.
 
 
-## 外部获取运行日志
+## External Get Running Log
 
-外部获取最后一个任务的运行日志
+Get the running log of the last task from an external controller.
 
-用法：
+Usage:
 http://ip:49888/?action=pbottleRPA_lastLog
 
-通常用来检查详细的运行过程
+Typically used to inspect detailed execution process.
 
 ---
 
-获取倒数第二个运行日志
+Get the second-to-last running log:
 `http://ip:49888/?action=pbottleRPA_lastLog2`
 
 
-## delaySet 设置接力任务
+## delaySet Set Chained Task
 
 
 `pbottle.delaySet(scriptPath)`
 
-设置接力执行的脚本
+Set a chained execution script.
 
-当前脚本结束后（无论正常结束还是错误退出），立刻启动的自动脚本。
+When the current script ends (whether normally or with an error), this script will be launched automatically.
 
-http外部设置方式（GET方法）：http://ip:49888/action=pbottleRPA_delay&path=MyPATH
+External HTTP set (GET method): http://ip:49888/action=pbottleRPA_delay&path=MyPATH
 
-@param {string} scriptPath 接力脚本的路径 如：'D:/test.mjs' 如果路径为空，默认清除当前已经设置的接力任务。
+@param {string} scriptPath path to the chained script  e.g.: 'D:/test.mjs'  If empty, clears the currently set chained task.
 
-@returns {string} ok 表示成功
+@returns {string} "ok" indicates success
 
 
-- 监督任务执行
-A 任务是一个复杂的长流程，在执行过程中各种问题和错误，导致一定概率不能顺利玩成到任务最后。
-这时候在A任务开头设置接力任务B，B 作为 A 的监督员，可以在 A 任务退出时候，验证 A 的关键指标完成。根据验证结果做出通知人工，甚至重启A任务的流程。
+- Supervise task execution
+Task A is a complex long flow. During execution, various issues and errors may cause a certain probability of not completing the task.
+In this case, set a chained task B at the beginning of task A. B acts as a supervisor for A, and can verify whether A's key indicators were achieved when A exits. Based on the verification results, it can notify a human or even restart task A.

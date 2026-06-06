@@ -1,33 +1,33 @@
-# 键盘模拟操作
+# Keyboard Simulation Operations
 
-## keyToggle 键盘基础触发
+## keyToggle | Keyboard Basic Event
 
-模拟按键触发事件
+Simulate key event.
 
-@param {*} key 按键名称参考：https://www.pbottle.com/a-13862.html
+@param {string} key key name reference: https://officetool.online/a-321.html
 
-@param {*} upDown 默认按下down，up松开按键
-
-
-## keyTap 键盘按键
-
-按一下键盘 支持组合按键 加号连接 如： keyTap('ctrl + a')
-
-@param {*} key 按键名称参考：https://www.pbottle.com/a-13862.html
+@param {string} upDown default down (press), up releases the key
 
 
-## paste 粘贴输入
+## keyTap | Keyboard Key Press
 
-当前位置 粘贴（输入）文字
+Press a key on the keyboard. Supports key combinations with plus sign, e.g.: keyTap('ctrl + a').
 
-@param {*} text
+@param {string} key key name reference: https://officetool.online/a-321.html
 
 
-##  getClipboard 获取剪切板内容
+## paste | Paste Input
 
-获取当前电脑的剪切板内容，系统剪切板支持多种格式 版本 V2024.2 开始生效
-- 纯文本格式：普通复制 如'小瓶RPA'
-- 图片格式 base64形式：浏览器复制图片 'data:image/png;base64,' 开头
-- html格式：浏览器或者钉钉复制富文本综合内容 ''开头
+Paste (input) text at current position.
 
-@returns 结果文本
+@param {string} text
+
+
+## getClipboard | Get Clipboard Content
+
+Get current system clipboard content. System clipboard supports multiple formats. Effective from V2024.2.
+- Plain text format: normal copy, e.g. `pbottleRPA`
+- Image format in base64: browser copy image, starts with `data:image/png;base64,`
+- HTML format: browser or DingTalk copy rich text content, starts with `<html>`
+
+@returns result text

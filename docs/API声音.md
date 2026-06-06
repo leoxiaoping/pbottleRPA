@@ -1,13 +1,13 @@
-# 声音
+# Sound
 
-## beep 蜂鸣声
+## beep | System Beep
 
-发出系统默认提示音
+Emits the default system notification sound.
 
 
-## tts 文字转语音
+## tts | Text to Speech
 
-从文本到语音(TextToSpeech) 语音播报
-非阻塞
+Text to Speech (TTS) voice broadcast
+Non-blocking
 
-@param {*} text 朗读内容
+@param {*} text content to read aloud

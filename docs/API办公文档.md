@@ -1,13 +1,14 @@
-# office 办公文档
+# Office Documents
 
-## 常规模拟操作
+## Regular Simulation Operations
 
-办公文档的操作一般依赖常用的办公软件：微软office、金山wps 等，
-小瓶 RPA 可以通过模拟操作鼠标键盘操作这些软件。
+Office document operations generally rely on common office software: Microsoft Office, Kingsoft WPS, etc.
+pbottle RPA can simulate mouse and keyboard operations to control these applications.
 
-## 后台读写快捷模式
+## Quick Read/Write Mode (Background)
 
-1. Excel 文档：参考示例 [第三方] 读写Excel演示脚本.mjs
-2. Word 文档：参考示例 [第三方] 读写word演示脚本.mjs
+1. Excel documents: See example [Third Party] Read Write Excel Demo Script.mjs
+2. Word documents: See example [Third Party] Read Write Word Demo Script.mjs
 
-注意：请先双击 [第三方 模块安装].bat 安装模块。
+Note: Please double-click [Third Party Module Install].bat first to install the modules.
+

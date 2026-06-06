@@ -1,16 +1,20 @@
-# Demo示例
+# Demo Examples
 
-小瓶RPA提供多个基础功能的demo示例，方面大家参考。具体API的使用可以参考demo，所有api接口都有demo示例。
+pbottleRPA provides multiple basic function demo examples for your reference. For specific API usage, refer to the demos — all API interfaces have corresponding demo examples.
 
-Demo示例为 JavaScript 和 python 脚本语言，符合完整 Nodejs NPM  和 python pip 项目规则。
+Demo examples are in JavaScript and Python scripting languages, following standard Node.js NPM and Python pip project conventions.
 
-**官方推荐 JavaScript 版本**
+**Official recommendation: JavaScript version**
 
 
-## Demo运行条件
-1. 安装运行小瓶RPA基座程序
-2. 安装脚本引擎
-3. 下载运行示例脚本
+## Demo Prerequisites
+1. Install and run the pbottleRPA base program
+2. Install the script engine
+3. Download and run the example scripts
+4. install 
 
-## Demo示例完整教程
-[https://rpa.pbottle.com/a-14019.html](https://rpa.pbottle.com/a-14019.html)
+## Complete Demo Tutorial
+
+https://officetool.online/a-315.html
+
+

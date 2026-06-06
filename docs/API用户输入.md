@@ -1,29 +1,28 @@
-# 用户输入
+# User Input
 
-小瓶RPA流程执行中，流程可以暂停等待用户可以手动输入数值或者选项。
+During pbottleRPA flow execution, the flow can pause and wait for the user to manually input values or select options.
 
-输入后流程继续执行。
+After input, the flow continues execution.
 
-⚠ V2026.0 以上版本基座支持用户输入。
-
-
-
-## 等待输入 waitInput
-
-
- * 等待输入 V2026.0.0 新增
- * @param {string} inputPrompt 输入提示词
- * @param {number} timeOut 可选，等待超时时间 单位秒 默认600秒
- * @returns {string}  输入内容  默认返回空字符串
+⚠ The base platform supports user input from V2026.0+.
 
 
 
-### 图片预览
+## waitInput Wait for Input
 
-![用户输入图片](public/ScreenShot_2025-10-20_143246_398.png)
+ * Wait for input. Added in V2026.0.0.
+ * @param {string} inputPrompt input prompt text
+ * @param {number} timeOut optional, wait timeout in seconds, default 600 seconds
+ * @returns {string}  input content, default returns empty string
 
 
-### demo示例
 
-用户手动输入变量示例.js
+### Preview
+
+![User Input Image](public/ScreenShot_2025-10-20_143246_398.png)
+
+
+### Demo Example
+
+User Manual Input Variable Example.js
 

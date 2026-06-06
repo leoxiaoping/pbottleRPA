@@ -1,250 +1,249 @@
-# 浏览器增强 - web应用
+# Browser Enhancement - Web Application
 
-**⚠ 浏览器插件只是一种web浏览器页面操作的快捷操作方式，不是必须。按照小瓶RPA桌面应用的操作规则一样可以操作web浏览器应用。**
+**⚠ The browser plugin is just a quick shortcut for web browser page operations, it is not mandatory. Desktop application operation rules can also be used to operate web browser applications.**
 
-需要先安装小瓶RPA浏览器插件，安装方法查看：
+Requires prior installation of the pbottleRPA browser extension. Installation instructions:
 
-https://rpa.pbottle.com/a-13942.html
+https://officetool.online/a-313.html
 
 
-基础调用方式：
+Basic usage:
 `pbottleRPA.browserCMD.xxx()`
 
-可以参考 “web增强“ 开头的demo示例。
+Refer to demo examples starting with "web enhancement".
 
-## 元素选择器
+## Element Selector
 
 
-小瓶RPA web增强基本遵循已经被广泛使用 **jQuery选择器** 的设计规则，可以参考jquery的选择器文档。
+pbottleRPA web enhancement basically follows the design rules of the widely used **jQuery selector**. Refer to the jQuery selector documentation.
 
-https://www.runoob.com/jquery/jquery-ref-selectors.html
+https://api.jquery.com/category/selectors/
 
-相比 xpath 等方案优势：
+Advantages over xpath and other solutions:
 
-- 学习成本低，规则和浏览器的 document.querySelector 原生方法一致
-- 兼容性强，支持虚拟DOM的前端框架，如：Vue React 等
-- 支持功能丰富且强大的伪类方案，可以高级选择定位
+- Low learning curve, rules consistent with the browser's native document.querySelector method
+- Strong compatibility, supports virtual DOM front-end frameworks such as Vue, React, etc.
+- Rich and powerful pseudo-class support for advanced selection and positioning
 
 ```javascript
-pbottleRPA.browserCMD_click('button:contains(登录帐号)')
+pbottleRPA.browserCMD_click('button:contains(Login)')
 ```
 
 
 
 
-## 元素选择器测试工具
+## Element Selector Testing Tool
 
-新版小瓶RPA增加了元素选择器测试功能，本功能旨在帮助用户在复杂网页中快速定位和选择html的元素。
+The new version of pbottleRPA includes an element selector testing feature. This feature helps users quickly locate and select HTML elements in complex web pages.
 
-![web增强插件](https://www.pbottle.com/static/upload/20250416/17447934102282.png)
+![web enhancement plugin](https://officetool.online/static/upload/20260604/17805647158568.png)
 
-**V2025.2 新增选中元素背景闪烁功能，方便用户查看元素位置。**
-
-
-
-快速复制元素选择器步骤：
-
-1. 鼠标放到浏览器目标元素上，F12 或者 右键菜单“检查元素”
-2. 目标元素代码块上，右键弹出复制菜单
-3. 选择 复制selector 【复制选择器】
-
-![小瓶RPA如何精准选择网页的元素](https://www.pbottle.com/static/upload/20250807/17545509544351.png)
+**V2025.2 New: Selected element background flash feature to help users view element positions.**
 
 
+Quick copy element selector steps:
 
-##  alert 警告框 
+1. Hover the mouse over the target element on the page, press F12 or right-click "Inspect Element"
+2. On the target element's code block, right-click to open the copy menu
+3. Select "Copy selector"
+
+![How pbottleRPA precisely selects web page elements](public/Snipaste_2026-06-06_14-25-21.png)
+
+
+
+## alert Dialog
 
 
 browserCMD_alert()
 
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展
+Browser enhanced command. Requires pbottleRPA browser extension.
 
-警告框
+Alert dialog.
 
-@param {*} msg 显示文本内容
+@param {*} msg text content to display
 
-@returns 无
+@returns none
 
 
-## url 获取|设置当前url 
+## url Get/Set Current URL
 
 browserCMD_url()
 
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展
+Browser enhanced command. Requires pbottleRPA browser extension.
 
-@param {string} urlStr 当前网页转向新网址，默认为空获取当前网址 【小瓶RPA浏览器增强插件V2023.8以上生效】
+@param {string} urlStr redirect current page to a new URL, default empty to get current URL. [Effective for pbottleRPA browser extension V2023.8+]
 
-@returns {string} 返回当前浏览器的url网址 或者 ok
+@returns {string} returns current browser URL or ok
 
 
-## click 点击
+## click Click
 
 browserCMD_click()
 
-  浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+Browser enhanced command. Requires pbottleRPA browser extension.
 
-  模拟点击   参考 jQuery click() 方法，改为浏览器 native 的 click() 并自动获取焦点
+Simulate click. Refer to jQuery click() method, changed to browser native click() with auto-focus.
 
-  @param {string} selector   元素选择器。如果选择多个元素，只触发第一个元素的click事件
+@param {string} selector   element selector. If multiple elements match, only the first element's click event is triggered.
 
-  @param {object} options 点击选项  可选  如：{ bubbles: false,  ctrlKey: true} https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/MouseEvent
+@param {object} options click options  optional  e.g.: { bubbles: false, ctrlKey: true} https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/MouseEvent
 
-  @returns {string}
-
-
-## dblclick 双击
-
-  浏览器增强命令  需要安装小瓶RPA的浏览器拓展  V2026.2 以上版本支持
-
-  模拟双击   参考 jQuery dblclick() 方法，改为浏览器 native 的 click() 并自动获取焦点
-
-  @param {string} selector   元素选择器。如果选择多个元素，只触发第一个元素的click事件
-
-  @param {object} options 点击选项  可选  如：{ bubbles: false,  ctrlKey: true} https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/MouseEvent
-
-  @returns {string}
+@returns {string}
 
 
-## closeTab 关闭标签页
+## dblclick Double Click
 
-browserCMD_closeTab('current'|'other')  V2025.4 以上版本支持。
+Browser enhanced command. Requires pbottleRPA browser extension. Supported from V2026.2+.
 
-  浏览器增强命令  需要安装小瓶RPA的浏览器拓展
+Simulate double click. Refer to jQuery dblclick() method, changed to browser native click() with auto-focus.
 
-  关闭浏览器标签页。打开新标签页用 pbottleRPA.openURL()
+@param {string} selector   element selector. If multiple elements match, only the first element's click event is triggered.
 
-  @param {string} 关闭类型  'current':默认关闭当前标签页; 'other':关闭其他标签页
+@param {object} options click options  optional  e.g.: { bubbles: false, ctrlKey: true} https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/MouseEvent
 
-  @returns {string} 正常返回 'ok'
+@returns {string}
 
 
-## count 元素计数 
+## closeTab Close Tab
+
+browserCMD_closeTab('current'|'other')  Supported from V2025.4+.
+
+Browser enhanced command. Requires pbottleRPA browser extension.
+
+Close browser tab. Use pbottleRPA.openURL() to open new tabs.
+
+@param {string} close type  'current': default close current tab; 'other': close other tabs
+
+@returns {string} normally returns 'ok'
+
+
+## count Element Count
 
 browserCMD_count()
 
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展
+Browser enhanced command. Requires pbottleRPA browser extension.
 
-元素数量 参考 jQuery 选择器
+Element count. Refer to jQuery selector.
 
-@param {string} selector 元素选择器
+@param {string} selector element selector
 
-@returns {number} 返回选择元素的数量，最优的选择结果是1
+@returns {number} returns the count of selected elements, the optimal result is 1
 
-## hide 隐藏元素
+## hide Hide Element
 
 browserCMD_hide()
 
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展
+Browser enhanced command. Requires pbottleRPA browser extension.
 
-隐藏 参考 jQuery hide() 方法
+Hide. Refer to jQuery hide() method.
 
-@param {*} selector 元素选择器
+@param {*} selector element selector
 
 @returns
 
 
-##  show 显示元素
+## show Show Element
 
 browserCMD_show()
 
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展
+Browser enhanced command. Requires pbottleRPA browser extension.
 
-显示 参考 jQuery show() 方法
+Show. Refer to jQuery show() method.
 
-@param {*} selector 元素选择器
+@param {*} selector element selector
 
 @returns
 
 
-## offset 获取元素位置
+## offset Get Element Position
 
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展 2024.0 以上版本生效
+Browser enhanced command. Requires pbottleRPA browser extension. Effective for versions >= 2024.0.
 
-获取元素定位，相对浏览器文档左上角 参考 jQuery offset() 方法
+Get element position relative to browser document top-left. Refer to jQuery offset() method.
 
-@param {string} selector 元素选择器
+@param {string} selector element selector
 
-@returns {} 返回 json:`{"top":100,"left":100}`  像素值为软件像素，非显示器硬件像素
+@returns {} returns JSON: `{"top":100,"left":100}`  Pixel values are software pixels, not hardware pixels.
 
 
-## remove 移除元素
+## remove Remove Element
 
 browserCMD_remove()
 
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展
+Browser enhanced command. Requires pbottleRPA browser extension.
 
-移除元素 参考 jQuery remove() 方法
+Remove element. Refer to jQuery remove() method.
 
-@param {*} selector 元素选择器
+@param {*} selector element selector
 
-## text 获取|设置文本
+## text Get/Set Text
 
 browserCMD_text
 
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展
+Browser enhanced command. Requires pbottleRPA browser extension.
 
-获取或者设置文本 参考 jQuery text() 方法
+Get or set text. Refer to jQuery text() method.
 
-@param {*} selector 元素选择器
+@param {*} selector element selector
 
 @param {*} content
 
 @returns
 
-## html 设置|获取代码
+## html Set/Get Code
 
 browserCMD_html()
 
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展
+Browser enhanced command. Requires pbottleRPA browser extension.
 
-获取或者设置html 参考 jQuery html() 方法
+Get or set HTML. Refer to jQuery html() method.
 
-@param {*} selector 元素选择器
+@param {*} selector element selector
 
 @param {*} content
 
 @returns
 
-## val 获取|设置值
+## val Get/Set Value
 
 browserCMD_val()
 
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展
+Browser enhanced command. Requires pbottleRPA browser extension.
 
-获取或设置值 input select等 参考 jQuery val() 方法
+Get or set value for input, select, etc. Refer to jQuery val() method.
 
-@param {*} selector 元素选择器
+@param {*} selector element selector
 
 @param {*} content
 
 @returns
 
-## cookie 获取|设置 小存储
+## cookie Get/Set Small Storage
 
 browserCMD_cookie()
 
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展
+Browser enhanced command. Requires pbottleRPA browser extension.
 
-获取或设置当前站点的 cookie
+Get or set the current site's cookie.
 
-@param {*} cName cookie 名称
+@param {*} cName cookie name
 
-@param {*} cValue cookie 值 留空为获取cookie的值
+@param {*} cValue cookie value, leave empty to get the cookie value
 
-@param {*} expDays cookie 过期时间，单位：天, 留空为会话cookie
+@param {*} expDays cookie expiration time in days, leave empty for session cookie
 
-@returns 返回 cookie的值
+@returns cookie value
 
 
-## css 获取|设置样式
+## css Get/Set Style
 
 browserCMD_css()
 
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展
+Browser enhanced command. Requires pbottleRPA browser extension.
 
-获取或设置css样式 参考 jQuery css() 方法
+Get or set CSS style. Refer to jQuery css() method.
 
-@param {*} selector 元素选择器
+@param {*} selector element selector
 
 @param {*} propertyname
 
@@ -253,69 +252,69 @@ browserCMD_css()
 @returns
 
 
-## attr 获取|设置属性
+## attr Get/Set Attribute
 
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展
+Browser enhanced command. Requires pbottleRPA browser extension.
 
-获取或设置attr样式 参考 jQuery attr() 方法
+Get or set attr attribute. Refer to jQuery attr() method.
 
-@param {*} selector 元素选择器
+@param {*} selector element selector
 
-@param {*} 属性名
-
-@param {*} value
-
-
-## prop 获取|设置prop
-
-浏览器增强命令 需要安装小瓶RPA的浏览器拓展
-
-获取或设置prop样式 参考 jQuery prop() 方法
-
-@param {*} selector 元素选择器
-
-@param {*} 属性名
+@param {*} attribute name
 
 @param {*} value
 
-## fetch 网络请求
 
-  浏览器增强命令  需要安装小瓶RPA的浏览器拓展  V2026.2 以上版本支持
+## prop Get/Set Prop
 
-  fetch请求网址，从当前页面发起ajax请求并返回响应结果  https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch
+Browser enhanced command. Requires pbottleRPA browser extension.
 
-  默认 20 秒超时
+Get or set prop attribute. Refer to jQuery prop() method.
 
-  @param {string} fetch_url 网址
+@param {*} selector element selector
 
-  @param {object} options 请求参数
+@param {*} attribute name
 
-  @returns {string} 响应结果
+@param {*} value
 
-## waitPageReady 监听页面加载完成
+## fetch Network Request
 
-  浏览器增强命令  需要安装小瓶RPA的浏览器拓展 V2026.2 以上版本支持
+Browser enhanced command. Requires pbottleRPA browser extension. Supported from V2026.2+.
 
-  等待页面加载完成，返回页面网址
+Fetch request, initiates an AJAX request from the current page and returns the response. https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 
-  默认 20 秒超时
+Default 20 seconds timeout.
 
-  @param {string} readyURL  页面加载完成后的网址
+@param {string} fetch_url URL
 
-  @param {number} timeout 超时时间，单位秒
+@param {object} options request parameters
 
-  @returns {string}  返回当前浏览器的url网址 或者错误退出
+@returns {string} response result
+
+## waitPageReady Monitor Page Load Complete
+
+Browser enhanced command. Requires pbottleRPA browser extension. Supported from V2026.2+.
+
+Wait for page to finish loading, returns the page URL.
+
+Default 20 seconds timeout.
+
+@param {string} readyURL  the URL expected after page loading completes
+
+@param {number} timeout timeout in seconds
+
+@returns {string}  returns current browser URL or error exit
 
 
-## 批量采集获取网页内容
+## Batch Scrape Web Content
 
-当选择器结果为多个元素时候，会一次性返回所有内容，内容格式为：JSON数组。  注意：V2025.3 以上版本支持。
+When the selector returns multiple elements, all content is returned at once in JSON array format. Note: Supported from V2025.3+.
 
-批量采集获取网页内容目前支持方法：
+Batch scraping currently supports the following methods:
 
 - text()
 - html()
 - val()
 - attr()
   
-  参考示例：WEB增强-数据批量爬取演示.js
+  See demo: WEB Enhancement - Batch Data Scraping Demo.js

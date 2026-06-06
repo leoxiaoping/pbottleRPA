@@ -1,62 +1,61 @@
-# 本地 AI 图像
+# Local AI Image
 
-首先在软件设置中开启本地AI识别功能模块，然后重启软件生效。
+First, enable the local AI recognition feature module in the software settings, then restart the software to take effect.
 
-![本地AI识别](public/Snipaste_2025-11-21_01-17-47.png)
+![Local AI Recognition](public/Snipaste_2025-11-21_01-17-47.png)
 
-## aiOcr 文字识别
+## aiOcr Text Recognition
 
-@param {string} imagePath 空或者screen 为电脑屏幕; 或者本地图片的绝对路径;
+@param {string} imagePath empty or "screen" for the computer screen; or absolute path to a local image
 
-@param {number} x 可选 剪裁起始点 左上角开始
+@param {number} x optional, crop start point, starting from top-left corner
 
-@param {number} y 可选 剪裁起始点
+@param {number} y optional, crop start point
 
-@param {number} width 可选 剪裁宽度
+@param {number} width optional, crop width
 
-@param {number} height 可选 剪裁高度
+@param {number} height optional, crop height
 
-@returns {array} AI OCR识别的json结果 包含准确率的评分和中点位置 格式： `[{text:'A',score:'0.319415',x:100,y:200},...]`
-
-![效果图](https://foruda.gitee.com/images/1721807171969468756/847e92b6_799608.png)
+@returns {array} AI OCR recognition JSON results with confidence score and center position format: `[{text:'A',score:'0.319415',x:100,y:200},...]`
 
 
-##  findText 寻找文字
 
-findText 屏幕查找定位文字
+## findText Find Text
 
-查找文字，注：此功能受电脑性能影响，低配电脑可能速度较慢。 需要小瓶RPA客户端版本 > V2024.5
+findText searches and locates text on the screen
+
+Note: performance depends on computer specs; may be slow on low-end machines. Requires pbottle RPA client version > V2024.5
 
 @param {string} inputTxt
 
-@param {number} fromX=0 可选，查找开始的开始横坐标
+@param {number} fromX=0 optional, search start X coordinate
 
-@param {number} fromY=0 可选，查找开始的开始纵坐标
+@param {number} fromY=0 optional, search start Y coordinate
 
-@param {number} width=-1 可选，搜索宽度
+@param {number} width=-1 optional, search width
 
-@param {number} height=-1 可选，搜索高度
+@param {number} height=-1 optional, search height
 
-@returns {JSON} 返回json结果：{x,y,text} x,y坐标相对于fromX，fromY。
-
-
-## aiObject 物体识别
-
-AI 物体识别 已经从经典算法升级为AI模型预测，企业版可脱网使用 V2024.8 以上版本有效
-
-调试：软件根目录会生成 debug/Ai_ObjectDetect.png 文件
-
-@param {number} imagePath 空或者screen 为电脑屏幕; 或者本地图片的绝对路径;
-
-@param {number} x 可选 剪裁起始点 左上角开始
-
-@param {number} y 可选 剪裁起始点
-
-@param {number} width 可选 剪裁宽度
-
-@param {number} height 可选 剪裁高度
-
-@returns {array} AI 物体识别的 json 结果 包含准确率的评分 格式： `[{x:100,y:100,width:150,height:150,score:0.86,class:'分类名'},...]`
+@returns {JSON} returns JSON result: {x,y,text} x,y coordinates relative to fromX, fromY.
 
 
-![效果图](https://foruda.gitee.com/images/1721807100510375459/29adc836_799608.png)
+## aiObject Object Detection
+
+AI object detection has been upgraded from classic algorithms to AI model prediction, Enterprise Edition can work offline. Effective for versions >= V2024.8
+
+Debug: a debug/Ai_ObjectDetect.png file will be generated in the software root directory
+
+@param {number} imagePath empty or "screen" for the computer screen; or absolute path to a local image
+
+@param {number} x optional, crop start point, starting from top-left corner
+
+@param {number} y optional, crop start point
+
+@param {number} width optional, crop width
+
+@param {number} height optional, crop height
+
+@returns {array} AI object detection JSON results with confidence score Format: `[{x:100,y:100,width:150,height:150,score:0.86,class:'class name'},...]`
+
+
+![Preview](https://foruda.gitee.com/images/1721807100510375459/29adc836_799608.png)

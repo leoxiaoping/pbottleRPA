@@ -15,7 +15,7 @@ Specializing in complex and lengthy business automation workflows, lightweight y
 Official website: https://officetool.online/pbottle-rpa/
 
 
-![PBottle RPA logo](https://rpa.pbottle.com/TP/img/logo_rpa.png)
+![PBottle RPA logo](https://officetool.online/pbottle-rpa/RPAlogo216.png)
 
 
 
@@ -25,6 +25,7 @@ Official website: https://officetool.online/pbottle-rpa/
 2. Ultra-lightweight + open API capabilities, seamlessly integrating with existing work systems rather than costly replacements. 📗
 3. Pure visual-simulation-driven, compatible with operating all applications across all operating systems. 🖥️
 4. System hardware-level operation simulation, capable of performing all high-privilege system-level operations. ⌨️
+5. Enterprise Edition: Offline operation for ultimate data security. 🛡️
 
 
 ## Getting Started Examples
@@ -32,8 +33,8 @@ Official website: https://officetool.online/pbottle-rpa/
 ```javascript
 const pbottleRPA = require('./pbottleRPA')  // Import PBottle RPA Node.js module
 
-pbottleRPA.openURL('https://www.baidu.com/') // Open Baidu in browser
-pbottleRPA.paste('PBottle RPA official site')  // Enter search keywords
+pbottleRPA.openURL('https://www.google.com/') // Open Baidu in browser
+pbottleRPA.paste('PBottle RPA')  // Enter search keywords
 pbottleRPA.keyTap('enter')  // Confirm search
 ```
 
@@ -41,25 +42,20 @@ pbottleRPA.keyTap('enter')  // Confirm search
 ```python
 import pbottleRPA  # Import PBottle RPA Python module
 
-pbottleRPA.openURL('https://www.baidu.com/') # Open Baidu in browser
-pbottleRPA.paste('PBottle RPA official site')  # Enter search keywords
+pbottleRPA.openURL('https://www.google.com/') # Open Baidu in browser
+pbottleRPA.paste('PBottle RPA')  # Enter search keywords
 pbottleRPA.keyTap('enter')  # Confirm search
 
 ```
 
 
-## System Architecture Diagram
-
-![PBottle RPA Architecture Diagram](https://www.pbottle.com/TP/img/rpa.png)
-
 ## PBottle RPA Base Interface & Browser Extension Interface
 
-![PBottle RPA Software Screenshot](https://www.pbottle.com/static/upload/20250619/17503069137119.png)
-![PBottle RPA Browser Extension Screenshot](https://www.pbottle.com/static/upload/20250416/17447934102282.png)
+![PBottle RPA Software Screenshot](https://officetool.online/static/upload/20260605/1780648904144.png)
+![PBottle RPA Browser Extension Screenshot](https://officetool.online/static/upload/20260604/17805647158568.png)
 
 ## Software Licensing Notice
 
 Unauthorized distribution of PBottle RPA software and its additional resources is prohibited. For details, please refer to:
 
-- [PBottle RPA User Agreement](https://rpa.pbottle.com/a-13944.html)  
-- [PBottle RPA License Comparison](https://rpa.pbottle.com/License.php)
+- [PBottle RPA User Agreement](https://officetool.online/a-320.html)  
