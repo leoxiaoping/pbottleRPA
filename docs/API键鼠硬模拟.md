@@ -8,6 +8,8 @@
 
 本功能只对企业版开放 ，详细查看小瓶RPA软件授权：https://rpa.pbottle.com/License.php
 
+![小瓶RPA键盘鼠标硬件模拟](./public/Snipaste_2026-06-30_15-23-34.png)
+
 
 ## pbottle.hid.XXX 接口集
 
