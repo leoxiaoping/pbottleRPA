@@ -132,6 +132,7 @@ export default defineConfig({
             {
                 text: '其他开发服务',
                 items: [
+                    { text: 'RPA硬件机器人', link: '/硬件机器人' },
                     { text: '业务管理系统（ERP）', link: '/业务管理系统' },
                     { text: '独立软件定制', link: '/专用自动化独立软件' },
                 ]
