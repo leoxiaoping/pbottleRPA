@@ -1050,6 +1050,7 @@ function downloadFile(fileUrl, filename, headersJson = {}) {
     filename = path.resolve(filename)
     console.log('下载文件到:', filename)
     const commandArgs = [
+        '-g',
         '-o', filename,
         fileUrl
     ];
