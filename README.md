@@ -31,6 +31,11 @@ pbottleRPA.键盘按键('enter')
 [https://rpa.pbottle.com/docs/](https://rpa.pbottle.com/docs/)
 
 
+**流程AIGC生成**
+
+[https://rpa.pbottle.com/a-14114.html](https://rpa.pbottle.com/a-14114.html)
+
+
 ### 小瓶RPA优势
 
 1. 自动化、AI、大模型能力可以快速落实到工作流程，并能精细化调整。
