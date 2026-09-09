@@ -10,63 +10,72 @@
 const pbottleRPA = require('./pbottleRPA')     // 引入小瓶RPA的核心库，获得对RPA功能的访问权限
 
 
-pbottleRPA.显示系统消息('流程已开始运行','请打开电脑声音，关注运行日志信息')
+pbottleRPA.显示系统消息('流程已开始运行', '请打开电脑声音，关注运行日志信息')
 
 pbottleRPA.文字转语音('准备开始运行朋友圈批量点赞脚本，请先登录微信')
-pbottleRPA.等待(7)                            
+pbottleRPA.等待(7)
 
 
 let 屏幕分辨率 = pbottleRPA.获取屏幕分辨率()
-pbottleRPA.日志输出('当前电脑屏幕分辨率',屏幕分辨率) 
+pbottleRPA.日志输出('当前电脑屏幕分辨率', 屏幕分辨率)
 
 
-if (屏幕分辨率.ratio !==1) {
+if (屏幕分辨率.ratio !== 1) {
     pbottleRPA.文字转语音('警告：此demo只适配无缩放屏幕')
     pbottleRPA.显示系统消息('警告：此demo只适配无缩放屏幕')
     pbottleRPA.日志输出('⚠ 警告：此demo只适配无缩放屏幕')
-    pbottleRPA.等待(6)                          
-    pbottleRPA.退出流程()                       
+    pbottleRPA.等待(6)
+    pbottleRPA.退出流程()
 }
 
 
-let 颜色1 = pbottleRPA.获取屏幕颜色(1,屏幕分辨率.h - 1); 
-pbottleRPA.日志输出('系统任务栏色：',颜色1);     
+let 颜色1 = pbottleRPA.获取屏幕颜色(1, 屏幕分辨率.h - 1);
+pbottleRPA.日志输出('系统任务栏色：', 颜色1);
 
-
-pbottleRPA.键盘按键('ctrl+alt+w')
 
 // 等待指定图像出现，超时时间为120秒，期间会循环提示用户打开微信界面
-let position =  pbottleRPA.等待图像出现(['./input/pengYouQuanDianZan/0.png','./input/pengYouQuanDianZan/01.png'],()=>{
+let position = pbottleRPA.等待图像出现(['./input/pengYouQuanDianZan/00.png', './input/pengYouQuanDianZan/01.png'], () => {
     pbottleRPA.日志输出('等待中，请先打开电脑版微信界面');
-},120)
+    let 消息图标 = pbottleRPA.寻找图像(['./input/pengYouQuanDianZan/20.png', './input/pengYouQuanDianZan/21.png']);
+    if (消息图标) {
+        pbottleRPA.鼠标移动并点击(消息图标.x, 消息图标.y)
+    }
+    pbottleRPA.键盘按键('ctrl+alt+w')
+}, 120)
 
-// 打开微信朋友圈
-pbottleRPA.鼠标移动并点击(position.x,position.y);  
-pbottleRPA.鼠标移动(屏幕分辨率.w/2,屏幕分辨率.h/2);              
+// 打开微信朋友圈入口（发现）
+// 切换到微信朋友圈
+pbottleRPA.鼠标移动并点击(position.x, position.y);
+pbottleRPA.等待()
+let 朋友圈图标 = pbottleRPA.寻找图像(['./input/pengYouQuanDianZan/30.png', './input/pengYouQuanDianZan/31.png']);
+if (朋友圈图标) {
+    pbottleRPA.鼠标移动并点击(朋友圈图标.x, 朋友圈图标.y)
+}
+pbottleRPA.鼠标移动(屏幕分辨率.w / 2, 屏幕分辨率.h / 2);
 
 
 let 计数器 = 0;
 function 重复() {
-    pbottleRPA.日志输出('进入开始：')      
-    let 结果 =  pbottleRPA.寻找图像(['./input/pengYouQuanDianZan/1.png','./input/pengYouQuanDianZan/11.png'],0.99,100,100)
-    
+    pbottleRPA.日志输出('进入开始：')
+    let 结果 = pbottleRPA.寻找图像(['./input/pengYouQuanDianZan/10.png', './input/pengYouQuanDianZan/11.png'], 0.99, 100, 100)
+
     if (结果 === false) {
-        pbottleRPA.日志输出('下一页')         
-        pbottleRPA.鼠标滚轮()                   
-        pbottleRPA.等待(0.5)                    
-        重复()                                  
-    }else{
-        pbottleRPA.鼠标移动并点击(结果.x,结果.y);   
-        pbottleRPA.等待(0.1)                    
-        
-        pbottleRPA.鼠标移动并点击(结果.x-167,结果.y);
-        计数器 += 1                             
-        
+        pbottleRPA.日志输出('下一页')
+        pbottleRPA.鼠标滚轮()
+        pbottleRPA.等待(0.5)
+        重复()
+    } else {
+        pbottleRPA.鼠标移动并点击(结果.x, 结果.y);
+        pbottleRPA.等待(0.1)
+
+        pbottleRPA.鼠标移动并点击(结果.x - 167, 结果.y);
+        计数器 += 1
+
         if (计数器 >= 1000) {
             pbottleRPA.退出流程('点1000个赞就行了，不要贪杯！~')
         }
-        pbottleRPA.等待(0.1)                    
-        重复()                                  
+        pbottleRPA.等待(0.1)
+        重复()
     }
 }
 
