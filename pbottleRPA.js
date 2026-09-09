@@ -50,7 +50,6 @@ exports.设置默认操作延时 = setDefaultDelay
 
 /**
  * 发出系统警告声音
- * @returns 
  */
 let beep = () => {
     let url = `${CppUrl}?action=beep`
@@ -72,7 +71,6 @@ exports.日志输出 = console.log
  * 系统原生消息提示
  * @param {string} title  标题
  * @param {string} content  内容
- * @returns 
  */
 let showMsg = (title, content) => {
     title = encodeURIComponent(title)
@@ -117,7 +115,6 @@ exports.关闭软件 = kill
  * @param {number} height 高度
  * @param {string} color  颜色 红绿蓝黄4色可选：red|green|blue|yellow 
  * @param {number} msec  显示持续时间 单位毫秒
- * @returns 
  */
 let showRect = (fromX = 0, fromY = 0, width = 500, height = 500, color = 'red', msec = 500) => {
     fromX = Math.round(fromX)
@@ -152,7 +149,6 @@ exports.退出流程 = exit
  * 脚本暂停等待操作响应 (毫秒)
  * 注意：一次等待上限时长两分钟内
  * @param {number} milliseconds  毫秒
- * @returns 
  */
 let sleep = (milliseconds) => {
     // childProcess.execSync(` node -e "setTimeout(() => console.log('sleep ${milliseconds} 结束'), ${milliseconds})" `, { stdio: ['ignore', 'ignore', 'ignore'], encoding: 'utf8' })
@@ -206,8 +202,8 @@ exports.等待 = wait
 
 /**
  * 获取当前鼠标指针在屏幕上的坐标位置
- * @returns {{x: number, y: number}} 返回 JSON 文本字符串，结构形如 {"x":314,"y":483}
- *          x 为横坐标，y 为纵坐标（屏幕左上角为原点）
+ * @returns {{x: number, y: number}} 鼠标坐标对象，形如 {x: 314, y: 483}
+ *          x 为横坐标，y 为纵坐标，原点为屏幕左上角
  */
 let getMousePos = () => {
     let url = `${CppUrl}?action=getMousePos`
@@ -225,7 +221,6 @@ exports.获取鼠标位置 = getMousePos
  * @param {number} x   横坐标
  * @param {number} y   纵坐标
  * @param {number} interval  像素间隔时间，越大移动越慢  毫秒单位，默认：0
- * @returns 
  */
 let moveMouseSmooth = (x, y, interval = 0) => {
     x = Math.round(x)
@@ -259,7 +254,6 @@ exports.鼠标移动并点击 = moveAndClick
  * 当前位置点击鼠标 默认左键  可选 'right'
  * @param {string} leftRight    可选
  * @param {number} time 点按时间 单位毫秒  可选
- * @returns 
  */
 let mouseClick = (leftRight = 'left', time = 30) => {
 
@@ -279,7 +273,6 @@ exports.鼠标点击 = mouseClick
 
 /**
  * 双击鼠标  默认左键
- * @returns 
  */
 let mouseDoubleClick = () => {
 
@@ -298,7 +291,6 @@ exports.鼠标双击 = mouseDoubleClick
 /**
  * 鼠标滚轮
  * @param {number} data 滚动的量  默认为-720   向下滚动720度
- * @returns 
  */
 let mouseWheel = (data = -720) => {
     let url = `${CppUrl}?action=mouseWheel&data=${data}`
@@ -313,9 +305,8 @@ exports.鼠标滚轮 = mouseWheel
 
 /**
  * 鼠标左键拖到指定位置
- * @param {number} x 
- * @param {number} y 
- * @returns 
+ * @param {number} x  拖拽目标横坐标
+ * @param {number} y  拖拽目标纵坐标
  */
 let mouseLeftDragTo = (x, y) => {
     x = Math.round(x)
@@ -332,9 +323,8 @@ exports.鼠标左键拖动 = mouseLeftDragTo
 
 /**
  * 鼠标右键拖到指定位置
- * @param {number} x 
- * @param {number} y 
- * @returns 
+ * @param {number} x  拖拽目标横坐标
+ * @param {number} y  拖拽目标纵坐标
  */
 let mouseRightDragTo = (x, y) => {
     x = Math.round(x)
@@ -374,7 +364,6 @@ exports.获取屏幕颜色 = getScreenColor
  * @param {number} y 
  * @param {number} w  可选 截图宽度
  * @param {number} h  可选 截图长度
- * @returns 
  */
 let screenShot = (savePath = '', x = 0, y = 0, w = -1, h = -1) => {
 
@@ -528,8 +517,7 @@ function keycode(name) {
 /**
  * 模拟键盘按键触发基础事件
  * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
- * @param {string} "up" 或 "down"  默认按下down。up松开按键
- * @returns 
+ * @param {'down'|'up'} [upDown='down'] 默认 'down'（按下），'up' 松开按键
  */
 let keyToggle = (key, upDown = 'down') => {
     let upDown_n = 0;
@@ -553,8 +541,7 @@ exports.键盘基础触发 = keyToggle
 /**
  * 模拟鼠标按键触发基础事件
  * @param {string} key   鼠标 left | right | middle  
- * @param {string} "up" 或 "down"  默认按下down。up松开按键
- * @returns 
+ * @param {'down'|'up'} [upDown='down'] 默认 'down'（按下），'up' 松开按键
  */
 let mouseKeyToggle = (key = 'left', upDown = 'down') => {
     let upDown_n = 0;
@@ -706,7 +693,6 @@ exports.寻找文字 = findText
  * @param {number} height 可选，搜索高度
  * @param {function} intervalFun 回调函数，用于中途判断是否继续等待，返回值为stopWait时，停止等待
  * @param {number} timeOut 超时时间，单位秒
- * @returns 
  */
 var waitText = (inputTxt, fromX = 0, fromY = 0, width = -1, height = -1,intervalFun = () => {}, timeOut = 20) => {
     console.log('waiting Text：', inputTxt);
@@ -840,17 +826,15 @@ exports.copyFile = copyFile
 exports.复制文件 = copyFile
 
 /**
- * 获取当前电脑的剪切板内容，系统剪切板支持多种格式   版本 V2024.2 开始生效
- * ①纯文本格式：普通复制  如'小瓶RPA'
- * ②图片格式 base64形式：浏览器复制图片    'data:image/png;base64,' 开头
- * ③html格式：浏览器或者钉钉复制富文本综合内容    '<html>'开头
- * ④文件链接格式：资源管理器中复制文件        'file:///C:..' 多个换行分隔
- * @param {'plain'|'html'|'urls'|'image'} [type='plain'] 剪切板内容类型枚举：
- *                      'plain'  纯文本 （默认）
- *                      'html'   HTML 源码（富文本内容，如浏览器、钉钉复制）
- *                      'urls'   文件链接列表（资源管理器复制文件）
- *                      'image'  图片 base64（截图工具复制图片）
- * @returns 结果文本
+ * 获取当前电脑的剪切板内容。系统剪切板支持多种格式，通过 type 指定读取哪种内容。
+ * 各类型的返回特征：
+ *  - plain（纯文本）：普通复制的内容，如 '小瓶RPA'
+ *  - html（富文本源码）：浏览器、钉钉复制的内容，以 '<html>' 开头
+ *  - urls（文件链接列表）：资源管理器复制的文件，以 'file:///C:..' 开头，多个以换行分隔
+ *  - image（图片 base64）：截图工具复制的图片，以 'data:image/png;base64,' 开头
+ * 版本 V2024.2 开始生效
+ * @param {'plain'|'html'|'urls'|'image'} [type='plain'] 剪切板内容类型枚举，默认纯文本
+ * @returns {string} 剪切板内容文本
  */
 var getClipboard = (type = 'plain') => {
     let url = `${CppUrl}?action=getClipboard&type=${encodeURIComponent(type)}`
@@ -985,7 +969,6 @@ exports.请求网址 = getHtml
  * @param {number} port 服务器端口 默认是465
  * @param {string} user 认证信息（用户名）一般也是发送邮件地址
  * @param {string} pass 认证信息（密码）
- * @returns 
  */
 function sendMail(
     to,
@@ -1370,8 +1353,8 @@ exports.deviceID = deviceID
 
 
 /**
- * 获取
- * @returns {string} 返回字符串
+ * 获取当前设备配置的集群控制中心服务器地址
+ * @returns {string} 返回集群控制中心服务器 URL 字符串
  */
 function clusterCenter() {
     let url = `${CppUrl}?action=pbottleRPA_clusterCenter`
@@ -1465,7 +1448,6 @@ exports.cloud.GPTV = cloud_GPTV
  * 小瓶RPA整合的云端图像分析大模型，直接操作屏幕
  * @param {string} action  '点击'|'双击'|'右键'
  * @param {string} question 提问问题，如：'分析这个图片的内容'
- * @returns
  */
 function cloud_GPTA(action = '点击', question = "桌面微信图标") {
     let deviceToken = deviceID()
@@ -1551,7 +1533,7 @@ exports.browserCMD.alert = browserCMD_alert
 /**
  * 浏览器增强命令  需要安装小瓶RPA的浏览器拓展
  * 关闭浏览器标签页。打开新标签页用 pbottleRPA.openURL()
- * @param {string} 关闭类型  'current':默认关闭当前标签页; 'other':关闭其他标签页
+ * @param {'current'|'other'} [type='current'] 关闭类型：'current' 默认关闭当前标签页；'other' 关闭其他标签页
  * @returns {string} 正常返回 'ok'
  */
 var browserCMD_closeTab = function (type = 'current') {
@@ -1840,7 +1822,7 @@ exports.browserCMD.cookie = browserCMD_cookie
  * @param {string} selector  元素选择器
  * @param {string} propertyname 名
  * @param {string} value 值
- * @returns 
+ * @returns {string} CSS 属性值
  */
 var browserCMD_css = function (selector, propertyname, value = undefined) {
 
@@ -2051,7 +2033,6 @@ exports.hid = {}
  * 模拟按键触发事件 (硬件级)
  * @param {string} key  按键名称参考：https://www.pbottle.com/a-13862.html
  * @param {string} upDown  默认按下down，up松开按键
- * @returns 
  */
 let hid_keyToggle = (key, upDown) => {
     let upDown_n = 0;
@@ -2108,7 +2089,6 @@ exports.hid.keyTap = hid_keyTap
  * @param {number} y 按键时候移动的位置，拖拽相对位置  y=100：向下移动 100像素，负数向上
  * @param {number} mouseWheel 滚动齿轮数  正数向下，负数向下
  * @param {number} time 按下到释放时间
- * @returns 
  */
 let hid_mouseCMD = (button = 1, x = 0, y = 0, mouseWheel = 0, time = 10) => {
     let url = `${CppUrl}?action=mouseDataHardWare&bt=${button}&x=${x}&y=${y}&wheel=${mouseWheel}&time=${time}`
@@ -2121,7 +2101,6 @@ let hid_mouseCMD = (button = 1, x = 0, y = 0, mouseWheel = 0, time = 10) => {
  * 移动鼠标到指定位置  起点为屏幕左上角  屏幕绝对位置（硬件分辨率）
  * @param {number} x   横坐标
  * @param {number} y   纵坐标
- * @returns 
  */
 let hid_moveMouse = (x, y) => {
     hid_mouseCMD(0, x, y, 0, 10)
@@ -2131,9 +2110,8 @@ exports.hid.moveMouse = hid_moveMouse
 
 /**
  * 当前位置点击鼠标 默认左键  
- * @param {string} 鼠标的按键选择 left right middle 可选  ，默认左键
- * @param {number} 点按时间 单位毫秒 可选
- * @returns 
+ * @param {'left'|'right'|'middle'} [button='left'] 鼠标按键，默认左键
+ * @param {number} [time=10] 点按时间，单位毫秒
  */
 let hid_mouseClick = (button = 'left', time = 10) => {
     let bt = 1
@@ -2168,7 +2146,6 @@ exports.hid.moveAndClick = hid_moveAndClick
 
 /**
  * 双击鼠标  左键
- * @returns 
  */
 let hid_mouseDoubleClick = () => {
     hid_mouseCMD(1, 0, 0, 0, 10)
@@ -2183,7 +2160,6 @@ exports.hid.mouseDoubleClick = hid_mouseDoubleClick
  * 鼠标左键拖到一段位置
  * @param {number} x  位置
  * @param {number} y  位置
- * @returns 
  */
 let hid_mouseLeftDragTo = (x, y) => {
     hid_mouseCMD(1, 0, 0, 0, 10)
@@ -2197,7 +2173,6 @@ exports.hid.mouseLeftDragTo = hid_mouseLeftDragTo
  * 鼠标左键拖到一段位置
  * @param {number} x  位置
  * @param {number} y  位置
- * @returns 
  */
 let hid_mouseRightDragTo = (x, y) => {
     // use hid_mouseCMD (hardware mouse command) instead of undefined mouseCMD
@@ -2212,7 +2187,6 @@ exports.hid.mouseRightDragTo = hid_mouseRightDragTo
 /**
  * 鼠标滚轮
  * @param {number} data 滚动的量  默认为-1   向下滚动一个齿轮;  正数向上滚动；
- * @returns 
  */
 let hid_mouseWheel = (data = -1) => {
     hid_mouseCMD(0, 0, 0, data, 0)
