@@ -26,9 +26,17 @@ pbottleRPA.tts(f'当前电脑屏幕分辨率: {resolution["w"]} 乘以 {resoluti
 pbottleRPA.sleep(1000 * 6)
 
 
+#获取鼠标当前坐标位置
+pos = pbottleRPA.getMousePos()
+print('当前鼠标位置：', pos)
+pbottleRPA.tts(f'当前鼠标位置 x {pos["x"]} y {pos["y"]}')
+pbottleRPA.sleep(1000*3)
+
+
 pbottleRPA.tts('移动指针到屏幕中点')
 pbottleRPA.moveMouseSmooth(resolution["w"]/2,resolution["h"]/2)
 pbottleRPA.sleep(1000*3)
+
 
 pbottleRPA.tts('长按左键')
 pbottleRPA.mouseClick('left',1500);

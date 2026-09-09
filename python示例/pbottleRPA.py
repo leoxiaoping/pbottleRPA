@@ -294,6 +294,15 @@ def kill(processName, force=False):
         print(f"关闭进程（{processName}）失败，可能软件未运行")
 
 
+def getMousePos():
+    """
+    获取当前鼠标指针在屏幕上的坐标位置
+    @return: dict 形如 {"x":314,"y":483}，x 为横坐标，y 为纵坐标（屏幕左上角为原点）
+    """
+    resp = urllib.request.urlopen(f"{CppUrl}?action=getMousePos")
+    return json.loads(resp.read().decode())
+
+
 def moveMouseSmooth(x, y, interval=0):
     """
     平滑移动鼠标到指定位置（屏幕左上角为原点）
@@ -721,12 +730,17 @@ def copyFile(filepath):
     urllib.request.urlopen(f"{CppUrl}?action=copyFile&path={filepath}")
 
 
-def getClipboard():
+def getClipboard(type="plain"):
     """
-    获取剪贴板内容（支持文本、图片base64、HTML）
+    获取当前电脑的剪贴板内容，系统剪贴板支持多种格式
+    @param type: 剪贴板内容类型枚举，默认 'plain'：
+                 'plain' 纯文本
+                 'html'  HTML 源码（富文本综合内容，如浏览器、钉钉复制） '<html>' 开头
+                 'urls'  文件链接列表（资源管理器复制文件） 'file:///C:..' 开头，多个以换行分隔
+                 'image' 图片 base64（截图工具复制图片） 'data:image/png;base64,' 开头
     @return: 剪贴板内容字符串
     """
-    resp = urllib.request.urlopen(f"{CppUrl}?action=getClipboard")
+    resp = urllib.request.urlopen(f"{CppUrl}?action=getClipboard&type={type}")
     return resp.read().decode()
 
 
@@ -1615,6 +1629,7 @@ class utils:
 退出流程 = exit_script  # 使用退出函数别名
 睡眠毫秒 = sleep
 等待 = wait
+获取鼠标位置 = getMousePos
 鼠标移动 = moveMouseSmooth
 鼠标移动并点击 = moveAndClick
 鼠标点击 = mouseClick
