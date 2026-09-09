@@ -203,6 +203,23 @@ let wait = (seconds = 1) => {
 exports.wait = wait
 exports.等待 = wait
 
+
+/**
+ * 获取当前鼠标指针在屏幕上的坐标位置
+ * @returns {{x: number, y: number}} 返回 JSON 文本字符串，结构形如 {"x":314,"y":483}
+ *          x 为横坐标，y 为纵坐标（屏幕左上角为原点）
+ */
+let getMousePos = () => {
+    let url = `${CppUrl}?action=getMousePos`
+    // console.log(url)
+    let res = getHtml(url)
+    res = JSON.parse(res)
+    return res;
+}
+exports.getMousePos = getMousePos
+exports.获取鼠标位置 = getMousePos
+
+
 /**
  * 移动鼠标到指定位置并点击  起点为屏幕左上角
  * @param {number} x   横坐标
@@ -827,10 +844,16 @@ exports.复制文件 = copyFile
  * ①纯文本格式：普通复制  如'小瓶RPA'
  * ②图片格式 base64形式：浏览器复制图片    'data:image/png;base64,' 开头
  * ③html格式：浏览器或者钉钉复制富文本综合内容    '<html>'开头
+ * ④文件链接格式：资源管理器中复制文件        'file:///C:..' 多个换行分隔
+ * @param {'plain'|'html'|'urls'|'image'} [type='plain'] 剪切板内容类型枚举：
+ *                      'plain'  纯文本 （默认）
+ *                      'html'   HTML 源码（富文本内容，如浏览器、钉钉复制）
+ *                      'urls'   文件链接列表（资源管理器复制文件）
+ *                      'image'  图片 base64（截图工具复制图片）
  * @returns 结果文本
  */
-var getClipboard = () => {
-    let url = `${CppUrl}?action=getClipboard`
+var getClipboard = (type = 'plain') => {
+    let url = `${CppUrl}?action=getClipboard&type=${encodeURIComponent(type)}`
     // console.log(url)
     let res = getHtml(url)
     return res;

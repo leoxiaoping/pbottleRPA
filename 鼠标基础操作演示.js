@@ -23,6 +23,13 @@ pbottleRPA.keyTap('windows+d')                // 模拟按下Win+D组合键，�
 pbottleRPA.tts(`当前电脑屏幕分辨率: ${resolution.w} 乘以 ${resolution.h}`) // 语音播报当前屏幕分辨率
 pbottleRPA.wait(6)                            // 等待6秒钟
 
+
+pbottleRPA.tts(`鼠标当前的初始位置`) 
+let currentPos = pbottleRPA.getMousePos()
+pbottleRPA.log('鼠标初始位置(new)：',currentPos)
+pbottleRPA.log('x：',currentPos.x,'y：',currentPos.y)
+
+
 pbottleRPA.tts(`移动指针到屏幕中点`)           // 语音播报即将执行的操作
 pbottleRPA.log(`移动指针到屏幕中点`)           // 将操作记录到日志文件中
 pbottleRPA.moveMouse(resolution.w/2,resolution.h/2) // 移动鼠标到屏幕中心点位置

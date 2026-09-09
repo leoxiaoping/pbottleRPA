@@ -26,8 +26,11 @@
 ##  getClipboard 获取剪切板内容
 
 获取当前电脑的剪切板内容，系统剪切板支持多种格式 版本 V2024.2 开始生效
-- 纯文本格式：普通复制 如'小瓶RPA'
-- 图片格式 base64形式：浏览器复制图片 'data:image/png;base64,' 开头
-- html格式：浏览器或者钉钉复制富文本综合内容 ''开头
+
+@param {'plain'|'html'|'urls'|'image'} [type='plain'] 剪切板内容类型枚举：
+- 'plain'  纯文本 （默认）
+- 'html'   HTML 源码（富文本综合内容，如浏览器、钉钉复制） '<html>' 开头
+- 'urls'   文件链接列表（资源管理器复制文件） 'file:///C:..' 开头，多个以换行分隔
+- 'image'  图片 base64（截图工具复制图片） 'data:image/png;base64,' 开头
 
 @returns 结果文本

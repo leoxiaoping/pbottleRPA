@@ -28,12 +28,12 @@ pbottleRPA.wait(10)                           // 等待10秒钟，给用户时�
 
 // 从系统剪切板中获取当前文本内容
 let text = pbottleRPA.getClipboard();         
-console.log("获取当前剪切板文本：",text);        // 在控制台输出获取到的剪切板文本内容
+console.log("获取当前剪切板纯文本：",text);        // 在控制台输出获取到的剪切板文本内容
 
 console.log("复制文件模拟操作：")               // 在控制台输出即将进行的操作说明
 // 复制文件到系统剪切板（模拟文件复制操作）
 pbottleRPA.copyFile(__dirname + '/input/RPAlogo128.png') // 将指定图片文件复制到剪切板
-let filepath = pbottleRPA.getClipboard();     // 获取剪切板中的文件路径信息
+let filepath = pbottleRPA.getClipboard('urls')   // 获取剪切板中的文件路径信息
 console.log("剪切板文件路径：",filepath);       // 在控制台输出获取到的文件路径
 
 pbottleRPA.tts('已经复制文件，赶紧桌面粘贴试试吧') // 语音播报已复制文件的提示信息
