@@ -1999,11 +1999,11 @@ exports.等待文件消失 = waitFileDisappear;
 
 /**
  * 等待输入 V2026.0.0 新增
- * @param {string} inputPrompt 输入提示词
+ * @param {string} inputPrompt 输入提示语句
  * @param {number} timeOut 可选，等待超时时间 单位秒 默认600秒
- * @returns {string}  输入内容  默认返回空字符串
+ * @returns {string}  操作输入内容 ；如果输入为直接回车确认，则返回字符串 "NULL"
  */
-function waitInput(inputPrompt = '输入提示词', timeOut = 600) {
+function waitInput(inputPrompt = '输入提示语', timeOut = 600) {
     console.log('waitInput 等待用户输入：', inputPrompt);
     inputPrompt = encodeURIComponent(inputPrompt)
     let url = `${CppUrl}?action=waitInput&inputPrompt=${inputPrompt}`
