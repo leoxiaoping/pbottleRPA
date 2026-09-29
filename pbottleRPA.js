@@ -1153,7 +1153,7 @@ exports.获取屏幕分辨率 = getResolution
  * @param {number} y 可选 查找起始点
  * @param {number} width  可选 宽度范围
  * @param {number} height 可选 高度范围
- * @returns {{text:string,score:number,x:number,y:number}}  AI OCR识别的json结果 包含准确率的评分和中点位置   格式： [{text:'A',score:'0.319415',x:100,y:200},...]  xy相对于原点
+ * @returns {[{text:string,score:number,x:number,y:number}]}  AI OCR识别的json结果 包含准确率的评分和中点位置   格式： [{text:'A',score:'0.319415',x:100,y:200},...]  xy相对于原点
  */
 var aiOcr = (imagePath = "screen", x = 0, y = 0, width = -1, height = -1) => {
 
@@ -1885,7 +1885,7 @@ exports.browserCMD.prop = browserCMD_prop
  * @param {Function} intervalFun 检测间隔的操作，function格式
  * @param {number} timeOut 可选，等待超时时间 单位秒 默认30秒
  * @param {number} miniSimilarity  可选，指定最低相似度，默认0.85。取值0-1，1为找到完全相同的。
- * @returns {position|boolean} 结果的位置信息，json格式：{x,y}  相对于屏幕左上角原点
+ * @returns {{x:number,y:number}} 结果的位置信息，json格式：{x,y}  相对于屏幕左上角原点
  */
 function waitImage(tpPath, intervalFun = () => { }, timeOut = 30, miniSimilarity = 0.85) {
     console.log('waitImage', tpPath);
