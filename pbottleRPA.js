@@ -87,7 +87,7 @@ exports.显示系统消息 = showMsg
 /**
  * （强行）关闭指定软件
  * @param {string} processName 进程名称，如：'WINWORD.EXE' 任务管理器 ‘进程名称’ 栏目 。注意不是 名称，如不显示，右键勾选显示这一栏目即可
- * @param {boolean} force 是否强制，相当于模拟任务管理器的结束任务操作。默认普通关闭，可能跟随保存确认框
+ * @param {boolean} [force=false] 是否强制，相当于模拟任务管理器的结束任务操作。默认普通关闭，可能跟随保存确认框
  */
 let kill = (processName, force = false) => {
     let forceCMD = ''
@@ -217,7 +217,7 @@ exports.获取鼠标位置 = getMousePos
 
 
 /**
- * 移动鼠标到指定位置并点击  起点为屏幕左上角
+ * 平滑移动鼠标到指定位置  起点为屏幕左上角
  * @param {number} x   横坐标
  * @param {number} y   纵坐标
  * @param {number} interval  像素间隔时间，越大移动越慢  毫秒单位，默认：0
@@ -252,8 +252,8 @@ exports.鼠标移动并点击 = moveAndClick
 
 /**
  * 当前位置点击鼠标 默认左键  可选 'right'
- * @param {string} leftRight    可选
- * @param {number} time 点按时间 单位毫秒  可选
+ * @param {'left'|'right'} [leftRight='left'] 鼠标按键，默认左键
+ * @param {number} [time=30] 点按长按时间，单位毫秒
  */
 let mouseClick = (leftRight = 'left', time = 30) => {
 
@@ -290,7 +290,7 @@ exports.鼠标双击 = mouseDoubleClick
 
 /**
  * 鼠标滚轮
- * @param {number} data 滚动的量  默认为-720   向下滚动720度
+ * @param {number} [data=-720] 滚动的量，默认 -720（向下滚动720度）
  */
 let mouseWheel = (data = -720) => {
     let url = `${CppUrl}?action=mouseWheel&data=${data}`
@@ -664,7 +664,7 @@ exports.寻找图像 = findScreen
  * @param {number} fromY=0 可选，查找开始的开始纵坐标
  * @param {number} width=-1 可选，搜索宽度
  * @param {number} height=-1 可选，搜索高度
- * @returns {{x:number,y:number,text:string}|false}  返回json结果：{x,y,text} x,y坐标相对于屏幕左上角的原点
+ * @returns {OcrItem|false}  返回 json 结果：{text,score,x,y}，x,y 坐标相对于屏幕左上角的原点；未找到返回 false
  */
 var findText = (inputTxt, fromX = 0, fromY = 0, width = -1, height = -1) => {
     let jsonDatas = aiOcr('screen', fromX, fromY, width, height);
@@ -719,6 +719,15 @@ exports.等待文字 = waitText
 
 
 /**
+ * @typedef {Object} ContourItem  屏幕轮廓信息
+ * @property {number} x    闭合区域起始横坐标
+ * @property {number} y    闭合区域起始纵坐标
+ * @property {number} cx   中点横坐标
+ * @property {number} cy   中点纵坐标
+ * @property {number} area 面积
+ * @property {number} id   编号
+ */
+/**
  * 屏幕查找物体或者窗口轮廓
  * 调试：软件根目录会生成 debug/findContours.png
  * 
@@ -727,7 +736,7 @@ exports.等待文字 = waitText
  * @param {number} fromY 
  * @param {number} width  查找范围
  * @param {number} height 
- * @returns {[]} 所有查找到的轮廓信息，包含闭合区域的起始坐标，中点坐标，面积，id。 格式：[{ x: 250, y: 10, cx: 265.5, cy: 30.5, area: 2401, id: 42 },...]  xy相对于原点
+ * @returns {ContourItem[]} 所有查找到的轮廓信息，包含闭合区域的起始坐标，中点坐标，面积，id。 格式：[{ x: 250, y: 10, cx: 265.5, cy: 30.5, area: 2401, id: 42 },...]  xy相对于原点
  */
 var findContours = (minimumArea = 1000, fromX = 0, fromY = 0, width = -1, height = -1) => {
 
@@ -1146,6 +1155,14 @@ exports.获取屏幕分辨率 = getResolution
 
 
 /**
+ * @typedef {Object} OcrItem  AI OCR 识别结果项
+ * @property {string} text  识别文字
+ * @property {number} score 置信度评分 0-1之间
+ * @property {number} x     中点的横坐标
+ * @property {number} y     中点的纵坐标
+ */
+
+/**
  * 文字识别 OCR已经从经典算法升级为AI模型预测，永久免费可脱网使用
  * 
  * @param {string} imagePath 空或者screen 为电脑屏幕;  或者本地图片的绝对路径;
@@ -1153,7 +1170,7 @@ exports.获取屏幕分辨率 = getResolution
  * @param {number} y 可选 查找起始点
  * @param {number} width  可选 宽度范围
  * @param {number} height 可选 高度范围
- * @returns {[{text:string,score:number,x:number,y:number}]}  AI OCR识别的json结果 包含准确率的评分和中点位置   格式： [{text:'A',score:'0.319415',x:100,y:200},...]  xy相对于原点
+ * @returns {OcrItem[]}  AI OCR识别的json结果 包含准确率的评分和中点位置   格式： [{ text: 'OCR', score: 0.821056, x: 345, y: 38 },...]  xy相对于原点
  */
 var aiOcr = (imagePath = "screen", x = 0, y = 0, width = -1, height = -1) => {
 
@@ -1196,6 +1213,15 @@ exports.文字识别 = aiOcr
 
 
 /**
+ * @typedef {Object} ObjectItem  AI 物体识别结果项
+ * @property {number} x      左上角横坐标
+ * @property {number} y      左上角纵坐标
+ * @property {number} width  宽度
+ * @property {number} height 高度
+ * @property {number} score  置信度评分 0~1
+ * @property {string} class  分类名
+ */
+/**
  * AI 物体识别 已经从经典算法升级为AI模型预测，企业版可脱网使用  V2024.8 以上版本有效
  * 调试：软件根目录会生成 debug/Ai_ObjectDetect.png 文件
  * 
@@ -1204,7 +1230,7 @@ exports.文字识别 = aiOcr
  * @param {number} y 可选 查找范围
  * @param {number} width  可选 查找宽度
  * @param {number} height 可选 查找高度
- * @returns {array}  AI 物体识别的 json 结果 包含准确率的评分    格式： [{x:100,y:100,width:150,height:150,score:0.86,class:'分类名'},...]  xy相对于原点
+ * @returns {ObjectItem[]}  AI 物体识别的 json 结果 包含准确率的评分    格式： [{x:100,y:100,width:150,height:150,score:0.86,class:'分类名'},...]  xy相对于原点
  */
 var aiObject = (minimumScore = 0.5, x = 0, y = 0, width = -1, height = -1) => {
 
@@ -1376,7 +1402,7 @@ exports.cloud = {}
 /**
  * @typedef {Object} Answerinfo  AI回答结果
  * @property {string} content - 回答结果
- * @property {number} usage - 消耗token数量
+ * @property {number} tokens - 消耗token数量
  */
 /**
  * @typedef {Object} AiOptions  AI输入选项
@@ -1742,7 +1768,7 @@ exports.browserCMD.remove = browserCMD_remove;
  * 获取或者设置文本   参考 jQuery text() 方法
  * @param {string} selector  元素选择器
  * @param {string} content 可选
- * @returns {string} 选择多个元素时会返回一个数组
+ * @returns {string|string[]} 选择多个元素时会返回一个数组
  */
 var browserCMD_text = function (selector, content = undefined) {
 
@@ -1761,7 +1787,7 @@ exports.browserCMD.text = browserCMD_text;
  * 获取或者设置html   参考 jQuery html() 方法
  * @param {string} selector  元素选择器
  * @param {string} content  可选
- * @returns {string} 选择多个元素时会返回一个数组
+ * @returns {string|string[]} 选择多个元素时会返回一个数组
  */
 var browserCMD_html = function (selector, content = undefined) {
 
@@ -1781,7 +1807,7 @@ exports.browserCMD.html = browserCMD_html;
  * 获取或设置值 input select等   参考 jQuery val() 方法
  * @param {string} selector  元素选择器
  * @param {string} content  可选，值
- * @returns {string} 选择多个元素时会返回一个数组
+ * @returns {string|string[]} 选择多个元素时会返回一个数组
  */
 var browserCMD_val = function (selector, content = undefined) {
 
@@ -1945,7 +1971,7 @@ exports.等待图像消失 = waitImageDisappear;
  * @param {string} keyWords 过滤关键词  如：'.zip'
  * @param {function} intervalFun 检测间隔的操作，function格式
  * @param {number} timeOut 等待超时时间 单位秒
- * @returns  {string[]}
+ * @returns  {string[]|false} 匹配到的文件路径数组；intervalFun 返回 'stopWait' 时返回 false
  */
 function waitFile(dirPath, keyWords = '', intervalFun = () => { }, timeOut = 30) {
     console.log('waitFile', dirPath, keyWords);
@@ -1973,7 +1999,7 @@ exports.等待文件 = waitFile;
  * @param {string} keyWords 过滤关键词  如：'.crdownload'
  * @param {function} intervalFun 检测间隔的操作，function格式
  * @param {number} timeOut 等待超时时间 单位秒
- * @returns  {string[]}
+ * @returns  {boolean} 文件已消失返回 true；intervalFun 返回 'stopWait' 时返回 false
  */
 function waitFileDisappear(dirPath, keyWords = '', intervalFun = () => { }, timeOut = 30) {
     console.log('waitFileDisappear', dirPath, keyWords);
