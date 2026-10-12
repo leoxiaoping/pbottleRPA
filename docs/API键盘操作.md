@@ -29,7 +29,7 @@
 
 @param {'plain'|'html'|'urls'|'image'} [type='plain'] 剪切板内容类型枚举：
 - 'plain'  纯文本 （默认）
-- 'html'   HTML 源码（富文本综合内容，如浏览器、钉钉复制） '<html>' 开头
+- 'html'   HTML 源码（富文本综合内容，如浏览器、钉钉复制） `<html>` 开头
 - 'urls'   文件链接列表（资源管理器复制文件） 'file:///C:..' 开头，多个以换行分隔
 - 'image'  图片 base64（截图工具复制图片） 'data:image/png;base64,' 开头
 
