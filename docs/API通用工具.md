@@ -62,8 +62,24 @@ utils.searchFile()
 
 根据关键字搜索定位具体文件
 
-@param {string} directory 绝对路径
+@param {string} directory 目录绝对路径
 
 @param {string} words 文件名包含的关键字，过滤词，默认忽略大小写
 
+@param {boolean} recursive 是否递归深入目录子目录查找，默认false
+
 @returns {string[]} 文件路径 || [] 未找到
+
+##  截取文本 substringFromTo
+
+utils.substringFromTo()
+
+根据起始关键词，截取一部分字符串
+
+@param {string} str 检索目标
+
+@param {string} from 开始关键词 不包含本身，空表示从头部开始
+
+@param {string} to 结束关键词 不包含本身，空表示到结尾结束
+
+@returns {string}

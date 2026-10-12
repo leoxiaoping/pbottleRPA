@@ -2,25 +2,25 @@
 
 ## keyToggle 键盘基础触发
 
-模拟按键触发事件
+模拟键盘按键触发基础事件
 
-@param {*} key 按键名称参考：https://www.pbottle.com/a-13862.html
+@param {string} key 按键名称参考：https://www.pbottle.com/a-13862.html
 
-@param {*} upDown 默认按下down，up松开按键
+@param {'down'|'up'} [upDown='down'] 默认 'down'（按下），'up' 松开按键
 
 
 ## keyTap 键盘按键
 
 按一下键盘 支持组合按键 加号连接 如： keyTap('ctrl + a')
 
-@param {*} key 按键名称参考：https://www.pbottle.com/a-13862.html
+@param {string} key 按键名称参考：https://www.pbottle.com/a-13862.html
 
 
 ## paste 粘贴输入
 
 当前位置 粘贴（输入）文字
 
-@param {*} text
+@param {string} txt 复制到电脑剪切板的文本
 
 
 ##  getClipboard 获取剪切板内容

@@ -18,6 +18,8 @@
 
   @param {object} headersJson  请求头 Json对象 
 
+  @param {string} method 请求方法：GET, POST, PUT, DELETE or HEAD
+
   @returns {string} 返回的文本
 
 

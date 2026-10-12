@@ -28,7 +28,7 @@
 
 @param {*} y
 
-@returns 返回颜色值
+@returns {string} 返回颜色值 如：`#000000`
 
 ## findScreen 寻找图像
 
@@ -38,7 +38,7 @@
 
 支持多个图片或关系 `['./image/123.png','./image/456.png']`
 
-@param {number} miniSimilarity 可选，指定最低相似度，默认0.9。取值0-1，1为找到完全相同的。
+@param {number} miniSimilarity 可选，指定最低相似度，默认0.85。取值0-1，1为找到完全相同的。
 
 @param {number} fromX=0 可选，查找开始的开始横坐标
 
@@ -65,6 +65,21 @@
 #### 调试
 
 等待图片超时情况，小瓶RPA会立刻全屏截图并保存到  `电脑-》我的图片`  供后续判断排查。    
+
+
+##  waitImageDisappear 等待图像消失
+
+等待屏幕上的图片消失
+
+@param {string} tpPath 图片模板路径 相对路径：./image/123.png
+
+@param {Function} intervalFun 检测间隔的操作，function格式
+
+@param {number} timeOut 等待超时时间 单位秒，默认30
+
+@param {number} miniSimilarity 指定最低相似度，默认0.85。取值0-1
+
+@returns {string|boolean} 图片已消失返回 `'ok'`；intervalFun 返回 'stopWait' 时返回 false
 
 
 ## findContours 寻找轮廓

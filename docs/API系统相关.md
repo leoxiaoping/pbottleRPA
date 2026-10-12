@@ -6,6 +6,14 @@
   注意：一次等待超过100s, 会有日志提示
   @param {number} seconds  秒,  缺省值为 1 秒。支持小数。
 
+## sleep 睡眠毫秒
+
+脚本暂停等待操作响应 (毫秒)
+
+注意：一次等待上限时长两分钟内
+
+@param {number} milliseconds 毫秒
+
 ## setDefaultDelay 设置默认操作延时
 
 设置RPA模拟操作的延时 包含鼠标、键盘、粘贴、打开网页操作
@@ -21,9 +29,11 @@
 
 别名：__dirname 方便在 .mjs 中使用
 
-## getBasePath 基座路径 
+## basePath 基座路径 
 
-获取并设置基座平台的根目录路径 | V2025.0 以上版本启用
+变量名称：
+
+小瓶RPA基座平台（软件）的根目录路径。 | V2025.0 以上版本启用
 
 @returns {string}
 
@@ -123,3 +133,19 @@ pbottleRPA.kill('msedge.exe')  //关闭edge浏览器
 @param {function} intervalFun 检测间隔的操作，function格式
 
 @param {number} timeOut 等待超时时间 单位秒
+
+@returns {string[]|false} 匹配到的文件路径数组；intervalFun 返回 'stopWait' 时返回 false
+
+## waitFileDisappear 等待文件消失
+
+等待文件消失或者被删除
+
+@param {string} dirPath 监控文件夹目录 如：'c:/User/pbottle/download'
+
+@param {string} keyWords 过滤关键词 如：'.crdownload'
+
+@param {function} intervalFun 检测间隔的操作，function格式
+
+@param {number} timeOut 等待超时时间 单位秒
+
+@returns {boolean} 文件已消失返回 true；intervalFun 返回 'stopWait' 时返回 false

@@ -47,6 +47,6 @@ pbottleRPA.openURL("https://rpa.pbottle.com/")
 console.log("等待文字");                   // 在控制台输出脚本即将结束的信息
 pbottleRPA.tts("等待文字");                // 语音播报脚本即将结束的信息
 
-position = pbottleRPA.waitText('专业用户RPA软件',300,500)  // 等待微信应用加载
+position = pbottleRPA.waitText('专业用户版',300,500)  // 等待微信应用加载
 console.log(position);
 pbottleRPA.moveMouse(position.x,position.y) // 移动鼠标到文字位置

@@ -90,6 +90,15 @@ http://ip:49888/?action=pbottleRPA_deviceID
 多用于商业加密脚本的分发控制和验证
 
 
+## clusterCenter 获取集群控制中心地址
+
+获取当前设备配置的集群控制中心服务器地址
+
+`pbottle.clusterCenter()`
+
+@returns {string} 返回集群控制中心服务器 URL 字符串
+
+
 ## 外部获取运行日志
 
 外部获取最后一个任务的运行日志

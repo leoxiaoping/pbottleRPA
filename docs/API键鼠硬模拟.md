@@ -29,11 +29,11 @@
 
 ## hid.mouseCMD
 
-* 基础鼠标命令  全部为零释放
+* 基础鼠标命令  全部为零释放（内部底层命令，未对外导出）
  * @param {number} button 按键  1，2，4 代表鼠标的 左键，右键，中键。
  * @param {number} x 按键时候移动的位置，绝对位置  x=100：向右移动 100像素，负数向左
  * @param {number} y 按键时候移动的位置，拖拽相对位置  y=100：向下移动 100像素，负数向上
- * @param {number} mouseWheel 滚动齿轮数  正数向下，负数向下
+ * @param {number} mouseWheel 滚动齿轮数  正数向上，负数向下
  * @param {number} time 按下到释放时间
 
 ## hid.moveMouse 
@@ -67,7 +67,7 @@
 
 ## hid.mouseRightDragTo 
 
- * 鼠标左键拖到一段位置
+ * 鼠标右键拖到一段位置
  * @param {number} x  位置
  * @param {number} y  位置
 
