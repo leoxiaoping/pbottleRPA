@@ -116,7 +116,8 @@ export default defineConfig({
                 text: '高级指南',
                 items: [
                     { text: '流程配置项', link: '/流程配置项' },
-                    { text: '验证码自动化', link: '/验证码自动化' },
+                    { text: '图形验证码自动化', link: '/验证码自动化' },
+                    { text: '短信验证码自动化', link: '/短信验证码自动化' },
                     { text: '老旧低配电脑', link: '/老旧低配电脑' },
                     { text: '桌面快捷方式', link: '/桌面快捷方式' },
                     { text: 'HTTP静态服务', link: '/HTTP静态服务' },
