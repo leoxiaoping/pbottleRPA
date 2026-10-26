@@ -79,7 +79,7 @@ export default defineConfig({
                     { text: '流程运行日志', link: '/流程运行日志' },
                     { text: '定时启动', link: '/定时启动' },
                     { text: '开机启动', link: '/开机启动' },
-                    { text: '流程录制', link: '/流程录制' },
+                    { text: '流程录制 🔥', link: '/流程录制' },
                     { text: '热键和快捷方式', link: '/热键和快捷方式' },
                     { text: '手机应用的自动化', link: '/手机应用的自动化' },
                     { text: 'win7 操作系统', link: '/win7操作系统' },

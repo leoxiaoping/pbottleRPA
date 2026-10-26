@@ -12,7 +12,7 @@ next:
 长难业务自动化流程专精，轻量级简单全能的RPA软件，显著降本增效 & 工作100%准确 & 非侵入式集成。同时支持浏览器web应用和客户端应用的操作流程自动化。同时支持 Js 和 Python 两种脚本制作流程。
 
 
-下载官网：https://rpa.pbottle.com/
+免费下载官网：https://rpa.pbottle.com/
 
 
 ![小瓶RPA logo](https://rpa.pbottle.com/TP/img/logo_rpa.png)
