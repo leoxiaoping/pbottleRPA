@@ -18,13 +18,26 @@ const childProcess = require('node:child_process');
  */
 const jsPath = path.resolve('./');
 const CppUrl = `http://127.0.0.1:49888/`
-let basePath = process.env.RPAbaseDir; //基座路径
-let homePath = process.env.RPAhomeDir;
+/**
+ * 小瓶RPA基座（本地服务端）所在目录
+ * 取自环境变量 RPAbaseDir
+ * @readonly
+ * @type {string}
+ */
+const basePath = process.env.RPAbaseDir;
+/**
+ * 小瓶RPA主数据目录
+ * 取自环境变量 RPAhomeDir
+ * @readonly
+ * @type {string}
+ */
+const homePath = process.env.RPAhomeDir;
 let curlCommand = 'curl';  //优先使用系统的，如果系统不存在curl命令，使用小瓶RPA自带的
 
 console.log("基座服务地址：（NodeJS）", CppUrl);
 exports.jsPath = jsPath
 exports.basePath = basePath
+exports.homePath = homePath
 exports.__dirname = jsPath
 exports.目录路径 = jsPath
 
