@@ -83,6 +83,7 @@ export default defineConfig({
                     { text: '热键和快捷方式', link: '/热键和快捷方式' },
                     { text: '手机应用的自动化', link: '/手机应用的自动化' },
                     { text: 'win7 操作系统', link: '/win7操作系统' },
+                    { text: '绿色安装运行', link: '/绿色安装运行' },
                     { text: '信创操作系统 🔥', link: '/信创操作系统' },
                     { text: '‌Q&A 常见问答', link: '/‌Q&A' },
                 ]
