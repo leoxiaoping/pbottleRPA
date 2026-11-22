@@ -3,7 +3,7 @@ chcp 65001
 cd .
 
 echo 正在卸载模块中
-call npm uninstall  exceljs mammoth docx
+call npm uninstall  exceljs xlsx mammoth docx
 echo.
 
 echo.

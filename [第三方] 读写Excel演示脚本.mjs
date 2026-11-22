@@ -24,7 +24,7 @@ pbottleRPA.wait(3)
 pbottleRPA.tts(`将当前电脑配置信息生成EXCEL文件`)
 pbottleRPA.wait(5)
 
-//生成excel文档
+//生成excel文档，写excel推荐 ExcelJS ，支持大文件流，不支持xls旧格式
 const workbook = new ExcelJS.Workbook()
 const sheet = workbook.addWorksheet('pbottleRPA')
 sheet.addRow(['项', '值'])
@@ -60,15 +60,13 @@ pbottleRPA.wait(5)
 
 
 
-//读取excel
-const workbook2 = new ExcelJS.Workbook();
-await workbook2.xlsx.readFile(`./Excel测试表格.xlsx`);
-let sheet2 = workbook2.getWorksheet(1)
-console.log(sheet2.getSheetValues());
-pbottleRPA.tts(`已经读取EXCEL测试表格到日志 `)
-
-
-
+//读取excel 推荐用 xlsx 可以同时支持 xls 和 xlsx 格式，json 格式更友好
+// const xlsx = require('xlsx')  //commonjs 
+const { default: xlsx } = await import('xlsx')
+const workbook0 = xlsx.readFile(pbottleRPA.__dirname + `/Excel测试表格.xlsx`)
+const sheet0 = workbook0.Sheets[workbook0.SheetNames[0]]
+const data = xlsx.utils.sheet_to_json(sheet0,{range:0,raw:false})  //header:1 表示二维数组
+console.log('读取Excel:',data)
 
 /**
  * Excel 文件追加一行数据
